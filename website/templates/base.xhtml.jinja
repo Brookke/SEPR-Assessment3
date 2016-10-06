@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB">
+  <head>
+    {% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Murder in the Ron Cooke Hub - {% block title %}Untitled{% endblock title %}</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body %}
+    <header>
+      {% block header %}
+      <h1><a href="{{ root_dir }}">Murder in the Ron Cooke Hub</a></h1>
+      <h2>{{ self.title() }}</h2>
+      <nav>
+        <ul>
+          <li><a href="{{ root_dir }}designdocs">Design Documentation</a></li>
+        </ul>
+      </nav>
+      {% endblock %}
+    </header>
+    <article>
+      {% block article %}
+      {% endblock %}
+    </article>
+    {% endblock %}
+  </body>
+</html>
