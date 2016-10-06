@@ -21,8 +21,7 @@ def prepare_output_dir():
         needed_dir = os.path.dirname(destination_file)
         os.makedirs(needed_dir, exist_ok = True)
 
-if __name__ == "__main__":
-    prepare_output_dir()
+def write_templates():
     env = Environment(loader = FileSystemLoader(template_dir))
     for output_file in output_files:
         template_location = output_file + jinja_extension
@@ -30,3 +29,7 @@ if __name__ == "__main__":
         output_string = template.render(root_dir = root_dir)
         with open(os.path.join(output_dir, output_file), "w") as f:
             f.write(output_string)
+
+if __name__ == "__main__":
+    prepare_output_dir()
+    write_templates()
