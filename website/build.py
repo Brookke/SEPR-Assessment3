@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import os, os.path
+import os, os.path, subprocess
+from glob import glob
 from jinja2 import Environment, FileSystemLoader
 
 jinja_extension = ".jinja"
@@ -14,6 +15,7 @@ root_dir = "https://comprs.github.io/TeamFarce-InitialRepo/"
 
 template_dir = "./templates/"
 output_dir = "./output/"
+static_dir = "./static/"
 
 def prepare_output_dir():
     for output_file in output_files:
@@ -30,6 +32,10 @@ def write_templates():
         with open(os.path.join(output_dir, output_file), "w") as f:
             f.write(output_string)
 
+def copy_static_files():
+    subprocess.run(["cp", "-r"] + glob(static_dir + "*") + [output_dir])
+
 if __name__ == "__main__":
     prepare_output_dir()
     write_templates()
+    copy_static_files()
