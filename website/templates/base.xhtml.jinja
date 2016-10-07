@@ -11,18 +11,18 @@
   </head>
   <body>
     {% block body %}
-    <header>
+    <header class="body-main-header">
       {% block header %}
-      <h1><a href="{{ root_dir }}">Murder in the Ron Cooke Hub</a></h1>
-      <h2>{{ self.title() }}</h2>
-      <nav>
+      <h1 class="site-title"><a href="{{ root_dir }}">Murder in the Ron Cooke Hub</a></h1>
+      <h2 class="page-title">{{ self.title() }}</h2>
+      <nav class="main-site-nav">
         <ul>
           <li><a href="{{ root_dir }}designdocs">Design Documentation</a></li>
         </ul>
       </nav>
       {% endblock %}
     </header>
-    <article>
+    <article class="body-main-article">
       {% block article %}
       {% endblock %}
     </article>
