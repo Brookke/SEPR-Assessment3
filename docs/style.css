@@ -1,0 +1,44 @@
+html {
+    font-family: sans;
+    background-color: #400;
+}
+
+body {
+    max-width: 80em;
+    margin: 1em auto;
+    padding: 1em 0;
+    background-color: wheat;
+    box-shadow: 0 7px 5px black;
+}
+
+.body-main-header {
+    padding: .5em 1em;
+    border-bottom: 1px solid black;
+}
+
+.body-main-article {
+    padding: 0 1em;
+}
+
+.site-title, .page-title {
+    display: inline;
+}
+
+.page-title {
+    font-size: xx-large;
+}
+
+.page-title::before {
+    content: "-";
+    margin-left: .2em;
+    margin-right: .4em;
+}
+
+.main-site-nav > ul {
+    padding-left: 0;
+    list-style: none;
+}
+
+.main-site-nav > ul > li {
+    display: inline;
+}
