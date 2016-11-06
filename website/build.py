@@ -18,6 +18,9 @@ OUTPUT_DIR = "../docs/"
 STATIC_DIR = "./static/"
 
 if __name__ == "__main__":
+    # Change the current directory to the directory this script resides in
+    os.chdir(os.path.dirname(__file__))
+
     # Get a jinja environment to load templates from the template directory.
     env = Environment(loader = FileSystemLoader(TEMPLATE_DIR))
 
