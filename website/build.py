@@ -14,7 +14,7 @@ OUTPUT_FILES = [
 ROOT_DIR = "https://comprs.github.io/TeamFarce-InitialRepo/"
 
 TEMPLATE_DIR = "./templates/"
-OUTPUT_DIR = "./output/"
+OUTPUT_DIR = "../docs/"
 STATIC_DIR = "./static/"
 
 if __name__ == "__main__":
