@@ -11,7 +11,7 @@ OUTPUT_FILES = [
     "designdocs/index.xhtml",
 ]
 
-ROOT_DIR = "https://comprs.github.io/TeamFarce-InitialRepo/"
+ROOT_DIR = "https://jacobsax.github.io/TeamFarce-InitialRepo/"
 
 TEMPLATE_DIR = "./templates/"
 OUTPUT_DIR = "../docs/"
