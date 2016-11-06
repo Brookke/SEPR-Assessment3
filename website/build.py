@@ -4,38 +4,50 @@ import os, os.path, subprocess
 from glob import glob
 from jinja2 import Environment, FileSystemLoader
 
-jinja_extension = ".jinja"
+JINJA_EXTENSION = ".jinja"
 
-output_files = [
+OUTPUT_FILES = [
     "index.xhtml",
     "designdocs/index.xhtml",
 ]
 
-root_dir = "https://comprs.github.io/TeamFarce-InitialRepo/"
+ROOT_DIR = "https://comprs.github.io/TeamFarce-InitialRepo/"
 
-template_dir = "./templates/"
-output_dir = "./output/"
-static_dir = "./static/"
-
-def prepare_output_dir():
-    for output_file in output_files:
-        destination_file = os.path.join(output_dir, output_file)
-        needed_dir = os.path.dirname(destination_file)
-        os.makedirs(needed_dir, exist_ok = True)
-
-def write_templates():
-    env = Environment(loader = FileSystemLoader(template_dir))
-    for output_file in output_files:
-        template_location = output_file + jinja_extension
-        template = env.get_template(template_location)
-        output_string = template.render(root_dir = root_dir)
-        with open(os.path.join(output_dir, output_file), "w") as f:
-            f.write(output_string)
-
-def copy_static_files():
-    subprocess.run(["cp", "-r"] + glob(static_dir + "*") + [output_dir])
+TEMPLATE_DIR = "./templates/"
+OUTPUT_DIR = "./output/"
+STATIC_DIR = "./static/"
 
 if __name__ == "__main__":
-    prepare_output_dir()
-    write_templates()
-    copy_static_files()
+    # Get a jinja environment to load templates from the template directory.
+    env = Environment(loader = FileSystemLoader(TEMPLATE_DIR))
+
+    # A function which renders a template taking a template path. It uses the jinja environment
+    # defined earlier and the root directory constant.
+    render_jinja_template = lambda x: env.get_template(x).render(root_dir = ROOT_DIR)
+
+    # A function to convert the relative output file into a path for use by the template renderer.
+    template_jinja_path = lambda x: x + JINJA_EXTENSION
+
+    # A function which takes an output file's path and produces the rendered output which should
+    # be placed into the file.
+    output_file_jinja_render = lambda x: render_jinja_template(template_jinja_path(x))
+
+    # Render all of the templates. Evaluate the iterator to make sure any render errors occur here
+    # rather than when we begin to write out.
+    rendered = list(map(output_file_jinja_render, OUTPUT_FILES))
+
+    # Get and iterate though the directories that need to be created and create them. The
+    # directories that need created are the output files with the output directory prepended and
+    # the filename removed.
+    for needed_dir in map(lambda x: os.path.dirname(os.path.join(OUTPUT_DIR, x)), OUTPUT_FILES):
+        os.makedirs(needed_dir, exist_ok = True)
+
+    # Iterate though the rendered output and zip with the file to output the result to. Combine
+    # these to write out to file.
+    for rendered, output_file in zip(rendered, OUTPUT_FILES):
+        with open(os.path.join(OUTPUT_DIR, output_file), "w") as f:
+            f.write(rendered)
+
+    # Copy the static directory into the output directory. It uses a external program since this
+    # easier to do than in python.
+    subprocess.run(["cp", "-r"] + glob(STATIC_DIR + "*") + [OUTPUT_DIR])
