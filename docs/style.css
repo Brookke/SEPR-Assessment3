@@ -49,6 +49,16 @@ h1, h2, h3 {
     list-style: none;
 }
 
+.main-site-nav > ul a {
+    display: inline-block;
+    width: 12em;
+    background-color: #FFFFFF;
+    padding: 0.5em;
+    margin: 0.25em 0em;
+    color: black;
+    box-shadow: 0em 0.5em 1em 0 #00000080;
+}
+
 @media (min-width: 70em) {
     .body-main-header {
        max-width: 35em;
