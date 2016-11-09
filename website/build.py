@@ -9,6 +9,7 @@ JINJA_EXTENSION = ".jinja"
 OUTPUT_FILES = [
     "index.xhtml",
     "designdocs/index.xhtml",
+    "plan/index.xhtml",
 ]
 
 ROOT_DIR = "https://teamfarce.github.io/MIRCH/"
