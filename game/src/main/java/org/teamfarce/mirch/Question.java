@@ -5,14 +5,15 @@ package org.teamfarce.mirch;
  * @author jacobwunwin
  *
  */
-public class QuestioningStyle {
-	String description;
-	int id;
+public class Question {
+	QuestioningStyle style;
+	String text;
+	QuestionResult response;
 	
 	/**
 	 * Constructor function
 	 */
-	QuestioningStyle(){
+	Question(){
 		
 	}
 }
