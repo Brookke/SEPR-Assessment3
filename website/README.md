@@ -4,9 +4,9 @@ into the "docs" directory at the root of the repository.
 
 ## Building the Website
 The build script requires:
-    - Python 3
-    - Jinja 2 for Python 3
-    - A \*nix environment
+- Python 3
+- Jinja 2 for Python 3
+- A \*nix environment
 
-To run the script, simply call it `./build.py` for use the python interpretor
+To run the script, simply call it `./build.py` or use the python interpretor
 `python3 build.py`
