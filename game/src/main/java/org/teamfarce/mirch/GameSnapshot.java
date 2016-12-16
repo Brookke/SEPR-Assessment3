@@ -9,13 +9,15 @@ import java.util.ArrayList;
  */
 public class GameSnapshot {
 	
-	ArrayList<Suspect> suspects;
-	MapEntity detective;
-	ArrayList<Prop> props;
-	ArrayList<Room> rooms;
-	int meansProven;
-	int motiveProven;
-	GameState state;
+	private ArrayList<Suspect> suspects;
+	private MapEntity detective;
+	private GameState state;
+	private ArrayList<Prop> props;
+	private ArrayList<Room> rooms;
+	private int meansProven;
+	private int motiveProven;
+	private Journal journal;
+	private ArrayList<DialogueBox> currentDialogueBox;
 	
 	/**
 	 * Initialises function
@@ -31,7 +33,7 @@ public class GameSnapshot {
 	 * @param amount
 	 */
 	void proveMeans(int amount){
-		
+		this.meansProven += amount;
 	}
 	
 	/**
@@ -40,7 +42,7 @@ public class GameSnapshot {
 	 * @param amount
 	 */
 	void proveMotive(int amount){
-		
+		this.motiveProven += amount;
 	}
 	
 	/**
@@ -48,7 +50,7 @@ public class GameSnapshot {
 	 * @return boolean
 	 */
 	boolean isMeansProven(){
-		return false;
+		return (this.meansProven >= 100)  //Arbitrary value for now 
 	}
 	
 	/**
@@ -56,7 +58,28 @@ public class GameSnapshot {
 	 * @return
 	 */
 	boolean isMotiveProven(){
-		return false;
+		return (this.motiveProven >= 100)  //Arbitrary value for now 
 	}
-
+	
+	/**
+	 * Adds the prop to the journal, used for keeping a log of props
+	 * @param prop
+	 */
+	void journalAddProp(Prop prop){
+		this.journal.addProp(prop);
+		//proveMeans(prop.takeClue().provesMeans);
+		//proveMotive(prop.takeClue().provesMotive);
+	}
+	
+	/**
+	 * Adds the dialogue to the journal, used for keeping a log of dialogue
+	 * @param dialogue
+	 */
+	void journalAddDialogue(QuestionandResponse dialogue){
+		this.journal.addDialogue(dialogue);
+		//for (Clue clue : dialogue.clues) {
+		//	proveMeans(clue.provesMeans);
+		//	provesMotives(clue.provesMotives);
+		//}
+	}
 }
