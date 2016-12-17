@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-import os, os.path, subprocess
-from glob import glob
+import os, os.path, shutil
 from jinja2 import Environment, FileSystemLoader
 
 JINJA_EXTENSION = ".jinja"
@@ -48,6 +47,21 @@ if __name__ == "__main__":
         with open(full_output_filename, "wt") as f:
             f.write(rendered_buffer)
 
-    # Copy the static directory into the output directory. It uses a external program since this
-    # easier to do than in python.
-    subprocess.run(["cp", "-r"] + glob(STATIC_DIR + "*") + [OUTPUT_DIR])
+    # Copy across the static file by scanning the static directory.
+    for current_walk_directory, child_directories, child_files in os.walk(STATIC_DIR):
+        # Strip the "./static/" prefix if it exists for the target file.
+        if current_walk_directory.startswith(STATIC_DIR):
+            root_relative_walk_directory = current_walk_directory[len(STATIC_DIR):]
+        else:
+            root_relative_walk_directory = current_walk_directory
+
+        # For all of the child directories, create them in the output directory.
+        for child_directory in child_directories:
+            new_dir = os.path.join(OUTPUT_DIR, root_relative_walk_directory, child_directory)
+            os.makedirs(new_dir, exist_ok = True)
+
+        # For all of the child files, copy them into the output directory.
+        for child_file in child_files:
+            source_file = os.path.join(current_walk_directory, child_file)
+            target_file = os.path.join(OUTPUT_DIR, root_relative_walk_directory, child_file)
+            shutil.copyfile(source_file, target_file)
