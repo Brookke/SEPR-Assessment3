@@ -17,14 +17,21 @@ public class GameSnapshot {
 	private int meansProven;
 	private int motiveProven;
 	private Journal journal;
-	private ArrayList<DialogueBox> currentDialogueBox;
+	private DialogueBox currentDialogueBox;
 	
 	/**
 	 * Initialises function
 	 */
-	GameSnapshot(){
+	GameSnapshot(ArrayList<Suspect> suspects, MapEntity detective, ArrayList<Prop> props, ArrayList<Room> rooms){
+		this.suspects = suspects;
+		this.detective = detective;
+		this.state = GameState.map;
+		this.props = props;
+		this.rooms = rooms;
 		this.meansProven = 0;
 		this.motiveProven = 0;
+		this.journal = new Journal();
+		
 	}
 	
 	/**
@@ -50,7 +57,7 @@ public class GameSnapshot {
 	 * @return boolean
 	 */
 	boolean isMeansProven(){
-		return (this.meansProven >= 100)  //Arbitrary value for now 
+		return (this.meansProven >= 100);  //Arbitrary value for now 
 	}
 	
 	/**
@@ -58,7 +65,7 @@ public class GameSnapshot {
 	 * @return
 	 */
 	boolean isMotiveProven(){
-		return (this.motiveProven >= 100)  //Arbitrary value for now 
+		return (this.motiveProven >= 100);  //Arbitrary value for now 
 	}
 	
 	/**
