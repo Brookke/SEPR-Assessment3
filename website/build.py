@@ -27,30 +27,26 @@ if __name__ == "__main__":
 
     # A function which renders a template taking a template path. It uses the jinja environment
     # defined earlier and the root directory constant.
-    render_jinja_template = lambda x: env.get_template(x).render(root_dir = ROOT_DIR)
+    def render(template_file):
+        return env.get_template(template_file).render(root_dir = ROOT_DIR)
 
-    # A function to convert the relative output file into a path for use by the template renderer.
-    template_jinja_path = lambda x: x + JINJA_EXTENSION
+    # Create an iterable for all of the input templates by appending the template file extension
+    # onto the expected output files. The jinja environment resolves relative to the template root
+    # directory that doesn't need to be appended.
+    input_templates = (output_file + JINJA_EXTENSION for output_file in OUTPUT_FILES)
 
-    # A function which takes an output file's path and produces the rendered output which should
-    # be placed into the file.
-    output_file_jinja_render = lambda x: render_jinja_template(template_jinja_path(x))
+    # Render all of the templates. Any errors the templates may cause are raise here and shouldn't
+    # cause errors whilst we are trying to write to the filesystem.
+    rendered_output = list(map(render, input_templates))
 
-    # Render all of the templates. Evaluate the iterator to make sure any render errors occur here
-    # rather than when we begin to write out.
-    rendered = list(map(output_file_jinja_render, OUTPUT_FILES))
-
-    # Get and iterate though the directories that need to be created and create them. The
-    # directories that need created are the output files with the output directory prepended and
-    # the filename removed.
-    for needed_dir in map(lambda x: os.path.dirname(os.path.join(OUTPUT_DIR, x)), OUTPUT_FILES):
-        os.makedirs(needed_dir, exist_ok = True)
-
-    # Iterate though the rendered output and zip with the file to output the result to. Combine
-    # these to write out to file.
-    for rendered, output_file in zip(rendered, OUTPUT_FILES):
-        with open(os.path.join(OUTPUT_DIR, output_file), "w") as f:
-            f.write(rendered)
+    # Start writing out the rendered files. To this by iterating over the rendered results along
+    # with the final filenames.
+    for rendered_buffer, output_filename in zip(rendered_output, OUTPUT_FILES):
+        # Attach the root directory to write into to the filename.
+        full_output_filename = os.path.join(OUTPUT_DIR, output_filename)
+        os.makedirs(os.path.dirname(full_output_filename), exist_ok = True)
+        with open(full_output_filename, "wt") as f:
+            f.write(rendered_buffer)
 
     # Copy the static directory into the output directory. It uses a external program since this
     # easier to do than in python.
