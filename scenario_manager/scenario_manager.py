@@ -5,6 +5,8 @@ import PyQt5.uic
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtSql
 
+from form_resource import ResourceForm
+
 # Load in the form for the main window
 source_location = os.path.join(os.path.dirname(__file__), "ui_forms/")
 main_window_source = os.path.join(source_location, "form_scenario_manager_main.ui")
@@ -23,6 +25,7 @@ class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWind
         # Define all of the dependent widgets which will be used in the tab widget in this list for
         # convenient iteration.
         self._tab_widgets = [
+            (ResourceForm(self.central_tab_widget), "Resources"),
         ]
 
         # Add all of the widgets into the tab widget.
