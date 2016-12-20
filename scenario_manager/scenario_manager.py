@@ -55,6 +55,11 @@ class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWind
             return
         database_name = dialogue.selectedFiles()[0]
 
+        # Make sure the correct file extension is in the filename if we are the create the
+        # database.
+        if database_name.splitext(database_name) != ".db" and not os.path.exists(database_name):
+            database_name += ".db"
+
         # Open the new database.
         new_database = QtSql.QSqlDatabase.addDatabase("QSQLITE")
         new_database.setDatabaseName(database_name)
