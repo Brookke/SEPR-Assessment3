@@ -4,6 +4,7 @@ import os.path
 import PyQt5.uic
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtGui, QtSql
+from common import resource_icon
 
 source_location = os.path.join(os.path.dirname(__file__), "ui_forms/")
 resource_form_source = os.path.join(source_location, "form_resource.ui")
@@ -67,33 +68,10 @@ class ResourceModel(QtSql.QSqlTableModel):
 
     def data(self, index, role = Qt.DisplayRole):
         # This method is overridden in order to provide icons of the resources themselves. This is
-        # done by providing a valid icon for the role "EditRole".
+        # done by providing a valid icon for the role "DecorationRole".
 
         if index.column() == 1 and role == Qt.DecorationRole:
-            # The filename of the icon we are to load should be the same data in the database
-            # itself. We can extract this information from the model by using the very function
-            # we are in; just by modifying the intended role but maintaining the index.
-            stored_filename = self.data(index, Qt.EditRole)
-            if not stored_filename:
-                return None
-
-            # We can try three different methods to find the file to load. The first method is to
-            # prepend the resource root (the primary use of this variable). The second is to load
-            # the file with the filename, as is. The last is to prepend "./". We do not consider
-            # the first method if the resource root variable is invalid.
-            icon_filenames = [
-                stored_filename,
-                os.path.join("./", stored_filename),
-            ]
-            if self._resource_root:
-                icon_filenames.insert(0, os.path.join(self._resource_root, stored_filename))
-
-            # Check the validity of the filenames be checking to see if the file exits.
-            valid_icon_filenames = list(filter(os.path.exists, icon_filenames))
-            if len(valid_icon_filenames) == 0:
-                return None
-            icon_filename = valid_icon_filenames[0]
-            return QtGui.QIcon(icon_filename)
+            return resource_icon(self, index, self._resource_root)
         else:
             # Don't touch the other columns/roles. Delegate this to the parent.
             return super().data(index, role)
