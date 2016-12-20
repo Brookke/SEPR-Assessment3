@@ -60,7 +60,7 @@ class ResourceModel(QtSql.QSqlTableModel):
             # itself. We can extract this information from the model by using the very function
             # we are in; just by modifying the intended role but maintaining the index.
             stored_filename = self.data(index, Qt.EditRole)
-            if stored_filename == "":
+            if not stored_filename:
                 return None
 
             # We can try three different methods to find the file to load. The first method is to
