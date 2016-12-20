@@ -32,6 +32,9 @@ class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWind
         for widget, tab_title in self._tab_widgets:
             self.central_tab_widget.addTab(widget, tab_title)
 
+        # Disable the tab widget whilst no database is open.
+        self.central_tab_widget.setEnabled(False)
+
     @QtCore.pyqtSlot()
     def open_database(self):
         """Open or change the working database"""
@@ -86,6 +89,9 @@ class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWind
         # Update the depended widgets with the new database.
         for widget, _ in self._tab_widgets:
             widget.set_database(self._database)
+
+        # The database is now open so we can enable.
+        self.central_tab_widget.setEnabled(True)
 
     @QtCore.pyqtSlot()
     def set_resource_root(self):
