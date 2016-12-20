@@ -41,6 +41,20 @@ class ResourceForm(UiResourceFrom, QtWidgets.QWidget):
         else:
             self.resource_list.setModel(None)
 
+    @QtCore.pyqtSlot()
+    def add_resource(self):
+        if self._model:
+            new_index = self._model.rowCount()
+            self._model.insertRows(new_index, 1)
+            self.resource_list.edit(self._model.index(new_index, 1))
+
+    @QtCore.pyqtSlot()
+    def remove_resources(self):
+        if self._model:
+            for index in self.resource_list.selectedIndexes():
+                self._model.removeRow(index.row(), index.parent())
+            self._model.select()
+
 class ResourceModel(QtSql.QSqlTableModel):
     """This class represents the database table resources."""
 
