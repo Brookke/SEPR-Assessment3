@@ -6,8 +6,8 @@ from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtGui, QtSql
 
 source_location = os.path.join(os.path.dirname(__file__), "ui_forms/")
-resource_from_source = os.path.join(source_location, "form_resource.ui")
-UiResourceFrom = PyQt5.uic.loadUiType(resource_from_source)[0]
+resource_form_source = os.path.join(source_location, "form_resource.ui")
+UiResourceFrom = PyQt5.uic.loadUiType(resource_form_source)[0]
 
 class ResourceForm(UiResourceFrom, QtWidgets.QWidget):
     """This class represents the form for manipulating the resources."""
