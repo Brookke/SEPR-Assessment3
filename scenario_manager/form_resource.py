@@ -4,9 +4,8 @@ import os.path
 import PyQt5.uic
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtGui, QtSql
-from common import resource_icon
+from common import resource_icon, source_location
 
-source_location = os.path.join(os.path.dirname(__file__), "ui_forms/")
 resource_form_source = os.path.join(source_location, "form_resource.ui")
 UiResourceFrom = PyQt5.uic.loadUiType(resource_form_source)[0]
 

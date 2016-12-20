@@ -4,6 +4,8 @@ import os.path
 from PyQt5.QtCore import Qt
 from PyQt5 import QtGui
 
+source_location = os.path.join(os.path.dirname(__file__), "ui_forms/")
+
 def resource_icon(model, index, resource_root = None):
     # The filename of the icon we are to load should be the same data in the database
     # itself. We can extract this information from the model by using the very function
