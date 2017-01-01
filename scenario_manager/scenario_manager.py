@@ -115,11 +115,3 @@ class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWind
         # Update the depended widgets with the new resource root.
         for widget, _ in self._tab_widgets:
             widget.set_resource_root(self._resource_root)
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    window = ScenarioManagerMainWindow()
-    window.show()
-    sys.exit(app.exec_())
