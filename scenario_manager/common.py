@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 
+import sys
 import os.path
 from abc import ABCMeta, abstractmethod
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtGui
 
-# This is the location of the "*.ui" files. These are in the directory "ui_forms" which is assumed
-# to be in the same directory as this file. If either this file changes location or the location of
-# "*.ui" files changes, this constant should be updated.
-SOURCE_LOCATION = os.path.join(os.path.dirname(__file__), "ui_forms/")
+# Define the location of the main module. This is to help define other locations relative to this
+# point later one.
+ROOT_MODULE_LOCATION = os.path.dirname(sys.modules["__main__"].__file__)
+
+# This is the location of the "*.ui" files.
+UI_SOURCE_LOCATION = os.path.join(ROOT_MODULE_LOCATION, "ui_forms/")
 
 class QtABCMeta(QtCore.pyqtWrapperType, ABCMeta):
     """This class is to stop metaclass conflicts.

@@ -4,9 +4,9 @@ import os.path
 import PyQt5.uic
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtGui, QtSql
-from common import resource_icon, SOURCE_LOCATION, DatabaseResourceForm
+from common import resource_icon, UI_SOURCE_LOCATION, DatabaseResourceForm
 
-RESOURCE_FORM_SOURCE = os.path.join(SOURCE_LOCATION, "form_resource.ui")
+RESOURCE_FORM_SOURCE = os.path.join(UI_SOURCE_LOCATION, "form_resource.ui")
 UiResourceFrom = PyQt5.uic.loadUiType(RESOURCE_FORM_SOURCE)[0]
 
 class ResourceForm(UiResourceFrom, DatabaseResourceForm):
