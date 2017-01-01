@@ -24,7 +24,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="1" column="0">
     <layout class="QHBoxLayout" name="control_buttons_layout">
      <item>
       <widget class="QPushButton" name="add_button">
