@@ -4,7 +4,7 @@ import os.path
 import PyQt5.uic
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtSql
-from common import UI_SOURCE_LOCATION
+from common import UI_SOURCE_LOCATION, SCHEMA_SCRIPT
 from form_resource import ResourceForm
 
 # Load in the form for the main window
@@ -86,7 +86,7 @@ class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWind
 
         # Create the tables using an external SQL script. The script must be submitted statement
         # by statement due to API limitations where only a statement may be executed.
-        with open(os.path.join(os.path.dirname(__file__), "schema.sql"), "rt") as schema_file:
+        with open(SCHEMA_SCRIPT, "rt") as schema_file:
             for statement in schema_file.read().split(";"):
                 self._database.exec_(statement)
 

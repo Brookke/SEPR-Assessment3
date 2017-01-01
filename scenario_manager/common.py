@@ -13,6 +13,12 @@ ROOT_MODULE_LOCATION = os.path.dirname(sys.modules["__main__"].__file__)
 # This is the location of the "*.ui" files.
 UI_SOURCE_LOCATION = os.path.join(ROOT_MODULE_LOCATION, "ui_forms/")
 
+# This is the location of the sql scripts.
+SQL_SCRIPTS_LOCATION = os.path.join(ROOT_MODULE_LOCATION, "sql_scripts/")
+
+# This is the location of the sql schema script.
+SCHEMA_SCRIPT = os.path.join(SQL_SCRIPTS_LOCATION, "schema.sql")
+
 class QtABCMeta(QtCore.pyqtWrapperType, ABCMeta):
     """This class is to stop metaclass conflicts.
 
