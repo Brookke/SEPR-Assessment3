@@ -4,13 +4,12 @@ import os.path
 import PyQt5.uic
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtSql
-
+from common import SOURCE_LOCATION
 from form_resource import ResourceForm
 
 # Load in the form for the main window
-source_location = os.path.join(os.path.dirname(__file__), "ui_forms/")
-main_window_source = os.path.join(source_location, "form_scenario_manager_main.ui")
-UiScenarioManagerMainWindow = PyQt5.uic.loadUiType(main_window_source)[0]
+MAIN_WINDOW_SOURCE = os.path.join(SOURCE_LOCATION, "form_scenario_manager_main.ui")
+UiScenarioManagerMainWindow = PyQt5.uic.loadUiType(MAIN_WINDOW_SOURCE)[0]
 
 class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWindow):
     """This class represents the main window of the application"""
