@@ -5,7 +5,7 @@ import PyQt5.uic
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtSql
 from common import UI_SOURCE_LOCATION, SCHEMA_SCRIPT
-from form_resource import ResourceForm
+from forms.resource import ResourceForm
 
 # Load in the form for the main window
 MAIN_WINDOW_SOURCE = os.path.join(UI_SOURCE_LOCATION, "form_scenario_manager_main.ui")
