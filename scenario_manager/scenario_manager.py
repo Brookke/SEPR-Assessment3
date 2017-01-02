@@ -56,7 +56,7 @@ class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWind
 
         # Make sure the correct file extension is in the filename if we are the create the
         # database.
-        if os.path.splitext(database_name) != ".db" and not os.path.exists(database_name):
+        if os.path.splitext(database_name)[1] != ".db" and not os.path.exists(database_name):
             database_name += ".db"
 
         # Open the new database.
