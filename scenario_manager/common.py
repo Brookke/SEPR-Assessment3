@@ -75,7 +75,7 @@ def resource_icon(model, index, resource_root = None):
     # can extract this information from the model by using the same index but just modifying the
     # intended role.
     stored_filename = model.data(index, Qt.EditRole)
-    if not stored_filename:
+    if not stored_filename or type(stored_filename) is not str:
         return None
 
     # We can try three different methods to find the file to load. The first method is to prepend
