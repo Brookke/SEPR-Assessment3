@@ -17,6 +17,7 @@ class ResourceForm(UiResourceFrom, DatabaseResourceForm):
         self.setupUi(self)
 
     def reset_model(self):
+        # Implementation of the parent's abstract method.
         if self.database:
             self.model = ResourceModel(self, self.database, self.resource_root)
             self.resource_list.setModel(self.model)
@@ -26,6 +27,8 @@ class ResourceForm(UiResourceFrom, DatabaseResourceForm):
 
     @QtCore.pyqtSlot()
     def add_resource(self):
+        """Adds a resource to the end of the list."""
+
         if self.model:
             new_index = self.model.rowCount()
             self.model.insertRows(new_index, 1)
@@ -33,6 +36,8 @@ class ResourceForm(UiResourceFrom, DatabaseResourceForm):
 
     @QtCore.pyqtSlot()
     def remove_resources(self):
+        """Removes resources based on the indices selected in the view."""
+
         if self.model:
             for index in self.resource_list.selectedIndexes():
                 self.model.removeRow(index.row(), index.parent())
