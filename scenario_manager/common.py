@@ -5,6 +5,7 @@ import os.path
 from abc import ABCMeta, abstractmethod
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtGui
+import sip
 
 # Define the location of the main module. This is to help define other locations relative to this
 # point later one.
@@ -19,12 +20,14 @@ SQL_SCRIPTS_LOCATION = os.path.join(ROOT_MODULE_LOCATION, "sql_scripts/")
 # This is the location of the sql schema script.
 SCHEMA_SCRIPT = os.path.join(SQL_SCRIPTS_LOCATION, "schema.sql")
 
-class QtABCMeta(QtCore.pyqtWrapperType, ABCMeta):
+class QtABCMeta(sip.wrappertype, ABCMeta):
     """This class is to stop metaclass conflicts.
 
     These conflicts happen when trying to create an abstract base class that is derived by a class
     which derives one of PyQt's types. See the following web page for more information:
     https://stackoverflow.com/a/28727066
+    One addendum to this is that of PyQt5 5.7.1 sip.wrappertype is now used in the place of
+    PyQt5.QtCore.pyqtWrapperType.
     """
 
     pass
