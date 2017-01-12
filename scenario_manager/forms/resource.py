@@ -4,9 +4,9 @@ import os.path
 import PyQt5.uic
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtGui, QtSql
-from common import resource_icon, SOURCE_LOCATION, DatabaseResourceForm
+from common import resource_icon, UI_SOURCE_LOCATION, DatabaseResourceForm
 
-RESOURCE_FORM_SOURCE = os.path.join(SOURCE_LOCATION, "form_resource.ui")
+RESOURCE_FORM_SOURCE = os.path.join(UI_SOURCE_LOCATION, "form_resource.ui")
 UiResourceFrom = PyQt5.uic.loadUiType(RESOURCE_FORM_SOURCE)[0]
 
 class ResourceForm(UiResourceFrom, DatabaseResourceForm):
@@ -17,6 +17,7 @@ class ResourceForm(UiResourceFrom, DatabaseResourceForm):
         self.setupUi(self)
 
     def reset_model(self):
+        # Implementation of the parent's abstract method.
         if self.database:
             self.model = ResourceModel(self, self.database, self.resource_root)
             self.resource_list.setModel(self.model)
@@ -26,6 +27,8 @@ class ResourceForm(UiResourceFrom, DatabaseResourceForm):
 
     @QtCore.pyqtSlot()
     def add_resource(self):
+        """Adds a resource to the end of the list."""
+
         if self.model:
             new_index = self.model.rowCount()
             self.model.insertRows(new_index, 1)
@@ -33,6 +36,8 @@ class ResourceForm(UiResourceFrom, DatabaseResourceForm):
 
     @QtCore.pyqtSlot()
     def remove_resources(self):
+        """Removes resources based on the indices selected in the view."""
+
         if self.model:
             for index in self.resource_list.selectedIndexes():
                 self.model.removeRow(index.row(), index.parent())

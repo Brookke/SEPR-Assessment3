@@ -4,13 +4,13 @@ import os.path
 import PyQt5.uic
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtSql
-
-from form_resource import ResourceForm
+from common import UI_SOURCE_LOCATION, SCHEMA_SCRIPT
+from forms.resource import ResourceForm
+from forms.costume import CostumeForm
 
 # Load in the form for the main window
-source_location = os.path.join(os.path.dirname(__file__), "ui_forms/")
-main_window_source = os.path.join(source_location, "form_scenario_manager_main.ui")
-UiScenarioManagerMainWindow = PyQt5.uic.loadUiType(main_window_source)[0]
+MAIN_WINDOW_SOURCE = os.path.join(UI_SOURCE_LOCATION, "form_scenario_manager_main.ui")
+UiScenarioManagerMainWindow = PyQt5.uic.loadUiType(MAIN_WINDOW_SOURCE)[0]
 
 class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWindow):
     """This class represents the main window of the application"""
@@ -26,6 +26,7 @@ class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWind
         # convenient iteration.
         self._tab_widgets = [
             (ResourceForm(self.central_tab_widget), "Resources"),
+            (CostumeForm(self.central_tab_widget), "Costumes"),
         ]
 
         # Add all of the widgets into the tab widget.
@@ -57,7 +58,7 @@ class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWind
 
         # Make sure the correct file extension is in the filename if we are the create the
         # database.
-        if os.path.splitext(database_name) != ".db" and not os.path.exists(database_name):
+        if os.path.splitext(database_name)[1] != ".db" and not os.path.exists(database_name):
             database_name += ".db"
 
         # Open the new database.
@@ -87,7 +88,7 @@ class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWind
 
         # Create the tables using an external SQL script. The script must be submitted statement
         # by statement due to API limitations where only a statement may be executed.
-        with open(os.path.join(os.path.dirname(__file__), "schema.sql"), "rt") as schema_file:
+        with open(SCHEMA_SCRIPT, "rt") as schema_file:
             for statement in schema_file.read().split(";"):
                 self._database.exec_(statement)
 
@@ -115,11 +116,3 @@ class ScenarioManagerMainWindow(UiScenarioManagerMainWindow, QtWidgets.QMainWind
         # Update the depended widgets with the new resource root.
         for widget, _ in self._tab_widgets:
             widget.set_resource_root(self._resource_root)
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    window = ScenarioManagerMainWindow()
-    window.show()
-    sys.exit(app.exec_())

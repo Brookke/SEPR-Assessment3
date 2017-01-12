@@ -1,21 +1,33 @@
 #!/usr/bin/env python3
 
+import sys
 import os.path
 from abc import ABCMeta, abstractmethod
 from PyQt5.QtCore import Qt
 from PyQt5 import QtCore, QtWidgets, QtGui
+import sip
 
-# This is the location of the "*.ui" files. These are in the directory "ui_forms" which is assumed
-# to be in the same directory as this file. If either this file changes location or the location of
-# "*.ui" files changes, this constant should be updated.
-SOURCE_LOCATION = os.path.join(os.path.dirname(__file__), "ui_forms/")
+# Define the location of the main module. This is to help define other locations relative to this
+# point later one.
+ROOT_MODULE_LOCATION = os.path.dirname(sys.modules["__main__"].__file__)
 
-class QtABCMeta(QtCore.pyqtWrapperType, ABCMeta):
+# This is the location of the "*.ui" files.
+UI_SOURCE_LOCATION = os.path.join(ROOT_MODULE_LOCATION, "ui_forms/")
+
+# This is the location of the sql scripts.
+SQL_SCRIPTS_LOCATION = os.path.join(ROOT_MODULE_LOCATION, "sql_scripts/")
+
+# This is the location of the sql schema script.
+SCHEMA_SCRIPT = os.path.join(SQL_SCRIPTS_LOCATION, "schema.sql")
+
+class QtABCMeta(sip.wrappertype, ABCMeta):
     """This class is to stop metaclass conflicts.
 
     These conflicts happen when trying to create an abstract base class that is derived by a class
     which derives one of PyQt's types. See the following web page for more information:
     https://stackoverflow.com/a/28727066
+    One addendum to this is that of PyQt5 5.7.1 sip.wrappertype is now used in the place of
+    PyQt5.QtCore.pyqtWrapperType.
     """
 
     pass
@@ -58,17 +70,21 @@ class DatabaseResourceForm(QtWidgets.QWidget, metaclass = QtABCMeta):
         pass
 
 def resource_icon(model, index, resource_root = None):
-    # The filename of the icon we are to load should be the same data in the database
-    # itself. We can extract this information from the model by using the very function
-    # we are in; just by modifying the intended role but maintaining the index.
+    """Retrieve an icon for the given model, index and resource root. This will use the path data
+    in the same model and index to infer the path of the icon (which will be the resource itself).
+    """
+
+    # The filename of the icon we are to load should be the same data in the database itself. We
+    # can extract this information from the model by using the same index but just modifying the
+    # intended role.
     stored_filename = model.data(index, Qt.EditRole)
-    if not stored_filename:
+    if not stored_filename or type(stored_filename) is not str:
         return None
 
-    # We can try three different methods to find the file to load. The first method is to
-    # prepend the resource root (the primary use of this variable). The second is to load
-    # the file with the filename, as is. The last is to prepend "./". We do not consider
-    # the first method if the resource root variable is invalid.
+    # We can try three different methods to find the file to load. The first method is to prepend
+    # the resource root (the primary use of this variable). The second is to load the file with
+    # the filename, as is. The last is to prepend "./". We do not consider the first method if the
+    # resource root variable is invalid.
     icon_filenames = [
         stored_filename,
         os.path.join("./", stored_filename),
@@ -76,7 +92,7 @@ def resource_icon(model, index, resource_root = None):
     if resource_root:
         icon_filenames.insert(0, os.path.join(resource_root, stored_filename))
 
-    # Check the validity of the filenames be checking to see if the file exits.
+    # Check the validity of the filenames by checking to see if the file exits.
     valid_icon_filenames = list(filter(os.path.exists, icon_filenames))
     if len(valid_icon_filenames) == 0:
         return None
