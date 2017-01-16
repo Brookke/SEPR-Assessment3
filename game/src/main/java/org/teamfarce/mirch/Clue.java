@@ -6,13 +6,12 @@ package org.teamfarce.mirch;
  *
  */
 public class Clue {
-	int provesMotive;
-	int provesMean;
-	
-	/**
-	 * Initialiser function
-	 */
-	Clue(){
-		
-	}
+    int provesMotive;
+    int provesMean;
+
+    /**
+     * Initialiser function
+     */
+    Clue(){
+    }
 }

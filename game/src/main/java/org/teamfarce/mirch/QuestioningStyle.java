@@ -6,13 +6,12 @@ package org.teamfarce.mirch;
  *
  */
 public class QuestioningStyle {
-	String description;
-	int id;
-	
-	/**
-	 * Constructor function
-	 */
-	QuestioningStyle(){
-		
-	}
+    String description;
+    int id;
+
+    /**
+     * Constructor function
+     */
+    QuestioningStyle(){
+    }
 }

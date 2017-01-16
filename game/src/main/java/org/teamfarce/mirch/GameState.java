@@ -6,5 +6,5 @@ package org.teamfarce.mirch;
  * Represents different states in the game.
  */
 public enum GameState {
-	map, dialogue, journal
+    map, dialogue, journal
 }

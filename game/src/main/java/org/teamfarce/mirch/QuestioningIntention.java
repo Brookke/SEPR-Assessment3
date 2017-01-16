@@ -8,22 +8,21 @@ import java.util.ArrayList;
  *
  */
 public class QuestioningIntention {
-	ArrayList<Question> questions;
-	String description;
-	
-	/**
-	 * Initialiser function
-	 */
-	QuestioningIntention(){
-		
-	}
-	
-	/**
-	 * Allows the asking of a question in a given style, returning a QuestionResult
-	 * @param style
-	 * @return questionResult
-	 */
-	QuestionResult askQuestion(int style){
-		return new QuestionResult();
-	}
+    ArrayList<Question> questions;
+    String description;
+
+    /**
+     * Initialiser function
+     */
+    QuestioningIntention(){
+    }
+
+    /**
+     * Allows the asking of a question in a given style, returning a QuestionResult
+     * @param style
+     * @return questionResult
+     */
+    QuestionResult askQuestion(int style){
+        return new QuestionResult();
+    }
 }

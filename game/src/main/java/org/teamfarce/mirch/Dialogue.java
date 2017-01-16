@@ -8,15 +8,12 @@ import java.util.ArrayList;
  *
  */
 public class Dialogue {
-	
-	ArrayList<String> text;
-	ArrayList<Clue> clues;
-	
-	/**
-	 * Initialiser function
-	 */
-	Dialogue(){
-		
-	}
+    ArrayList<String> text;
+    ArrayList<Clue> clues;
 
+    /**
+     * Initialiser function
+     */
+    Dialogue(){
+    }
 }

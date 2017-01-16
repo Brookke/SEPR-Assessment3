@@ -6,14 +6,13 @@ package org.teamfarce.mirch;
  *
  */
 public class Question {
-	QuestioningStyle style;
-	String text;
-	QuestionResult response;
-	
-	/**
-	 * Constructor function
-	 */
-	Question(){
-		
-	}
+    QuestioningStyle style;
+    String text;
+    QuestionResult response;
+
+    /**
+     * Constructor function
+     */
+    Question(){
+    }
 }

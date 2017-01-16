@@ -8,15 +8,13 @@ import java.util.ArrayList;
  *
  */
 public class QuestionResult {
-	
-	Dialogue dialogue;
-	ArrayList<QuestioningIntention> followupQuestions;
-	
-	/**
-	 * Initialiser function.
-	 */
-	QuestionResult(){
-		
-	}
+    Dialogue dialogue;
+    ArrayList<QuestioningIntention> followupQuestions;
+
+    /**
+     * Initialiser function.
+     */
+    QuestionResult(){
+    }
 
 }
