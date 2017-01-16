@@ -3,24 +3,25 @@ package org.teamfarce.mirch;
 import java.util.ArrayList;
 
 /**
- * Creates an individual prop entity, extends from the MapEntity class
- * @author jacobwunwin
+ * Creates an individual prop entity, extends from the MapEntity class.
  *
+ * @author Jacob Wunwin
  */
 public class Prop extends MapEntity {
     ArrayList<Clue> clue;
 
     /**
-     * Initialises the class
+     * Initialises the object.
      */
-    Prop(){
+    Prop() {
     }
 
     /**
      * Returns a Clue ArrayList of all clues attached to this prop.
-     * @return
+     *
+     * @return The list of clues
      */
-    ArrayList<Clue> takeClue(){
+    ArrayList<Clue> takeClue() {
         return this.clue;
     }
 }
