@@ -3,9 +3,9 @@ package org.teamfarce.mirch;
 import java.util.ArrayList;
 
 /**
- * PLEASE FILL IN THIS EXPLANATION
- * @author jacobwunwin
+ * PLEASE FILL IN THIS EXPLANATION.
  *
+ * @author Jacob Wunwin
  */
 public class QuestionResult {
     Dialogue dialogue;
@@ -14,7 +14,7 @@ public class QuestionResult {
     /**
      * Initialiser function.
      */
-    QuestionResult(){
+    QuestionResult() {
     }
 
 }
