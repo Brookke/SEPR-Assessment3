@@ -73,20 +73,20 @@ public class GameSnapshot {
 	 * @param prop
 	 */
 	void journalAddProp(Prop prop){
-		this.journal.addProp(prop);
+		//this.journal.addProp(prop);
 		//proveMeans(prop.takeClue().provesMeans);
 		//proveMotive(prop.takeClue().provesMotive);
 	}
 	
-	/**
-	 * Adds the dialogue to the journal, used for keeping a log of dialogue
-	 * @param dialogue
-	 */
-	void journalAddDialogue(QuestionandResponse dialogue){
-		this.journal.addDialogue(dialogue);
-		//for (Clue clue : dialogue.clues) {
-		//	proveMeans(clue.provesMeans);
-		//	provesMotives(clue.provesMotives);
-		//}
-	}
+	// /**
+	//  * Adds the dialogue to the journal, used for keeping a log of dialogue
+	//  * @param dialogue
+	//  */
+	// void journalAddDialogue(QuestionandResponse dialogue){
+	// 	this.journal.addDialogue(dialogue);
+	// 	//for (Clue clue : dialogue.clues) {
+	// 	//	proveMeans(clue.provesMeans);
+	// 	//	provesMotives(clue.provesMotives);
+	// 	//}
+	// }
 }
