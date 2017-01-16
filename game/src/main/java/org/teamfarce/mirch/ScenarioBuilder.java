@@ -2,8 +2,6 @@ package org.teamfarce.mirch;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
-
 public class ScenarioBuilder {
 	/**
 	 * 
@@ -126,12 +124,4 @@ public class ScenarioBuilder {
 		return null;
 		
 	}
-	
-	@Test
-	public void testGenerateGame(){
-		this.generateGame(10);
-		//temporary output until test is fully built
-		System.out.println("Generate Game Successful");
-	} 
-
 }
