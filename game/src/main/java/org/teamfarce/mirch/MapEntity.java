@@ -1,10 +1,11 @@
 package org.teamfarce.mirch;
+
 import com.badlogic.gdx.math.Vector2;
 
 /**
- *
- * @author jacobwunwin
  * Base class to represent different map entities.
+ *
+ * @author Jacob Wunwin
  */
 public class MapEntity {
     int id;
@@ -14,24 +15,26 @@ public class MapEntity {
     String description;
 
     /**
-     * Initialiser class
+     * Initialise class.
      */
     MapEntity(){
     }
 
     /**
-     * Returns position of room as a Vector2
-     * @return
+     * Returns position of room as a Vector2.
+     *
+     * @return The vector requested
      */
-    Vector2 getPosition(){
+    Vector2 getPosition() {
         return this.roomPosition;
     }
 
     /**
-     * Allows the setting of the rooms position - parameter is a Vector2 Position
-     * @param pos
+     * Allows the setting of the rooms position.
+     *
+     * @param pos The provided position
      */
-    void setPosition(Vector2 pos){
+    void setPosition(Vector2 pos) {
         this.roomPosition = pos;
     }
 }
