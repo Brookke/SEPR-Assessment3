@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class ScenarioBuilder {
     /**
-     * 
+     *
      * @return ArrayList of Suspects
-     * 
+     *
      * Generates an ArrayList of suspects and returns the ArrayList
      */
     public ArrayList<Suspect> generateSuspects(){
@@ -14,10 +14,10 @@ public class ScenarioBuilder {
     }
 
     /**
-     * 
+     *
      * @param suspectList
      * @return Suspect
-     * 
+     *
      * Chooses a suspect from the suspect list and returns the Suspect Object
      */
     public Suspect chooseVictim(ArrayList<Suspect> suspectList){
@@ -25,10 +25,10 @@ public class ScenarioBuilder {
     }
 
     /**
-     * 
+     *
      * @param suspectList
      * @return updates suspectList with murderer marked
-     * 
+     *
      * Randomly selects a murderer from the suspect list, and marks that suspect
      * Then returns the edited list
      */
@@ -37,10 +37,10 @@ public class ScenarioBuilder {
     }
 
     /**
-     * 
+     *
      * @param size
      * @return ArrayList of rooms
-     * 
+     *
      * Generates an array list of rooms of size 'size' and returns the list
      */
     public ArrayList<Room> generateRooms(int size){
@@ -48,11 +48,11 @@ public class ScenarioBuilder {
     }
 
     /**
-     * 
+     *
      * @param props
      * @param roomID
      * @return ArrayList of Props
-     * 
+     *
      * Takes an ArrayList of props and a room ID, adds additional props to the list and returns the extended list
      */
     public ArrayList<Prop> generateProps(ArrayList<Prop> props, int roomID){
@@ -60,9 +60,9 @@ public class ScenarioBuilder {
     }
 
     /**
-     * 
+     *
      * @return Clue
-     * 
+     *
      * Generates a clue object and returns it
      */
     public Clue generateClue(){

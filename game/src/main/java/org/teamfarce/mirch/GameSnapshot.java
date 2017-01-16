@@ -3,7 +3,7 @@ package org.teamfarce.mirch;
 import java.util.ArrayList;
 
 /**
- * 
+ *
  * @author jacobwunwin
  * Stores a snapshot of the game state.
  */

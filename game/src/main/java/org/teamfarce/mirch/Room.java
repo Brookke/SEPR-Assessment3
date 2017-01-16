@@ -2,7 +2,7 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * 
+ *
  * @author jacobwunwin
  * Represents a room in the map.
  */
@@ -13,7 +13,7 @@ public class Room {
 
     /**
      * Initialiser Function for Room Class
-     * 
+     *
      */
     Room(){
     }

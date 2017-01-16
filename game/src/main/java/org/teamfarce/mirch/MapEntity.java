@@ -2,7 +2,7 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * 
+ *
  * @author jacobwunwin
  * Base class to represent different map entities.
  */
