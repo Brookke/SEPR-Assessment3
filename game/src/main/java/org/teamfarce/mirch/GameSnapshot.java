@@ -3,9 +3,9 @@ package org.teamfarce.mirch;
 import java.util.ArrayList;
 
 /**
+ * Stores a snapshot of the game state.
  *
  * @author jacobwunwin
- * Stores a snapshot of the game state.
  */
 public class GameSnapshot {
     private ArrayList<Suspect> suspects;
@@ -19,9 +19,14 @@ public class GameSnapshot {
     private DialogueBox currentDialogueBox;
 
     /**
-     * Initialises function
+     * Initialises function.
      */
-    GameSnapshot(ArrayList<Suspect> suspects, MapEntity detective, ArrayList<Prop> props, ArrayList<Room> rooms){
+    GameSnapshot(
+        ArrayList<Suspect> suspects,
+        MapEntity detective,
+        ArrayList<Prop> props,
+        ArrayList<Room> rooms
+    ) {
         this.suspects = suspects;
         this.detective = detective;
         this.state = GameState.map;
@@ -33,44 +38,58 @@ public class GameSnapshot {
     }
 
     /**
-     * Allows changing of the meansProven variable, which stores how much the
-     * means of murder has been proven.
-     * @param amount
+     * Increment the "means proof" value by the given value.
+     * <p>
+     * This effectively indicates that the means of the murder was proven by the given arbitrary
+     * value.
+     * </p>
+     *
+     * @param amount The increase in the "means proof"
      */
-    void proveMeans(int amount){
+    void proveMeans(int amount) {
         this.meansProven += amount;
     }
 
     /**
-     * Allows the changing of the motiveProven variable, which stores how much
-     * the motive of the murder has been proven
-     * @param amount
+     * Increment the "motive proof" value by the given value.
+     * <p>
+     * This effectively indicates that the motive of the murder was proven by the given arbitrary
+     * value.
+     * </p>
+     *
+     * @param amount The increase in the "motive proof"
      */
-    void proveMotive(int amount){
+    void proveMotive(int amount) {
         this.motiveProven += amount;
     }
 
     /**
-     * Returns true if the means of the murder has been proven
-     * @return boolean
+     * Returns true if the means of the murder has been proven.
+     *
+     * @return Whether we have "proven" the means
      */
-    boolean isMeansProven(){
-        return (this.meansProven >= 100);  //Arbitrary value for now 
+    boolean isMeansProven() {
+        return (this.meansProven >= 100);  //Arbitrary value for now
     }
 
     /**
-     * Returns true if the motive of the murder has been proven
-     * @return
+     * Returns true if the motive of the murder has been proven.
+     *
+     * @return Whether we have "proven" the motive
      */
-    boolean isMotiveProven(){
-        return (this.motiveProven >= 100);  //Arbitrary value for now 
+    boolean isMotiveProven() {
+        return (this.motiveProven >= 100);  //Arbitrary value for now
     }
 
     /**
-     * Adds the prop to the journal, used for keeping a log of props
-     * @param prop
+     * Adds the prop to the journal.
+     * <p>
+     * This tells the journal to keep a log of this prop.
+     * </p>
+     *
+     * @param prop The prop to add
      */
-    void journalAddProp(Prop prop){
+    void journalAddProp(Prop prop) {
         //this.journal.addProp(prop);
         //proveMeans(prop.takeClue().provesMeans);
         //proveMotive(prop.takeClue().provesMotive);
@@ -80,7 +99,7 @@ public class GameSnapshot {
     //  * Adds the dialogue to the journal, used for keeping a log of dialogue
     //  * @param dialogue
     //  */
-    // void journalAddDialogue(QuestionandResponse dialogue){
+    // void journalAddDialogue(QuestionandResponse dialogue) {
     //  this.journal.addDialogue(dialogue);
     //  //for (Clue clue : dialogue.clues) {
     //  //  proveMeans(clue.provesMeans);
