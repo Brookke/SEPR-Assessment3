@@ -47,4 +47,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.6.1"
     compile "com.badlogicgames.gdx:gdx-platform:1.6.1:natives-desktop"
+    compile "org.xerial:sqlite-jdbc:3.16.1"
 }
