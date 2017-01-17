@@ -1,22 +1,20 @@
 package org.teamfarce.mirch;
+
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * 
- * @author jacobwunwin
  * Represents a room in the map.
+ *
+ * @author Jacob Wunwin
  */
 public class Room {
-	
-	Vector2 position;
-	Vector2 size;
-	int id;
-	
-	/**
-	 * Initialiser Function for Room Class
-	 * 
-	 */
-	Room(){
-		
-	}
+    Vector2 position;
+    Vector2 size;
+    int id;
+
+    /**
+     * Initialiser Function for Room Class.
+     */
+    Room() {
+    }
 }

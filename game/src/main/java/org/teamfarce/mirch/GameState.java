@@ -1,10 +1,10 @@
 package org.teamfarce.mirch;
 
 /**
- * 
- * @author jacobwunwin
  * Represents different states in the game.
+ *
+ * @author Jacob Wunwin
  */
 public enum GameState {
-	map, dialogue, journal
+    map, dialogue, journal
 }
