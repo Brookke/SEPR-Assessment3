@@ -226,6 +226,30 @@ public class MIRCH extends ApplicationAdapter{
 			}
 		});
 		
+		//++++CREATE JOURNAL CLUES STAGE++++
+		
+		//Create labels
+		Label clueLabel = new Label("Clues", uiSkin);
+		
+		clueLabel.setColor(Color.BLACK);
+		clueLabel.setFontScale(1.5f);
+		
+		clueLabel.setPosition(750, 600);
+		
+		journalCluesStage.addActor(clueLabel);
+		
+		//++++CREATE JOURNAL INTERVIEW STAGE++++
+		
+		//Create labels
+		Label questionsLabel = new Label("Interview Log", uiSkin);
+
+		questionsLabel.setColor(Color.BLACK);
+		questionsLabel.setFontScale(1.5f);
+
+		questionsLabel.setPosition(720, 600);
+
+		journalQuestionsStage.addActor(questionsLabel);
+		
 		//++++CREATE MAIN CONTROL BUTTONS STAGE++++
 		
 		final TextButton mapButton = new TextButton("Map", uiSkin);
@@ -340,7 +364,7 @@ public class MIRCH extends ApplicationAdapter{
 
 	    			  if (clicked){
 	    				  //handle touch input for objects
-	    				  System.out.println("Object clocked!");
+	    				  System.out.println("Object clicked!");
 	    				  drawItemDialogue((Prop) objects.get(i).object);
 	    				  //add the prop to the journal
 	    			  }
@@ -373,6 +397,7 @@ public class MIRCH extends ApplicationAdapter{
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
 	    	  batch.end();
+	    	  journalStage.draw();
 	    	  journalCluesStage.draw();
 	    	  
 	    	  
@@ -381,6 +406,7 @@ public class MIRCH extends ApplicationAdapter{
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
 	    	  batch.end();
+	    	  journalStage.draw();
 	    	  journalQuestionsStage.draw();
 	    	  
 	    	  
