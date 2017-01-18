@@ -45,15 +45,27 @@ public class MIRCH extends ApplicationAdapter{
 	}
 	
 	private void drawCharacters(ArrayList<RenderItem> characters, SpriteBatch batch){
-		
+		batch.begin();
+		for (RenderItem character : characters){
+			character.sprite.draw(batch);
+		}
+		batch.end();
 	}
 	
-	private void drawObjects(ArrayList<RenderItem> characters, SpriteBatch batch){
-		
+	private void drawObjects(ArrayList<RenderItem> objects, SpriteBatch batch){
+		batch.begin();
+		for (RenderItem object : objects){
+			object.sprite.draw(batch);
+		}
+		batch.end();
 	}
 	
-	private void drawRooms(ArrayList<RenderItem> characters, SpriteBatch batch){
-		
+	private void drawRooms(ArrayList<RenderItem> rooms, SpriteBatch batch){
+		batch.begin();
+		for (RenderItem room : rooms){
+			room.sprite.draw(batch);
+		}
+		batch.end();
 	}
 	
 	private void drawMapControls(){
