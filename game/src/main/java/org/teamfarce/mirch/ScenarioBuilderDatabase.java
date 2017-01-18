@@ -169,7 +169,7 @@ public class ScenarioBuilderDatabase {
     public HashMap<Integer, Protoprop> protoprops;
     public HashMap<Integer, CharacterMeansLink> characterMeansLinks;
 
-    ScenarioBuilderDatabase(String databaseName) throws SQLException {
+    public ScenarioBuilderDatabase(String databaseName) throws SQLException {
         means = new HashMap<Integer, Means>();
         roomTypes = new HashMap<Integer, RoomType>();
         resources = new HashMap<Integer, Resource>();
