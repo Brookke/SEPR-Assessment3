@@ -94,7 +94,9 @@ public class MIRCH extends ApplicationAdapter{
 	}
 	
 	private void drawItemDialogue(Prop prop){
-		JOptionPane.showMessageDialog(null,prop.description, prop.name,JOptionPane.PLAIN_MESSAGE);
+		String output;
+		output = "You find: '" + prop.description + "'. It has been added to your Journal.";
+		JOptionPane.showMessageDialog(null,output, prop.name,JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	
@@ -111,9 +113,20 @@ public class MIRCH extends ApplicationAdapter{
 	      player.setPosition(100, 100);
 
 	      
-	      rooms = new ArrayList<RenderItem>();
-	      characters = new ArrayList<RenderItem>();
+	      
 	      objects = new ArrayList<RenderItem>();
+	      
+	      //create an example prop
+	      Prop prop = new Prop();
+	      prop.description = "A bloody axe...";
+	      
+	      Texture texture = new Texture(Gdx.files.internal("assets/objects/Axe.png"));
+	      objects.add(new RenderItem(new Sprite(texture, 300, 300), prop));
+	    		  
+	      rooms = new ArrayList<RenderItem>();
+	      
+	      
+	      characters = new ArrayList<RenderItem>();
 	      
 	}
 	
@@ -126,6 +139,8 @@ public class MIRCH extends ApplicationAdapter{
 	      	      
 	      
 	      //draw output
+	      
+	      drawMap(rooms, objects, characters, batch);
 	      batch.begin();
 	      player.draw(batch);
 	      batch.end();
@@ -157,30 +172,35 @@ public class MIRCH extends ApplicationAdapter{
 	         int i = 0;
 	         while (!clicked && (i < length)){
 	        	 clicked = isObjectPressed(rooms.get(i).sprite, touchPos);
-	        	 i++;
 	        	 if (clicked){
 	        		 //handle touch input for room
 	        	 }
+	        	 i++;
 	         }
 	         
 	         length = objects.size();
 	         i = 0;
+	         System.out.println(length);
 	         while (!clicked && (i < length)){
 	        	 clicked = isObjectPressed(objects.get(i).sprite, touchPos);
-	        	 i++;
+	        	 
 	        	 if (clicked){
 	        		 //handle touch input for objects
+	        		 System.out.println("Object clocked!");
+	        		 drawItemDialogue((Prop) objects.get(i).object);
 	        	 }
+	        	 i++;
 	         }
 	         
 	         length = characters.size();
 	         i = 0;
 	         while (!clicked && (i < length)){
 	        	 clicked = isObjectPressed(characters.get(i).sprite, touchPos);
-	        	 i++;
+	        	 
 	        	 if (clicked){
 	        		 //handle touch input for character
 	        	 }
+	        	 i++;
 	         }
 	         
 	      }
