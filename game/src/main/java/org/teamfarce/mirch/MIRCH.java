@@ -28,22 +28,31 @@ public class MIRCH extends ApplicationAdapter{
 	private OrthographicCamera camera;
 	
 	private boolean isObjectPressed(Sprite theSprite, Vector3 mouse){
-		return false;
+		boolean toReturn = false;
+		
+		float x1 = theSprite.getX();
+		float y1 = theSprite.getY();
+		float x2 = x1 + theSprite.getWidth();
+		float y2 = y1 + theSprite.getHeight();
+		
+		if ((mouse.x > x1) && (mouse.x < x2)){
+			if ((mouse.y > y1) && (mouse.y < y2)){
+				toReturn = true;
+			}
+		}
+		
+		return toReturn;
 	}
 	
-	private void drawSprites(){
+	private void drawCharacters(ArrayList<Sprite> characters, SpriteBatch batch){
 		
 	}
 	
-	private void drawObjects(){
+	private void drawObjects(ArrayList<Sprite> characters, SpriteBatch batch){
 		
 	}
 	
-	private void drawRooms(){
-		
-	}
-	
-	private void drawPlayer(){
+	private void drawRooms(ArrayList<Sprite> characters, SpriteBatch batch){
 		
 	}
 	
