@@ -146,7 +146,7 @@ CREATE TABLE follow_up_questions (
 	preceding_response INTEGER NOT NULL, 
 	PRIMARY KEY (id), 
 	FOREIGN KEY(following_question) REFERENCES question_and_responses (id) ON DELETE CASCADE, 
-	FOREIGN KEY(preceding_response) REFERENCES question_and_responses (id) ON DELETE CASCADE
+	FOREIGN KEY(preceding_response) REFERENCES follow_up_questions (id) ON DELETE CASCADE
 );
 CREATE TABLE protoprops (
 	id INTEGER NOT NULL, 
