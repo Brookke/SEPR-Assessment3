@@ -16,9 +16,9 @@ public class MIRCH extends ApplicationAdapter{
 	private Texture titleScreen;
 	private SpriteBatch batch;
 	
-	private ArrayList<Sprite> rooms;
-	private ArrayList<Sprite> objects;
-	private ArrayList<Sprite> characters;
+	private ArrayList<RenderItem> rooms;
+	private ArrayList<RenderItem> objects;
+	private ArrayList<RenderItem> characters;
 	
 	private float move = 5;
 
@@ -44,15 +44,15 @@ public class MIRCH extends ApplicationAdapter{
 		return toReturn;
 	}
 	
-	private void drawCharacters(ArrayList<Sprite> characters, SpriteBatch batch){
+	private void drawCharacters(ArrayList<RenderItem> characters, SpriteBatch batch){
 		
 	}
 	
-	private void drawObjects(ArrayList<Sprite> characters, SpriteBatch batch){
+	private void drawObjects(ArrayList<RenderItem> characters, SpriteBatch batch){
 		
 	}
 	
-	private void drawRooms(ArrayList<Sprite> characters, SpriteBatch batch){
+	private void drawRooms(ArrayList<RenderItem> characters, SpriteBatch batch){
 		
 	}
 	
@@ -64,11 +64,10 @@ public class MIRCH extends ApplicationAdapter{
 		
 	}
 	
-	private void drawMap(){
-		drawRooms();
-		drawObjects();
-		drawSprites();
-		drawPlayer();
+	private void drawMap(ArrayList<RenderItem> rooms, ArrayList<RenderItem> objects, ArrayList<RenderItem> characters, SpriteBatch batch){
+		drawRooms(rooms, batch);
+		drawObjects(objects, batch);
+		drawCharacters(characters, batch);
 		drawMapControls();
 	}
 	
@@ -98,9 +97,9 @@ public class MIRCH extends ApplicationAdapter{
 	      player.setPosition(100, 100);
 
 	      
-	      rooms = new ArrayList<Sprite>();
-	      characters = new ArrayList<Sprite>();
-	      objects = new ArrayList<Sprite>();
+	      rooms = new ArrayList<RenderItem>();
+	      characters = new ArrayList<RenderItem>();
+	      objects = new ArrayList<RenderItem>();
 	      
 	}
 	
@@ -143,7 +142,7 @@ public class MIRCH extends ApplicationAdapter{
 	         int length = rooms.size();
 	         int i = 0;
 	         while (!clicked && (i < length)){
-	        	 clicked = isObjectPressed(rooms.get(i), touchPos);
+	        	 clicked = isObjectPressed(rooms.get(i).sprite, touchPos);
 	        	 i++;
 	        	 if (clicked){
 	        		 //handle touch input for room
@@ -153,7 +152,7 @@ public class MIRCH extends ApplicationAdapter{
 	         length = objects.size();
 	         i = 0;
 	         while (!clicked && (i < length)){
-	        	 clicked = isObjectPressed(objects.get(i), touchPos);
+	        	 clicked = isObjectPressed(objects.get(i).sprite, touchPos);
 	        	 i++;
 	        	 if (clicked){
 	        		 //handle touch input for objects
@@ -163,7 +162,7 @@ public class MIRCH extends ApplicationAdapter{
 	         length = characters.size();
 	         i = 0;
 	         while (!clicked && (i < length)){
-	        	 clicked = isObjectPressed(characters.get(i), touchPos);
+	        	 clicked = isObjectPressed(characters.get(i).sprite, touchPos);
 	        	 i++;
 	        	 if (clicked){
 	        		 //handle touch input for character
