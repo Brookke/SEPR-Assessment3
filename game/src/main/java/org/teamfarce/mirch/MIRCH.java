@@ -21,7 +21,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -41,6 +43,8 @@ public class MIRCH extends ApplicationAdapter{
 	
 	private Skin skin;
 	private Skin uiSkin;
+	
+	private Table cluesTable;
 	
 	private ArrayList<RenderItem> rooms;
 	private ArrayList<RenderItem> objects;
@@ -150,6 +154,21 @@ public class MIRCH extends ApplicationAdapter{
 		
 	}
 	
+	//Draws the clues list onto the screen
+	private void genJournalCluesStage(Table cluesTable){
+		cluesTable.reset();
+		
+		String reallyLongString = "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
+		        + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
+		        + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n";
+		
+		Label label = new Label(reallyLongString, uiSkin);
+		
+		cluesTable.add(label);
+		cluesTable.row();
+		
+	}
+	
 	private void drawCharacterDialogue(){
 		
 	}
@@ -164,7 +183,7 @@ public class MIRCH extends ApplicationAdapter{
 
 	@Override
 	public void create() {
-		state = GameState.map;
+		state = GameState.journalClues;
 
 		titleScreen = new Texture(Gdx.files.internal("assets/Detective_sprite.png"));
 		camera = new OrthographicCamera();
@@ -227,16 +246,28 @@ public class MIRCH extends ApplicationAdapter{
 		});
 		
 		//++++CREATE JOURNAL CLUES STAGE++++
-		
-		//Create labels
 		Label clueLabel = new Label("Clues", uiSkin);
-		
+
 		clueLabel.setColor(Color.BLACK);
 		clueLabel.setFontScale(1.5f);
-		
+
 		clueLabel.setPosition(750, 600);
+
+		cluesTable = new Table(uiSkin);
 		
+		
+		
+	    Table container = new Table(uiSkin);
+	    ScrollPane scroll = new ScrollPane(cluesTable, uiSkin);
+	    scroll.layout();
+	    container.add(scroll).width(300f).height(400f);
+	    container.row();
+	    container.setPosition(800, 360);
+	    
+
 		journalCluesStage.addActor(clueLabel);
+		journalCluesStage.addActor(container);
+		
 		
 		//++++CREATE JOURNAL INTERVIEW STAGE++++
 		
@@ -398,6 +429,8 @@ public class MIRCH extends ApplicationAdapter{
 	    	  journalSprite.draw(batch);
 	    	  batch.end();
 	    	  journalStage.draw();
+	    	  genJournalCluesStage(cluesTable);
+	    	  journalCluesStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 	    	  journalCluesStage.draw();
 	    	  
 	    	  
@@ -406,6 +439,7 @@ public class MIRCH extends ApplicationAdapter{
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
 	    	  batch.end();
+	    	  
 	    	  journalStage.draw();
 	    	  journalQuestionsStage.draw();
 	    	  
