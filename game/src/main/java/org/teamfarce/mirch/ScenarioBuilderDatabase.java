@@ -104,6 +104,7 @@ public class ScenarioBuilderDatabase {
         public int selectionWeight;
         public RoomType roomType;
         public ArrayList<Protoprop> protoprops;
+        public Resource background;
     }
 
     public class Character {
@@ -327,6 +328,8 @@ public class ScenarioBuilderDatabase {
             roomTemplate.roomType = roomTypes.get(rsRoomTemplate.getInt("room_type"));
             roomTemplate.roomType.roomTemplates.add(roomTemplate);
             roomTemplate.protoprops = new ArrayList<Protoprop>();
+            roomTemplate.background = resources.get(rsRoomTemplate.getInt("background"));
+            roomTemplate.background.roomTemplates.add(roomTemplate);
             roomTemplates.put(roomTemplate.id, roomTemplate);
         }
 
