@@ -58,6 +58,7 @@ public class MIRCH extends ApplicationAdapter{
 
 	private Sprite player;
 	private GameState state;
+	private Sprite character;
 	
 	private OrthographicCamera camera;
 	
