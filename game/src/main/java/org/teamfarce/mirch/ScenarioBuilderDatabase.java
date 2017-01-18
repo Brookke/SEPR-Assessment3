@@ -423,6 +423,16 @@ public class ScenarioBuilderDatabase {
             motive.clues.add(clue);
         }
 
+        ResultSet rsClueMeansRequirement = sqlStmt.executeQuery(
+            "SELECT * FROM clue_means_requirements"
+        );
+        while (rsClueMeansRequirement.next()) {
+            Clue clue = clues.get(rsClueMeansRequirement.getInt("clue"));
+            Means singleMeans = means.get(rsClueMeansRequirement.getInt("means"));
+            clue.means.add(singleMeans);
+            singleMeans.clues.add(clue);
+        }
+
         ResultSet rsCharacterCostumeLink = sqlStmt.executeQuery(
             "SELECT * FROM character_costume_links"
         );
