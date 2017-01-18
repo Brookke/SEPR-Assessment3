@@ -2,6 +2,8 @@ package org.teamfarce.mirch;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -91,8 +93,8 @@ public class MIRCH extends ApplicationAdapter{
 		
 	}
 	
-	private void drawItemDialogue(){
-		
+	private void drawItemDialogue(Prop prop){
+		JOptionPane.showMessageDialog(null,prop.description, prop.name,JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	
