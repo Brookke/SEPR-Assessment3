@@ -1,3 +1,6 @@
+### MAC ###
+.DS_Store
+
 ### Java ###
 *.class
 
@@ -44,6 +47,17 @@ gradle-app.setting
 
 .metadata
 bin/
+
+!game/bin/assets/*
+!game/bin/assets/rooms/*
+!game/bin/assets/characters/*
+!game/bin/assets/objects/*
+!bin/assets/*
+!bin/assets/rooms/*
+!bin/assets/characters/*
+!bin/assets/objects/*
+
+
 tmp/
 *.tmp
 *.bak
