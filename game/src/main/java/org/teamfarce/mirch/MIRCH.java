@@ -157,12 +157,16 @@ public class MIRCH extends ApplicationAdapter{
 	      prop.description = "A bloody axe...";
 	      
 	      Texture texture = new Texture(Gdx.files.internal("assets/objects/Axe.png"));
-	      objects.add(new RenderItem(new Sprite(texture, 300, 300), prop));
-	    		  
+	      objects.add(new RenderItem(new Sprite(texture), prop));
+	      
+	      objects.get(objects.size() - 1).sprite.setPosition(500,500);
+	    		 
 	      rooms = new ArrayList<RenderItem>();
 	      
 	      
 	      characters = new ArrayList<RenderItem>();
+	      
+	      //drawCharacterSelection();
 	      
 	}
 	
@@ -224,6 +228,7 @@ public class MIRCH extends ApplicationAdapter{
 	        		 //handle touch input for objects
 	        		 System.out.println("Object clocked!");
 	        		 drawItemDialogue((Prop) objects.get(i).object);
+	        		 //add the prop to the journal
 	        	 }
 	        	 i++;
 	         }
