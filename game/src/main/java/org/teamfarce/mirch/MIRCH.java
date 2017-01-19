@@ -301,7 +301,7 @@ public class MIRCH extends ApplicationAdapter{
 		//create a sprite for the journal background
 		Texture journalBackground = new Texture(Gdx.files.internal("assets/journal.png"));
 		journalSprite = new Sprite(journalBackground);
-		journalSprite.setPosition(220, 100);
+		journalSprite.setPosition(220, 90);
 		
 		//++++CREATE JOURNAL HOME STAGE++++
 		
@@ -432,13 +432,14 @@ public class MIRCH extends ApplicationAdapter{
 	public void render() {
 	      Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
 	      Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	      camera.position.set (new Vector3(player.getX(), player.getY(), 1)); //move the camera to follow the player
-	      camera.update();
+	      
 	      batch.setProjectionMatrix(camera.combined);
 	      	      
 	      
 	      //Draw the map here
 	      if (gameSnapshot.getState() == GameState.map){
+		      camera.position.set (new Vector3(player.getX(), player.getY(), 1)); //move the camera to follow the player
+		      camera.update();
 	    	  drawMap(rooms, objects, characters, batch);
 	    	  batch.begin();
 	    	  player.draw(batch);
@@ -524,6 +525,8 @@ public class MIRCH extends ApplicationAdapter{
 	      
 	    	  //Draw the journal here
 	      } else if (gameSnapshot.getState() == GameState.journalHome){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
 	    	  controlStage.draw();
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
