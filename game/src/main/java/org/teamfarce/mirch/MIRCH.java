@@ -254,7 +254,7 @@ public class MIRCH extends ApplicationAdapter{
 	}
 	
 	private void playMusic(){
-		music_background = Gdx.audio.newMusic(Gdx.files.internal("assets/Music/Minima.mp3"));
+		music_background = Gdx.audio.newMusic(Gdx.files.internal("assets/music/Minima.mp3"));
 		music_background.setLooping(true);
 		music_background.play();
 	}
