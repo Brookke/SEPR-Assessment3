@@ -6,6 +6,7 @@ package org.teamfarce.mirch;
  * @author Jacob Wunwin
  */
 public class Clue {
+	//score values until you can accuse someone
     int provesMotive;
     int provesMean;
 
