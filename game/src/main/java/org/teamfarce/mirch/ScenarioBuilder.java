@@ -32,6 +32,8 @@ public class ScenarioBuilder {
         random = new Random();
     }
 
+    // This is common across the `selectWeightedObject`s. Gets the selection index with the given
+    // collection which can use `weightFunction` to extract the weight of the given object.
     private <T> int getSelection(Collection<T> objects, ToIntFunction<T> weightFunction) {
         int selectionWeightSum = objects
             .stream()
@@ -40,6 +42,18 @@ public class ScenarioBuilder {
         return random.nextInt(selectionWeightSum);
     }
 
+    /**
+     * Selects an object from the list based on its weight.
+     * <p>
+     * This method determines the weight given to a specific object by using the provided weight
+     * function. Once a specific object has been selected, it is extracted by using the extractor;
+     * this is used to provided some other way to get the object.
+     * </p>
+     *
+     * @param objects The list of objects to consider
+     * @param weightFunction The function which supplies the weight of an object
+     * @param extractor The extraction method
+     */
     public <T> T selectWeightedObject(
         List<T> objects, ToIntFunction<T> weightFunction, IntFunction<T> extractor
     ) throws ScenarioBuilderException {
@@ -55,6 +69,16 @@ public class ScenarioBuilder {
         throw new ScenarioBuilderException("Could not select an object");
     }
 
+    /**
+     * Selects an object from the list based on its weight.
+     * <p>
+     * This method determines the weight given to a specific object by using the provided weight
+     * function.
+     * </p>
+     *
+     * @param objects The list of objects to consider
+     * @param weightFunction The function which supplies the weight of an object
+     */
     public <T> T selectWeightedObject(Collection<T> objects, ToIntFunction<T> weightFunction)
         throws ScenarioBuilderException
     {
