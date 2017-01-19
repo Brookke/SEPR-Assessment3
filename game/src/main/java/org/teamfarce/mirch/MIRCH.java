@@ -41,6 +41,7 @@ public class MIRCH extends ApplicationAdapter{
 	private Stage journalStage;
 	private Stage journalCluesStage;
 	private Stage journalQuestionsStage;
+	private Stage journalScratchpad;
 	
 	private Sprite journalSprite;
 	
