@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer.Random;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -32,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MIRCH extends ApplicationAdapter{
 	private Texture titleScreen;
+	private Texture doorwayTexture;
 	private SpriteBatch batch;
 	private GameSnapshot gameSnapshot;
 	
@@ -56,7 +58,10 @@ public class MIRCH extends ApplicationAdapter{
 	private ArrayList<RenderItem> objects;
 	private ArrayList<RenderItem> characters;
 	
-	private float move = 3; //sets the speed at which the player moves
+	private float move = 3; //sets the speed at which the player move
+	private float characterMove = 1f;
+	private int moveStep = 50;
+	private int step; //stores the current loop number
 
 	private Sprite player;
 	private GameState state;
@@ -236,6 +241,7 @@ public class MIRCH extends ApplicationAdapter{
 	@Override
 	public void create() {
 		//++++INITIALISE THE GAME++++
+		step = 0; //initialise the step variable
 		//create temporary required items, eventually ScenarioBuilder will generate these
 		ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 		
@@ -276,7 +282,7 @@ public class MIRCH extends ApplicationAdapter{
 		for (Prop sprop : gameSnapshot.getProps()){
 			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/objects/" + sprop.filename)));
 			newSprite.setPosition(sprop.currentRoom.position.x + sprop.roomPosition.x, sprop.currentRoom.position.y + sprop.roomPosition.y);
-			objects.add(new RenderItem(newSprite, (Prop) sprop));
+			objects.add(new RenderItem(newSprite, sprop));
 		}
 		
 		//generate RenderItems for each suspect
@@ -453,15 +459,6 @@ public class MIRCH extends ApplicationAdapter{
 	      
 	      //Draw the map here
 	      if (gameSnapshot.getState() == GameState.map){
-		      camera.position.set (new Vector3(player.getX(), player.getY(), 1)); //move the camera to follow the player
-		      camera.update();
-	    	  drawMap(rooms, objects, characters, batch);
-	    	  batch.begin();
-	    	  player.draw(batch);
-	    	  batch.end();
-	    	  
-	    	  controlStage.draw();
-	    	  
 	    	  RenderItem currentRoom = getCurrentRoom(rooms, player); //find the current room that the player is in
 	    	  Float currentX = player.getX();
 	    	  Float currentY = player.getY();
@@ -488,9 +485,46 @@ public class MIRCH extends ApplicationAdapter{
 	    		  player.setY(currentY); 
 	    	  }
 	    	  
-	    	 
+	    	  java.util.Random random = new java.util.Random();
+	    	  System.out.println(random.nextInt(10));
+	    	  
+	    	  //loop through each character, moving them randomly
+	    	  for (RenderItem character: characters){
+	    		  if ((step % moveStep) == 0){
+	    			  System.out.println("Updating move step");
+	    			  if (random.nextInt(2) >= 1){
+		    			  float randX =  (float) random.nextInt((int) characterMove * 2 + 1) - characterMove;
+			    		  float randY = (float) random.nextInt((int) characterMove * 2 + 1) - characterMove;
+			    		  System.out.println(randX);
+		    			  Suspect suspect = (Suspect) character.object;
+		    			  suspect.moveStep = new Vector2(randX, randY);
+		    			  character.object = suspect;
+	    			  } else {
+	    				  Suspect suspect = (Suspect) character.object;
+		    			  suspect.moveStep = new Vector2(0f, 0f);
+		    			  character.object = suspect;
+	    			  }
+	    		  }
+	    		  
+	    		  //Check to ensure character is still in room
+    			  Suspect suspect = (Suspect) character.object;
 
-
+	    		  
+	    		  float thisX = character.sprite.getX();
+	    		  float thisY = character.sprite.getY();
+	    		  RenderItem thisRoom = getCurrentRoom(rooms, character.sprite);
+					
+	    		  character.sprite.translate(suspect.moveStep.x, suspect.moveStep.y);
+	    		  
+	    		  RenderItem thisNextRoom = getCurrentRoom(rooms, character.sprite);
+	    		  
+	    		  if (!thisRoom.equals(thisNextRoom) && !inDoor(gameSnapshot.getDoors(), character.sprite)){
+		    		  character.sprite.setX(thisX);
+		    		  character.sprite.setY(thisY); 
+		    	  }
+		    	  
+	    	  } 
+	    	  
 
 	    	  // process user touch input
 	    	  if (Gdx.input.isTouched()) {
@@ -499,18 +533,8 @@ public class MIRCH extends ApplicationAdapter{
 	    		  camera.unproject(touchPos);
 
 	    		  boolean clicked = false;
-	    		  int length = rooms.size();
+	    		  int length = objects.size();
 	    		  int i = 0;
-	    		  while (!clicked && (i < length)){
-	    			  clicked = isObjectPressed(rooms.get(i).sprite, touchPos);
-	    			  if (clicked){
-	    				  //handle touch input for room
-	    			  }
-	    			  i++;
-	    		  }
-
-	    		  length = objects.size();
-	    		  i = 0;
 	    		  System.out.println(length);
 	    		  while (!clicked && (i < length)){
 	    			  clicked = isObjectPressed(objects.get(i).sprite, touchPos);
@@ -537,6 +561,16 @@ public class MIRCH extends ApplicationAdapter{
 	    		  }
 
 	    	  }
+	    	  
+	    	  //Draw the map to the display
+	    	  camera.position.set (new Vector3(player.getX(), player.getY(), 1)); //move the camera to follow the player
+		      camera.update();
+	    	  drawMap(rooms, objects, characters, batch);
+	    	  batch.begin();
+	    	  player.draw(batch);
+	    	  batch.end();
+	    	  
+	    	  controlStage.draw();
 	      
 	    	  //Draw the journal here
 	      } else if (gameSnapshot.getState() == GameState.journalHome){
@@ -581,6 +615,8 @@ public class MIRCH extends ApplicationAdapter{
 	      
 	      
 	      }
+	      
+	      step++; //increment the step counter
 		
 	}
 	

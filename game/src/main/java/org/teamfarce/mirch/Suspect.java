@@ -12,6 +12,7 @@ public class Suspect extends MapEntity {
     boolean beenAccused;
     boolean isMurderer;
     Vector2 mapPosition;
+    public Vector2 moveStep;
     
     /**
      * Initialiser function.
@@ -21,6 +22,7 @@ public class Suspect extends MapEntity {
         this.beenAccused = false;
         this.isMurderer = false;
         this.mapPosition = startingPosition;
+        this.moveStep = new Vector2(0, 0);
     }
 
     /**
