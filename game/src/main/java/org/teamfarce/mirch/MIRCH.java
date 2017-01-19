@@ -409,6 +409,7 @@ public class MIRCH extends ApplicationAdapter{
 	public void render() {
 	      Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
 	      Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	      camera.position.set (new Vector3(player.getX(), player.getY(), 1));
 	      camera.update();
 	      batch.setProjectionMatrix(camera.combined);
 	      	      
