@@ -3,6 +3,7 @@ package org.teamfarce.mirch;
 import java.util.function.IntUnaryOperator;
 import java.util.function.ToIntFunction;
 import java.util.function.IntFunction;
+import java.util.Optional;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -52,19 +53,23 @@ public class WeightedSelection {
      * @param weightFunction The function which supplies the weight of an object
      * @param extractor The extraction method
      */
-    public <T> T selectWeightedObject(
+    public <T> Optional<T> selectWeightedObject(
         List<T> objects, ToIntFunction<T> weightFunction, IntFunction<T> extractor
     ) {
+        if (objects.size() == 0) {
+            return Optional.empty();
+        }
+
         int selection = getSelection(objects, weightFunction);
 
         for (int i = 0; i < objects.size(); ++i) {
             selection -= weightFunction.applyAsInt(objects.get(i));
             if (selection < 0) {
-                return extractor.apply(i);
+                return Optional.of(extractor.apply(i));
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
     /**
@@ -77,17 +82,24 @@ public class WeightedSelection {
      * @param objects The list of objects to consider
      * @param weightFunction The function which supplies the weight of an object
      */
-    public <T> T selectWeightedObject(Collection<T> objects, ToIntFunction<T> weightFunction) {
+    public <T> Optional<T> selectWeightedObject(
+        Collection<T> objects,
+        ToIntFunction<T> weightFunction
+    ) {
+        if (objects.size() == 0) {
+            return Optional.empty();
+        }
+
         int selection = getSelection(objects, weightFunction);
 
         for (T object: objects) {
             selection -= weightFunction.applyAsInt(object);
             if (selection < 0) {
-                return object;
+                return Optional.of(object);
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
     private IntUnaryOperator randomGenerator;
