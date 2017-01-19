@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.tests;
+package org.teamfarce.mirch;
 
 import org.junit.Test;
 import org.teamfarce.mirch.ScenarioBuilder;
