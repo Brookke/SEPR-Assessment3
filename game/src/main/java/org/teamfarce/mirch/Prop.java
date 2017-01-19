@@ -10,8 +10,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Prop extends MapEntity {
     private ArrayList<Clue> clue;
-    private Vector2 roomPosition;
-    private Room currentRoom;
+    public Vector2 roomPosition;
+    public Room currentRoom;
     
     /**
      * Initialises the object
@@ -26,7 +26,6 @@ public class Prop extends MapEntity {
     public Prop(
         int id,
         int resourceIndex, 
-        DialogueBox dialogue,
         String name,
         String description,
         String filename,
@@ -35,12 +34,20 @@ public class Prop extends MapEntity {
         ArrayList<Clue> clue
     ) {
     	
-        super(id, resourceIndex, dialogue, name, description, filename);
+        super(id, resourceIndex, name, description, filename);
         this.clue = clue;
     	this.roomPosition = roomPosition;
     	this.currentRoom = currentRoom;
     	this.filename = filename;
     }
+    
+    public Prop(String filename, Room room, Vector2 roomPos){
+    	
+    	super(0, 0, "", "", filename);
+    	this.currentRoom = room;
+    	this.roomPosition = roomPos;
+    }
+
 
     /**
      * Returns a Clue ArrayList of all clues attached to this prop.

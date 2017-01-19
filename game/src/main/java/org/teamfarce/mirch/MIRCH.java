@@ -12,13 +12,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer.Random;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -26,12 +22,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MIRCH extends ApplicationAdapter{
@@ -72,8 +66,6 @@ public class MIRCH extends ApplicationAdapter{
 	private int characterWidth = 60;
 
 	private Sprite player;
-	private GameState state;
-	private Sprite character;
 	
 	private OrthographicCamera camera;
 	
@@ -160,10 +152,6 @@ public class MIRCH extends ApplicationAdapter{
 		return toReturn;
 	}
 	
-	private void drawMapControls(){
-		
-	}
-	
 	private int[] drawCharacterSelection(){
 		int[] values  = new int[3];
 		String backstory = "Intro";
@@ -209,7 +197,6 @@ public class MIRCH extends ApplicationAdapter{
 		drawDoors(doors, batch);
 		drawObjects(objects, batch);
 		drawCharacters(characters, batch);
-		drawMapControls();
 	}
 	
 	//Draws the clues list onto the screen
@@ -276,6 +263,8 @@ public class MIRCH extends ApplicationAdapter{
 		theStage.clear(); //clear the stage
 
 		genQuestionBase(theStage, suspect, player); //generate the base stage that we can the build off of
+		
+		
 		
 	}
 	
