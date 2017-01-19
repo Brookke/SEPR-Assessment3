@@ -3,6 +3,8 @@ package org.teamfarce.mirch;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Collections;
+import java.util.Collection;
+import java.util.function.ToIntFunction;
 import java.util.Random;
 import java.sql.SQLException;
 import org.teamfarce.mirch.ScenarioBuilderDatabase;
@@ -28,27 +30,23 @@ public class ScenarioBuilder {
         random = new Random();
     }
 
-    public ScenarioBuilderDatabase.RoomTemplate selectRoomTemplate(
-        ScenarioBuilderDatabase.RoomType roomType
-    ) throws ScenarioBuilderException {
-        // Get the total of the selection weights. This will be used to specify the range the
-        // random range selection will use.
-        int selectionWeightSum = roomType
-            .roomTemplates
+    public <T> T selectWeightedObject(Collection<T> objects, ToIntFunction<T> weightFunction)
+        throws ScenarioBuilderException
+    {
+        int selectionWeightSum = objects
             .stream()
-            .mapToInt(template -> template.selectionWeight)
+            .mapToInt(weightFunction)
             .sum();
-
         int selection = random.nextInt(selectionWeightSum);
 
-        for (ScenarioBuilderDatabase.RoomTemplate roomTemplate: roomType.roomTemplates) {
-            selection -= roomTemplate.selectionWeight;
+        for (T object: objects) {
+            selection -= weightFunction.applyAsInt(object);
             if (selection < 0) {
-                return roomTemplate;
+                return object;
             }
         }
 
-        throw new ScenarioBuilderException("Could not select a room template");
+        throw new ScenarioBuilderException("Could not select an object");
     }
 
     public GameSnapshot generateGame() throws SQLException, ScenarioBuilderException {
@@ -70,7 +68,9 @@ public class ScenarioBuilder {
             // Include the room types which are required. These are the room types which have a
             // minimum count larger than one.
             for (int i = 0; i < roomType.minCount; ++i) {
-                selectedRoomTemplates.add(selectRoomTemplate(roomType));
+                selectedRoomTemplates.add(selectWeightedObject(
+                    roomType.roomTemplates, x -> x.selectionWeight
+                ));
             }
 
             // Since we have included room templates of the current type minCount times, we can
@@ -99,7 +99,10 @@ public class ScenarioBuilder {
         while (selectedRoomTemplates.size() < targetRoomCount && selectedRoomTypes.size() > 0) {
             // Add the room template by selecting one from the room type "popped" off the selected
             // room types array.
-            selectedRoomTemplates.add(selectRoomTemplate(selectedRoomTypes.remove(0)));
+
+            selectedRoomTemplates.add(selectWeightedObject(
+                selectedRoomTypes.remove(0).roomTemplates, x -> x.selectionWeight
+            ));
         }
 
         return null;
