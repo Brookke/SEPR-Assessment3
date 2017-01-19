@@ -14,7 +14,7 @@ public class DialogueTree {
     /**
      * Initialiser function.
      */
-    DialogueTree(){
+    public DialogueTree(){
     }
 
     /**
