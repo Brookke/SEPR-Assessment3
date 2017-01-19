@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
  * @author Jacob Wunwin
  */
 public class Prop extends MapEntity {
-    private ArrayList<Clue> clue;
+    ArrayList<Clue> clue;
     public Vector2 roomPosition;
     public Room currentRoom;
     
