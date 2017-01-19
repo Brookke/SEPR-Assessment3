@@ -191,8 +191,8 @@ public class ScenarioBuilder {
         }
 
         // Get our means.
-        ScenarioBuilderDatabase.CharacterMeansLink selectedMeans =
-            selectWeightedObject(selectedMurderer.meansLink, x -> x.selectionWeight);
+        ScenarioBuilderDatabase.Means selectedMeans =
+            selectWeightedObject(selectedMurderer.meansLink, x -> x.selectionWeight).means;
 
         return null;
     }
