@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle;
@@ -47,12 +48,13 @@ public class MIRCH extends ApplicationAdapter{
 	private Stage journalNotepadStage;
 	
 	private Sprite journalSprite;
+	private Sprite dialogueSprite;
 	
-	private Stage questioningStage;
-		
+	private Stage questionIntentionStage;
+	private Stage questionStyleStage;
+	private Stage questionResponseStage;
 	private Stage controlStage;
 	
-	private Skin skin;
 	private Skin uiSkin;
 	
 	private Table cluesTable;
@@ -210,10 +212,6 @@ public class MIRCH extends ApplicationAdapter{
 		drawMapControls();
 	}
 	
-	private void drawNotebook(){
-		
-	}
-	
 	//Draws the clues list onto the screen
 	private void genJournalCluesStage(Table cluesTable, Journal journal){
 		cluesTable.reset(); //reset the table
@@ -244,7 +242,40 @@ public class MIRCH extends ApplicationAdapter{
 		qTable.row(); //end the row
 	}
 	
-	private void drawCharacterDialogue(){
+	private void genQuestionBase(Stage theStage, Suspect suspect, Sprite player){
+		//Create buttons and labels
+		Label characterName = new Label (suspect.name, uiSkin);
+		Image theSuspect = new Image(new Texture(Gdx.files.internal("assets/characters/" + suspect.filename)));
+		Image thePlayer = new Image (player.getTexture());
+		Label playerName = new Label ("You", uiSkin);
+
+
+		//textButton.setPosition(200, 200);
+		characterName.setPosition(830, 630);
+		characterName.setColor(Color.WHITE);
+		characterName.setFontScale(1.5f);
+		
+	
+		theSuspect.setPosition(770, 360);
+		theSuspect.scaleBy(2f);
+				
+		thePlayer.setPosition(210, 160);
+		thePlayer.scaleBy(2f);
+		
+		playerName.setPosition(280,  120);
+		playerName.setFontScale(1.5f);
+		
+		
+		theStage.addActor(characterName);
+		theStage.addActor(thePlayer);
+		theStage.addActor(theSuspect);
+		theStage.addActor(playerName);
+	}
+	
+	private void genIntentionScreen(Stage theStage, Suspect suspect, Sprite player){
+		theStage.clear(); //clear the stage
+
+		genQuestionBase(theStage, suspect, player); //generate the base stage that we can the build off of
 		
 	}
 	
@@ -259,8 +290,6 @@ public class MIRCH extends ApplicationAdapter{
 		music_background.setLooping(true);
 		music_background.play();
 	}
-	
-	
 
 	@Override
 	public void create() {
@@ -274,6 +303,8 @@ public class MIRCH extends ApplicationAdapter{
 		ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 		
 		Suspect tempSuspect = new Suspect("Devil_sprite.png", new Vector2(400, 400));
+		tempSuspect.name = "The Devil";
+		tempSuspect.description = "He is the devil";
 		
 		tempSuspects.add(tempSuspect);
 		
@@ -322,9 +353,7 @@ public class MIRCH extends ApplicationAdapter{
 		}
 		
 		doors = new ArrayList<RenderItem>();
-		for (Door door : gameSnapshot.getDoors()){
-			Texture newTexture = new Texture(Gdx.files.internal("assets/door.png"));
-			
+		for (Door door : gameSnapshot.getDoors()){			
 			Sprite newSprite = new Sprite(doorwayTexture);
 			float xScale = (door.endX - door.startX)/(newSprite.getWidth());
 			float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
@@ -361,7 +390,9 @@ public class MIRCH extends ApplicationAdapter{
 		//++INITIALISE GUI TEXTURES++++
 		controlStage = new Stage(); //initialise a new stage to hold control buttons
 		
-		questioningStage = new Stage();
+		questionIntentionStage = new Stage();
+		questionStyleStage = new Stage();
+		questionResponseStage = new Stage();
 		
 		uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_pretty/skin.json")); //load ui skin from assets
 		//uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_default/uiskin.json")); //load ui skin from assets
@@ -370,6 +401,10 @@ public class MIRCH extends ApplicationAdapter{
 		Texture journalBackground = new Texture(Gdx.files.internal("assets/Open_journal.png"));
 		journalSprite = new Sprite(journalBackground);
 		journalSprite.setPosition(220, 90);
+		
+		Texture dialogueBackground = new Texture(Gdx.files.internal("assets/dialogue_b.png"));
+		dialogueSprite = new Sprite(dialogueBackground);
+		dialogueSprite.setPosition(220, 90);
 				
 		//++++CREATE JOURNAL HOME STAGE++++
 		
@@ -383,7 +418,6 @@ public class MIRCH extends ApplicationAdapter{
 		journalLabel.setPosition(360, 600);
 		journalLabel.setColor(Color.BLACK);
 		journalLabel.setFontScale(1.5f);
-		
 		
 		cluesButton.setPosition(380, 400);
 		questionsButton.setPosition(350, 350);
@@ -512,7 +546,15 @@ public class MIRCH extends ApplicationAdapter{
 		journalNotepadStage.addActor(notepadLabel);
 		journalNotepadStage.addActor(notepad);
 		
-		//++++CREATE QUESTIONING STAGE++++
+		//++++CREATE QUESTION INTENTION STAGE++++
+		
+		
+		
+		//++++CREATE QUESTION STYLE STAGE++++
+		
+		
+		//++++CREATE QUESTION RESPONSE STAGE++++
+		
 		
 		
 		//Create an input multiplexer to take input from every stage
@@ -522,12 +564,13 @@ public class MIRCH extends ApplicationAdapter{
 		multiplexer.addProcessor(journalCluesStage);
 		multiplexer.addProcessor(journalNotepadStage);
 		multiplexer.addProcessor(controlStage);
-		multiplexer.addProcessor(questioningStage);
+		multiplexer.addProcessor(questionIntentionStage);
+		multiplexer.addProcessor(questionResponseStage);
+		multiplexer.addProcessor(questionStyleStage);
 		Gdx.input.setInputProcessor(multiplexer);
 		
 		System.out.println(rooms.size());
-		//drawCharacterSelection();
-	      
+		//drawCharacterSelection(); 	      
 	}
 	
 	@Override
@@ -636,7 +679,8 @@ public class MIRCH extends ApplicationAdapter{
 	    			  clicked = isObjectPressed(characters.get(i).sprite, touchPos);
 
 	    			  if (clicked){
-	    				  //handle touch input for character
+	    				  genIntentionScreen(questionIntentionStage, (Suspect) characters.get(i).object, player);
+	    				  gameSnapshot.setState(GameState.dialogueIntention);
 	    			  }
 	    			  i++;
 	    		  }
@@ -700,11 +744,23 @@ public class MIRCH extends ApplicationAdapter{
 	    	  journalNotepadStage.draw();
 	    	  
 	    	  
-	      } else if (state == GameState.dialogue){
+	      } else if (gameSnapshot.getState() == GameState.dialogueIntention){
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
-	      
-	      
+		      batch.begin();
+		      dialogueSprite.draw(batch);
+		      batch.end();
+		      questionIntentionStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		      questionIntentionStage.draw();
+		      
+	      } else if (gameSnapshot.getState() == GameState.dialogueStyle){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
+		      
+	      } else if (gameSnapshot.getState() == GameState.dialogueResponse){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
+		      
 	      }
 	      
 	      step++; //increment the step counter
