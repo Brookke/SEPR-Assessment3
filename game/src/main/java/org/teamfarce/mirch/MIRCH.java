@@ -28,6 +28,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+/**
+ * MIRCH is used to generate all graphics in the program. It initialises the scenario generator and game state
+ * and provides all interactions with the back end of the program.
+ * @author jacobwunwin
+ *
+ */
 public class MIRCH extends ApplicationAdapter{
 	private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
 	private Texture titleScreen;
@@ -71,6 +77,12 @@ public class MIRCH extends ApplicationAdapter{
 	
 	private Music music_background;
 	
+	/**
+	 * Detects whether a Sprite has been clicked by the mouse. Returns true if this is the case.
+	 * @param theSprite
+	 * @param mouse
+	 * @return
+	 */
 	private boolean isObjectPressed(Sprite theSprite, Vector3 mouse){
 		boolean toReturn = false;
 		
@@ -88,6 +100,11 @@ public class MIRCH extends ApplicationAdapter{
 		return toReturn;
 	}
 	
+	/**
+	 * Draws an array list of characters (suspects) onto the screen in their correctl locations
+	 * @param characters
+	 * @param batch
+	 */
 	private void drawCharacters(ArrayList<RenderItem> characters, SpriteBatch batch){
 		batch.begin();
 		for (RenderItem character : characters){
@@ -96,6 +113,11 @@ public class MIRCH extends ApplicationAdapter{
 		batch.end();
 	}
 	
+	/**
+	 * Draws an array list of props onto the screen in their correct locations
+	 * @param objects
+	 * @param batch
+	 */
 	private void drawObjects(ArrayList<RenderItem> objects, SpriteBatch batch){
 		batch.begin();
 		for (RenderItem object : objects){
@@ -104,6 +126,11 @@ public class MIRCH extends ApplicationAdapter{
 		batch.end();
 	}
 	
+	/**
+	 * Draws an array list of rooms onto the screen in their correct locations
+	 * @param rooms
+	 * @param batch
+	 */
 	private void drawRooms(ArrayList<RenderItem> rooms, SpriteBatch batch){
 		batch.begin();
 		for (RenderItem room : rooms){
@@ -112,6 +139,11 @@ public class MIRCH extends ApplicationAdapter{
 		batch.end();
 	}
 	
+	/**
+	 * Draws an array list of doors onto the screen in their correct location
+	 * @param doors
+	 * @param batch
+	 */
 	private void drawDoors(ArrayList<RenderItem> doors, SpriteBatch batch){
 		batch.begin();
 		for (RenderItem door : doors){
@@ -120,6 +152,12 @@ public class MIRCH extends ApplicationAdapter{
 		batch.end();
 	}
 	
+	/**
+	 * Returns a RenderItem referencing the current room that the player sprite is in.
+	 * @param rooms
+	 * @param player
+	 * @return
+	 */
 	private RenderItem getCurrentRoom(ArrayList<RenderItem> rooms, Sprite player){
 		for (RenderItem room : rooms){
 			
@@ -132,6 +170,12 @@ public class MIRCH extends ApplicationAdapter{
 		return new RenderItem(new Sprite(), new Object());
 	}
 	
+	/**
+	 * Returns true if the sprite is in a doorway.
+	 * @param doors
+	 * @param player
+	 * @return
+	 */
 	private boolean inDoor(ArrayList<Door> doors, Sprite player){
 		boolean toReturn = false;
 		System.out.println("Checking door");
@@ -152,6 +196,12 @@ public class MIRCH extends ApplicationAdapter{
 		return toReturn;
 	}
 	
+	/**
+	 * Controls the initial character traits selection at the start of the game.
+	 * Selection is made through a series of pop up windows.
+	 * Returns an aray of integers containing the trait selections.
+	 * @return
+	 */
 	private int[] drawCharacterSelection(){
 		int[] values  = new int[3];
 		String backstory = "Intro";
@@ -192,6 +242,14 @@ public class MIRCH extends ApplicationAdapter{
 		return values;
 	}
 	
+	/**
+	 * Draws the map onto the screen.
+	 * @param rooms
+	 * @param doors
+	 * @param objects
+	 * @param characters
+	 * @param batch
+	 */
 	private void drawMap(ArrayList<RenderItem> rooms, ArrayList<RenderItem> doors, ArrayList<RenderItem> objects, ArrayList<RenderItem> characters, SpriteBatch batch){
 		drawRooms(rooms, batch);
 		drawDoors(doors, batch);
@@ -199,28 +257,27 @@ public class MIRCH extends ApplicationAdapter{
 		drawCharacters(characters, batch);
 	}
 	
-	//Draws the clues list onto the screen
+	/**
+	 * Adds the scrollable list of clues to the cluesTable UI item
+	 * @param cluesTable
+	 * @param journal
+	 */
 	private void genJournalCluesStage(Table cluesTable, Journal journal){
 		cluesTable.reset(); //reset the table
-		//System.out.println(journal.getProps().size());
-		//loop through each prop in the journal, adding it to the table
+
 		for (Prop prop : journal.getProps()){
 			Label label = new Label (prop.name + " : " + prop.description, uiSkin);
 			cluesTable.add(label).width(280f); //set a maximum width on the row of 300 pixels
 			cluesTable.row(); //end the row
 		}
-		
-		/*String reallyLongString = "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
-		        + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
-		        + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n";
-		
-		Label clabel = new Label(reallyLongString, uiSkin);
-		
-		cTable.add(clabel);
-		cTable.row();*/
 	}
 	
-	
+	/**
+	 * Adds the scrollable conversation text collected from conversations with characters
+	 * to the questionTable UI item
+	 * @param qTable
+	 * @param journal
+	 */
 	private void genJournalQuestionsStage(Table qTable, Journal journal){
 		qTable.reset(); //reset the table
 
@@ -229,6 +286,12 @@ public class MIRCH extends ApplicationAdapter{
 		qTable.row(); //end the row
 	}
 	
+	/**
+	 * Generates the base stage for the questions screen. This includes character images and names.
+	 * @param theStage
+	 * @param suspect
+	 * @param player
+	 */
 	private void genQuestionBase(Stage theStage, Suspect suspect, Sprite player){
 		//Create buttons and labels
 		Label characterName = new Label (suspect.name, uiSkin);
@@ -259,41 +322,70 @@ public class MIRCH extends ApplicationAdapter{
 		theStage.addActor(playerName);
 	}
 	
+	/**
+	 * Generates the question intention UI stage 
+	 * @param theStage
+	 * @param suspect
+	 * @param player
+	 */
 	private void genIntentionScreen(Stage theStage, Suspect suspect, Sprite player){
 		theStage.clear(); //clear the stage
 
-		genQuestionBase(theStage, suspect, player); //generate the base stage that we can the build off of
-		
-		
-		
+		genQuestionBase(theStage, suspect, player); //generate the base stage that we can the build off of	
 	}
 	
+	/**
+	 * Generates the question style selection screen UI stage
+	 * @param theStage
+	 * @param suspect
+	 * @param player
+	 */
 	private void genStyleScreen(Stage theStage, Suspect suspect, Sprite player){
 		
 	}
 	
+	/**
+	 * Generates the question response screen UI stage
+	 * @param theStage
+	 * @param suspect
+	 * @param player
+	 */
 	private void genResponseScreen(Stage theStage, Suspect suspect, Sprite player){
 
 	}
 	
+	/**
+	 * Creates a pop up window with text announcing that the user has found the referenced prop
+	 * @param prop
+	 */
 	private void drawItemDialogue(Prop prop){
 		String output;
 		output = "You find: '" + prop.description + "'. It has been added to your Journal.";
 		JOptionPane.showMessageDialog(null,output, prop.name,JOptionPane.PLAIN_MESSAGE);
 	}
 	
+	/**
+	 * Creates a pop up window with text announcing that the user has already found the referenced prop
+	 * @param prop
+	 */
 	private void drawItemAlreadyFoundDialogue(Prop prop){
 		String output;
 		output = "You find: '" + prop.description + "'. You've already found this item.";
 		JOptionPane.showMessageDialog(null,output, prop.name,JOptionPane.PLAIN_MESSAGE);
 	}
 	
+	/**
+	 * Plays music in the background
+	 */
 	private void playMusic(){
 		music_background = Gdx.audio.newMusic(Gdx.files.internal("assets/music/Minima.mp3"));
 		music_background.setLooping(true);
 		music_background.play();
 	}
 
+	/**
+	 * Initialises all variables in the game and sets up the game for play.
+	 */
 	@Override
 	public void create() {
 		//++++INITIALISE THE GAME++++
@@ -355,6 +447,7 @@ public class MIRCH extends ApplicationAdapter{
 			characters.add(new RenderItem(newSprite, (Suspect) suspect));
 		}
 		
+		//Generate an ArrayList of RenderItems to store every door in the gameSnapshot
 		doors = new ArrayList<RenderItem>();
 		for (Door door : gameSnapshot.getDoors()){			
 			Sprite newSprite = new Sprite(doorwayTexture);
@@ -368,12 +461,13 @@ public class MIRCH extends ApplicationAdapter{
 			//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
 			doors.add(new RenderItem(newSprite, door));
 		}
-
+		
+		//render the title screen texture
 		titleScreen = new Texture(Gdx.files.internal("assets/Detective_sprite.png"));
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 1366, 768);
+		camera = new OrthographicCamera(); //set up the camera as an Orthographic camera
+		camera.setToOrtho(false, 1366, 768); //set the size of the window
 
-		batch = new SpriteBatch();
+		batch = new SpriteBatch(); //create a new sprite batch - used to display sprites onto the screen
 		
 		//initialise the player sprite
 		player = new Sprite(titleScreen);
@@ -386,13 +480,14 @@ public class MIRCH extends ApplicationAdapter{
 		journalNotepadStage = new Stage();
 		
 		//starts music "Minima.mp3" - Kevin Macleod
-		if (playAnnoyingMusic){
+		if (playAnnoyingMusic){ 
 			playMusic();
 		}
 		
 		//++INITIALISE GUI TEXTURES++++
 		controlStage = new Stage(); //initialise a new stage to hold control buttons
 		
+		//Creates stages to store question related UI
 		questionIntentionStage = new Stage();
 		questionStyleStage = new Stage();
 		questionResponseStage = new Stage();
@@ -462,19 +557,22 @@ public class MIRCH extends ApplicationAdapter{
 		clueLabel.setFontScale(1.5f);
 
 		clueLabel.setPosition(750, 600);
-
+		
+		//create a new table to store clues
 		cluesTable = new Table(uiSkin);		
 		
+		//place the clues table in a scroll pane
 	    Table container = new Table(uiSkin);
 	    ScrollPane scroll = new ScrollPane(cluesTable, uiSkin);
 
 	    
 	    scroll.layout();
+	    //add the scroll pane to an external container
 	    container.add(scroll).width(300f).height(400f);
 	    container.row();
-	    container.setPosition(800, 360);
+	    container.setPosition(800, 360); //set the position of the extenal container
 	    
-
+	    //add actors to the clues stage
 		journalCluesStage.addActor(clueLabel);
 		journalCluesStage.addActor(container);
 		
@@ -549,17 +647,6 @@ public class MIRCH extends ApplicationAdapter{
 		journalNotepadStage.addActor(notepadLabel);
 		journalNotepadStage.addActor(notepad);
 		
-		//++++CREATE QUESTION INTENTION STAGE++++
-		
-		
-		
-		//++++CREATE QUESTION STYLE STAGE++++
-		
-		
-		//++++CREATE QUESTION RESPONSE STAGE++++
-		
-		
-		
 		//Create an input multiplexer to take input from every stage
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(journalStage);
@@ -576,22 +663,25 @@ public class MIRCH extends ApplicationAdapter{
 		//drawCharacterSelection(); 	      
 	}
 	
+	/**
+	 * The render function renders all items to the screen.
+	 */
 	@Override
 	public void render() {
 	      Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
 	      Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	      
 	      batch.setProjectionMatrix(camera.combined);
-	      	      
 	      
 	      //Draw the map here
 	      if (gameSnapshot.getState() == GameState.map){
+	    	  //store the players current room and position, so that we can later check that the player has not stepped over the room bounds
 	    	  RenderItem currentRoom = getCurrentRoom(rooms, player); //find the current room that the player is in
 	    	  Float currentX = player.getX();
 	    	  Float currentY = player.getY();
 	    	  
 	    	  //System.out.println(player.getX());
-	    	  // process keyboard touch   	  
+	    	  // process keyboard touch and translate the player  	  
 	    	  if(Gdx.input.isKeyPressed(Input.Keys.W)){
 	    		  player.translate(0, move);
 	    	  } 
@@ -605,8 +695,10 @@ public class MIRCH extends ApplicationAdapter{
 	    		  player.translate(move, 0);
 	    	  }
 	    	  
-	    	  RenderItem newRoom = getCurrentRoom(rooms, player);
+	    	  RenderItem newRoom = getCurrentRoom(rooms, player); //find the new current room of the player
 	    	  
+	    	  //if we are no longer in the previous room and haven't entered a door, we move the player back
+	    	  //to the old position
 	    	  if (!currentRoom.equals(newRoom) && !inDoor(gameSnapshot.getDoors(), player)){
 	    		  player.setX(currentX);
 	    		  player.setY(currentY); 
@@ -615,15 +707,18 @@ public class MIRCH extends ApplicationAdapter{
 	    	  java.util.Random random = new java.util.Random();
 	    	  System.out.println(random.nextInt(10));
 	    	  
-	    	  //loop through each character, moving them randomly
+	    	  //loop through each suspect character, moving them randomly
 	    	  for (RenderItem character: characters){
 	    		  if ((step % moveStep) == 0){
 	    			  System.out.println("Updating move step");
-	    			  if (random.nextInt(2) >= 1){
+	    			  //Carries out a probability check to determine whether the character should move or stay stationary
+	    			  //This gives the characters a 'meandering' look
+	    			  if (random.nextInt(2) >= 1){ 
+	    				  //calculate the new move vector for the character
 		    			  float randX =  (float) random.nextInt((int) characterMove * 2 + 1) - characterMove;
 			    		  float randY = (float) random.nextInt((int) characterMove * 2 + 1) - characterMove;
-			    		  System.out.println(randX);
-		    			  Suspect suspect = (Suspect) character.object;
+			    		  System.out.println(randX); 
+		    			  Suspect suspect = (Suspect) character.object; //store the characters current room
 		    			  suspect.moveStep = new Vector2(randX, randY);
 		    			  character.object = suspect;
 	    			  } else {
@@ -634,17 +729,20 @@ public class MIRCH extends ApplicationAdapter{
 	    		  }
 	    		  
 	    		  //Check to ensure character is still in room
-    			  Suspect suspect = (Suspect) character.object;
+    			  Suspect suspect = (Suspect) character.object; //retrieve the SUspect object from the renderItem
 
 	    		  
 	    		  float thisX = character.sprite.getX();
 	    		  float thisY = character.sprite.getY();
+	    		  //find the objects current room
 	    		  RenderItem thisRoom = getCurrentRoom(rooms, character.sprite);
 					
-	    		  character.sprite.translate(suspect.moveStep.x, suspect.moveStep.y);
+	    		  character.sprite.translate(suspect.moveStep.x, suspect.moveStep.y); //translate the character
 	    		  
+	    		  //find the characters new room
 	    		  RenderItem thisNextRoom = getCurrentRoom(rooms, character.sprite);
 	    		  
+	    		  //check if the character has illegally left the rooms bounds, if it has move it back to its previous location
 	    		  if (!thisRoom.equals(thisNextRoom) && !inDoor(gameSnapshot.getDoors(), character.sprite)){
 		    		  character.sprite.setX(thisX);
 		    		  character.sprite.setY(thisY); 
@@ -659,38 +757,41 @@ public class MIRCH extends ApplicationAdapter{
 	    		  touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 	    		  camera.unproject(touchPos);
 
-	    		  boolean clicked = false;
+	    		  boolean clicked = false; //stores whether an object has been clicked
 	    		  int length = objects.size();
 	    		  int i = 0;
 	    		  System.out.println(length);
-	    		  while (!clicked && (i < length)){
-	    			  clicked = isObjectPressed(objects.get(i).sprite, touchPos);
-
-	    			  if (clicked){
-	    				  //handle touch input for objects
-	    				  System.out.println("Object clicked!");
-	    				  //add the prop to the journal
-	    				  if (gameSnapshot.journal.getProps().indexOf((Prop) objects.get(i).object) == -1){
-		    				  drawItemDialogue((Prop) objects.get(i).object);
-	    					  gameSnapshot.journal.addProp((Prop) objects.get(i).object); 
-	    					  gameSnapshot.incrementTime();
-	    				  } else {
-		    				  drawItemAlreadyFoundDialogue((Prop) objects.get(i).object);
-		    				  gameSnapshot.incrementTime();
-	    				  }
-	    			  }
-	    			  i++;
-	    		  }
-
+	    		  //loop while no object has been clicked - this prevents the clicking of multiple items that may be overlaying eachother
 	    		  length = characters.size();
 	    		  i = 0;
 	    		  while (!clicked && (i < length)){
-	    			  clicked = isObjectPressed(characters.get(i).sprite, touchPos);
-
+	    			  clicked = isObjectPressed(characters.get(i).sprite, touchPos); //characters are drawn on top so check them first
+	    			  
+	    			  //if a character is clicked, generate the question intention screen for the character and change state so that the
+	    			  //dialogue intention screen can be displayed
 	    			  if (clicked){
 	    				  genIntentionScreen(questionIntentionStage, (Suspect) characters.get(i).object, player);
-	    				  gameSnapshot.setState(GameState.dialogueIntention);
-	    				  gameSnapshot.incrementTime();
+	    				  gameSnapshot.setState(GameState.dialogueIntention); 
+	    				  gameSnapshot.incrementTime(); //increment the pseudotime counter as an action has been made
+	    			  }
+	    			  i++;
+	    		  }
+	    		  
+	    		  while (!clicked && (i < length)){
+	    			  clicked = isObjectPressed(objects.get(i).sprite, touchPos);
+	    			  if (clicked){
+	    				  //handle touch input for objects, they are drawn underneath characters so check them next
+	    				  System.out.println("Object clicked!");
+	    				  //if the object has been clicked and isn't already in the journal, add it to the journal
+	    				  if (gameSnapshot.journal.getProps().indexOf((Prop) objects.get(i).object) == -1){
+		    				  drawItemDialogue((Prop) objects.get(i).object);
+	    					  gameSnapshot.journal.addProp((Prop) objects.get(i).object); 
+	    					  gameSnapshot.incrementTime(); //increment the pseudotime counter as an action has been made
+	    				  } else {
+	    					  //otherwise we report to the user that the object is already in the journal
+		    				  drawItemAlreadyFoundDialogue((Prop) objects.get(i).object);
+		    				  gameSnapshot.incrementTime(); //increment the pseudotime counter as an action has been made
+	    				  }
 	    			  }
 	    			  i++;
 	    		  }
@@ -711,7 +812,7 @@ public class MIRCH extends ApplicationAdapter{
 	      } else if (gameSnapshot.getState() == GameState.journalHome){
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
-	    	  controlStage.draw();
+	    	  controlStage.draw(); //draw the global control buttons
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
 	    	  batch.end();
@@ -722,11 +823,11 @@ public class MIRCH extends ApplicationAdapter{
 		      camera.update();
 	    	  controlStage.draw();
 	    	  batch.begin();
-	    	  journalSprite.draw(batch);
+	    	  journalSprite.draw(batch); //draw the journal background
 	    	  batch.end();
 	    	  journalStage.draw();
-	    	  genJournalCluesStage(cluesTable, gameSnapshot.journal);
-	    	  journalCluesStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+	    	  genJournalCluesStage(cluesTable, gameSnapshot.journal); //generate the clues table
+	    	  journalCluesStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f)); //draw the clues table to the screen
 	    	  journalCluesStage.draw();
 	    	  
 	    	  
@@ -737,9 +838,9 @@ public class MIRCH extends ApplicationAdapter{
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
 	    	  batch.end();
-	    	  genJournalQuestionsStage(questionsTable, gameSnapshot.journal);
+	    	  genJournalQuestionsStage(questionsTable, gameSnapshot.journal); //generate the interview questions table
 	    	  journalStage.draw();
-	    	  journalQuestionsStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+	    	  journalQuestionsStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f)); //draw the questions table to the screen
 	    	  journalQuestionsStage.draw();
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.journalNotepad){
