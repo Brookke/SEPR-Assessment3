@@ -266,7 +266,7 @@ public class MIRCH extends ApplicationAdapter{
 		tempProps.add(prop);
 
 		ArrayList<Door> tempDoors = new ArrayList<Door>();
-		tempDoors.add(new Door(250, 400, 350, 550));
+		tempDoors.add(new Door(250, 400, 350, 550, "door.png"));
 		
 		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, tempDoors); //generate the GameSnapshot object
 		
@@ -320,6 +320,8 @@ public class MIRCH extends ApplicationAdapter{
 		Texture journalBackground = new Texture(Gdx.files.internal("assets/journal.png"));
 		journalSprite = new Sprite(journalBackground);
 		journalSprite.setPosition(220, 90);
+		
+		doorwayTexture = new Texture(Gdx.files.internal("assets/door.png"));
 		
 		//++++CREATE JOURNAL HOME STAGE++++
 		
