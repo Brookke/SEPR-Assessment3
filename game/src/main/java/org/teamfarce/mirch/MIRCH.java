@@ -274,6 +274,12 @@ public class MIRCH extends ApplicationAdapter{
 		JOptionPane.showMessageDialog(null,output, prop.name,JOptionPane.PLAIN_MESSAGE);
 	}
 	
+	private void drawItemAlreadyFoundDialogue(Prop prop){
+		String output;
+		output = "You find: '" + prop.description + "'. You've already found this item.";
+		JOptionPane.showMessageDialog(null,output, prop.name,JOptionPane.PLAIN_MESSAGE);
+	}
+	
 	private void playMusic(){
 		music_background = Gdx.audio.newMusic(Gdx.files.internal("assets/music/Minima.mp3"));
 		music_background.setLooping(true);
@@ -655,9 +661,13 @@ public class MIRCH extends ApplicationAdapter{
 	    			  if (clicked){
 	    				  //handle touch input for objects
 	    				  System.out.println("Object clicked!");
-	    				  drawItemDialogue((Prop) objects.get(i).object);
 	    				  //add the prop to the journal
-	    				  gameSnapshot.journal.addProp((Prop) objects.get(i).object); 
+	    				  if (gameSnapshot.journal.getProps().indexOf((Prop) objects.get(i).object) == -1){
+		    				  drawItemDialogue((Prop) objects.get(i).object);
+	    					  gameSnapshot.journal.addProp((Prop) objects.get(i).object); 
+	    				  } else {
+		    				  drawItemAlreadyFoundDialogue((Prop) objects.get(i).object);
+	    				  }
 	    			  }
 	    			  i++;
 	    		  }
