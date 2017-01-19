@@ -12,6 +12,8 @@ OUTPUT_FILES = [
 ]
 
 ROOT_DIR = "https://teamfarce.github.io/MIRCH/"
+#ROOT_DIR = "/"
+
 
 TEMPLATE_DIR = "./templates/"
 OUTPUT_DIR = "../docs/"
@@ -43,7 +45,7 @@ if __name__ == "__main__":
     for rendered_buffer, output_filename in zip(rendered_output, OUTPUT_FILES):
         # Attach the root directory to write into to the filename.
         full_output_filename = os.path.join(OUTPUT_DIR, output_filename)
-        os.makedirs(os.path.dirname(full_output_filename))
+        os.makedirs(os.path.dirname(full_output_filename), exist_ok = True)
         with open(full_output_filename, "wt") as f:
             f.write(rendered_buffer)
 
@@ -59,7 +61,7 @@ if __name__ == "__main__":
         for child_directory in child_directories:
             new_dir = os.path.join(OUTPUT_DIR, root_relative_walk_directory, child_directory)
             try:
-                os.makedirs(new_dir)
+                os.makedirs(new_dir, exist_ok = True)
             except:
                 pass
 
