@@ -102,6 +102,18 @@ public class MIRCH extends ApplicationAdapter{
 		batch.end();
 	}
 	
+	private RenderItem getCurrentRoom(ArrayList<RenderItem> rooms, Sprite player){
+		for (RenderItem room : rooms){
+			
+			if ((player.getX() > room.sprite.getX()) && (player.getX() + player.getWidth() < room.sprite.getX() + room.sprite.getWidth())){
+				if ((player.getY()> room.sprite.getY()) && (player.getY() + player.getHeight() < room.sprite.getY() + room.sprite.getHeight())){
+					return room;
+				}
+			}
+		}
+		return null;
+	}
+	
 	private void drawMapControls(){
 		
 	}
@@ -251,8 +263,7 @@ public class MIRCH extends ApplicationAdapter{
 		
 		//initialise the player sprite
 		player = new Sprite(titleScreen);
-		player.setPosition(100, 100);
-		player.setScale(0.25f); //scale the sprite
+		player.setPosition(250, 250);
 		
 		//initialise journal stages
 		journalStage = new Stage();
@@ -410,7 +421,13 @@ public class MIRCH extends ApplicationAdapter{
 	    	  batch.end();
 	    	  
 	    	  controlStage.draw();
-
+	    	  
+	    	  RenderItem currentRoom = getCurrentRoom(rooms, player); //find the current room that the player is in
+	    	  Float currentX = player.getX();
+	    	  Float currentY = player.getY();
+	    	  
+	    	  System.out.println(currentRoom.sprite.getX());
+	    	  System.out.println(player.getX());
 	    	  // process keyboard touch   	  
 	    	  if(Gdx.input.isKeyPressed(Input.Keys.W)){
 	    		  player.translate(0, move);
@@ -424,6 +441,15 @@ public class MIRCH extends ApplicationAdapter{
 	    	  if (Gdx.input.isKeyPressed(Input.Keys.D)){
 	    		  player.translate(move, 0);
 	    	  }
+	    	  
+	    	  RenderItem newRoom = getCurrentRoom(rooms, player);
+	    	  
+	    	  if (!currentRoom.equals(newRoom)){
+	    		  player.setX(currentX);
+	    		  player.setY(currentY);
+	    	  }
+	    	  
+	    	 
 
 
 
