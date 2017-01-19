@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -41,7 +42,7 @@ public class MIRCH extends ApplicationAdapter{
 	private Stage journalStage;
 	private Stage journalCluesStage;
 	private Stage journalQuestionsStage;
-	private Stage journalScratchpad;
+	private Stage journalNotepadStage;
 	
 	private Sprite journalSprite;
 	
@@ -340,6 +341,7 @@ public class MIRCH extends ApplicationAdapter{
 		journalStage = new Stage();
 		journalCluesStage = new Stage();
 		journalQuestionsStage = new Stage();
+		journalNotepadStage = new Stage();
 		
 		//++INITIALISE GUI TEXTURES++++
 		controlStage = new Stage(); //initialise a new stage to hold control buttons
@@ -349,7 +351,7 @@ public class MIRCH extends ApplicationAdapter{
 		uiSkin = new Skin(Gdx.files.internal("assets/skins/uiskin.json")); //load ui skin from assets
 		
 		//create a sprite for the journal background
-		Texture journalBackground = new Texture(Gdx.files.internal("assets/journal.png"));
+		Texture journalBackground = new Texture(Gdx.files.internal("assets/Open_journal.png"));
 		journalSprite = new Sprite(journalBackground);
 		journalSprite.setPosition(220, 90);
 				
@@ -358,6 +360,7 @@ public class MIRCH extends ApplicationAdapter{
 		//Create buttons and labels
 		final TextButton cluesButton = new TextButton("Clues", uiSkin);
 		final TextButton questionsButton = new TextButton("Interview Log", uiSkin);
+		final TextButton notepadButton = new TextButton("Notepad", uiSkin);
 		Label journalLabel = new Label ("Journal", uiSkin);
 		
 		//textButton.setPosition(200, 200);
@@ -368,9 +371,11 @@ public class MIRCH extends ApplicationAdapter{
 		
 		cluesButton.setPosition(380, 400);
 		questionsButton.setPosition(350, 350);
+		notepadButton.setPosition(370, 300);
 		//journalStage.addActor(textButton);
 		journalStage.addActor(cluesButton);
 		journalStage.addActor(journalLabel);
+		journalStage.addActor(notepadButton);
 		journalStage.addActor(questionsButton);
 		
 		// Add a listener to the clues button
@@ -386,6 +391,14 @@ public class MIRCH extends ApplicationAdapter{
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Questions button was pressed");
 				gameSnapshot.setState(GameState.journalQuestions);
+			}
+		});
+		
+		//add a listener for the show interview log button
+		notepadButton.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				System.out.println("Notepad button was pressed");
+				gameSnapshot.setState(GameState.journalNotepad);
 			}
 		});
 		
@@ -465,6 +478,24 @@ public class MIRCH extends ApplicationAdapter{
 			}
 		});
 		
+		//++++CREATE JOURNAL NOTEPAD STAGE++++
+		
+		//Create labels
+		Label notepadLabel = new Label("Notepad", uiSkin);
+
+		notepadLabel.setColor(Color.BLACK);
+		notepadLabel.setFontScale(1.5f);
+
+		notepadLabel.setPosition(720, 600);
+		TextArea notepad = new TextArea("", uiSkin);
+		notepad.setX(650);
+		notepad.setY(150);
+		notepad.setWidth(290);
+		notepad.setHeight(400);
+		
+		journalNotepadStage.addActor(notepadLabel);
+		journalNotepadStage.addActor(notepad);
+		
 		//++++CREATE QUESTIONING STAGE++++
 		
 		
@@ -473,6 +504,7 @@ public class MIRCH extends ApplicationAdapter{
 		multiplexer.addProcessor(journalStage);
 		multiplexer.addProcessor(journalQuestionsStage);
 		multiplexer.addProcessor(journalCluesStage);
+		multiplexer.addProcessor(journalNotepadStage);
 		multiplexer.addProcessor(controlStage);
 		multiplexer.addProcessor(questioningStage);
 		Gdx.input.setInputProcessor(multiplexer);
@@ -640,6 +672,16 @@ public class MIRCH extends ApplicationAdapter{
 	    	  journalQuestionsStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 	    	  journalQuestionsStage.draw();
 	    	  
+	      } else if (gameSnapshot.getState() == GameState.journalNotepad){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
+	    	  controlStage.draw();
+	    	  batch.begin();
+	    	  journalSprite.draw(batch);
+	    	  batch.end();
+	    	  journalStage.draw();
+	    	  journalNotepadStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+	    	  journalNotepadStage.draw();
 	    	  
 	    	  
 	      } else if (state == GameState.dialogue){
