@@ -34,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MIRCH extends ApplicationAdapter{
+	private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
 	private Texture titleScreen;
 	private Texture doorwayTexture;
 	private SpriteBatch batch;
@@ -353,15 +354,17 @@ public class MIRCH extends ApplicationAdapter{
 		journalNotepadStage = new Stage();
 		
 		//starts music "Minima.mp3" - Kevin Macleod
-		playMusic();
+		if (playAnnoyingMusic){
+			playMusic();
+		}
 		
 		//++INITIALISE GUI TEXTURES++++
 		controlStage = new Stage(); //initialise a new stage to hold control buttons
 		
 		questioningStage = new Stage();
 		
-		//uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_pretty/skin.json")); //load ui skin from assets
-		uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_default/uiskin.json")); //load ui skin from assets
+		uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_pretty/skin.json")); //load ui skin from assets
+		//uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_default/uiskin.json")); //load ui skin from assets
 
 		//create a sprite for the journal background
 		Texture journalBackground = new Texture(Gdx.files.internal("assets/Open_journal.png"));
@@ -500,7 +503,7 @@ public class MIRCH extends ApplicationAdapter{
 		notepadLabel.setFontScale(1.5f);
 
 		notepadLabel.setPosition(720, 600);
-		TextArea notepad = new TextArea("", uiSkin);
+		TextArea notepad = new TextArea("Here are my notes about a particularly develish crime...", uiSkin);
 		notepad.setX(650);
 		notepad.setY(150);
 		notepad.setWidth(290);
