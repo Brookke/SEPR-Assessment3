@@ -111,7 +111,27 @@ public class MIRCH extends ApplicationAdapter{
 				}
 			}
 		}
-		return null;
+		return new RenderItem(new Sprite(), new Object());
+	}
+	
+	private boolean inDoor(ArrayList<Door> doors, Sprite player){
+		boolean toReturn = false;
+		System.out.println("Checking door");
+		for (Door door: doors){
+			System.out.println(door.startX);
+			System.out.println(player.getX());
+			System.out.println(door.endX);
+			if ((player.getX() > door.startX) && (player.getX() < door.endX)){
+				System.out.println("in x");
+				
+				if ((player.getY() > door.startY) && (player.getY() < door.endY)){
+					toReturn = true;
+					System.out.println("in y");
+				}
+			}
+		}
+		
+		return toReturn;
 	}
 	
 	private void drawMapControls(){
@@ -225,13 +245,16 @@ public class MIRCH extends ApplicationAdapter{
 		
 		ArrayList<Room> tempRooms = new ArrayList<Room>();
 		
+		Room temp2 = new Room("Classroom_2.png", new Vector2(200, 490));
+		tempRooms.add(temp2);
+		
 		Room temp1 = new Room("Classroom_1.png", new Vector2(200, 200)); //generate a sample room for testign purposes
 		tempRooms.add(temp1);
 		
-		Room temp2 = new Room("Classroom_2.png", new Vector2(650, 200));
-		tempRooms.add(temp2);
+		ArrayList<Door> tempDoors = new ArrayList<Door>();
+		tempDoors.add(new Door(250, 400, 350, 550));
 		
-		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms); //generate the GameSnapshot object
+		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, tempDoors); //generate the GameSnapshot object
 		
 		//generate RenderItems from each room
 		rooms = new ArrayList<RenderItem>();
@@ -409,7 +432,7 @@ public class MIRCH extends ApplicationAdapter{
 	public void render() {
 	      Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
 	      Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	      camera.position.set (new Vector3(player.getX(), player.getY(), 1));
+	      camera.position.set (new Vector3(player.getX(), player.getY(), 1)); //move the camera to follow the player
 	      camera.update();
 	      batch.setProjectionMatrix(camera.combined);
 	      	      
@@ -427,8 +450,7 @@ public class MIRCH extends ApplicationAdapter{
 	    	  Float currentX = player.getX();
 	    	  Float currentY = player.getY();
 	    	  
-	    	  System.out.println(currentRoom.sprite.getX());
-	    	  System.out.println(player.getX());
+	    	  //System.out.println(player.getX());
 	    	  // process keyboard touch   	  
 	    	  if(Gdx.input.isKeyPressed(Input.Keys.W)){
 	    		  player.translate(0, move);
@@ -445,9 +467,9 @@ public class MIRCH extends ApplicationAdapter{
 	    	  
 	    	  RenderItem newRoom = getCurrentRoom(rooms, player);
 	    	  
-	    	  if (!currentRoom.equals(newRoom)){
+	    	  if (!currentRoom.equals(newRoom) && !inDoor(gameSnapshot.getDoors(), player)){
 	    		  player.setX(currentX);
-	    		  player.setY(currentY);
+	    		  player.setY(currentY); 
 	    	  }
 	    	  
 	    	 
