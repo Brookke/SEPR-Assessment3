@@ -19,7 +19,7 @@ STATIC_DIR = "./static/"
 
 if __name__ == "__main__":
     # Change the current directory to the directory this script resides in
-    os.chdir(os.path.dirname(__file__))
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     # Get a jinja environment to load templates from the template directory.
     env = Environment(loader = FileSystemLoader(TEMPLATE_DIR))
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     for rendered_buffer, output_filename in zip(rendered_output, OUTPUT_FILES):
         # Attach the root directory to write into to the filename.
         full_output_filename = os.path.join(OUTPUT_DIR, output_filename)
-        os.makedirs(os.path.dirname(full_output_filename), exist_ok = True)
+        os.makedirs(os.path.dirname(full_output_filename))
         with open(full_output_filename, "wt") as f:
             f.write(rendered_buffer)
 
@@ -58,7 +58,10 @@ if __name__ == "__main__":
         # For all of the child directories, create them in the output directory.
         for child_directory in child_directories:
             new_dir = os.path.join(OUTPUT_DIR, root_relative_walk_directory, child_directory)
-            os.makedirs(new_dir, exist_ok = True)
+            try:
+                os.makedirs(new_dir)
+            except:
+                pass
 
         # For all of the child files, copy them into the output directory.
         for child_file in child_files:

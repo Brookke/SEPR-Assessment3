@@ -16,17 +16,5 @@ public class DialogueOption {
         this.text = text;
 	}
 	
-	/**
-	 * given a particular gamestate return an option for dialogue???
-	 * @param gamestate
-	 * @return dialoguebox
-	 */
-	public DialogueBox action(GameState gamestate) {
-		if(gamestate == GameState.dialogue){
-			ArrayList<DialogueOption> dOps = new ArrayList<DialogueOption>();
-			dOps.add(this);
-			return new DialogueBox(dOps);
-		}
-	}
 
 }

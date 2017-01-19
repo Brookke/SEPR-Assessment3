@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Base class to represent different map entities.
  *
- * @author Jacob Wunwin
+ * @author Jacob W Unwin
  */
 public class MapEntity {
     protected int id;
