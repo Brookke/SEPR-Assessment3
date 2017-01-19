@@ -42,6 +42,8 @@ public class MIRCH extends ApplicationAdapter{
 	
 	private Sprite journalSprite;
 	
+	private Stage questioningStage;
+		
 	private Stage controlStage;
 	
 	private Skin skin;
@@ -236,12 +238,10 @@ public class MIRCH extends ApplicationAdapter{
 		//++++INITIALISE THE GAME++++
 		//create temporary required items, eventually ScenarioBuilder will generate these
 		ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
-		ArrayList<Prop> tempProps = new ArrayList<Prop>();
 		
-		Prop prop = new Prop("Axe.png", new Vector2(50, 50)); //generate a sample prop for testing purposes
-		prop.description = "A bloody axe...";
-		prop.name = "Axe";
-		tempProps.add(prop);
+		Suspect tempSuspect = new Suspect("Devil_sprite.png", new Vector2(400, 400));
+		
+		tempSuspects.add(tempSuspect);
 		
 		ArrayList<Room> tempRooms = new ArrayList<Room>();
 		
@@ -250,7 +250,14 @@ public class MIRCH extends ApplicationAdapter{
 		
 		Room temp1 = new Room("Classroom_1.png", new Vector2(200, 200)); //generate a sample room for testign purposes
 		tempRooms.add(temp1);
-		
+
+		ArrayList<Prop> tempProps = new ArrayList<Prop>();
+
+		Prop prop = new Prop("Axe.png", temp1, new Vector2(50, 50)); //generate a sample prop for testing purposes
+		prop.description = "A bloody axe...";
+		prop.name = "Axe";
+		tempProps.add(prop);
+
 		ArrayList<Door> tempDoors = new ArrayList<Door>();
 		tempDoors.add(new Door(250, 400, 350, 550));
 		
@@ -268,13 +275,15 @@ public class MIRCH extends ApplicationAdapter{
 		objects = new ArrayList<RenderItem>();
 		for (Prop sprop : gameSnapshot.getProps()){
 			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/objects/" + sprop.filename)));
+			newSprite.setPosition(sprop.currentRoom.position.x + sprop.roomPosition.x, sprop.currentRoom.position.y + sprop.roomPosition.y);
 			objects.add(new RenderItem(newSprite, (Prop) sprop));
 		}
 		
 		//generate RenderItems for each suspect
 		characters = new ArrayList<RenderItem>();
 		for (Suspect suspect : gameSnapshot.getSuspects()){
-			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/characters/" + suspect.filename))); 
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/characters/" + suspect.filename)));
+			newSprite.setPosition(suspect.mapPosition.x, suspect.mapPosition.y);
 			characters.add(new RenderItem(newSprite, (Suspect) suspect));
 		}
 
@@ -295,6 +304,8 @@ public class MIRCH extends ApplicationAdapter{
 		
 		//++INITIALISE GUI TEXTURES++++
 		controlStage = new Stage(); //initialise a new stage to hold control buttons
+		
+		questioningStage = new Stage();
 
 		uiSkin = new Skin(Gdx.files.internal("assets/skins/uiskin.json")); //load ui skin from assets
 		
@@ -415,12 +426,16 @@ public class MIRCH extends ApplicationAdapter{
 			}
 		});
 		
+		//++++CREATE QUESTIONING STAGE++++
+		
+		
 		//Create an input multiplexer to take input from every stage
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(journalStage);
 		multiplexer.addProcessor(journalQuestionsStage);
 		multiplexer.addProcessor(journalCluesStage);
 		multiplexer.addProcessor(controlStage);
+		multiplexer.addProcessor(questioningStage);
 		Gdx.input.setInputProcessor(multiplexer);
 		
 		System.out.println(rooms.size());
