@@ -125,13 +125,13 @@ public class ScenarioBuilder {
 
         // First check that the minimum room requirements hasn't caused us to overrun our quota.
         if (selectedRoomTemplates.size() > maxRoomCount) {
-            throw new ScenarioBuilderException("Could not fulfil maximum count value");
+            throw new ScenarioBuilderException("Could not fulfil maximum room count");
         }
 
         // Now check that we the maximum count constraint will allow us to fulfil our minimum room
         // count.
         if (selectedRoomTemplates.size() + selectedRoomTypes.size() < minRoomCount) {
-            throw new ScenarioBuilderException("Could not fulfil minimum count value");
+            throw new ScenarioBuilderException("Could not fulfil minimum room count");
         }
 
         // Shuffle our list to get a unique combination of room types.
@@ -174,12 +174,20 @@ public class ScenarioBuilder {
 
         ArrayList<ScenarioBuilderDatabase.Character> selectedSuspects = new ArrayList<>();
 
+        // Keep randomly adding suspects whilst we haven't reached our target and we still have
+        // some characters to consider.
         while (selectedSuspects.size() < targetSuspectCount && potentialSuspects.size() > 0) {
             ScenarioBuilderDatabase.Character selectedSuspect = selectWeightedObject(
                 potentialSuspects,
                 x -> x.selectionWeight,
                 x -> potentialSuspects.remove(x)
             );
+        }
+
+        // If we haven't got more suspects than the minimum count, the data in the database was
+        // not sufficient to fulfil this requirement.
+        if (selectedSuspects.size() < minSuspectCount) {
+            throw new ScenarioBuilderException("Could not minimum suspect count");
         }
 
         return null;
