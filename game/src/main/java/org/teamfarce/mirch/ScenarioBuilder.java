@@ -26,19 +26,20 @@ public class ScenarioBuilder {
     private int minSuspectCount;
     private int maxSuspectCount;
     private Random random;
+    private WeightedSelection selector;
+    private ScenarioBuilderDatabase database;
 
-    ScenarioBuilder() {
+    ScenarioBuilder() throws SQLException {
         minRoomCount = 8;
         maxRoomCount = 8;
         minSuspectCount = 5;
         maxSuspectCount = 5;
         random = new Random();
+        selector = new WeightedSelection(random);
+        database = new ScenarioBuilderDatabase("database.db");
     }
 
-    public GameSnapshot generateGame() throws SQLException, ScenarioBuilderException {
-        WeightedSelection selector = new WeightedSelection(random);
-        ScenarioBuilderDatabase database = new ScenarioBuilderDatabase("database.db");
-
+    public GameSnapshot generateGame() throws ScenarioBuilderException {
         int targetRoomCount = minRoomCount + random.nextInt(maxRoomCount - minRoomCount + 1);
 
         // The room templates we have selected.
