@@ -11,12 +11,15 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Prop extends MapEntity {
     ArrayList<Clue> clue;
+    Vector2 roomPosition;
+    Room currentRoom;
 
     /**
      * Initialises the object.
      */
-    Prop(String filename, Vector2 position) {
+    Prop(String filename, Room room, Vector2 position) {
     	this.roomPosition = position;
+    	this.currentRoom = room;
     	this.filename = filename;
     }
 
