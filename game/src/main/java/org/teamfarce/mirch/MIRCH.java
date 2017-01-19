@@ -359,9 +359,10 @@ public class MIRCH extends ApplicationAdapter{
 		controlStage = new Stage(); //initialise a new stage to hold control buttons
 		
 		questioningStage = new Stage();
-
-		uiSkin = new Skin(Gdx.files.internal("assets/skins/uiskin.json")); //load ui skin from assets
 		
+		//uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_pretty/skin.json")); //load ui skin from assets
+		uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_default/uiskin.json")); //load ui skin from assets
+
 		//create a sprite for the journal background
 		Texture journalBackground = new Texture(Gdx.files.internal("assets/Open_journal.png"));
 		journalSprite = new Sprite(journalBackground);
