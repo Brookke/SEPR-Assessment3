@@ -38,6 +38,14 @@ jar {
     }
 }
 
+processResources {
+    from 'assets'
+}
+
+task data(type: Copy) {
+    from 'assets' into 'assets'
+}
+
 checkstyle {
     toolVersion = 7.2
 }
