@@ -169,7 +169,7 @@ public class ScenarioBuilderDatabase {
     public HashMap<Integer, Protoprop> protoprops;
     public HashMap<Integer, CharacterMeansLink> characterMeansLinks;
 
-    public ScenarioBuilderDatabase(String databaseName) throws SQLException {
+    public ScenarioBuilderDatabase() {
         means = new HashMap<Integer, Means>();
         roomTypes = new HashMap<Integer, RoomType>();
         resources = new HashMap<Integer, Resource>();
@@ -186,6 +186,10 @@ public class ScenarioBuilderDatabase {
         dialogueTextScreens = new HashMap<Integer, DialogueTextScreen>();
         protoprops = new HashMap<Integer, Protoprop>();
         characterMeansLinks = new HashMap<Integer, CharacterMeansLink>();
+    }
+
+    public ScenarioBuilderDatabase(String databaseName) throws SQLException {
+        this();
 
         Connection sqlConn = DriverManager.getConnection("jdbc:sqlite:" + databaseName);
         Statement sqlStmt = sqlConn.createStatement();
