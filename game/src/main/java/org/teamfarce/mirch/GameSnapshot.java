@@ -9,13 +9,12 @@ import java.util.ArrayList;
  */
 public class GameSnapshot {
     private ArrayList<Suspect> suspects;
-    private MapEntity detective;
     private GameState state;
     private ArrayList<Prop> props;
     private ArrayList<Room> rooms;
     private int meansProven;
     private int motiveProven;
-    private Journal journal;
+    Journal journal;
     private DialogueBox currentDialogueBox;
 
     /**
@@ -23,12 +22,10 @@ public class GameSnapshot {
      */
     GameSnapshot(
         ArrayList<Suspect> suspects,
-        MapEntity detective,
         ArrayList<Prop> props,
         ArrayList<Room> rooms
     ) {
         this.suspects = suspects;
-        this.detective = detective;
         this.state = GameState.map;
         this.props = props;
         this.rooms = rooms;
@@ -79,6 +76,14 @@ public class GameSnapshot {
      */
     boolean isMotiveProven() {
         return (this.motiveProven >= 100);  //Arbitrary value for now
+    }
+    
+    void setState(GameState state){
+    	this.state = state;
+    }
+    
+    GameState getState(){
+    	return this.state;
     }
 
     /**
