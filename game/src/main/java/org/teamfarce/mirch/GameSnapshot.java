@@ -15,6 +15,7 @@ public class GameSnapshot {
     private ArrayList<Door> doors;
     private int meansProven;
     private int motiveProven;
+    private int time;
     Journal journal;
     private DialogueBox currentDialogueBox;
 
@@ -35,6 +36,15 @@ public class GameSnapshot {
         this.meansProven = 0;
         this.motiveProven = 0;
         this.journal = new Journal();
+        this.time = 0;
+    }
+    
+    public void incrementTime(){
+    	this.time++;
+    }
+    
+    public int getTime(){
+    	return this.time;
     }
     
     ArrayList<Room> getRooms(){

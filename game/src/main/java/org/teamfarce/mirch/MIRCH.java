@@ -268,6 +268,14 @@ public class MIRCH extends ApplicationAdapter{
 		
 	}
 	
+	private void genStyleScreen(Stage theStage, Suspect suspect, Sprite player){
+		
+	}
+	
+	private void genResponseScreen(Stage theStage, Suspect suspect, Sprite player){
+
+	}
+	
 	private void drawItemDialogue(Prop prop){
 		String output;
 		output = "You find: '" + prop.description + "'. It has been added to your Journal.";
@@ -665,8 +673,10 @@ public class MIRCH extends ApplicationAdapter{
 	    				  if (gameSnapshot.journal.getProps().indexOf((Prop) objects.get(i).object) == -1){
 		    				  drawItemDialogue((Prop) objects.get(i).object);
 	    					  gameSnapshot.journal.addProp((Prop) objects.get(i).object); 
+	    					  gameSnapshot.incrementTime();
 	    				  } else {
 		    				  drawItemAlreadyFoundDialogue((Prop) objects.get(i).object);
+		    				  gameSnapshot.incrementTime();
 	    				  }
 	    			  }
 	    			  i++;
@@ -680,6 +690,7 @@ public class MIRCH extends ApplicationAdapter{
 	    			  if (clicked){
 	    				  genIntentionScreen(questionIntentionStage, (Suspect) characters.get(i).object, player);
 	    				  gameSnapshot.setState(GameState.dialogueIntention);
+	    				  gameSnapshot.incrementTime();
 	    			  }
 	    			  i++;
 	    		  }
@@ -755,11 +766,19 @@ public class MIRCH extends ApplicationAdapter{
 	      } else if (gameSnapshot.getState() == GameState.dialogueStyle){
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
-		      
+		      batch.begin();
+		      dialogueSprite.draw(batch);
+		      batch.end();
+		      questionStyleStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		      questionStyleStage.draw();
 	      } else if (gameSnapshot.getState() == GameState.dialogueResponse){
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
-		      
+		      batch.begin();
+		      dialogueSprite.draw(batch);
+		      batch.end();
+		      questionResponseStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		      questionResponseStage.draw();
 	      }
 	      
 	      step++; //increment the step counter
