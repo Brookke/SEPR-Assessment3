@@ -34,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MIRCH extends ApplicationAdapter{
+	private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
 	private Texture titleScreen;
 	private Texture doorwayTexture;
 	private SpriteBatch batch;
@@ -353,7 +354,9 @@ public class MIRCH extends ApplicationAdapter{
 		journalNotepadStage = new Stage();
 		
 		//starts music "Minima.mp3" - Kevin Macleod
-		playMusic();
+		if (playAnnoyingMusic){
+			playMusic();
+		}
 		
 		//++INITIALISE GUI TEXTURES++++
 		controlStage = new Stage(); //initialise a new stage to hold control buttons
