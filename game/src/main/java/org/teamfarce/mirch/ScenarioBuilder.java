@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Collections;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.ToIntFunction;
+import java.util.function.IntFunction;
 import java.util.Random;
 import java.sql.SQLException;
 import org.teamfarce.mirch.ScenarioBuilderDatabase;
@@ -30,14 +32,33 @@ public class ScenarioBuilder {
         random = new Random();
     }
 
-    public <T> T selectWeightedObject(Collection<T> objects, ToIntFunction<T> weightFunction)
-        throws ScenarioBuilderException
-    {
+    private <T> int getSelection(Collection<T> objects, ToIntFunction<T> weightFunction) {
         int selectionWeightSum = objects
             .stream()
             .mapToInt(weightFunction)
             .sum();
-        int selection = random.nextInt(selectionWeightSum);
+        return random.nextInt(selectionWeightSum);
+    }
+
+    public <T> T selectWeightedObject(
+        List<T> objects, ToIntFunction<T> weightFunction, IntFunction<T> extractor
+    ) throws ScenarioBuilderException {
+        int selection = getSelection(objects, weightFunction);
+
+        for (int i = 0; i < objects.size(); ++i) {
+            selection -= weightFunction.applyAsInt(objects.get(i));
+            if (selection < 0) {
+                return extractor.apply(i);
+            }
+        }
+
+        throw new ScenarioBuilderException("Could not select an object");
+    }
+
+    public <T> T selectWeightedObject(Collection<T> objects, ToIntFunction<T> weightFunction)
+        throws ScenarioBuilderException
+    {
+        int selection = getSelection(objects, weightFunction);
 
         for (T object: objects) {
             selection -= weightFunction.applyAsInt(object);
@@ -130,9 +151,11 @@ public class ScenarioBuilder {
         ArrayList<ScenarioBuilderDatabase.Character> selectedSuspects = new ArrayList<>();
 
         while (selectedSuspects.size() < targetSuspectCount && potentialSuspects.size() > 0) {
-            ScenarioBuilderDatabase.Character selectedSuspect =
-                selectWeightedObject(potentialSuspects, x -> x.selectionWeight);
-            potentialSuspects.remove(potentialSuspects);
+            ScenarioBuilderDatabase.Character selectedSuspect = selectWeightedObject(
+                potentialSuspects,
+                x -> x.selectionWeight,
+                x -> potentialSuspects.remove(x)
+            );
         }
 
         return null;
