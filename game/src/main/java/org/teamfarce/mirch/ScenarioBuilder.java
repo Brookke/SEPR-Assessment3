@@ -55,14 +55,12 @@ public class ScenarioBuilder {
         int targetRoomCount = minRoomCount + random.nextInt(maxRoomCount - minRoomCount + 1);
 
         // The room templates we have selected.
-        ArrayList<ScenarioBuilderDatabase.RoomTemplate> selectedRoomTemplates =
-            new ArrayList<ScenarioBuilderDatabase.RoomTemplate>();
+        ArrayList<ScenarioBuilderDatabase.RoomTemplate> selectedRoomTemplates = new ArrayList<>();
 
         // A list which represents the room types we can still use. This should include the room
         // types maxCount times. They should be removed from the list when a room template is
         // selected from them.
-        ArrayList<ScenarioBuilderDatabase.RoomType> selectedRoomTypes =
-            new ArrayList<ScenarioBuilderDatabase.RoomType>();
+        ArrayList<ScenarioBuilderDatabase.RoomType> selectedRoomTypes = new ArrayList<>();
 
         for (ScenarioBuilderDatabase.RoomType roomType: database.roomTypes.values()) {
             // Include the room types which are required. These are the room types which have a
