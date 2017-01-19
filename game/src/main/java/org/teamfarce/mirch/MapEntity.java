@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 public class MapEntity {
     protected int id;
     protected int resourceIndex;
-    protected DialogueBox dialogue;
     protected Vector2 roomPosition;
     protected Room currentRoom;
     protected String name;
@@ -30,14 +29,12 @@ public class MapEntity {
     public MapEntity(
     	int id,
     	int resourceIndex,
-    	DialogueBox dialogue,
     	String name,
     	String description,
     	String filename
     ){
         this.id = id;
         this.resourceIndex = resourceIndex;
-        this.dialogue = dialogue;
         this.name = name;
         this.description = description;
         this.filename = filename;
@@ -51,14 +48,6 @@ public class MapEntity {
         this.roomPosition = pos;
     }
     
-    /**
-     *core method of interaction that yields a dialoguebox
-     * @return dialogue
-     */
-    public DialogueBox interact(){
-    	//perhaps include more logic to deal with states so it doesnt continuously yield clues.
-    	return this.dialogue;
-    }
     
     /**
      * returns the id as an integer
@@ -74,14 +63,6 @@ public class MapEntity {
      */
     public int getResourceIndex(){
     	return this.resourceIndex;
-    }
-    
-    /**
-     * returns a dialoguebox object
-     * @return dialogue
-     */
-    public DialogueBox getDialogue(){
-    	return this.dialogue;
     }
     
     /**

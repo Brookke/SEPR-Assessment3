@@ -35,14 +35,22 @@ public class Suspect extends MapEntity {
         Vector2 startingPosition,
         DialogueTree dialogueTree
         ) {
-    	super(id, resourceIndex, dialogue, name, description, filename);
+    	super(id, resourceIndex, name, description, filename);
     	
     	this.dialogueTree = dialogueTree;
         this.beenAccused = false;
         this.isMurderer = false;
         this.mapPosition = startingPosition;
         this.moveStep = new Vector2(0, 0);
+        this.dialogueTree = dialogueTree;
     }
+    
+    public Suspect(String filename, Vector2 pos){
+    	super(0, 0, null, null, filename);
+    	this.mapPosition = pos;
+    };
+    
+    
 
     /**
      * Accuse the suspect.
