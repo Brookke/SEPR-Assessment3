@@ -163,7 +163,6 @@ public class MIRCH extends ApplicationAdapter{
 		//System.out.println(journal.getProps().size());
 		//loop through each prop in the journal, adding it to the table
 		for (Prop prop : journal.getProps()){
-			System.out.println(prop.name);
 			Label label = new Label (prop.name + " : " + prop.description, uiSkin);
 			cluesTable.add(label).width(280f); //set a maximum width on the row of 300 pixels
 			cluesTable.row(); //end the row
@@ -213,6 +212,12 @@ public class MIRCH extends ApplicationAdapter{
 		tempProps.add(prop);
 		
 		ArrayList<Room> tempRooms = new ArrayList<Room>();
+		
+		Room temp1 = new Room("Classroom_1.png", new Vector2(200, 200)); //generate a sample room for testign purposes
+		tempRooms.add(temp1);
+		
+		Room temp2 = new Room("Classroom_2.png", new Vector2(650, 200));
+		tempRooms.add(temp2);
 		
 		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms); //generate the GameSnapshot object
 		
