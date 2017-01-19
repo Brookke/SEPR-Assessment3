@@ -190,6 +190,10 @@ public class ScenarioBuilder {
             throw new ScenarioBuilderException("Could not minimum suspect count");
         }
 
+        // Get our means.
+        ScenarioBuilderDatabase.CharacterMeansLink selectedMeans =
+            selectWeightedObject(selectedMurderer.meansLink, x -> x.selectionWeight);
+
         return null;
     }
 }
