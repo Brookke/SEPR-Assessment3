@@ -2,11 +2,13 @@ package org.teamfarce.mirch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.ToIntFunction;
 import java.util.function.IntFunction;
+import java.util.stream.Collectors;
 import java.util.Random;
 import java.sql.SQLException;
 import org.teamfarce.mirch.ScenarioBuilderDatabase;
@@ -193,6 +195,25 @@ public class ScenarioBuilder {
         // Get our means.
         ScenarioBuilderDatabase.Means selectedMeans =
             selectWeightedObject(selectedMurderer.meansLink, x -> x.selectionWeight).means;
+
+        HashSet<ScenarioBuilderDatabase.Clue> selectedClues = new HashSet<>();
+
+        // Get the clues
+        List<ScenarioBuilderDatabase.Clue> meansClues = selectedMeans
+            .clues
+            .stream()
+            .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
+            .filter(c -> selectedVictim.requiredAsVictim.contains(c))
+            .collect(Collectors.toList());
+        selectedClues.addAll(meansClues);
+
+        List<ScenarioBuilderDatabase.Clue> motiveClues = selectedMotive
+            .clues
+            .stream()
+            .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
+            .filter(c -> selectedVictim.requiredAsVictim.contains(c))
+            .collect(Collectors.toList());
+        selectedClues.addAll(motiveClues);
 
         return null;
     }
