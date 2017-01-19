@@ -20,7 +20,7 @@ public class Suspect extends MapEntity {
      * @param id integer for identification
      * @param resourceIndex index for resources like sprites
      * @param dialogue
-     * @param roomPosition stores position relative to currentroom
+     * @param roomPosition stores position relative to currentroo perm
      * @param currentRoom a ref to the current room the suspect is in
      * @param name a string for the name
      * @param description a string description 

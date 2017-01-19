@@ -398,6 +398,13 @@ public class MIRCH extends ApplicationAdapter{
 		ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 		
 		Suspect tempSuspect = new Suspect("Devil_sprite.png", new Vector2(400, 400));
+
+		/**
+		 * please do not be mad.
+		 * the tree begins to be constructed now.
+		 */
+		
+		
 		tempSuspect.name = "The Devil";
 		tempSuspect.description = "He is the devil";
 		
