@@ -57,6 +57,7 @@ public class MIRCH extends ApplicationAdapter{
 	private ArrayList<RenderItem> rooms;
 	private ArrayList<RenderItem> objects;
 	private ArrayList<RenderItem> characters;
+	private ArrayList<RenderItem> doors;
 	
 	private float move = 3; //sets the speed at which the player move
 	private float characterMove = 1f;
@@ -110,6 +111,14 @@ public class MIRCH extends ApplicationAdapter{
 		batch.end();
 	}
 	
+	private void drawDoors(ArrayList<RenderItem> doors, SpriteBatch batch){
+		batch.begin();
+		for (RenderItem door : doors){
+			door.sprite.draw(batch);
+		}
+		batch.end();
+	}
+	
 	private RenderItem getCurrentRoom(ArrayList<RenderItem> rooms, Sprite player){
 		for (RenderItem room : rooms){
 			
@@ -132,7 +141,7 @@ public class MIRCH extends ApplicationAdapter{
 			if ((player.getX() > door.startX) && (player.getX() < door.endX)){
 				System.out.println("in x");
 				
-				if ((player.getY() > door.startY) && (player.getY() < door.endY)){
+				if ((player.getY() > door.startY - 50) && (player.getY() < door.endY + 50)){
 					toReturn = true;
 					System.out.println("in y");
 				}
@@ -186,8 +195,9 @@ public class MIRCH extends ApplicationAdapter{
 		return values;
 	}
 	
-	private void drawMap(ArrayList<RenderItem> rooms, ArrayList<RenderItem> objects, ArrayList<RenderItem> characters, SpriteBatch batch){
+	private void drawMap(ArrayList<RenderItem> rooms, ArrayList<RenderItem> doors, ArrayList<RenderItem> objects, ArrayList<RenderItem> characters, SpriteBatch batch){
 		drawRooms(rooms, batch);
+		drawDoors(doors, batch);
 		drawObjects(objects, batch);
 		drawCharacters(characters, batch);
 		drawMapControls();
@@ -242,6 +252,10 @@ public class MIRCH extends ApplicationAdapter{
 	@Override
 	public void create() {
 		//++++INITIALISE THE GAME++++
+		
+		doorwayTexture = new Texture(Gdx.files.internal("assets/door.png")); //create the doorway texture
+
+		
 		step = 0; //initialise the step variable
 		//create temporary required items, eventually ScenarioBuilder will generate these
 		ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
@@ -266,7 +280,7 @@ public class MIRCH extends ApplicationAdapter{
 		tempProps.add(prop);
 
 		ArrayList<Door> tempDoors = new ArrayList<Door>();
-		tempDoors.add(new Door(250, 400, 350, 550, "door.png"));
+		tempDoors.add(new Door(300, 490, 400, 520));
 		
 		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, tempDoors); //generate the GameSnapshot object
 		
@@ -292,6 +306,22 @@ public class MIRCH extends ApplicationAdapter{
 			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/characters/" + suspect.filename)));
 			newSprite.setPosition(suspect.mapPosition.x, suspect.mapPosition.y);
 			characters.add(new RenderItem(newSprite, (Suspect) suspect));
+		}
+		
+		doors = new ArrayList<RenderItem>();
+		for (Door door : gameSnapshot.getDoors()){
+			Texture newTexture = new Texture(Gdx.files.internal("assets/door.png"));
+			
+			Sprite newSprite = new Sprite(doorwayTexture);
+			float xScale = (door.endX - door.startX)/(newSprite.getWidth());
+			float yScale = (door.endY - door.startY)/(newSprite.getHeight() );		
+			//newSprite.setScale(xScale, yScale);
+
+			newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
+
+			newSprite.setPosition(door.startX, door.startY);
+			//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
+			doors.add(new RenderItem(newSprite, door));
 		}
 
 		titleScreen = new Texture(Gdx.files.internal("assets/Detective_sprite.png"));
@@ -320,9 +350,7 @@ public class MIRCH extends ApplicationAdapter{
 		Texture journalBackground = new Texture(Gdx.files.internal("assets/journal.png"));
 		journalSprite = new Sprite(journalBackground);
 		journalSprite.setPosition(220, 90);
-		
-		doorwayTexture = new Texture(Gdx.files.internal("assets/door.png"));
-		
+				
 		//++++CREATE JOURNAL HOME STAGE++++
 		
 		//Create buttons and labels
@@ -568,7 +596,7 @@ public class MIRCH extends ApplicationAdapter{
 	    	  //Draw the map to the display
 	    	  camera.position.set (new Vector3(player.getX(), player.getY(), 1)); //move the camera to follow the player
 		      camera.update();
-	    	  drawMap(rooms, objects, characters, batch);
+	    	  drawMap(rooms, doors, objects, characters, batch);
 	    	  batch.begin();
 	    	  player.draw(batch);
 	    	  batch.end();
