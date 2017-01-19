@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.Random;
 import java.sql.SQLException;
 import org.teamfarce.mirch.ScenarioBuilderDatabase;
+import org.teamfarce.mirch.WeightedSelection;
 
 public class ScenarioBuilder {
     public class ScenarioBuilderException extends Exception {
@@ -34,69 +35,8 @@ public class ScenarioBuilder {
         random = new Random();
     }
 
-    // This is common across the `selectWeightedObject`s. Gets the selection index with the given
-    // collection which can use `weightFunction` to extract the weight of the given object.
-    private <T> int getSelection(Collection<T> objects, ToIntFunction<T> weightFunction) {
-        int selectionWeightSum = objects
-            .stream()
-            .mapToInt(weightFunction)
-            .sum();
-        return random.nextInt(selectionWeightSum);
-    }
-
-    /**
-     * Selects an object from the list based on its weight.
-     * <p>
-     * This method determines the weight given to a specific object by using the provided weight
-     * function. Once a specific object has been selected, it is extracted by using the extractor;
-     * this is used to provided some other way to get the object.
-     * </p>
-     *
-     * @param objects The list of objects to consider
-     * @param weightFunction The function which supplies the weight of an object
-     * @param extractor The extraction method
-     */
-    public <T> T selectWeightedObject(
-        List<T> objects, ToIntFunction<T> weightFunction, IntFunction<T> extractor
-    ) throws ScenarioBuilderException {
-        int selection = getSelection(objects, weightFunction);
-
-        for (int i = 0; i < objects.size(); ++i) {
-            selection -= weightFunction.applyAsInt(objects.get(i));
-            if (selection < 0) {
-                return extractor.apply(i);
-            }
-        }
-
-        throw new ScenarioBuilderException("Could not select an object");
-    }
-
-    /**
-     * Selects an object from the list based on its weight.
-     * <p>
-     * This method determines the weight given to a specific object by using the provided weight
-     * function.
-     * </p>
-     *
-     * @param objects The list of objects to consider
-     * @param weightFunction The function which supplies the weight of an object
-     */
-    public <T> T selectWeightedObject(Collection<T> objects, ToIntFunction<T> weightFunction)
-        throws ScenarioBuilderException
-    {
-        int selection = getSelection(objects, weightFunction);
-
-        for (T object: objects) {
-            selection -= weightFunction.applyAsInt(object);
-            if (selection < 0) {
-                return object;
-            }
-        }
-
-        throw new ScenarioBuilderException("Could not select an object");
-    }
-
     public GameSnapshot generateGame() throws SQLException, ScenarioBuilderException {
+        WeightedSelection selector = new WeightedSelection(random);
         ScenarioBuilderDatabase database = new ScenarioBuilderDatabase("database.db");
 
         int targetRoomCount = minRoomCount + random.nextInt(maxRoomCount - minRoomCount + 1);
@@ -113,9 +53,9 @@ public class ScenarioBuilder {
             // Include the room types which are required. These are the room types which have a
             // minimum count larger than one.
             for (int i = 0; i < roomType.minCount; ++i) {
-                selectedRoomTemplates.add(selectWeightedObject(
+                selectedRoomTemplates.add(selector.selectWeightedObject(
                     roomType.roomTemplates, x -> x.selectionWeight
-                ));
+                ).get());
             }
 
             // Since we have included room templates of the current type minCount times, we can
@@ -145,14 +85,16 @@ public class ScenarioBuilder {
             // Add the room template by selecting one from the room type "popped" off the selected
             // room types array.
 
-            selectedRoomTemplates.add(selectWeightedObject(
+            selectedRoomTemplates.add(selector.selectWeightedObject(
                 selectedRoomTypes.remove(0).roomTemplates, x -> x.selectionWeight
-            ));
+            ).get());
         }
 
         // Select a character motive link to use.
         ScenarioBuilderDatabase.CharacterMotiveLink selectedCharacterMotiveLink =
-            selectWeightedObject(database.characterMotiveLinks.values(), x -> x.selectionWeight);
+            selector.selectWeightedObject(
+                database.characterMotiveLinks.values(), x -> x.selectionWeight
+            ).get();
 
         // Extract the murderer, victim and motive.
         ScenarioBuilderDatabase.Character selectedMurderer = selectedCharacterMotiveLink.murderer;
@@ -179,11 +121,11 @@ public class ScenarioBuilder {
         // Keep randomly adding suspects whilst we haven't reached our target and we still have
         // some characters to consider.
         while (selectedSuspects.size() < targetSuspectCount && potentialSuspects.size() > 0) {
-            ScenarioBuilderDatabase.Character selectedSuspect = selectWeightedObject(
+            ScenarioBuilderDatabase.Character selectedSuspect = selector.selectWeightedObject(
                 potentialSuspects,
                 x -> x.selectionWeight,
                 x -> potentialSuspects.remove(x)
-            );
+            ).get();
         }
 
         // If we haven't got more suspects than the minimum count, the data in the database was
@@ -194,7 +136,10 @@ public class ScenarioBuilder {
 
         // Get our means.
         ScenarioBuilderDatabase.Means selectedMeans =
-            selectWeightedObject(selectedMurderer.meansLink, x -> x.selectionWeight).means;
+            selector
+                .selectWeightedObject(selectedMurderer.meansLink, x -> x.selectionWeight)
+                .get()
+                .means;
 
         HashSet<ScenarioBuilderDatabase.Clue> selectedClues = new HashSet<>();
 
