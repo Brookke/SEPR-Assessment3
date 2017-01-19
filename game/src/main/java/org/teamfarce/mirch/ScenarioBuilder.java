@@ -25,8 +25,8 @@ public class ScenarioBuilder {
     ScenarioBuilder() {
         minRoomCount = 8;
         maxRoomCount = 8;
-        minSuspectCount = 6;
-        maxSuspectCount = 6;
+        minSuspectCount = 5;
+        maxSuspectCount = 5;
         random = new Random();
     }
 
@@ -101,6 +101,38 @@ public class ScenarioBuilder {
             selectedRoomTemplates.add(selectWeightedObject(
                 selectedRoomTypes.remove(0).roomTemplates, x -> x.selectionWeight
             ));
+        }
+
+        // Select a character motive link to use.
+        ScenarioBuilderDatabase.CharacterMotiveLink selectedCharacterMotiveLink =
+            selectWeightedObject(database.characterMotiveLinks.values(), x -> x.selectionWeight);
+
+        // Extract the murderer, victim and motive.
+        ScenarioBuilderDatabase.Character selectedMurderer = selectedCharacterMotiveLink.murderer;
+        ScenarioBuilderDatabase.Character selectedVictim = selectedCharacterMotiveLink.victim;
+        ScenarioBuilderDatabase.Motive selectedMotive = selectedCharacterMotiveLink.motive;
+
+        // Create a list of suspect which we can choose from to construct our suspect list. This
+        // includes all of the suspects from our data minus the murderer and victim.
+        //
+        // This next statement casts from `Object` to
+        // `ArrayList<ScenarioBuilderDatabase.Character>` because the result of clone is object.
+        // Because we know database.characters to be of this type we safely ignore this warning.
+        @SuppressWarnings("unchecked")
+        ArrayList<ScenarioBuilderDatabase.Character> potentialSuspects =
+            (ArrayList<ScenarioBuilderDatabase.Character>)database.characters.clone();
+        potentialSuspects.remove(selectedMurderer);
+        potentialSuspects.remove(selectedVictim);
+
+        int targetSuspectCount =
+            minSuspectCount + random.nextInt(maxSuspectCount - minSuspectCount + 1);
+
+        ArrayList<ScenarioBuilderDatabase.Character> selectedSuspects = new ArrayList<>();
+
+        while (selectedSuspects.size() < targetSuspectCount && potentialSuspects.size() > 0) {
+            ScenarioBuilderDatabase.Character selectedSuspect =
+                selectWeightedObject(potentialSuspects, x -> x.selectionWeight);
+            potentialSuspects.remove(potentialSuspects);
         }
 
         return null;
