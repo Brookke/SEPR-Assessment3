@@ -534,6 +534,8 @@ public class MIRCH extends ApplicationAdapter{
 	    	  journalStage.draw();
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.journalClues){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
 	    	  controlStage.draw();
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
@@ -545,6 +547,8 @@ public class MIRCH extends ApplicationAdapter{
 	    	  
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.journalQuestions){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
 	    	  controlStage.draw();
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
@@ -557,11 +561,10 @@ public class MIRCH extends ApplicationAdapter{
 	    	  
 	    	  
 	      } else if (state == GameState.dialogue){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
 	      
 	      
-	    	  
-	    	  
-	    	  
 	      }
 		
 	}
