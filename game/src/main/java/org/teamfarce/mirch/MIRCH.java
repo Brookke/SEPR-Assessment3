@@ -8,6 +8,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -68,6 +69,8 @@ public class MIRCH extends ApplicationAdapter{
 	private Sprite character;
 	
 	private OrthographicCamera camera;
+	
+	private Music music_background;
 	
 	private boolean isObjectPressed(Sprite theSprite, Vector3 mouse){
 		boolean toReturn = false;
@@ -237,6 +240,12 @@ public class MIRCH extends ApplicationAdapter{
 		JOptionPane.showMessageDialog(null,output, prop.name,JOptionPane.PLAIN_MESSAGE);
 	}
 	
+	private void playMusic(){
+		music_background = Gdx.audio.newMusic(Gdx.files.internal("assets/Music/Minima.mp3"));
+		music_background.setLooping(true);
+		music_background.play();
+	}
+	
 	
 
 	@Override
@@ -308,6 +317,9 @@ public class MIRCH extends ApplicationAdapter{
 		journalStage = new Stage();
 		journalCluesStage = new Stage();
 		journalQuestionsStage = new Stage();
+		
+		//starts music "Minima.mp3" - Kevin Macleod
+		playMusic();
 		
 		//++INITIALISE GUI TEXTURES++++
 		controlStage = new Stage(); //initialise a new stage to hold control buttons
