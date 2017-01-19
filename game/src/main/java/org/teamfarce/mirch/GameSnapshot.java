@@ -33,6 +33,14 @@ public class GameSnapshot {
         this.motiveProven = 0;
         this.journal = new Journal();
     }
+    
+    ArrayList<Room> getRooms(){
+    	return this.rooms;
+    }
+    
+    ArrayList<Prop> getProps(){
+    	return this.props;
+    }
 
     /**
      * Increment the "means proof" value by the given value.
@@ -99,6 +107,10 @@ public class GameSnapshot {
         //proveMeans(prop.takeClue().provesMeans);
         //proveMotive(prop.takeClue().provesMotive);
     }
+
+	public ArrayList<Suspect> getSuspects() {
+		return this.suspects;
+	}
 
     // /**
     //  * Adds the dialogue to the journal, used for keeping a log of dialogue

@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -159,22 +160,32 @@ public class MIRCH extends ApplicationAdapter{
 	//Draws the clues list onto the screen
 	private void genJournalCluesStage(Table cluesTable, Journal journal){
 		cluesTable.reset(); //reset the table
-		
+		//System.out.println(journal.getProps().size());
 		//loop through each prop in the journal, adding it to the table
 		for (Prop prop : journal.getProps()){
+			System.out.println(prop.name);
 			Label label = new Label (prop.name + " : " + prop.description, uiSkin);
-			cluesTable.add(label).width(300f); //set a maximum width on the row of 300 pixels
+			cluesTable.add(label).width(280f); //set a maximum width on the row of 300 pixels
 			cluesTable.row(); //end the row
 		}
+		
+		/*String reallyLongString = "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
+		        + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
+		        + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n";
+		
+		Label clabel = new Label(reallyLongString, uiSkin);
+		
+		cTable.add(clabel);
+		cTable.row();*/
 	}
 	
 	
-	private void genJournalQuestionsStage(Table questionsTable, Journal journal){
-		questionsTable.reset(); //reset the table
+	private void genJournalQuestionsStage(Table qTable, Journal journal){
+		qTable.reset(); //reset the table
 
-		Label label = new Label (journal.conversations, uiSkin);
-		cluesTable.add(label).width(300f); //set a maximum width on the row of 300 pixels
-		cluesTable.row(); //end the row
+		Label tlabel = new Label (journal.conversations, uiSkin);
+		qTable.add(tlabel).width(300f); //set a maximum width on the row of 300 pixels
+		qTable.row(); //end the row
 	}
 	
 	private void drawCharacterDialogue(){
@@ -191,13 +202,41 @@ public class MIRCH extends ApplicationAdapter{
 
 	@Override
 	public void create() {
-		
+		//++++INITIALISE THE GAME++++
 		//create temporary required items, eventually ScenarioBuilder will generate these
 		ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 		ArrayList<Prop> tempProps = new ArrayList<Prop>();
+		
+		Prop prop = new Prop("Axe.png", new Vector2(50, 50)); //generate a sample prop for testing purposes
+		prop.description = "A bloody axe...";
+		prop.name = "Axe";
+		tempProps.add(prop);
+		
 		ArrayList<Room> tempRooms = new ArrayList<Room>();
 		
-		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms);
+		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms); //generate the GameSnapshot object
+		
+		//generate RenderItems from each room
+		rooms = new ArrayList<RenderItem>();
+		for (Room room : gameSnapshot.getRooms()){
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/rooms/" + room.filename)));
+			newSprite.setPosition(room.position.x, room.position.y); //generate a sprite for the room
+			rooms.add(new RenderItem(newSprite, (Room) room)); //create a new renderItem for the room
+		}
+		
+		//generate RenderItems for each prop
+		objects = new ArrayList<RenderItem>();
+		for (Prop sprop : gameSnapshot.getProps()){
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/objects/" + sprop.filename)));
+			objects.add(new RenderItem(newSprite, (Prop) sprop));
+		}
+		
+		//generate RenderItems for each suspect
+		characters = new ArrayList<RenderItem>();
+		for (Suspect suspect : gameSnapshot.getSuspects()){
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/characters/" + suspect.filename))); 
+			characters.add(new RenderItem(newSprite, (Suspect) suspect));
+		}
 
 		titleScreen = new Texture(Gdx.files.internal("assets/Detective_sprite.png"));
 		camera = new OrthographicCamera();
@@ -215,6 +254,7 @@ public class MIRCH extends ApplicationAdapter{
 		journalCluesStage = new Stage();
 		journalQuestionsStage = new Stage();
 		
+		//++INITIALISE GUI TEXTURES++++
 		controlStage = new Stage(); //initialise a new stage to hold control buttons
 
 		uiSkin = new Skin(Gdx.files.internal("assets/skins/uiskin.json")); //load ui skin from assets
@@ -268,13 +308,10 @@ public class MIRCH extends ApplicationAdapter{
 
 		clueLabel.setPosition(750, 600);
 
-		cluesTable = new Table(uiSkin);
-		
-		
+		cluesTable = new Table(uiSkin);		
 		
 	    Table container = new Table(uiSkin);
 	    ScrollPane scroll = new ScrollPane(cluesTable, uiSkin);
-	    //scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
 
 	    
 	    scroll.layout();
@@ -300,11 +337,11 @@ public class MIRCH extends ApplicationAdapter{
 		questionsTable = new Table(uiSkin);
 
 		Table qcontainer = new Table(uiSkin);
-		ScrollPane qscroll = new ScrollPane(cluesTable, uiSkin);
+		ScrollPane qscroll = new ScrollPane(questionsTable, uiSkin);
 		//scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
 
 
-		scroll.layout();
+		qscroll.layout();
 		qcontainer.add(qscroll).width(300f).height(400f);
 		qcontainer.row();
 		qcontainer.setPosition(800, 360);
@@ -347,23 +384,7 @@ public class MIRCH extends ApplicationAdapter{
 		multiplexer.addProcessor(controlStage);
 		Gdx.input.setInputProcessor(multiplexer);
 		
-
-		objects = new ArrayList<RenderItem>();
-
-		//create an example prop
-		Prop prop = new Prop();
-		prop.description = "A bloody axe...";
-
-		Texture texture = new Texture(Gdx.files.internal("assets/objects/Axe.png"));
-		objects.add(new RenderItem(new Sprite(texture), prop));
-
-		objects.get(objects.size() - 1).sprite.setPosition(500,500);
-
-		rooms = new ArrayList<RenderItem>();
-
-
-		characters = new ArrayList<RenderItem>();
-
+		System.out.println(rooms.size());
 		//drawCharacterSelection();
 	      
 	}
@@ -429,6 +450,7 @@ public class MIRCH extends ApplicationAdapter{
 	    				  System.out.println("Object clicked!");
 	    				  drawItemDialogue((Prop) objects.get(i).object);
 	    				  //add the prop to the journal
+	    				  gameSnapshot.journal.addProp((Prop) objects.get(i).object); 
 	    			  }
 	    			  i++;
 	    		  }
@@ -470,8 +492,9 @@ public class MIRCH extends ApplicationAdapter{
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
 	    	  batch.end();
-	    	  
+	    	  genJournalQuestionsStage(questionsTable, gameSnapshot.journal);
 	    	  journalStage.draw();
+	    	  journalQuestionsStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 	    	  journalQuestionsStage.draw();
 	    	  
 	    	  

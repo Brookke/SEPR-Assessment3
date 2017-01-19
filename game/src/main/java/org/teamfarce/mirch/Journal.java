@@ -14,6 +14,7 @@ public class Journal {
 	
 	void addProp(Prop prop){
 		this.foundProps.add(prop);
+		System.out.println("Prop added");
 	}
 	
 	void addConversation(String text, String characterName){

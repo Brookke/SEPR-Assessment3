@@ -2,6 +2,8 @@ package org.teamfarce.mirch;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.math.Vector2;
+
 /**
  * Creates an individual prop entity, extends from the MapEntity class.
  *
@@ -13,7 +15,9 @@ public class Prop extends MapEntity {
     /**
      * Initialises the object.
      */
-    Prop() {
+    Prop(String filename, Vector2 position) {
+    	this.roomPosition = position;
+    	this.filename = filename;
     }
 
     /**
