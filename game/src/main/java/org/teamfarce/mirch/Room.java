@@ -11,10 +11,13 @@ public class Room {
     Vector2 position;
     Vector2 size;
     int id;
+    String filename;
 
     /**
      * Initialiser Function for Room Class.
      */
-    Room() {
+    Room(String file, Vector2 position) {
+    	this.filename = file;
+    	this.position = position;
     }
 }

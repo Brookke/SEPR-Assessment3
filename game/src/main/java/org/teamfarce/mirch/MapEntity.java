@@ -13,6 +13,7 @@ public class MapEntity {
     Room currentRoom;
     String name;
     String description;
+    String filename;
 
     /**
      * Initialise class.

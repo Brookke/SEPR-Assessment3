@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -101,6 +102,38 @@ public class MIRCH extends ApplicationAdapter{
 		batch.end();
 	}
 	
+	private RenderItem getCurrentRoom(ArrayList<RenderItem> rooms, Sprite player){
+		for (RenderItem room : rooms){
+			
+			if ((player.getX() > room.sprite.getX()) && (player.getX() + player.getWidth() < room.sprite.getX() + room.sprite.getWidth())){
+				if ((player.getY()> room.sprite.getY()) && (player.getY() + player.getHeight() < room.sprite.getY() + room.sprite.getHeight())){
+					return room;
+				}
+			}
+		}
+		return new RenderItem(new Sprite(), new Object());
+	}
+	
+	private boolean inDoor(ArrayList<Door> doors, Sprite player){
+		boolean toReturn = false;
+		System.out.println("Checking door");
+		for (Door door: doors){
+			System.out.println(door.startX);
+			System.out.println(player.getX());
+			System.out.println(door.endX);
+			if ((player.getX() > door.startX) && (player.getX() < door.endX)){
+				System.out.println("in x");
+				
+				if ((player.getY() > door.startY) && (player.getY() < door.endY)){
+					toReturn = true;
+					System.out.println("in y");
+				}
+			}
+		}
+		
+		return toReturn;
+	}
+	
 	private void drawMapControls(){
 		
 	}
@@ -159,22 +192,31 @@ public class MIRCH extends ApplicationAdapter{
 	//Draws the clues list onto the screen
 	private void genJournalCluesStage(Table cluesTable, Journal journal){
 		cluesTable.reset(); //reset the table
-		
+		//System.out.println(journal.getProps().size());
 		//loop through each prop in the journal, adding it to the table
 		for (Prop prop : journal.getProps()){
 			Label label = new Label (prop.name + " : " + prop.description, uiSkin);
-			cluesTable.add(label).width(300f); //set a maximum width on the row of 300 pixels
+			cluesTable.add(label).width(280f); //set a maximum width on the row of 300 pixels
 			cluesTable.row(); //end the row
 		}
+		
+		/*String reallyLongString = "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
+		        + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
+		        + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n";
+		
+		Label clabel = new Label(reallyLongString, uiSkin);
+		
+		cTable.add(clabel);
+		cTable.row();*/
 	}
 	
 	
-	private void genJournalQuestionsStage(Table questionsTable, Journal journal){
-		questionsTable.reset(); //reset the table
+	private void genJournalQuestionsStage(Table qTable, Journal journal){
+		qTable.reset(); //reset the table
 
-		Label label = new Label (journal.conversations, uiSkin);
-		cluesTable.add(label).width(300f); //set a maximum width on the row of 300 pixels
-		cluesTable.row(); //end the row
+		Label tlabel = new Label (journal.conversations, uiSkin);
+		qTable.add(tlabel).width(300f); //set a maximum width on the row of 300 pixels
+		qTable.row(); //end the row
 	}
 	
 	private void drawCharacterDialogue(){
@@ -191,13 +233,50 @@ public class MIRCH extends ApplicationAdapter{
 
 	@Override
 	public void create() {
-		
+		//++++INITIALISE THE GAME++++
 		//create temporary required items, eventually ScenarioBuilder will generate these
 		ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 		ArrayList<Prop> tempProps = new ArrayList<Prop>();
+		
+		Prop prop = new Prop("Axe.png", new Vector2(50, 50)); //generate a sample prop for testing purposes
+		prop.description = "A bloody axe...";
+		prop.name = "Axe";
+		tempProps.add(prop);
+		
 		ArrayList<Room> tempRooms = new ArrayList<Room>();
 		
-		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms);
+		Room temp2 = new Room("Classroom_2.png", new Vector2(200, 490));
+		tempRooms.add(temp2);
+		
+		Room temp1 = new Room("Classroom_1.png", new Vector2(200, 200)); //generate a sample room for testign purposes
+		tempRooms.add(temp1);
+		
+		ArrayList<Door> tempDoors = new ArrayList<Door>();
+		tempDoors.add(new Door(250, 400, 350, 550));
+		
+		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, tempDoors); //generate the GameSnapshot object
+		
+		//generate RenderItems from each room
+		rooms = new ArrayList<RenderItem>();
+		for (Room room : gameSnapshot.getRooms()){
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/rooms/" + room.filename)));
+			newSprite.setPosition(room.position.x, room.position.y); //generate a sprite for the room
+			rooms.add(new RenderItem(newSprite, (Room) room)); //create a new renderItem for the room
+		}
+		
+		//generate RenderItems for each prop
+		objects = new ArrayList<RenderItem>();
+		for (Prop sprop : gameSnapshot.getProps()){
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/objects/" + sprop.filename)));
+			objects.add(new RenderItem(newSprite, (Prop) sprop));
+		}
+		
+		//generate RenderItems for each suspect
+		characters = new ArrayList<RenderItem>();
+		for (Suspect suspect : gameSnapshot.getSuspects()){
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/characters/" + suspect.filename))); 
+			characters.add(new RenderItem(newSprite, (Suspect) suspect));
+		}
 
 		titleScreen = new Texture(Gdx.files.internal("assets/Detective_sprite.png"));
 		camera = new OrthographicCamera();
@@ -207,14 +286,14 @@ public class MIRCH extends ApplicationAdapter{
 		
 		//initialise the player sprite
 		player = new Sprite(titleScreen);
-		player.setPosition(100, 100);
-		player.setScale(0.25f); //scale the sprite
+		player.setPosition(250, 250);
 		
 		//initialise journal stages
 		journalStage = new Stage();
 		journalCluesStage = new Stage();
 		journalQuestionsStage = new Stage();
 		
+		//++INITIALISE GUI TEXTURES++++
 		controlStage = new Stage(); //initialise a new stage to hold control buttons
 
 		uiSkin = new Skin(Gdx.files.internal("assets/skins/uiskin.json")); //load ui skin from assets
@@ -222,7 +301,7 @@ public class MIRCH extends ApplicationAdapter{
 		//create a sprite for the journal background
 		Texture journalBackground = new Texture(Gdx.files.internal("assets/journal.png"));
 		journalSprite = new Sprite(journalBackground);
-		journalSprite.setPosition(220, 100);
+		journalSprite.setPosition(220, 90);
 		
 		//++++CREATE JOURNAL HOME STAGE++++
 		
@@ -268,13 +347,10 @@ public class MIRCH extends ApplicationAdapter{
 
 		clueLabel.setPosition(750, 600);
 
-		cluesTable = new Table(uiSkin);
-		
-		
+		cluesTable = new Table(uiSkin);		
 		
 	    Table container = new Table(uiSkin);
 	    ScrollPane scroll = new ScrollPane(cluesTable, uiSkin);
-	    //scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
 
 	    
 	    scroll.layout();
@@ -300,11 +376,11 @@ public class MIRCH extends ApplicationAdapter{
 		questionsTable = new Table(uiSkin);
 
 		Table qcontainer = new Table(uiSkin);
-		ScrollPane qscroll = new ScrollPane(cluesTable, uiSkin);
+		ScrollPane qscroll = new ScrollPane(questionsTable, uiSkin);
 		//scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
 
 
-		scroll.layout();
+		qscroll.layout();
 		qcontainer.add(qscroll).width(300f).height(400f);
 		qcontainer.row();
 		qcontainer.setPosition(800, 360);
@@ -347,23 +423,7 @@ public class MIRCH extends ApplicationAdapter{
 		multiplexer.addProcessor(controlStage);
 		Gdx.input.setInputProcessor(multiplexer);
 		
-
-		objects = new ArrayList<RenderItem>();
-
-		//create an example prop
-		Prop prop = new Prop();
-		prop.description = "A bloody axe...";
-
-		Texture texture = new Texture(Gdx.files.internal("assets/objects/Axe.png"));
-		objects.add(new RenderItem(new Sprite(texture), prop));
-
-		objects.get(objects.size() - 1).sprite.setPosition(500,500);
-
-		rooms = new ArrayList<RenderItem>();
-
-
-		characters = new ArrayList<RenderItem>();
-
+		System.out.println(rooms.size());
 		//drawCharacterSelection();
 	      
 	}
@@ -372,19 +432,26 @@ public class MIRCH extends ApplicationAdapter{
 	public void render() {
 	      Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
 	      Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	      camera.update();
+	      
 	      batch.setProjectionMatrix(camera.combined);
 	      	      
 	      
 	      //Draw the map here
 	      if (gameSnapshot.getState() == GameState.map){
+		      camera.position.set (new Vector3(player.getX(), player.getY(), 1)); //move the camera to follow the player
+		      camera.update();
 	    	  drawMap(rooms, objects, characters, batch);
 	    	  batch.begin();
 	    	  player.draw(batch);
 	    	  batch.end();
 	    	  
 	    	  controlStage.draw();
-
+	    	  
+	    	  RenderItem currentRoom = getCurrentRoom(rooms, player); //find the current room that the player is in
+	    	  Float currentX = player.getX();
+	    	  Float currentY = player.getY();
+	    	  
+	    	  //System.out.println(player.getX());
 	    	  // process keyboard touch   	  
 	    	  if(Gdx.input.isKeyPressed(Input.Keys.W)){
 	    		  player.translate(0, move);
@@ -398,6 +465,15 @@ public class MIRCH extends ApplicationAdapter{
 	    	  if (Gdx.input.isKeyPressed(Input.Keys.D)){
 	    		  player.translate(move, 0);
 	    	  }
+	    	  
+	    	  RenderItem newRoom = getCurrentRoom(rooms, player);
+	    	  
+	    	  if (!currentRoom.equals(newRoom) && !inDoor(gameSnapshot.getDoors(), player)){
+	    		  player.setX(currentX);
+	    		  player.setY(currentY); 
+	    	  }
+	    	  
+	    	 
 
 
 
@@ -429,6 +505,7 @@ public class MIRCH extends ApplicationAdapter{
 	    				  System.out.println("Object clicked!");
 	    				  drawItemDialogue((Prop) objects.get(i).object);
 	    				  //add the prop to the journal
+	    				  gameSnapshot.journal.addProp((Prop) objects.get(i).object); 
 	    			  }
 	    			  i++;
 	    		  }
@@ -448,6 +525,8 @@ public class MIRCH extends ApplicationAdapter{
 	      
 	    	  //Draw the journal here
 	      } else if (gameSnapshot.getState() == GameState.journalHome){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
 	    	  controlStage.draw();
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
@@ -455,6 +534,8 @@ public class MIRCH extends ApplicationAdapter{
 	    	  journalStage.draw();
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.journalClues){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
 	    	  controlStage.draw();
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
@@ -466,22 +547,24 @@ public class MIRCH extends ApplicationAdapter{
 	    	  
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.journalQuestions){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
 	    	  controlStage.draw();
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
 	    	  batch.end();
-	    	  
+	    	  genJournalQuestionsStage(questionsTable, gameSnapshot.journal);
 	    	  journalStage.draw();
+	    	  journalQuestionsStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 	    	  journalQuestionsStage.draw();
 	    	  
 	    	  
 	    	  
 	      } else if (state == GameState.dialogue){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
 	      
 	      
-	    	  
-	    	  
-	    	  
 	      }
 		
 	}

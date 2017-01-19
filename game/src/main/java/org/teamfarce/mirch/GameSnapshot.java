@@ -12,6 +12,7 @@ public class GameSnapshot {
     private GameState state;
     private ArrayList<Prop> props;
     private ArrayList<Room> rooms;
+    private ArrayList<Door> doors;
     private int meansProven;
     private int motiveProven;
     Journal journal;
@@ -23,15 +24,25 @@ public class GameSnapshot {
     GameSnapshot(
         ArrayList<Suspect> suspects,
         ArrayList<Prop> props,
-        ArrayList<Room> rooms
+        ArrayList<Room> rooms,
+        ArrayList<Door> doors
     ) {
         this.suspects = suspects;
         this.state = GameState.map;
         this.props = props;
         this.rooms = rooms;
+        this.doors = doors;
         this.meansProven = 0;
         this.motiveProven = 0;
         this.journal = new Journal();
+    }
+    
+    ArrayList<Room> getRooms(){
+    	return this.rooms;
+    }
+    
+    ArrayList<Prop> getProps(){
+    	return this.props;
     }
 
     /**
@@ -99,6 +110,15 @@ public class GameSnapshot {
         //proveMeans(prop.takeClue().provesMeans);
         //proveMotive(prop.takeClue().provesMotive);
     }
+
+	public ArrayList<Suspect> getSuspects() {
+		return this.suspects;
+	}
+
+	public ArrayList<Door> getDoors() {
+		// TODO Auto-generated method stub
+		return this.doors;
+	}
 
     // /**
     //  * Adds the dialogue to the journal, used for keeping a log of dialogue

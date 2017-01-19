@@ -13,7 +13,8 @@ public class Suspect extends MapEntity {
     /**
      * Initialiser function.
      */
-    Suspect() {
+    Suspect(String filename) {
+    	this.filename = filename;
         this.beenAccused = false;
         this.isMurderer = false;
     }
