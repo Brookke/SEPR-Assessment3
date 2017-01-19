@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -31,6 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 public class MIRCH extends ApplicationAdapter{
 	private Texture titleScreen;
 	private SpriteBatch batch;
+	private GameSnapshot gameSnapshot;
 	
 	//generate different stages for the Journal
 	private Stage journalStage;
@@ -45,14 +47,14 @@ public class MIRCH extends ApplicationAdapter{
 	private Skin uiSkin;
 	
 	private Table cluesTable;
+	private Table questionsTable;
 	
 	private ArrayList<RenderItem> rooms;
 	private ArrayList<RenderItem> objects;
 	private ArrayList<RenderItem> characters;
 	
-	private float move = 5;
+	private float move = 3; //sets the speed at which the player moves
 
-	
 	private Sprite player;
 	private GameState state;
 	
@@ -155,18 +157,24 @@ public class MIRCH extends ApplicationAdapter{
 	}
 	
 	//Draws the clues list onto the screen
-	private void genJournalCluesStage(Table cluesTable){
-		cluesTable.reset();
+	private void genJournalCluesStage(Table cluesTable, Journal journal){
+		cluesTable.reset(); //reset the table
 		
-		String reallyLongString = "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
-		        + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
-		        + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n";
-		
-		Label label = new Label(reallyLongString, uiSkin);
-		
-		cluesTable.add(label);
-		cluesTable.row();
-		
+		//loop through each prop in the journal, adding it to the table
+		for (Prop prop : journal.getProps()){
+			Label label = new Label (prop.name + " : " + prop.description, uiSkin);
+			cluesTable.add(label).width(300f); //set a maximum width on the row of 300 pixels
+			cluesTable.row(); //end the row
+		}
+	}
+	
+	
+	private void genJournalQuestionsStage(Table questionsTable, Journal journal){
+		questionsTable.reset(); //reset the table
+
+		Label label = new Label (journal.conversations, uiSkin);
+		cluesTable.add(label).width(300f); //set a maximum width on the row of 300 pixels
+		cluesTable.row(); //end the row
 	}
 	
 	private void drawCharacterDialogue(){
@@ -183,7 +191,13 @@ public class MIRCH extends ApplicationAdapter{
 
 	@Override
 	public void create() {
-		state = GameState.journalClues;
+		
+		//create temporary required items, eventually ScenarioBuilder will generate these
+		ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
+		ArrayList<Prop> tempProps = new ArrayList<Prop>();
+		ArrayList<Room> tempRooms = new ArrayList<Room>();
+		
+		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms);
 
 		titleScreen = new Texture(Gdx.files.internal("assets/Detective_sprite.png"));
 		camera = new OrthographicCamera();
@@ -194,6 +208,7 @@ public class MIRCH extends ApplicationAdapter{
 		//initialise the player sprite
 		player = new Sprite(titleScreen);
 		player.setPosition(100, 100);
+		player.setScale(0.25f); //scale the sprite
 		
 		//initialise journal stages
 		journalStage = new Stage();
@@ -233,7 +248,7 @@ public class MIRCH extends ApplicationAdapter{
 		cluesButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Clues button was pressed");
-				state = GameState.journalClues;
+				gameSnapshot.setState(GameState.journalClues);
 			}
 		});
 
@@ -241,7 +256,7 @@ public class MIRCH extends ApplicationAdapter{
 		questionsButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Questions button was pressed");
-				state = GameState.journalQuestions;
+				gameSnapshot.setState(GameState.journalQuestions);
 			}
 		});
 		
@@ -259,6 +274,9 @@ public class MIRCH extends ApplicationAdapter{
 		
 	    Table container = new Table(uiSkin);
 	    ScrollPane scroll = new ScrollPane(cluesTable, uiSkin);
+	    //scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
+
+	    
 	    scroll.layout();
 	    container.add(scroll).width(300f).height(400f);
 	    container.row();
@@ -279,7 +297,20 @@ public class MIRCH extends ApplicationAdapter{
 
 		questionsLabel.setPosition(720, 600);
 
+		questionsTable = new Table(uiSkin);
+
+		Table qcontainer = new Table(uiSkin);
+		ScrollPane qscroll = new ScrollPane(cluesTable, uiSkin);
+		//scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
+
+
+		scroll.layout();
+		qcontainer.add(qscroll).width(300f).height(400f);
+		qcontainer.row();
+		qcontainer.setPosition(800, 360);
+
 		journalQuestionsStage.addActor(questionsLabel);
+		journalQuestionsStage.addActor(qcontainer);
 		
 		//++++CREATE MAIN CONTROL BUTTONS STAGE++++
 		
@@ -296,7 +327,7 @@ public class MIRCH extends ApplicationAdapter{
 		mapButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Map button was pressed");
-				state = GameState.map;
+				gameSnapshot.setState(GameState.map);
 			}
 		});
 		
@@ -304,7 +335,7 @@ public class MIRCH extends ApplicationAdapter{
 		journalButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Journal button was pressed");
-				state = GameState.journalHome;
+				gameSnapshot.setState(GameState.journalHome);
 			}
 		});
 		
@@ -346,7 +377,7 @@ public class MIRCH extends ApplicationAdapter{
 	      	      
 	      
 	      //Draw the map here
-	      if (state == GameState.map){
+	      if (gameSnapshot.getState() == GameState.map){
 	    	  drawMap(rooms, objects, characters, batch);
 	    	  batch.begin();
 	    	  player.draw(batch);
@@ -416,25 +447,25 @@ public class MIRCH extends ApplicationAdapter{
 	    	  }
 	      
 	    	  //Draw the journal here
-	      } else if (state == GameState.journalHome){
+	      } else if (gameSnapshot.getState() == GameState.journalHome){
 	    	  controlStage.draw();
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
 	    	  batch.end();
 	    	  journalStage.draw();
 	    	  
-	      } else if (state == GameState.journalClues){
+	      } else if (gameSnapshot.getState() == GameState.journalClues){
 	    	  controlStage.draw();
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);
 	    	  batch.end();
 	    	  journalStage.draw();
-	    	  genJournalCluesStage(cluesTable);
+	    	  genJournalCluesStage(cluesTable, gameSnapshot.journal);
 	    	  journalCluesStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 	    	  journalCluesStage.draw();
 	    	  
 	    	  
-	      } else if (state == GameState.journalQuestions){
+	      } else if (gameSnapshot.getState() == GameState.journalQuestions){
 	    	  controlStage.draw();
 	    	  batch.begin();
 	    	  journalSprite.draw(batch);

@@ -5,33 +5,26 @@ import java.util.ArrayList;
 public class Journal {
 	
 	ArrayList<Prop> foundProps;
-	ArrayList<JournalCharacter> metCharacters;
+	String conversations;
 	
 	Journal(){
-		
+		this.foundProps = new ArrayList<Prop>();
+		this.conversations = "";
 	}
 	
 	void addProp(Prop prop){
 		this.foundProps.add(prop);
 	}
 	
-	void addConversation(String text, Suspect character){
-		boolean characterFound = false;
-		for (JournalCharacter c : this.metCharacters){
-			if (c.suspect.equals(character)){
-				c.communicatons += text + "\n";
-				characterFound = true;
-			}
-		}
-		if (!characterFound){
-			this.metCharacters.add(new JournalCharacter(character, text));
-		}
+	void addConversation(String text, String characterName){
+		this.conversations = characterName + " : " + text + "\n" + this.conversations;
 	}
 	
 	
 	ArrayList<Prop> getProps(){
 		return this.foundProps;
 	}
+
 
 	
 }
