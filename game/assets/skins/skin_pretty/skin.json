@@ -10,6 +10,7 @@
     up: { r: 0.6, g: 0.6, b: 0.6, a: 1 },
     over: { r: 0.5, g: 0.5, b: 0.5, a: 1 },
     down: { r: 0, g: 0.3, b: 0.5, a: 1 },
+    clear: { r: 0, g: 0.3, b: 0, a: 0 },
     checked: { r: 0, g: 0.3, b: 0.5, a: 1 },
     checkedOver: { r: 0, g: 0.4, b: 0.6, a: 1 },
     disabled: { r: 0.1, g: 0.1, b: 0.1, a: 1 },
@@ -17,12 +18,12 @@
     selection: { r: 0, g: 0.3, b: 0.5, a: 1 },
     semiTransparent: { r: 0, g: 0, b: 0, a: 0.6 },
     
-    font: down
-    fontOver: down
-    fontDown: gray
-    fontChecked: checkedOver
-    fontCheckedOver: checked
-    fontDisabled: gray
+    font: black
+    fontOver: black
+    fontDown: black
+    fontChecked: black
+    fontCheckedOver: black
+    fontDisabled: black
   },
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
     buttonUp: { name: base, color: up },
@@ -57,7 +58,7 @@
     progressVerticalKnobDisabled: { name: progress-v-on, color: disabled },
     scrollHorizontal: { name: scroll, color: up },
     scrollVertical: { name: scroll-v, color: up },
-    scrollPane: { name: outline-press, color: background },
+    scrollPane: { name: outline-press, color: clear },
     selectBox: { name: select, color: up },
     selectOver: { name: select, color: over },
     selectDown: { name: select-press, color: up },
@@ -74,8 +75,8 @@
     sliderVerticalKnobOver: { name: check-square, color: over },
     sliderVerticalKnobDown: { name: check-square, color: down },
     sliderVerticalKnobDisabled: { name: check-square, color: disabled },
-    textField: { name: field, color: up },
-    textFieldDown: { name: field, color: background },
+    textField: { name: field, color: clear },
+    textFieldDown: { name: field, color: clear },
     textFieldDisabled: { name: field, color: disabled },
     textFieldCursor: { name: cursor, color: font },
     tooltip: { name: outline-press, color: background },

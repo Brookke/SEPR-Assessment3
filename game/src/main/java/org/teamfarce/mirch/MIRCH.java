@@ -360,8 +360,8 @@ public class MIRCH extends ApplicationAdapter{
 		
 		questioningStage = new Stage();
 		
-		//uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_pretty/skin.json")); //load ui skin from assets
-		uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_default/uiskin.json")); //load ui skin from assets
+		uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_pretty/skin.json")); //load ui skin from assets
+		//uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_default/uiskin.json")); //load ui skin from assets
 
 		//create a sprite for the journal background
 		Texture journalBackground = new Texture(Gdx.files.internal("assets/Open_journal.png"));
@@ -500,7 +500,7 @@ public class MIRCH extends ApplicationAdapter{
 		notepadLabel.setFontScale(1.5f);
 
 		notepadLabel.setPosition(720, 600);
-		TextArea notepad = new TextArea("", uiSkin);
+		TextArea notepad = new TextArea("Here are my notes about a particularly develish crime...", uiSkin);
 		notepad.setX(650);
 		notepad.setY(150);
 		notepad.setWidth(290);
