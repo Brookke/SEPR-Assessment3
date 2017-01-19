@@ -63,6 +63,7 @@ public class MIRCH extends ApplicationAdapter{
 	private float characterMove = 1f;
 	private int moveStep = 50;
 	private int step; //stores the current loop number
+	private int characterWidth = 60;
 
 	private Sprite player;
 	private GameState state;
@@ -138,7 +139,7 @@ public class MIRCH extends ApplicationAdapter{
 			System.out.println(door.startX);
 			System.out.println(player.getX());
 			System.out.println(door.endX);
-			if ((player.getX() > door.startX) && (player.getX() < door.endX)){
+			if ((player.getX() > door.startX - (characterWidth / 2)) && (player.getX() < door.endX - (characterWidth / 2))){ //reduce by characterWidth/2 as sprites are located from bottom left corner
 				System.out.println("in x");
 				
 				if ((player.getY() > door.startY - 50) && (player.getY() < door.endY + 50)){
@@ -280,7 +281,7 @@ public class MIRCH extends ApplicationAdapter{
 		tempProps.add(prop);
 
 		ArrayList<Door> tempDoors = new ArrayList<Door>();
-		tempDoors.add(new Door(300, 490, 400, 520));
+		tempDoors.add(new Door(300, 490, 350, 520));
 		
 		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, tempDoors); //generate the GameSnapshot object
 		
@@ -314,7 +315,7 @@ public class MIRCH extends ApplicationAdapter{
 			
 			Sprite newSprite = new Sprite(doorwayTexture);
 			float xScale = (door.endX - door.startX)/(newSprite.getWidth());
-			float yScale = (door.endY - door.startY)/(newSprite.getHeight() );		
+			float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
 			//newSprite.setScale(xScale, yScale);
 
 			newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
