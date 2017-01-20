@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 
 /**
  * MIRCH is used to generate all graphics in the program. It initialises the scenario generator and game state
@@ -384,7 +385,7 @@ public class MIRCH extends ApplicationAdapter{
 		theStage.clear();
 		
 		Label comment = new Label ("Be careful of your phrasing...", uiSkin);
-		comment.setPosition(300, 600);
+		comment.setPosition(300, 490);
 		theStage.addActor(comment);
 		
 		genQuestionBase(theStage, suspect, player);
@@ -393,9 +394,22 @@ public class MIRCH extends ApplicationAdapter{
 		float buttonY = 200;
 		float buttonSpace = 50;
 		ArrayList<String> styles = suspect.dialogueTree.getAvailableStyles(intent);
+		
+		Table theTable = new Table(uiSkin);
+		theTable.align(Align.left);
+
+		Table qcontainer = new Table(uiSkin);
+		ScrollPane qscroll = new ScrollPane(theTable, uiSkin);
+		//scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
+
+
+		qscroll.layout();
+		qcontainer.add(qscroll).width(550f).height(130f);
+		qcontainer.row();
+		qcontainer.setPosition(720, 270);
+		
 		for (int i = 0; i < styles.size(); i++){
 			TextButton button = new TextButton(styles.get(i), uiSkin);
-			button.setPosition(buttonX, buttonY);
 
 			final int k = i;
 			button.addListener(new ChangeListener() {
@@ -405,10 +419,13 @@ public class MIRCH extends ApplicationAdapter{
 				}
 			});
 
-			theStage.addActor(button);
+			theTable.add(button);
+			theTable.row();
 
 			buttonX += buttonSpace;
 		}
+		
+		theStage.addActor(qcontainer);
 	}
 	
 	/**
@@ -427,14 +444,22 @@ public class MIRCH extends ApplicationAdapter{
 			Label comment = new Label ("Go on then, ask your question.", uiSkin);
 			comment.setPosition(300, 500);
 			theStage.addActor(comment);
+			
+			Table theTable = new Table(uiSkin);
+			theTable.align(Align.left);
 
-			float buttonX = 500;
-			float buttonY = 280;
-			float buttonSpace = 50;
+			Table qcontainer = new Table(uiSkin);
+			ScrollPane qscroll = new ScrollPane(theTable, uiSkin);
+			//scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
+
+
+			qscroll.layout();
+			qcontainer.add(qscroll).width(550f).height(130f);
+			qcontainer.row();
+			qcontainer.setPosition(720, 270);
+
 			for (int i = 0; i < suspect.dialogueTree.getAvailableIntents().size(); i++){
 				TextButton button = new TextButton(suspect.dialogueTree.getAvailableIntentsAsString().get(i), uiSkin);
-				button.setPosition(buttonX, buttonY);
-				theStage.addActor(button);
 
 				final int k = i;
 				button.addListener(new ChangeListener() {
@@ -443,8 +468,11 @@ public class MIRCH extends ApplicationAdapter{
 						genStyleScreen(theStage, suspect, player, k);
 					}
 				});
-
-				buttonX += buttonSpace;
+				
+				theTable.add(button);
+				theTable.row();
+				
+				theStage.addActor(qcontainer);
 			}
 		} else {
 			Label comment = new Label ("Go away, I'm not talking to you any more.", uiSkin);
