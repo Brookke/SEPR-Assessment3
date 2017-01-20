@@ -1,6 +1,6 @@
 package org.teamfarce.mirch;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.HashMap;
 import java.sql.DriverManager;
 import java.sql.Connection;
@@ -13,8 +13,8 @@ public class ScenarioBuilderDatabase {
     public class Means {
         public int id;
         public String description;
-        public ArrayList<CharacterMeansLink> characterLink;
-        public ArrayList<Clue> clues;
+        public HashSet<CharacterMeansLink> characterLink;
+        public HashSet<Clue> clues;
     }
 
     public class RoomType {
@@ -22,16 +22,16 @@ public class ScenarioBuilderDatabase {
         public String name;
         public int minCount;
         public int maxCount;
-        public ArrayList<RoomTemplate> roomTemplates;
+        public HashSet<RoomTemplate> roomTemplates;
     }
 
     public class Resource {
         public int id;
         public String filename;
-        public ArrayList<Character> characters;
-        public ArrayList<Costume> costumes;
-        public ArrayList<RoomTemplate> roomTemplates;
-        public ArrayList<Prop> props;
+        public HashSet<Character> characters;
+        public HashSet<Costume> costumes;
+        public HashSet<RoomTemplate> roomTemplates;
+        public HashSet<Prop> props;
     }
 
     public class Clue {
@@ -39,40 +39,40 @@ public class ScenarioBuilderDatabase {
         public String description;
         public int impliesMeansRating;
         public int impliesMotiveRating;
-        public ArrayList<Prop> props;
-        public ArrayList<Motive> motives;
-        public ArrayList<Means> means;
-        public ArrayList<Character> requiredAsMurderers;
-        public ArrayList<Character> requiredAsVictims;
-        public ArrayList<QuestionAndResponse> questionAndResponses;
+        public HashSet<Prop> props;
+        public HashSet<Motive> motives;
+        public HashSet<Means> means;
+        public HashSet<Character> requiredAsMurderers;
+        public HashSet<Character> requiredAsVictims;
+        public HashSet<QuestionAndResponse> questionAndResponses;
     }
 
     public class QuestioningStyle {
         public int id;
         public String description;
-        public ArrayList<QuestionAndResponse> questions;
+        public HashSet<QuestionAndResponse> questions;
     }
 
     public class Motive {
         public int id;
         public String description;
-        public ArrayList<CharacterMotiveLink> characterMotiveLink;
-        public ArrayList<Clue> clues;
+        public HashSet<CharacterMotiveLink> characterMotiveLink;
+        public HashSet<Clue> clues;
     }
 
     public class QuestioningIntention {
         public int id;
         public String description;
         public boolean startingQuestion;
-        public ArrayList<QuestionAndResponse> previousResponses;
-        public ArrayList<QuestionAndResponse> questions;
+        public HashSet<QuestionAndResponse> previousResponses;
+        public HashSet<QuestionAndResponse> questions;
     }
 
     public class Costume {
         public int id;
         public String description;
         public Resource resource;
-        public ArrayList<Character> characters;
+        public HashSet<Character> characters;
     }
 
     public class Prop {
@@ -81,8 +81,8 @@ public class ScenarioBuilderDatabase {
         public String description;
         public boolean mustBeClue;
         public Resource resource;
-        public ArrayList<Clue> clues;
-        public ArrayList<Protoprop> protoprops;
+        public HashSet<Clue> clues;
+        public HashSet<Protoprop> protoprops;
     }
 
     public class QuestionAndResponse {
@@ -91,10 +91,10 @@ public class ScenarioBuilderDatabase {
         public boolean mustBeClue;
         public QuestioningStyle style;
         public QuestioningIntention intention;
-        public ArrayList<QuestioningIntention> followUpQuestion;
-        public ArrayList<Clue> impliesClues;
-        public ArrayList<DialogueTextScreen> dialogueScreens;
-        public ArrayList<Character> saidBy;
+        public HashSet<QuestioningIntention> followUpQuestion;
+        public HashSet<Clue> impliesClues;
+        public HashSet<DialogueTextScreen> dialogueScreens;
+        public HashSet<Character> saidBy;
     }
 
     public class RoomTemplate {
@@ -103,7 +103,7 @@ public class ScenarioBuilderDatabase {
         public int height;
         public int selectionWeight;
         public RoomType roomType;
-        public ArrayList<Protoprop> protoprops;
+        public HashSet<Protoprop> protoprops;
         public Resource background;
     }
 
@@ -113,13 +113,13 @@ public class ScenarioBuilderDatabase {
         public String description;
         public int selectionWeight;
         public Resource resource;
-        public ArrayList<Costume> costumes;
-        public ArrayList<CharacterMotiveLink> murdererMotiveLink;
-        public ArrayList<CharacterMotiveLink> victimMotiveLink;
-        public ArrayList<CharacterMeansLink> meansLink;
-        public ArrayList<Clue> requiredAsMurderer;
-        public ArrayList<Clue> requiredAsVictim;
-        public ArrayList<QuestionAndResponse> responses;
+        public HashSet<Costume> costumes;
+        public HashSet<CharacterMotiveLink> murdererMotiveLink;
+        public HashSet<CharacterMotiveLink> victimMotiveLink;
+        public HashSet<CharacterMeansLink> meansLink;
+        public HashSet<Clue> requiredAsMurderer;
+        public HashSet<Clue> requiredAsVictim;
+        public HashSet<QuestionAndResponse> responses;
     }
 
     public class CharacterMotiveLink {
@@ -142,7 +142,7 @@ public class ScenarioBuilderDatabase {
         public float x;
         public float y;
         public RoomTemplate roomTemplate;
-        public ArrayList<Prop> props;
+        public HashSet<Prop> props;
     }
 
     public class CharacterMeansLink {
@@ -199,8 +199,8 @@ public class ScenarioBuilderDatabase {
             Means singleMeans = new Means();
             singleMeans.id = rsMeans.getInt("id");
             singleMeans.description = rsMeans.getString("description");
-            singleMeans.characterLink = new ArrayList<CharacterMeansLink>();
-            singleMeans.clues = new ArrayList<Clue>();
+            singleMeans.characterLink = new HashSet<>();
+            singleMeans.clues = new HashSet<>();
             means.put(singleMeans.id, singleMeans);
         }
 
@@ -211,7 +211,7 @@ public class ScenarioBuilderDatabase {
             roomType.name = rsRoomType.getString("name");
             roomType.minCount = rsRoomType.getInt("minimum_count");
             roomType.maxCount = rsRoomType.getInt("maximum_count");
-            roomType.roomTemplates = new ArrayList<RoomTemplate>();
+            roomType.roomTemplates = new HashSet<>();
             roomTypes.put(roomType.id, roomType);
         }
 
@@ -220,10 +220,10 @@ public class ScenarioBuilderDatabase {
             Resource resource = new Resource();
             resource.id = rsResource.getInt("id");
             resource.filename = rsResource.getString("filename");
-            resource.characters = new ArrayList<Character>();
-            resource.costumes = new ArrayList<Costume>();
-            resource.roomTemplates = new ArrayList<RoomTemplate>();
-            resource.props = new ArrayList<Prop>();
+            resource.characters = new HashSet<>();
+            resource.costumes = new HashSet<>();
+            resource.roomTemplates = new HashSet<>();
+            resource.props = new HashSet<>();
             resources.put(resource.id, resource);
         }
 
@@ -234,12 +234,12 @@ public class ScenarioBuilderDatabase {
             clue.description = rsClue.getString("description");
             clue.impliesMeansRating = rsClue.getInt("implies_means_rating");
             clue.impliesMotiveRating = rsClue.getInt("implies_motive_rating");
-            clue.props = new ArrayList<Prop>();
-            clue.motives = new ArrayList<Motive>();
-            clue.means = new ArrayList<Means>();
-            clue.requiredAsMurderers = new ArrayList<Character>();
-            clue.requiredAsVictims = new ArrayList<Character>();
-            clue.questionAndResponses = new ArrayList<QuestionAndResponse>();
+            clue.props = new HashSet<>();
+            clue.motives = new HashSet<>();
+            clue.means = new HashSet<>();
+            clue.requiredAsMurderers = new HashSet<>();
+            clue.requiredAsVictims = new HashSet<>();
+            clue.questionAndResponses = new HashSet<>();
             clues.put(clue.id, clue);
         }
 
@@ -256,8 +256,8 @@ public class ScenarioBuilderDatabase {
             Motive motive = new Motive();
             motive.id = rsMotive.getInt("id");
             motive.description = rsMotive.getString("description");
-            motive.characterMotiveLink = new ArrayList<CharacterMotiveLink>();
-            motive.clues = new ArrayList<Clue>();
+            motive.characterMotiveLink = new HashSet<>();
+            motive.clues = new HashSet<>();
             motives.put(motive.id, motive);
         }
 
@@ -271,8 +271,8 @@ public class ScenarioBuilderDatabase {
             questioningIntention.startingQuestion = rsQuestioningIntention.getBoolean(
                 "starting_question"
             );
-            questioningIntention.previousResponses = new ArrayList<QuestionAndResponse>();
-            questioningIntention.questions = new ArrayList<QuestionAndResponse>();
+            questioningIntention.previousResponses = new HashSet<>();
+            questioningIntention.questions = new HashSet<>();
             questioningIntentions.put(questioningIntention.id, questioningIntention);
         }
 
@@ -283,7 +283,7 @@ public class ScenarioBuilderDatabase {
             costume.description = rsCostume.getString("description");
             costume.resource = resources.get(rsCostume.getInt("resource"));
             costume.resource.costumes.add(costume);
-            costume.characters = new ArrayList<Character>();
+            costume.characters = new HashSet<>();
             costumes.put(costume.id, costume);
         }
 
@@ -296,8 +296,8 @@ public class ScenarioBuilderDatabase {
             prop.mustBeClue = rsProp.getBoolean("must_be_clue");
             prop.resource = resources.get(rsProp.getInt("resource"));
             prop.resource.props.add(prop);
-            prop.clues = new ArrayList<Clue>();
-            prop.protoprops = new ArrayList<Protoprop>();
+            prop.clues = new HashSet<>();
+            prop.protoprops = new HashSet<>();
             props.put(prop.id, prop);
         }
 
@@ -315,10 +315,10 @@ public class ScenarioBuilderDatabase {
                 "question_intention"
             ));
             questionAndResponse.intention.questions.add(questionAndResponse);
-            questionAndResponse.followUpQuestion = new ArrayList<QuestioningIntention>();
-            questionAndResponse.impliesClues = new ArrayList<Clue>();
-            questionAndResponse.dialogueScreens = new ArrayList<DialogueTextScreen>();
-            questionAndResponse.saidBy = new ArrayList<Character>();
+            questionAndResponse.followUpQuestion = new HashSet<>();
+            questionAndResponse.impliesClues = new HashSet<>();
+            questionAndResponse.dialogueScreens = new HashSet<>();
+            questionAndResponse.saidBy = new HashSet<>();
             questionAndResponses.put(questionAndResponse.id, questionAndResponse);
         }
 
@@ -331,7 +331,7 @@ public class ScenarioBuilderDatabase {
             roomTemplate.selectionWeight = rsRoomTemplate.getInt("selection_weight");
             roomTemplate.roomType = roomTypes.get(rsRoomTemplate.getInt("room_type"));
             roomTemplate.roomType.roomTemplates.add(roomTemplate);
-            roomTemplate.protoprops = new ArrayList<Protoprop>();
+            roomTemplate.protoprops = new HashSet<>();
             roomTemplate.background = resources.get(rsRoomTemplate.getInt("background"));
             roomTemplate.background.roomTemplates.add(roomTemplate);
             roomTemplates.put(roomTemplate.id, roomTemplate);
@@ -346,13 +346,13 @@ public class ScenarioBuilderDatabase {
             character.selectionWeight = rsCharacter.getInt("selection_weight");
             character.resource = resources.get(rsCharacter.getInt("resource"));
             character.resource.characters.add(character);
-            character.costumes = new ArrayList<Costume>();
-            character.murdererMotiveLink = new ArrayList<CharacterMotiveLink>();
-            character.victimMotiveLink = new ArrayList<CharacterMotiveLink>();
-            character.meansLink = new ArrayList<CharacterMeansLink>();
-            character.requiredAsMurderer = new ArrayList<Clue>();
-            character.requiredAsVictim = new ArrayList<Clue>();
-            character.responses = new ArrayList<QuestionAndResponse>();
+            character.costumes = new HashSet<>();
+            character.murdererMotiveLink = new HashSet<>();
+            character.victimMotiveLink = new HashSet<>();
+            character.meansLink = new HashSet<>();
+            character.requiredAsMurderer = new HashSet<>();
+            character.requiredAsVictim = new HashSet<>();
+            character.responses = new HashSet<>();
             characters.put(character.id, character);
         }
 
@@ -397,7 +397,7 @@ public class ScenarioBuilderDatabase {
             protoprop.y = rsProtoprop.getFloat("y_pos");
             protoprop.roomTemplate = roomTemplates.get(rsProtoprop.getInt("room_template"));
             protoprop.roomTemplate.protoprops.add(protoprop);
-            protoprop.props = new ArrayList<Prop>();
+            protoprop.props = new HashSet<>();
             protoprops.put(protoprop.id, protoprop);
         }
 
