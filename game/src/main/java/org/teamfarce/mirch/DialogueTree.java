@@ -77,9 +77,10 @@ public class DialogueTree {
      * and a clue is yielded, otherwise a bad response and no progressing is given.
      * @return
      */
-    String selectStyledQuestion(int intentSelection, int styleSelection, Journal journal){
+    String selectStyledQuestion(int intentSelection, int styleSelection, Journal journal, Suspect suspect){
     	ResponseIntent respInt = this.questions.get(intentSelection).getResponseIntent();
     	Style style = this.questions.get(intentSelection).getStyleChoices().get(styleSelection).getStyle();
+    	String question = this.questions.get(intentSelection).getDescription();
 		this.questions.remove(intentSelection);
     	
     	if (this.mapStylePersonality.get(style) == this.personality) {
@@ -88,9 +89,14 @@ public class DialogueTree {
         		this.questions.add(respInt.getQuestionIntent());
     		}
     		journal.addClue(respInt.getClue());
+    		journal.addConversation(respInt.getCorrectResponse(), suspect.name);
+    		journal.addConversation(question, "You");
+    		
     		return respInt.getCorrectResponse();
     	} 
     	else {
+    		journal.addConversation(respInt.responses.get(this.personality.ordinal()), suspect.name);
+    		journal.addConversation(question, "You");
     		return respInt.responses.get(this.personality.ordinal());
     	}
     }

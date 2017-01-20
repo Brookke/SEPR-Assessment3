@@ -21,6 +21,7 @@ public class Journal {
 	public Journal(){
 		this.foundProps = new ArrayList<Prop>();
 		this.conversations = "";
+		this.foundClues = new ArrayList<Clue>();
 	}
 	
 	/**
