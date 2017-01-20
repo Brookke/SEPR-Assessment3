@@ -28,6 +28,7 @@ public class ScenarioBuilder {
     private Random random;
     private WeightedSelection selector;
     private ScenarioBuilderDatabase database;
+    private HashSet<ScenarioBuilderDatabase.QuestioningStyle> chosenStyles;
 
     ScenarioBuilder() throws SQLException {
         minRoomCount = 8;
@@ -37,6 +38,7 @@ public class ScenarioBuilder {
         random = new Random();
         selector = new WeightedSelection(random);
         database = new ScenarioBuilderDatabase("database.db");
+        chosenStyles = new HashSet<>();
     }
 
     public GameSnapshot generateGame() throws ScenarioBuilderException {
