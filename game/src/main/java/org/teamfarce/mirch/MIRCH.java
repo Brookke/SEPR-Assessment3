@@ -322,16 +322,55 @@ public class MIRCH extends ApplicationAdapter{
 		theStage.addActor(playerName);
 	}
 	
+	
 	/**
-	 * Generates the question intention UI stage 
+	 * Generates the question response screen
 	 * @param theStage
 	 * @param suspect
 	 * @param player
+	 * @param intent
+	 * @param style
 	 */
-	private void genIntentionScreen(Stage theStage, Suspect suspect, Sprite player){
-		theStage.clear(); //clear the stage
+	private void genQResponseScreen(Stage theStage, Suspect suspect, Sprite player, int intent, int style){
+		theStage.clear();
+		
+		genQuestionBase(theStage, suspect, player);
+		
+		String response = suspect.dialogueTree.selectStyledQuestion(intent, style, gameSnapshot.journal);
+		
+		Label comment = new Label (response, uiSkin);
+		comment.setPosition(300, 600);
+		theStage.addActor(comment);
+		
+		TextButton exitButton = new TextButton("End Conversation", uiSkin);
+		exitButton.setPosition(300, 100);
 
-		genQuestionBase(theStage, suspect, player); //generate the base stage that we can the build off of	
+		exitButton.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				System.out.println("Exit was pressed");
+				gameSnapshot.setState(GameState.map);
+			}
+		});
+		
+		theStage.addActor(exitButton);
+		
+		TextButton continueButton = new TextButton("Ask Another Question", uiSkin);
+		continueButton.setPosition(600, 100);
+
+		continueButton.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				System.out.println("Ask another question was pressed");
+				genIntentionScreen(theStage, suspect, player); //move back to the intention screen
+				gameSnapshot.incrementTime(); //increment the pseudotime counter as an action has been made
+			}
+		});
+		
+		theStage.addActor(continueButton);
+		
+		
+		
+		
+		
 	}
 	
 	/**
@@ -340,9 +379,74 @@ public class MIRCH extends ApplicationAdapter{
 	 * @param suspect
 	 * @param player
 	 */
-	private void genStyleScreen(Stage theStage, Suspect suspect, Sprite player){
+	private void genStyleScreen(Stage theStage, Suspect suspect, Sprite player, int intent){
+		theStage.clear();
 		
+		Label comment = new Label ("Be careful of your phrasing...", uiSkin);
+		comment.setPosition(300, 600);
+		theStage.addActor(comment);
+		
+		genQuestionBase(theStage, suspect, player);
+		
+		float buttonX = 300;
+		float buttonY = 200;
+		float buttonSpace = 50;
+		ArrayList<String> styles = suspect.dialogueTree.getAvailableStyles(intent);
+		for (int i = 0; i < styles.size(); i++){
+			TextButton button = new TextButton(styles.get(i), uiSkin);
+			button.setPosition(buttonX, buttonY);
+
+			final int k = i;
+			button.addListener(new ChangeListener() {
+				public void changed (ChangeEvent event, Actor actor) {
+					System.out.println("Style was pressed");
+					genQResponseScreen(theStage, suspect, player, intent, k);
+				}
+			});
+
+			theStage.addActor(button);
+
+			buttonX += buttonSpace;
+		}
 	}
+	
+	/**
+	 * Generates the question intention selection screen
+	 * @param theStage
+	 * @param suspect
+	 * @param player
+	 */
+	private void genIntentionScreen(Stage theStage, Suspect suspect, Sprite player){
+		theStage.clear(); //clear the stage
+		
+		genQuestionBase(theStage, suspect, player); //generate the base stage that we can the build off of	
+		
+		Label comment = new Label ("Go on then, ask your question.", uiSkin);
+		comment.setPosition(300, 600);
+		theStage.addActor(comment);
+		
+		float buttonX = 300;
+		float buttonY = 200;
+		float buttonSpace = 50;
+		for (int i = 0; i < suspect.dialogueTree.getAvailableIntents().size(); i++){
+			TextButton button = new TextButton(suspect.dialogueTree.getAvailableIntentsAsString().get(i), uiSkin);
+			button.setPosition(buttonX, buttonY);
+
+			final int k = i;
+			button.addListener(new ChangeListener() {
+				public void changed (ChangeEvent event, Actor actor) {
+					System.out.println("Button was pressed");
+					gameSnapshot.setState(GameState.dialogueStyle);
+					genStyleScreen(theStage, suspect, player, k);
+				}
+			});
+
+			theStage.addActor(button);
+
+			buttonX += buttonSpace;
+		}
+	}
+
 	
 	/**
 	 * Generates the question response screen UI stage
@@ -871,23 +975,7 @@ public class MIRCH extends ApplicationAdapter{
 		      questionIntentionStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		      questionIntentionStage.draw();
 		      
-	      } else if (gameSnapshot.getState() == GameState.dialogueStyle){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      batch.begin();
-		      dialogueSprite.draw(batch);
-		      batch.end();
-		      questionStyleStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-		      questionStyleStage.draw();
-	      } else if (gameSnapshot.getState() == GameState.dialogueResponse){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      batch.begin();
-		      dialogueSprite.draw(batch);
-		      batch.end();
-		      questionResponseStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-		      questionResponseStage.draw();
-	      }
+	      } 
 	      
 	      step++; //increment the step counter
 		
