@@ -342,12 +342,12 @@ public class MIRCH extends ApplicationAdapter{
 		String response = suspect.dialogueTree.selectStyledQuestion(intent, style, gameSnapshot.journal, suspect);
 		
 		Label comment = new Label (response, uiSkin);
-		comment.setPosition(300, 500);
+		comment.setPosition(300, 480);
 		theStage.addActor(comment);
 		
 		
 		TextButton exitButton = new TextButton("Exit Conversation", uiSkin);
-		exitButton.setPosition(650, 300);
+		exitButton.setPosition(500, 250);
 
 		exitButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
@@ -357,7 +357,7 @@ public class MIRCH extends ApplicationAdapter{
 		});
 		
 		TextButton ctButton = new TextButton("Continue Conversation", uiSkin);
-		ctButton.setPosition(300, 250);
+		ctButton.setPosition(800, 250);
 
 		ctButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
