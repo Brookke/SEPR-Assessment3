@@ -8,9 +8,10 @@ public class QuestionIntent {
 	//string used when displying the question intents to choose from
 	private String description;
 	
-	QuestionIntent(ArrayList<Question> questions, ResponseIntent resp ) {
+	QuestionIntent(ArrayList<Question> questions, ResponseIntent resp, String description) {
         this.questions = questions; 
         this.response = resp;
+        this.description = description;
 	}
 	
 	

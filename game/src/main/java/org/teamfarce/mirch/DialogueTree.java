@@ -83,9 +83,12 @@ public class DialogueTree {
 		this.questions.remove(intentSelection);
     	
     	if (this.mapStylePersonality.get(style) == this.personality) {
-    		this.questions.add(respInt.getQuestionIntent());
+    		//todo use add conversation to journal method.
+    		if(!respInt.isDead()){
+        		this.questions.add(respInt.getQuestionIntent());
+    		}
     		journal.addClue(respInt.getClue());
-    		return respInt.correctResponse;
+    		return respInt.getCorrectResponse();
     	} 
     	else {
     		return respInt.responses.get(this.personality.ordinal());

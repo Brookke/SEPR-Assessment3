@@ -9,10 +9,14 @@ public class Clue {
 	//score values until you can accuse someone
     int provesMotive;
     int provesMean;
+    String name;
 
     /**
      * Initialiser function.
      */
-    Clue() {
+    Clue(int motiveScore, int meansScore, String name) {
+    	this.provesMotive = motiveScore;
+    	this.provesMean = meansScore;
+    	this.name = name;
     }
 }
