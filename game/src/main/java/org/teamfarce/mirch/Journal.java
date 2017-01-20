@@ -21,6 +21,7 @@ public class Journal {
 	public Journal(){
 		this.foundProps = new ArrayList<Prop>();
 		this.conversations = "";
+		this.foundClues = new ArrayList<Clue>();
 	}
 	
 	/**
@@ -47,7 +48,7 @@ public class Journal {
 	 * @param character
 	 */
 	public void addConversation(String text, String characterName){
-		this.conversations = characterName + " : " + text + "/n" + this.conversations;	
+		this.conversations = characterName + " : " + text + "\n" + this.conversations;	
 	}
 	
 	/**

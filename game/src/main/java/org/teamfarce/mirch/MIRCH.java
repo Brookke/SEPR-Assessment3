@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 
 /**
  * MIRCH is used to generate all graphics in the program. It initialises the scenario generator and game state
@@ -181,17 +182,17 @@ public class MIRCH extends ApplicationAdapter{
 	 */
 	private boolean inDoor(ArrayList<Door> doors, Sprite player){
 		boolean toReturn = false;
-		System.out.println("Checking door");
+		//System.out.println("Checking door");
 		for (Door door: doors){
-			System.out.println(door.startX);
-			System.out.println(player.getX());
-			System.out.println(door.endX);
+			//System.out.println(door.startX);
+			//System.out.println(player.getX());
+			//ystem.out.println(door.endX);
 			if ((player.getX() > door.startX - (characterWidth / 2)) && (player.getX() < door.endX - (characterWidth / 2))){ //reduce by characterWidth/2 as sprites are located from bottom left corner
-				System.out.println("in x");
+				//System.out.println("in x");
 				
 				if ((player.getY() > door.startY - 50) && (player.getY() < door.endY + 50)){
 					toReturn = true;
-					System.out.println("in y");
+					//System.out.println("in y");
 				}
 			}
 		}
@@ -339,14 +340,15 @@ public class MIRCH extends ApplicationAdapter{
 		
 		genQuestionBase(theStage, suspect, player);
 		
-		String response = suspect.dialogueTree.selectStyledQuestion(intent, style, gameSnapshot.journal);
+		String response = suspect.dialogueTree.selectStyledQuestion(intent, style, gameSnapshot.journal, suspect);
 		
 		Label comment = new Label (response, uiSkin);
-		comment.setPosition(300, 600);
+		comment.setPosition(300, 480);
 		theStage.addActor(comment);
 		
-		TextButton exitButton = new TextButton("End Conversation", uiSkin);
-		exitButton.setPosition(300, 100);
+		
+		TextButton exitButton = new TextButton("Exit Conversation", uiSkin);
+		exitButton.setPosition(500, 250);
 
 		exitButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
@@ -355,23 +357,20 @@ public class MIRCH extends ApplicationAdapter{
 			}
 		});
 		
-		theStage.addActor(exitButton);
-		
-		TextButton continueButton = new TextButton("Ask Another Question", uiSkin);
-		continueButton.setPosition(600, 100);
+		TextButton ctButton = new TextButton("Continue Conversation", uiSkin);
+		ctButton.setPosition(800, 250);
 
-		continueButton.addListener(new ChangeListener() {
+		ctButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("Ask another question was pressed");
-				genIntentionScreen(theStage, suspect, player); //move back to the intention screen
-				gameSnapshot.incrementTime(); //increment the pseudotime counter as an action has been made
+				System.out.println("Continue was pressed");
+				genIntentionScreen(theStage, suspect, player);
+				
 			}
 		});
 		
-		theStage.addActor(continueButton);
-		
-		
-		
+
+		theStage.addActor(ctButton);
+		theStage.addActor(exitButton);
 		
 		
 	}
@@ -386,7 +385,7 @@ public class MIRCH extends ApplicationAdapter{
 		theStage.clear();
 		
 		Label comment = new Label ("Be careful of your phrasing...", uiSkin);
-		comment.setPosition(300, 600);
+		comment.setPosition(300, 490);
 		theStage.addActor(comment);
 		
 		genQuestionBase(theStage, suspect, player);
@@ -395,9 +394,22 @@ public class MIRCH extends ApplicationAdapter{
 		float buttonY = 200;
 		float buttonSpace = 50;
 		ArrayList<String> styles = suspect.dialogueTree.getAvailableStyles(intent);
+		
+		Table theTable = new Table(uiSkin);
+		theTable.align(Align.left);
+
+		Table qcontainer = new Table(uiSkin);
+		ScrollPane qscroll = new ScrollPane(theTable, uiSkin);
+		//scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
+
+
+		qscroll.layout();
+		qcontainer.add(qscroll).width(550f).height(130f);
+		qcontainer.row();
+		qcontainer.setPosition(720, 270);
+		
 		for (int i = 0; i < styles.size(); i++){
 			TextButton button = new TextButton(styles.get(i), uiSkin);
-			button.setPosition(buttonX, buttonY);
 
 			final int k = i;
 			button.addListener(new ChangeListener() {
@@ -407,10 +419,13 @@ public class MIRCH extends ApplicationAdapter{
 				}
 			});
 
-			theStage.addActor(button);
+			theTable.add(button);
+			theTable.row();
 
 			buttonX += buttonSpace;
 		}
+		
+		theStage.addActor(qcontainer);
 	}
 	
 	/**
@@ -424,43 +439,60 @@ public class MIRCH extends ApplicationAdapter{
 		
 		genQuestionBase(theStage, suspect, player); //generate the base stage that we can the build off of	
 		
-		Label comment = new Label ("Go on then, ask your question.", uiSkin);
-		comment.setPosition(300, 600);
-		theStage.addActor(comment);
-		
-		float buttonX = 300;
-		float buttonY = 200;
-		float buttonSpace = 50;
-		for (int i = 0; i < suspect.dialogueTree.getAvailableIntents().size(); i++){
-			TextButton button = new TextButton(suspect.dialogueTree.getAvailableIntentsAsString().get(i), uiSkin);
-			button.setPosition(buttonX, buttonY);
+		if (suspect.dialogueTree.getAvailableIntents().size() > 0){
 
-			final int k = i;
+			Label comment = new Label ("Go on then, ask your question.", uiSkin);
+			comment.setPosition(300, 500);
+			theStage.addActor(comment);
+			
+			Table theTable = new Table(uiSkin);
+			theTable.align(Align.left);
+
+			Table qcontainer = new Table(uiSkin);
+			ScrollPane qscroll = new ScrollPane(theTable, uiSkin);
+			//scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
+
+
+			qscroll.layout();
+			qcontainer.add(qscroll).width(550f).height(130f);
+			qcontainer.row();
+			qcontainer.setPosition(720, 270);
+
+			for (int i = 0; i < suspect.dialogueTree.getAvailableIntents().size(); i++){
+				TextButton button = new TextButton(suspect.dialogueTree.getAvailableIntentsAsString().get(i), uiSkin);
+
+				final int k = i;
+				button.addListener(new ChangeListener() {
+					public void changed (ChangeEvent event, Actor actor) {
+						System.out.println("Button was pressed");
+						genStyleScreen(theStage, suspect, player, k);
+					}
+				});
+				
+				theTable.add(button);
+				theTable.row();
+				
+				theStage.addActor(qcontainer);
+			}
+		} else {
+			Label comment = new Label ("Go away, I'm not talking to you any more.", uiSkin);
+			comment.setPosition(300, 500);
+			theStage.addActor(comment);
+			
+		
+			TextButton button = new TextButton("Leave the Intervuew", uiSkin);
+			button.setPosition(500, 280);
+			theStage.addActor(button);
+
 			button.addListener(new ChangeListener() {
 				public void changed (ChangeEvent event, Actor actor) {
 					System.out.println("Button was pressed");
-					gameSnapshot.setState(GameState.dialogueStyle);
-					genStyleScreen(theStage, suspect, player, k);
+					gameSnapshot.setState(GameState.map);
 				}
 			});
-
-			theStage.addActor(button);
-
-			buttonX += buttonSpace;
 		}
 	}
 
-	
-	/**
-	 * Generates the question response screen UI stage
-	 * @param theStage
-	 * @param suspect
-	 * @param player
-	 */
-	private void genResponseScreen(Stage theStage, Suspect suspect, Sprite player){
-
-	}
-	
 	/**
 	 * Creates a pop up window with text announcing that the user has found the referenced prop
 	 * @param prop
@@ -815,11 +847,9 @@ public class MIRCH extends ApplicationAdapter{
 		multiplexer.addProcessor(journalNotepadStage);
 		multiplexer.addProcessor(controlStage);
 		multiplexer.addProcessor(questionIntentionStage);
-		multiplexer.addProcessor(questionResponseStage);
-		multiplexer.addProcessor(questionStyleStage);
 		Gdx.input.setInputProcessor(multiplexer);
 		
-		System.out.println(rooms.size());
+		//System.out.println(rooms.size());
 		//drawCharacterSelection(); 	      
 	}
 	
@@ -835,6 +865,10 @@ public class MIRCH extends ApplicationAdapter{
 	      
 	      //Draw the map here
 	      if (gameSnapshot.getState() == GameState.map){
+	    	//Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(controlStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
 	    	  //store the players current room and position, so that we can later check that the player has not stepped over the room bounds
 	    	  RenderItem currentRoom = getCurrentRoom(rooms, player); //find the current room that the player is in
 	    	  Float currentX = player.getX();
@@ -865,19 +899,19 @@ public class MIRCH extends ApplicationAdapter{
 	    	  }
 	    	  
 	    	  java.util.Random random = new java.util.Random();
-	    	  System.out.println(random.nextInt(10));
+	    	  //System.out.println(random.nextInt(10));
 	    	  
 	    	  //loop through each suspect character, moving them randomly
 	    	  for (RenderItem character: characters){
 	    		  if ((step % moveStep) == 0){
-	    			  System.out.println("Updating move step");
+	    			  //System.out.println("Updating move step");
 	    			  //Carries out a probability check to determine whether the character should move or stay stationary
 	    			  //This gives the characters a 'meandering' look
 	    			  if (random.nextInt(2) >= 1){ 
 	    				  //calculate the new move vector for the character
 		    			  float randX =  (float) random.nextInt((int) characterMove * 2 + 1) - characterMove;
 			    		  float randY = (float) random.nextInt((int) characterMove * 2 + 1) - characterMove;
-			    		  System.out.println(randX); 
+			    		  //System.out.println(randX); 
 		    			  Suspect suspect = (Suspect) character.object; //store the characters current room
 		    			  suspect.moveStep = new Vector2(randX, randY);
 		    			  character.object = suspect;
@@ -913,23 +947,25 @@ public class MIRCH extends ApplicationAdapter{
 
 	    	  // process user touch input
 	    	  if (Gdx.input.isTouched()) {
+	    		  System.out.println("Input clicked");
 	    		  Vector3 touchPos = new Vector3();
 	    		  touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 	    		  camera.unproject(touchPos);
 
 	    		  boolean clicked = false; //stores whether an object has been clicked
-	    		  int length = objects.size();
-	    		  int i = 0;
-	    		  System.out.println(length);
+
+
+	    		  //System.out.println(length);
 	    		  //loop while no object has been clicked - this prevents the clicking of multiple items that may be overlaying eachother
-	    		  length = characters.size();
-	    		  i = 0;
+	    		  int length = characters.size();
+	    		  int i = 0;
 	    		  while (!clicked && (i < length)){
 	    			  clicked = isObjectPressed(characters.get(i).sprite, touchPos); //characters are drawn on top so check them first
 	    			  
 	    			  //if a character is clicked, generate the question intention screen for the character and change state so that the
 	    			  //dialogue intention screen can be displayed
 	    			  if (clicked){
+	    				  System.out.println("Character clicked");
 	    				  genIntentionScreen(questionIntentionStage, (Suspect) characters.get(i).object, player);
 	    				  gameSnapshot.setState(GameState.dialogueIntention); 
 	    				  gameSnapshot.incrementTime(); //increment the pseudotime counter as an action has been made
@@ -937,6 +973,8 @@ public class MIRCH extends ApplicationAdapter{
 	    			  i++;
 	    		  }
 	    		  
+	    		  length = objects.size();
+	    		  i = 0;
 	    		  while (!clicked && (i < length)){
 	    			  clicked = isObjectPressed(objects.get(i).sprite, touchPos);
 	    			  if (clicked){
@@ -970,6 +1008,11 @@ public class MIRCH extends ApplicationAdapter{
 	      
 	    	  //Draw the journal here
 	      } else if (gameSnapshot.getState() == GameState.journalHome){
+	    	  //Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(journalStage);
+	    	  multiplexer.addProcessor(controlStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 	    	  controlStage.draw(); //draw the global control buttons
@@ -979,6 +1022,13 @@ public class MIRCH extends ApplicationAdapter{
 	    	  journalStage.draw();
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.journalClues){
+	    	  //Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(journalStage);
+	    	  multiplexer.addProcessor(journalCluesStage);
+	    	  multiplexer.addProcessor(controlStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
+	    	  
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 	    	  controlStage.draw();
@@ -992,6 +1042,13 @@ public class MIRCH extends ApplicationAdapter{
 	    	  
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.journalQuestions){
+	    	  //Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(journalStage);
+	    	  multiplexer.addProcessor(journalQuestionsStage);
+	    	  multiplexer.addProcessor(controlStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
+
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 	    	  controlStage.draw();
@@ -1004,6 +1061,13 @@ public class MIRCH extends ApplicationAdapter{
 	    	  journalQuestionsStage.draw();
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.journalNotepad){
+	    	  //Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(journalStage);
+	    	  multiplexer.addProcessor(journalNotepadStage);
+	    	  multiplexer.addProcessor(controlStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
+
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 	    	  controlStage.draw();
@@ -1016,6 +1080,10 @@ public class MIRCH extends ApplicationAdapter{
 	    	  
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.dialogueIntention){
+	    	  //Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(questionIntentionStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 		      batch.begin();
