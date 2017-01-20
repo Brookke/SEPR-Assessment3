@@ -17,6 +17,8 @@ import org.teamfarce.mirch.ScenarioBuilderDatabase.CharacterMotiveLink;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Means;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Motive;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Clue;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestioningIntention;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestionAndResponse;
 
 public class ScenarioBuilder {
     public class ScenarioBuilderException extends Exception {
@@ -267,6 +269,9 @@ public class ScenarioBuilder {
             throw new ScenarioBuilderException("Could not minimum suspect count");
         }
 
+        // The murderer is a suspect as well.
+        selectedSuspects.add(selectedMurderer);
+
         // Get our means.
         Means selectedMeans = selector
                 .selectWeightedObject(selectedMurderer.meansLink, x -> x.selectionWeight)
@@ -275,7 +280,8 @@ public class ScenarioBuilder {
 
         HashSet<Clue> selectedClues = new HashSet<>();
 
-        // Get the clues
+        // Get the clues. This is done by filtering out the clues of the selected motive/means
+        // which required the victim/murderer to be different.
         List<Clue> meansClues = selectedMeans
             .clues
             .stream()
@@ -291,6 +297,34 @@ public class ScenarioBuilder {
             .filter(c -> selectedVictim.requiredAsVictim.contains(c))
             .collect(Collectors.toList());
         selectedClues.addAll(motiveClues);
+
+        // Build up our map of dialogue tree roots. This will be the question intentions which are
+        // marked as being starting questions.
+        HashMap<ScenarioBuilderDatabase.Character, ArrayList<QuestioningIntention>>
+            dialgoueTreeRoots = new HashMap<>();
+        for (ScenarioBuilderDatabase.Character character: selectedSuspects) {
+            dialgoueTreeRoots.put(character, new ArrayList<>());
+        }
+
+        // We'll want to consider all questioning intentions which are marked as being starting
+        // questions.
+        for (QuestioningIntention intention: database.questioningIntentions.values()) {
+            if (!intention.startingQuestion) { continue; }
+            // Next consider all of the questions associated response. We'll add the intention we
+            // are currently considering to any character's dialogue tree root collection, if the
+            // question and response we are considering is said by such character.
+            for (QuestionAndResponse response: intention.questions) {
+                for (ScenarioBuilderDatabase.Character character: response.saidBy) {
+                    // We only need to consider characters which we have selected to be in this
+                    // case of the game. The hashmap has previously be populated with the selected
+                    // characters mapped to empty arrays. Because of this, if the character is not
+                    // in the map's keys, then the character has not be selected and can be
+                    // discarded.
+                    if (!dialgoueTreeRoots.containsKey(character)) { continue; }
+                    dialgoueTreeRoots.get(character).add(intention);
+                }
+            }
+        }
 
         return null;
     }
