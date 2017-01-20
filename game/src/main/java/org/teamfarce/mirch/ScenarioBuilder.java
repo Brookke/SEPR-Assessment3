@@ -10,6 +10,13 @@ import java.util.stream.Collectors;
 import java.util.Random;
 import org.teamfarce.mirch.ScenarioBuilderDatabase;
 import org.teamfarce.mirch.WeightedSelection;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestioningStyle;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.RoomTemplate;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.RoomType;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.CharacterMotiveLink;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.Means;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.Motive;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.Clue;
 
 public class ScenarioBuilder {
     public class ScenarioBuilderException extends Exception {
@@ -25,7 +32,7 @@ public class ScenarioBuilder {
     private Random random;
     private WeightedSelection selector;
     private ScenarioBuilderDatabase database;
-    private HashSet<ScenarioBuilderDatabase.QuestioningStyle> chosenStyles;
+    private HashSet<QuestioningStyle> chosenStyles;
 
     /**
      * Constructs a new scenario builder with some default values set.
@@ -138,7 +145,7 @@ public class ScenarioBuilder {
      * @param style The style to add.
      * @return This to allow chaining.
      */
-    public ScenarioBuilder addStyle(ScenarioBuilderDatabase.QuestioningStyle style) {
+    public ScenarioBuilder addStyle(QuestioningStyle style) {
         chosenStyles.add(style);
         return this;
     }
@@ -149,7 +156,7 @@ public class ScenarioBuilder {
      * @param styles The styles to add.
      * @return This to allow chaining.
      */
-    public ScenarioBuilder addStyles(Collection<ScenarioBuilderDatabase.QuestioningStyle> styles) {
+    public ScenarioBuilder addStyles(Collection<QuestioningStyle> styles) {
         chosenStyles.addAll(styles);
         return this;
     }
@@ -160,7 +167,7 @@ public class ScenarioBuilder {
      * @param styles The styles to set.
      * @return This to allow chaining.
      */
-    public ScenarioBuilder setStyles(Collection<ScenarioBuilderDatabase.QuestioningStyle> styles) {
+    public ScenarioBuilder setStyles(Collection<QuestioningStyle> styles) {
         chosenStyles = new HashSet<>(styles);
         return this;
     }
@@ -169,14 +176,14 @@ public class ScenarioBuilder {
         int targetRoomCount = minRoomCount + random.nextInt(maxRoomCount - minRoomCount + 1);
 
         // The room templates we have selected.
-        ArrayList<ScenarioBuilderDatabase.RoomTemplate> selectedRoomTemplates = new ArrayList<>();
+        ArrayList<RoomTemplate> selectedRoomTemplates = new ArrayList<>();
 
         // A list which represents the room types we can still use. This should include the room
         // types maxCount times. They should be removed from the list when a room template is
         // selected from them.
-        ArrayList<ScenarioBuilderDatabase.RoomType> selectedRoomTypes = new ArrayList<>();
+        ArrayList<RoomType> selectedRoomTypes = new ArrayList<>();
 
-        for (ScenarioBuilderDatabase.RoomType roomType: database.roomTypes.values()) {
+        for (RoomType roomType: database.roomTypes.values()) {
             // Include the room types which are required. These are the room types which have a
             // minimum count larger than one.
             for (int i = 0; i < roomType.minCount; ++i) {
@@ -218,15 +225,14 @@ public class ScenarioBuilder {
         }
 
         // Select a character motive link to use.
-        ScenarioBuilderDatabase.CharacterMotiveLink selectedCharacterMotiveLink =
-            selector.selectWeightedObject(
-                database.characterMotiveLinks.values(), x -> x.selectionWeight
-            ).get();
+        CharacterMotiveLink selectedCharacterMotiveLink = selector.selectWeightedObject(
+            database.characterMotiveLinks.values(), x -> x.selectionWeight
+        ).get();
 
         // Extract the murderer, victim and motive.
         ScenarioBuilderDatabase.Character selectedMurderer = selectedCharacterMotiveLink.murderer;
         ScenarioBuilderDatabase.Character selectedVictim = selectedCharacterMotiveLink.victim;
-        ScenarioBuilderDatabase.Motive selectedMotive = selectedCharacterMotiveLink.motive;
+        Motive selectedMotive = selectedCharacterMotiveLink.motive;
 
         // Create a list of suspect which we can choose from to construct our suspect list. This
         // includes all of the suspects from our data minus the murderer and victim.
@@ -262,16 +268,15 @@ public class ScenarioBuilder {
         }
 
         // Get our means.
-        ScenarioBuilderDatabase.Means selectedMeans =
-            selector
+        Means selectedMeans = selector
                 .selectWeightedObject(selectedMurderer.meansLink, x -> x.selectionWeight)
                 .get()
                 .means;
 
-        HashSet<ScenarioBuilderDatabase.Clue> selectedClues = new HashSet<>();
+        HashSet<Clue> selectedClues = new HashSet<>();
 
         // Get the clues
-        List<ScenarioBuilderDatabase.Clue> meansClues = selectedMeans
+        List<Clue> meansClues = selectedMeans
             .clues
             .stream()
             .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
@@ -279,7 +284,7 @@ public class ScenarioBuilder {
             .collect(Collectors.toList());
         selectedClues.addAll(meansClues);
 
-        List<ScenarioBuilderDatabase.Clue> motiveClues = selectedMotive
+        List<Clue> motiveClues = selectedMotive
             .clues
             .stream()
             .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
