@@ -238,13 +238,8 @@ public class ScenarioBuilder {
 
         // Create a list of suspect which we can choose from to construct our suspect list. This
         // includes all of the suspects from our data minus the murderer and victim.
-        //
-        // This next statement casts from `Object` to
-        // `ArrayList<ScenarioBuilderDatabase.Character>` because the result of clone is object.
-        // Because we know database.characters to be of this type we safely ignore this warning.
-        @SuppressWarnings("unchecked")
         ArrayList<ScenarioBuilderDatabase.Character> potentialSuspects =
-            (ArrayList<ScenarioBuilderDatabase.Character>)database.characters.clone();
+            new ArrayList<>(database.characters.values());
         potentialSuspects.remove(selectedMurderer);
         potentialSuspects.remove(selectedVictim);
 
