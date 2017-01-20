@@ -324,6 +324,8 @@ public class ScenarioBuilder {
             }
         }
 
+        ArrayList<Room> constructedRooms = new ArrayList<>();
+
         // Store the positions in which a room has been placed. We will use this to decide if we
         // can place a room in a particular position.
         ArrayList<Rectangle> claimedPositions = new ArrayList<>();
@@ -344,6 +346,10 @@ public class ScenarioBuilder {
 
             // Indicate that we have placed the room.
             claimedPositions.add(roomPosition);
+
+            // TODO: Actually construct a room
+            Room room = null;
+            constructedRooms.add(room);
         }
 
         return null;
