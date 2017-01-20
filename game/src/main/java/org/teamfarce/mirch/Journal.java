@@ -46,17 +46,8 @@ public class Journal {
 	 * @param text
 	 * @param character
 	 */
-	public void addConversation(String text, Suspect character){
-		boolean characterFound = false;
-		for (JournalCharacter c : this.metCharacters){
-			if (c.suspect.equals(character)){
-				c.communicatons += text + "\n";
-				characterFound = true;
-			}
-		}
-		if (!characterFound){
-			this.metCharacters.add(new JournalCharacter(character, text));
-		}
+	public void addConversation(String text, String characterName){
+		this.conversations = characterName + " : " + text + "/n" + this.conversations;	
 	}
 	
 	/**
