@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Random;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 import org.teamfarce.mirch.ScenarioBuilderDatabase;
 import org.teamfarce.mirch.WeightedSelection;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestioningStyle;
@@ -19,6 +21,7 @@ import org.teamfarce.mirch.ScenarioBuilderDatabase.Motive;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Clue;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestioningIntention;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestionAndResponse;
+import org.teamfarce.mirch.Room;
 
 public class ScenarioBuilder {
     public class ScenarioBuilderException extends Exception {
@@ -319,6 +322,28 @@ public class ScenarioBuilder {
                     dialgoueTreeRoots.get(character).add(intention);
                 }
             }
+        }
+
+        // Store the positions in which a room has been placed. We will use this to decide if we
+        // can place a room in a particular position.
+        ArrayList<Rectangle> claimedPositions = new ArrayList<>();
+
+        // This is the vector we will add to the position if we cannot place the room.
+        Vector2 conflictResolveDirection = new Vector2(1.0f, 0.0f);
+
+        // Resolve all of the rooms.
+        for (RoomTemplate template: selectedRoomTemplates) {
+            Rectangle roomPosition = new Rectangle(0.0f, 0.0f, template.width, template.height);
+
+            // Keep moving the room until it can be placed.
+            while (claimedPositions.stream().anyMatch(x -> roomPosition.overlaps(x))) {
+                roomPosition.setPosition(
+                    roomPosition.getPosition(new Vector2()).add(conflictResolveDirection)
+                );
+            }
+
+            // Indicate that we have placed the room.
+            claimedPositions.add(roomPosition);
         }
 
         return null;
