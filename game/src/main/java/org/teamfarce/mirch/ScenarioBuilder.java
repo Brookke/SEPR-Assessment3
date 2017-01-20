@@ -10,7 +10,6 @@ import java.util.function.ToIntFunction;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import java.util.Random;
-import java.sql.SQLException;
 import org.teamfarce.mirch.ScenarioBuilderDatabase;
 import org.teamfarce.mirch.WeightedSelection;
 
@@ -30,14 +29,17 @@ public class ScenarioBuilder {
     private ScenarioBuilderDatabase database;
     private HashSet<ScenarioBuilderDatabase.QuestioningStyle> chosenStyles;
 
-    ScenarioBuilder() throws SQLException {
+    /**
+     * Constructs a new scenario builder with some default values set.
+     */
+    public ScenarioBuilder() {
         minRoomCount = 8;
         maxRoomCount = 8;
         minSuspectCount = 5;
         maxSuspectCount = 5;
         random = new Random();
         selector = new WeightedSelection(random);
-        database = new ScenarioBuilderDatabase("database.db");
+        database = null;
         chosenStyles = new HashSet<>();
     }
 
