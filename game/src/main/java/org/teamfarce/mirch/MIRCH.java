@@ -347,7 +347,7 @@ public class MIRCH extends ApplicationAdapter{
 		
 		
 		TextButton exitButton = new TextButton("Exit Conversation", uiSkin);
-		exitButton.setPosition(500, 250);
+		exitButton.setPosition(650, 300);
 
 		exitButton.addListener(new ChangeListener() {
 			public void changed (ChangeEvent event, Actor actor) {
@@ -837,6 +837,10 @@ public class MIRCH extends ApplicationAdapter{
 	      
 	      //Draw the map here
 	      if (gameSnapshot.getState() == GameState.map){
+	    	//Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(controlStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
 	    	  //store the players current room and position, so that we can later check that the player has not stepped over the room bounds
 	    	  RenderItem currentRoom = getCurrentRoom(rooms, player); //find the current room that the player is in
 	    	  Float currentX = player.getX();
@@ -976,6 +980,11 @@ public class MIRCH extends ApplicationAdapter{
 	      
 	    	  //Draw the journal here
 	      } else if (gameSnapshot.getState() == GameState.journalHome){
+	    	  //Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(journalStage);
+	    	  multiplexer.addProcessor(controlStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 	    	  controlStage.draw(); //draw the global control buttons
@@ -985,6 +994,13 @@ public class MIRCH extends ApplicationAdapter{
 	    	  journalStage.draw();
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.journalClues){
+	    	  //Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(journalStage);
+	    	  multiplexer.addProcessor(journalCluesStage);
+	    	  multiplexer.addProcessor(controlStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
+	    	  
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 	    	  controlStage.draw();
@@ -998,6 +1014,13 @@ public class MIRCH extends ApplicationAdapter{
 	    	  
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.journalQuestions){
+	    	  //Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(journalStage);
+	    	  multiplexer.addProcessor(journalQuestionsStage);
+	    	  multiplexer.addProcessor(controlStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
+
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 	    	  controlStage.draw();
@@ -1010,6 +1033,13 @@ public class MIRCH extends ApplicationAdapter{
 	    	  journalQuestionsStage.draw();
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.journalNotepad){
+	    	  //Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(journalStage);
+	    	  multiplexer.addProcessor(journalNotepadStage);
+	    	  multiplexer.addProcessor(controlStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
+
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 	    	  controlStage.draw();
@@ -1022,6 +1052,10 @@ public class MIRCH extends ApplicationAdapter{
 	    	  
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.dialogueIntention){
+	    	  //Create an input multiplexer to take input from every stage
+	    	  InputMultiplexer multiplexer = new InputMultiplexer();
+	    	  multiplexer.addProcessor(questionIntentionStage);
+	    	  Gdx.input.setInputProcessor(multiplexer);
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 		      batch.begin();
