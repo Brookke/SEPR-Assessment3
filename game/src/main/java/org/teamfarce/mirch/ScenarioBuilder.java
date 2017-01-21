@@ -30,6 +30,12 @@ public class ScenarioBuilder {
         }
     }
 
+    private static class CharacterData {
+        public ScenarioBuilderDatabase.Character victim = null;
+        public ScenarioBuilderDatabase.Character murderer = null;
+        public ArrayList<ScenarioBuilderDatabase.Character> suspects = new ArrayList<>();
+    }
+
     private int minRoomCount;
     private int maxRoomCount;
     private int minSuspectCount;
@@ -245,6 +251,54 @@ public class ScenarioBuilder {
         return selectedRoomTemplates;
     }
 
+    public static CharacterData chooseCharacters(
+        ScenarioBuilderDatabase database,
+        int minSuspectCount,
+        int maxSuspectCount,
+        CharacterMotiveLink selectedCharacterMotiveLink,
+        Random random
+    ) throws ScenarioBuilderException {
+        WeightedSelection selector = new WeightedSelection(random);
+        CharacterData characterData = new CharacterData();
+
+        // Extract the murderer, victim and motive.
+        characterData.murderer = selectedCharacterMotiveLink.murderer;
+        characterData.victim = selectedCharacterMotiveLink.victim;
+
+        // Create a list of suspect which we can choose from to construct our suspect list. This
+        // includes all of the suspects from our data minus the murderer and victim.
+        ArrayList<ScenarioBuilderDatabase.Character> potentialSuspects =
+            new ArrayList<>(database.characters.values());
+        potentialSuspects.remove(characterData.murderer);
+        potentialSuspects.remove(characterData.victim);
+
+        int targetSuspectCount =
+            minSuspectCount + random.nextInt(maxSuspectCount - minSuspectCount + 1);
+
+        // Keep randomly adding suspects whilst we haven't reached our target and we still have
+        // some characters to consider.
+        while (
+            characterData.suspects.size() < targetSuspectCount && potentialSuspects.size() > 0
+        ) {
+            characterData.suspects.add(selector.selectWeightedObject(
+                potentialSuspects,
+                x -> x.selectionWeight,
+                x -> potentialSuspects.remove(x)
+            ).get());
+        }
+
+        // If we haven't got more suspects than the minimum count, the data in the database was
+        // not sufficient to fulfil this requirement.
+        if (characterData.suspects.size() < minSuspectCount) {
+            throw new ScenarioBuilderException("Could not minimum suspect count");
+        }
+
+        // The murderer is a suspect as well.
+        characterData.suspects.add(characterData.murderer);
+
+        return characterData;
+    }
+
     public GameSnapshot generateGame() throws ScenarioBuilderException {
         ArrayList<RoomTemplate> selectedRoomTemplates = chooseRoomTemplates(
             database,
@@ -257,42 +311,18 @@ public class ScenarioBuilder {
         CharacterMotiveLink selectedCharacterMotiveLink = selector.selectWeightedObject(
             database.characterMotiveLinks.values(), x -> x.selectionWeight
         ).get();
-
-        // Extract the murderer, victim and motive.
-        ScenarioBuilderDatabase.Character selectedMurderer = selectedCharacterMotiveLink.murderer;
-        ScenarioBuilderDatabase.Character selectedVictim = selectedCharacterMotiveLink.victim;
         Motive selectedMotive = selectedCharacterMotiveLink.motive;
 
-        // Create a list of suspect which we can choose from to construct our suspect list. This
-        // includes all of the suspects from our data minus the murderer and victim.
-        ArrayList<ScenarioBuilderDatabase.Character> potentialSuspects =
-            new ArrayList<>(database.characters.values());
-        potentialSuspects.remove(selectedMurderer);
-        potentialSuspects.remove(selectedVictim);
-
-        int targetSuspectCount =
-            minSuspectCount + random.nextInt(maxSuspectCount - minSuspectCount + 1);
-
-        ArrayList<ScenarioBuilderDatabase.Character> selectedSuspects = new ArrayList<>();
-
-        // Keep randomly adding suspects whilst we haven't reached our target and we still have
-        // some characters to consider.
-        while (selectedSuspects.size() < targetSuspectCount && potentialSuspects.size() > 0) {
-            ScenarioBuilderDatabase.Character selectedSuspect = selector.selectWeightedObject(
-                potentialSuspects,
-                x -> x.selectionWeight,
-                x -> potentialSuspects.remove(x)
-            ).get();
-        }
-
-        // If we haven't got more suspects than the minimum count, the data in the database was
-        // not sufficient to fulfil this requirement.
-        if (selectedSuspects.size() < minSuspectCount) {
-            throw new ScenarioBuilderException("Could not minimum suspect count");
-        }
-
-        // The murderer is a suspect as well.
-        selectedSuspects.add(selectedMurderer);
+        CharacterData characterData = chooseCharacters(
+            database,
+            minSuspectCount,
+            maxSuspectCount,
+            selectedCharacterMotiveLink,
+            random
+        );
+        ScenarioBuilderDatabase.Character selectedMurderer = characterData.murderer;
+        ScenarioBuilderDatabase.Character selectedVictim = characterData.victim;
+        ArrayList<ScenarioBuilderDatabase.Character> selectedSuspects = characterData.suspects;
 
         // Get our means.
         Means selectedMeans = selector
