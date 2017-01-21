@@ -144,8 +144,6 @@ public class InterviewGUIController {
 		
 		genQuestionBase(suspect, player);
 		
-		float buttonX = 300;
-		float buttonY = 200;
 		float buttonSpace = 50;
 		ArrayList<String> styles = suspect.dialogueTree.getAvailableStyles(intent);
 		
@@ -175,8 +173,6 @@ public class InterviewGUIController {
 
 			theTable.add(button);
 			theTable.row();
-
-			buttonX += buttonSpace;
 		}
 		
 		this.interviewStage.addActor(qcontainer);
