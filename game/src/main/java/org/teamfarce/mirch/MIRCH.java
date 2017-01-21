@@ -75,28 +75,7 @@ public class MIRCH extends ApplicationAdapter{
 	
 	private Music music_background;
 	
-	/**
-	 * Detects whether a Sprite has been clicked by the mouse. Returns true if this is the case.
-	 * @param theSprite
-	 * @param mouse
-	 * @return
-	 */
-	private boolean isObjectPressed(Sprite theSprite, Vector3 mouse){
-		boolean toReturn = false;
-		
-		float x1 = theSprite.getX();
-		float y1 = theSprite.getY();
-		float x2 = x1 + theSprite.getWidth();
-		float y2 = y1 + theSprite.getHeight();
-		
-		if ((mouse.x > x1) && (mouse.x < x2)){
-			if ((mouse.y > y1) && (mouse.y < y2)){
-				toReturn = true;
-			}
-		}
-		
-		return toReturn;
-	}
+	
 	
 	
 	
@@ -115,7 +94,7 @@ public class MIRCH extends ApplicationAdapter{
 				}
 			}
 		}
-		return new RenderItem(new Sprite(), new Object());
+		return new RenderItem(new Sprite(), new Room("", new Vector2(0, 0)));
 	}
 	
 	/**
@@ -160,9 +139,6 @@ public class MIRCH extends ApplicationAdapter{
 	@Override
 	public void create() {
 		//++++INITIALISE THE GAME++++
-		
-		doorwayTexture = new Texture(Gdx.files.internal("assets/door.png")); //create the doorway texture
-
 		
 		step = 0; //initialise the step variable
 		//create temporary required items, eventually ScenarioBuilder will generate these
@@ -272,6 +248,7 @@ public class MIRCH extends ApplicationAdapter{
 		}
 		
 		//Generate an ArrayList of RenderItems to store every door in the gameSnapshot
+		doorwayTexture = new Texture(Gdx.files.internal("assets/door.png")); //create the doorway texture
 		doors = new ArrayList<RenderItem>();
 		for (Door door : gameSnapshot.getDoors()){			
 			Sprite newSprite = new Sprite(doorwayTexture);
@@ -392,57 +369,25 @@ public class MIRCH extends ApplicationAdapter{
 		    		  character.sprite.setY(thisY); 
 		    	  }
 	    		  
-	    		  suspect.currentRoom = (Room) thisNextRoom.object; //update the current room the suspect is in in the backend
+	    		  suspect.currentRoom = (Room) thisNextRoom.object; //update the current room the suspect is in in the back end
 		    	  
 	    	  } 
 	    	  
-
-	    	  // process user touch input
-	    	  if (Gdx.input.isTouched()) {
-	    		  System.out.println("Input clicked");
-	    		  Vector3 touchPos = new Vector3();
-	    		  touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-	    		  camera.unproject(touchPos);
-
-	    		  boolean clicked = false; //stores whether an object has been clicked
-
-
-	    		  //System.out.println(length);
-	    		  //loop while no object has been clicked - this prevents the clicking of multiple items that may be overlaying eachother
-	    		  int length = characters.size();
-	    		  int i = 0;
-	    		  while (!clicked && (i < length)){
-	    			  clicked = isObjectPressed(characters.get(i).sprite, touchPos); //characters are drawn on top so check them first
-	    			  
-	    			  //if a character is clicked, generate the question intention screen for the character and change state so that the
-	    			  //dialogue intention screen can be displayed
-	    			  if (clicked){
-	    				  System.out.println("Character clicked");
-	    				  this.displayController.drawGUI().initialiseInterviewGUI((Suspect) characters.get(i).object, player);
-	    				  gameSnapshot.setState(GameState.dialogueIntention); 
-	    			  }
-	    			  i++;
-	    		  }
-	    		  
-	    		  length = objects.size();
-	    		  i = 0;
-	    		  while (!clicked && (i < length)){
-	    			  clicked = isObjectPressed(objects.get(i).sprite, touchPos);
-	    			  if (clicked){
-	    				  //handle touch input for objects, they are drawn underneath characters so check them next
-	    				  System.out.println("Object clicked!");
-	    				  //if the object has been clicked and isn't already in the journal, add it to the journal
-	    				  if (gameSnapshot.journal.getProps().indexOf((Prop) objects.get(i).object) == -1){
-		    				  this.displayController.drawItemDialogue((Prop) objects.get(i).object);
-	    					  gameSnapshot.journal.addProp((Prop) objects.get(i).object); 
-	    				  } else {
-	    					  //otherwise we report to the user that the object is already in the journal
-		    				  this.displayController.drawItemAlreadyFoundDialogue((Prop) objects.get(i).object);
-	    				  }
-	    			  }
-	    			  i++;
-	    		  }
-
+	    	  //check if a character has been clicked
+	    	  if (inputController.isObjectClicked(characters, camera)){
+	    		  RenderItem character = inputController.getClickedObject(characters, camera);
+				  this.displayController.drawGUI().initialiseInterviewGUI((Suspect) character.object, player);
+				  gameSnapshot.setState(GameState.dialogueIntention); 
+				  
+	    	  } else if (inputController.isObjectClicked(objects, camera)){
+	    		  RenderItem object = inputController.getClickedObject(objects, camera);
+	    		  if (gameSnapshot.journal.getProps().indexOf((Prop) object.object) == -1){
+    				  this.displayController.drawItemDialogue((Prop) object.object);
+					  gameSnapshot.journal.addProp((Prop) object.object); 
+				  } else {
+					  //otherwise we report to the user that the object is already in the journal
+    				  this.displayController.drawItemAlreadyFoundDialogue((Prop) object.object);
+				  }
 	    	  }
 	    	  
 	    	  //Draw the map to the display
