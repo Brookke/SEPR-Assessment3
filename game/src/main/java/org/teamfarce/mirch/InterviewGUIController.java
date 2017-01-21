@@ -95,6 +95,7 @@ public class InterviewGUIController {
 		genQuestionBase(suspect, player);
 		
 		String response = suspect.dialogueTree.selectStyledQuestion(intent, style, gameSnapshot.journal, suspect);
+		gameSnapshot.journal.addConversation(response, suspect.name);
 		
 		Label comment = new Label (response, uiSkin);
 		comment.setPosition(300, 480);
@@ -215,6 +216,7 @@ public class InterviewGUIController {
 				button.addListener(new ChangeListener() {
 					public void changed (ChangeEvent event, Actor actor) {
 						System.out.println("Button was pressed");
+						gameSnapshot.journal.addConversation(suspect.dialogueTree.getAvailableIntentsAsString().get(k), "You to " + suspect.name); //add the question to the journal
 						genStyleScreen(suspect, player, k);
 					}
 				});
