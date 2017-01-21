@@ -287,7 +287,7 @@ public class MIRCH extends ApplicationAdapter{
 	      Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	      
 	      batch.setProjectionMatrix(camera.combined);
-	      
+	      	      
 	      //Draw the map here
 	      if (gameSnapshot.getState() == GameState.map){
 
@@ -415,6 +415,10 @@ public class MIRCH extends ApplicationAdapter{
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 		      this.displayController.drawGUI().drawAccuseGUI();
+	      } else if (gameSnapshot.getState() == GameState.gameWon){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
+		      this.displayController.drawGUI().drawWinScreen();
 	      }
 	      
 	      step++; //increment the step counter

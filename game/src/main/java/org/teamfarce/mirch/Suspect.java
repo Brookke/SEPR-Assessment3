@@ -64,6 +64,7 @@ public class Suspect extends MapEntity {
      */
     boolean accuse(boolean hasEvidence) {
     	this.beenAccused = true;
+    	//clear the dialogue tree here
         return (this.isMurderer)&&(hasEvidence);
     }
 
