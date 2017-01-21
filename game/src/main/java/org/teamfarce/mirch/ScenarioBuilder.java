@@ -177,7 +177,7 @@ public class ScenarioBuilder {
         return this;
     }
 
-    public GameSnapshot generateGame() throws ScenarioBuilderException {
+    public ArrayList<RoomTemplate> chooseRoomTemplates() throws ScenarioBuilderException {
         int targetRoomCount = minRoomCount + random.nextInt(maxRoomCount - minRoomCount + 1);
 
         // The room templates we have selected.
@@ -228,6 +228,12 @@ public class ScenarioBuilder {
                 selectedRoomTypes.remove(0).roomTemplates, x -> x.selectionWeight
             ).get());
         }
+
+        return selectedRoomTemplates;
+    }
+
+    public GameSnapshot generateGame() throws ScenarioBuilderException {
+        ArrayList<RoomTemplate> selectedRoomTemplates = chooseRoomTemplates();
 
         // Select a character motive link to use.
         CharacterMotiveLink selectedCharacterMotiveLink = selector.selectWeightedObject(
