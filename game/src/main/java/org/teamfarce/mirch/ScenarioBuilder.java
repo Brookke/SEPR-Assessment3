@@ -178,6 +178,10 @@ public class ScenarioBuilder {
     }
 
     public ArrayList<RoomTemplate> chooseRoomTemplates() throws ScenarioBuilderException {
+        // This is an arbitrary target that lies in between the minimum and maximum room count. The
+        // following process will use this as an indication of when it has enough rooms. Due to
+        // other constraints, the final room count may be different to this value but will lie in
+        // the provided maximum and minimum.
         int targetRoomCount = minRoomCount + random.nextInt(maxRoomCount - minRoomCount + 1);
 
         // The room templates we have selected.
@@ -210,7 +214,10 @@ public class ScenarioBuilder {
         }
 
         // Now check that we the maximum count constraint will allow us to fulfil our minimum room
-        // count.
+        // count. Since every room type has been included in selectedRoomTypes maxCount - minCount
+        // times, the size of selectedRoomTypes is how many more rooms we can add. If the currently
+        // selected rooms plus to total room types we can still add are under the minimum room
+        // count, we cannot fulfil it.
         if (selectedRoomTemplates.size() + selectedRoomTypes.size() < minRoomCount) {
             throw new ScenarioBuilderException("Could not fulfil minimum room count");
         }
@@ -223,7 +230,6 @@ public class ScenarioBuilder {
         while (selectedRoomTemplates.size() < targetRoomCount && selectedRoomTypes.size() > 0) {
             // Add the room template by selecting one from the room type "popped" off the selected
             // room types array.
-
             selectedRoomTemplates.add(selector.selectWeightedObject(
                 selectedRoomTypes.remove(0).roomTemplates, x -> x.selectionWeight
             ).get());
