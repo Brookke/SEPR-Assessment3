@@ -121,5 +121,10 @@ public class GUIController {
 		Gdx.input.setInputProcessor(this.interviewController.interviewStage);
 		this.interviewController.displayInterviewStage();
 	}
+	
+	void drawAccuseGUI(){
+		Gdx.input.setInputProcessor(this.interviewController.interviewStage);
+		this.interviewController.displayAccuseStage();
+	}
 
 }

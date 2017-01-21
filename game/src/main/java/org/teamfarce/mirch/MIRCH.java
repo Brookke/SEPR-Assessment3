@@ -411,7 +411,11 @@ public class MIRCH extends ApplicationAdapter{
 		      camera.update();
 		      this.displayController.drawGUI().drawInterviewGUI();
 		      
-	      } 
+	      }  else if (gameSnapshot.getState() == GameState.accuse){
+	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
+		      camera.update();
+		      this.displayController.drawGUI().drawAccuseGUI();
+	      }
 	      
 	      step++; //increment the step counter
 		
