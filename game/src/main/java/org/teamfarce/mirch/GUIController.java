@@ -2,11 +2,15 @@ package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -125,6 +129,22 @@ public class GUIController {
 	void drawAccuseGUI(){
 		Gdx.input.setInputProcessor(this.interviewController.interviewStage);
 		this.interviewController.displayAccuseStage();
+	}
+	
+	void drawWinScreen(){
+		Texture texture = new Texture(Gdx.files.internal("assets/win_screen.png"));
+		Sprite winScreen = new Sprite(texture);
+		winScreen.setPosition(240,  100);
+		BitmapFont font = new BitmapFont();
+        font.setColor(Color.BLACK);
+		
+		this.batch.begin();
+		winScreen.draw(batch);
+		font.draw(batch, "You have Won! You accused the right person!", 550, 600);
+		font.draw(batch, "You took this many moves: " + this.gameSnapshot.getTime(), 600, 400);
+		this.batch.end();
+			
+		
 	}
 
 }
