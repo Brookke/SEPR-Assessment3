@@ -117,6 +117,21 @@ public class GameSnapshot {
 		// TODO Auto-generated method stub
 		return this.doors;
 	}
+	
+	/**
+     * Adds the prop to the journal.
+     * <p>
+     * This tells the journal to keep a log of this prop.
+     * </p>
+     *
+     * @param prop The prop to add
+     */
+    void journalAddProp(Prop prop) {
+        this.journal.addProp(prop);
+        //proveMeans(prop.takeClue().provesMeans);
+        //proveMotive(prop.takeClue().provesMotive);
+    }
+
 
     // /**
     //  * Adds the dialogue to the journal, used for keeping a log of dialogue

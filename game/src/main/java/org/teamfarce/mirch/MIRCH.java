@@ -383,7 +383,7 @@ public class MIRCH extends ApplicationAdapter{
 	    		  RenderItem object = inputController.getClickedObject(objects, camera);
 	    		  if (gameSnapshot.journal.getProps().indexOf((Prop) object.object) == -1){
     				  this.displayController.drawItemDialogue((Prop) object.object);
-					  gameSnapshot.journal.addProp((Prop) object.object); 
+					  gameSnapshot.journalAddProp((Prop) object.object); 
 				  } else {
 					  //otherwise we report to the user that the object is already in the journal
     				  this.displayController.drawItemAlreadyFoundDialogue((Prop) object.object);
