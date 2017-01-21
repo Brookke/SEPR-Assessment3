@@ -95,6 +95,7 @@ public class InterviewGUIController {
 		genQuestionBase(suspect, player);
 		
 		String response = suspect.dialogueTree.selectStyledQuestion(intent, style, gameSnapshot.journal, suspect);
+		gameSnapshot.journal.addConversation(response, suspect.name + " to You"); //add the response to the diagram
 		
 		Label comment = new Label (response, uiSkin);
 		comment.setPosition(300, 480);
@@ -215,6 +216,7 @@ public class InterviewGUIController {
 				button.addListener(new ChangeListener() {
 					public void changed (ChangeEvent event, Actor actor) {
 						System.out.println("Button was pressed");
+						gameSnapshot.journal.addConversation(suspect.dialogueTree.getAvailableIntentsAsString().get(k), "You to " + suspect.name); //add the question to the journal
 						genStyleScreen(suspect, player, k);
 					}
 				});
@@ -230,7 +232,7 @@ public class InterviewGUIController {
 			this.interviewStage.addActor(comment);
 			
 		
-			TextButton button = new TextButton("Leave the Intervuew", uiSkin);
+			TextButton button = new TextButton("Leave the Interview", uiSkin);
 			button.setPosition(500, 280);
 			this.interviewStage.addActor(button);
 

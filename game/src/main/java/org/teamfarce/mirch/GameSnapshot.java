@@ -64,8 +64,10 @@ public class GameSnapshot {
      *
      * @param amount The increase in the "means proof"
      */
-    void proveMeans(int amount) {
-        this.meansProven += amount;
+    void proveMeans(ArrayList<Clue> clues) {
+    	for (Clue clue : clues){
+            this.meansProven += clue.provesMean;
+    	}
     }
 
     /**
@@ -77,8 +79,10 @@ public class GameSnapshot {
      *
      * @param amount The increase in the "motive proof"
      */
-    void proveMotive(int amount) {
-        this.motiveProven += amount;
+    void proveMotive(ArrayList<Clue> clues) {
+    	for (Clue clue : clues){
+    		this.motiveProven += clue.provesMotive;
+    	}
     }
 
     /**
@@ -128,8 +132,8 @@ public class GameSnapshot {
      */
     void journalAddProp(Prop prop) {
         this.journal.addProp(prop);
-        //proveMeans(prop.takeClue().provesMeans);
-        //proveMotive(prop.takeClue().provesMotive);
+        proveMeans(prop.takeClues());
+        proveMotive(prop.takeClues());
     }
 
 
