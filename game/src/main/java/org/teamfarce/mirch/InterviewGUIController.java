@@ -95,7 +95,7 @@ public class InterviewGUIController {
 		genQuestionBase(suspect, player);
 		
 		String response = suspect.dialogueTree.selectStyledQuestion(intent, style, gameSnapshot.journal, suspect);
-		gameSnapshot.journal.addConversation(response, suspect.name);
+		gameSnapshot.journal.addConversation(response, suspect.name + " to You"); //add the response to the diagram
 		
 		Label comment = new Label (response, uiSkin);
 		comment.setPosition(300, 480);
