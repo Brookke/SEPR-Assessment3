@@ -24,7 +24,7 @@ import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestionAndResponse;
 import org.teamfarce.mirch.Room;
 
 public class ScenarioBuilder {
-    public class ScenarioBuilderException extends Exception {
+    public static class ScenarioBuilderException extends Exception {
         public ScenarioBuilderException(String message) {
             super(message);
         }
@@ -177,7 +177,14 @@ public class ScenarioBuilder {
         return this;
     }
 
-    public ArrayList<RoomTemplate> chooseRoomTemplates() throws ScenarioBuilderException {
+    public static ArrayList<RoomTemplate> chooseRoomTemplates(
+        ScenarioBuilderDatabase database,
+        int minRoomCount,
+        int maxRoomCount,
+        Random random
+    ) throws ScenarioBuilderException {
+        WeightedSelection selector = new WeightedSelection(random);
+
         // This is an arbitrary target that lies in between the minimum and maximum room count. The
         // following process will use this as an indication of when it has enough rooms. Due to
         // other constraints, the final room count may be different to this value but will lie in
@@ -239,7 +246,12 @@ public class ScenarioBuilder {
     }
 
     public GameSnapshot generateGame() throws ScenarioBuilderException {
-        ArrayList<RoomTemplate> selectedRoomTemplates = chooseRoomTemplates();
+        ArrayList<RoomTemplate> selectedRoomTemplates = chooseRoomTemplates(
+            database,
+            minRoomCount,
+            maxRoomCount,
+            random
+        );
 
         // Select a character motive link to use.
         CharacterMotiveLink selectedCharacterMotiveLink = selector.selectWeightedObject(
