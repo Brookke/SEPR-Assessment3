@@ -101,25 +101,13 @@ public class GameSnapshot {
     
     void setState(GameState state){
     	this.state = state;
+    	this.incrementTime(); //increment pseudo time evry time we change the game state
     }
     
     GameState getState(){
     	return this.state;
     }
 
-    /**
-     * Adds the prop to the journal.
-     * <p>
-     * This tells the journal to keep a log of this prop.
-     * </p>
-     *
-     * @param prop The prop to add
-     */
-    void journalAddProp(Prop prop) {
-        //this.journal.addProp(prop);
-        //proveMeans(prop.takeClue().provesMeans);
-        //proveMotive(prop.takeClue().provesMotive);
-    }
 
 	public ArrayList<Suspect> getSuspects() {
 		return this.suspects;
