@@ -48,15 +48,8 @@ public class MIRCH extends ApplicationAdapter{
 	private DisplayController displayController;
 	private InputController inputController;
 	
-	private Sprite dialogueSprite;
-	
-	private Stage questionIntentionStage;
-	private Stage controlStage;
-	
 	private Skin uiSkin;
-	
-	private Table cluesTable;
-	private Table questionsTable;
+
 	
 	private ArrayList<RenderItem> rooms;
 	private ArrayList<RenderItem> objects;
@@ -74,9 +67,6 @@ public class MIRCH extends ApplicationAdapter{
 	private OrthographicCamera camera;
 	
 	private Music music_background;
-	
-	
-	
 	
 	
 	/**
@@ -279,10 +269,6 @@ public class MIRCH extends ApplicationAdapter{
 			playMusic();
 		}
 		
-		//Creates stages to store question related UI
-		questionIntentionStage = new Stage();
-
-		
 		uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_pretty/skin.json")); //load ui skin from assets
 		//uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_default/uiskin.json")); //load ui skin from assets
 		
@@ -421,13 +407,8 @@ public class MIRCH extends ApplicationAdapter{
 	    	  this.displayController.drawGUI().useJournalNotepadView();	    	  
 	    	  
 	      } else if (gameSnapshot.getState() == GameState.dialogueIntention){
-	    	  //Create an input multiplexer to take input from every stage
-	    	  InputMultiplexer multiplexer = new InputMultiplexer();
-	    	  multiplexer.addProcessor(questionIntentionStage);
-	    	  Gdx.input.setInputProcessor(multiplexer);
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
-		      
 		      this.displayController.drawGUI().drawInterviewGUI();
 		      
 	      } 
