@@ -3,6 +3,7 @@ package org.teamfarce.mirch;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.List;
@@ -158,7 +159,7 @@ public class ScenarioBuilder {
         int maxRoomCount,
         int minSuspectCount,
         int maxSuspectCount,
-        HashSet<QuestioningStyle> chosenStyles,
+        Set<QuestioningStyle> chosenStyles,
         Random random
     ) throws ScenarioBuilderException {
         WeightedSelection selector = new WeightedSelection(random);
