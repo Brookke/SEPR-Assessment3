@@ -38,7 +38,7 @@ public class Suspect extends MapEntity {
     	super(id, resourceIndex, name, description, filename);
     	
     	this.dialogueTree = dialogueTree;
-        this.beenAccused = false;
+    	this.beenAccused = false;
         this.isMurderer = false;
         this.mapPosition = startingPosition;
         this.moveStep = new Vector2(0, 0);
@@ -63,6 +63,12 @@ public class Suspect extends MapEntity {
      * @return Whether the player has successfully accused the suspect
      */
     boolean accuse(boolean hasEvidence) {
-        return this.isMurderer&&!this.beenAccused&&hasEvidence;
+    	this.beenAccused = true;
+        return (this.isMurderer)&&(hasEvidence);
     }
+
+	public boolean hasBeenAccused() {
+		return beenAccused;
+	}
+
 }

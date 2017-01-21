@@ -179,6 +179,36 @@ public class InterviewGUIController {
 		this.interviewStage.addActor(qcontainer);
 	}
 	
+	
+	void initAccuseStage(Suspect suspect, Sprite player){
+		this.interviewStage.clear();
+		this.genQuestionBase(suspect, player);
+		
+		boolean hasEvidence = this.gameSnapshot.isMeansProven() && this.gameSnapshot.isMotiveProven();
+		
+		if (suspect.accuse(hasEvidence)){ //if the suspect is succesfully accused
+			this.gameSnapshot.gameWon = true;
+			this.gameSnapshot.setState(GameState.gameWon);
+		} else { //if the subject isn't successfully accused
+			Label comment = new Label ("Ha! You don't have the evidence to accuse me!", uiSkin);
+			comment.setPosition(300, 490);
+			this.interviewStage.addActor(comment);
+			
+			TextButton button = new TextButton("Please take my sincerest apologies, I spoke too hasty.", uiSkin);
+			button.setPosition(500, 280);
+			this.interviewStage.addActor(button);
+
+			button.addListener(new ChangeListener() {
+				public void changed (ChangeEvent event, Actor actor) {
+					System.out.println("Button was pressed");
+					gameSnapshot.setState(GameState.map);
+				}
+			});
+			
+			
+		}
+	}
+	
 	/**
 	 * Generates the question intention selection screen
 	 * @param this.interviewStage
@@ -191,8 +221,12 @@ public class InterviewGUIController {
 		genQuestionBase(suspect, player); //generate the base stage that we can the build off of	
 		
 		if (suspect.dialogueTree.getAvailableIntents().size() > 0){
-
-			Label comment = new Label ("Go on then, ask your question.", uiSkin);
+			
+			String suspectMessage = "Go on then, ask your question.";
+			if (suspect.hasBeenAccused()){
+				suspectMessage = "If you think I'm talking to you now then you have another thing coming!";
+			}
+			Label comment = new Label (suspectMessage, uiSkin);
 			comment.setPosition(300, 500);
 			this.interviewStage.addActor(comment);
 			
@@ -217,28 +251,32 @@ public class InterviewGUIController {
 				public void changed (ChangeEvent event, Actor actor) {
 					System.out.println("Button was pressed");
 					gameSnapshot.setState(GameState.accuse);
+					initAccuseStage(suspect, player);
 				}
 			});
 			
 			
+			if (!suspect.hasBeenAccused()){
+				for (int i = 0; i < suspect.dialogueTree.getAvailableIntents().size(); i++){
+					TextButton button = new TextButton(suspect.dialogueTree.getAvailableIntentsAsString().get(i), uiSkin);
+	
+					final int k = i;
+					button.addListener(new ChangeListener() {
+						public void changed (ChangeEvent event, Actor actor) {
+							System.out.println("Button was pressed");
+							gameSnapshot.journal.addConversation(suspect.dialogueTree.getAvailableIntentsAsString().get(k), "You to " + suspect.name); //add the question to the journal
+							genStyleScreen(suspect, player, k);
+						}
+					});
+					
+					theTable.add(button);
+					theTable.row();
+					
+				}
+			} 
+			
+			this.interviewStage.addActor(qcontainer);
 
-			for (int i = 0; i < suspect.dialogueTree.getAvailableIntents().size(); i++){
-				TextButton button = new TextButton(suspect.dialogueTree.getAvailableIntentsAsString().get(i), uiSkin);
-
-				final int k = i;
-				button.addListener(new ChangeListener() {
-					public void changed (ChangeEvent event, Actor actor) {
-						System.out.println("Button was pressed");
-						gameSnapshot.journal.addConversation(suspect.dialogueTree.getAvailableIntentsAsString().get(k), "You to " + suspect.name); //add the question to the journal
-						genStyleScreen(suspect, player, k);
-					}
-				});
-				
-				theTable.add(button);
-				theTable.row();
-				
-				this.interviewStage.addActor(qcontainer);
-			}
 		} else {
 			Label comment = new Label ("Go away, I'm not talking to you any more.", uiSkin);
 			comment.setPosition(300, 500);
@@ -264,6 +302,7 @@ public class InterviewGUIController {
 				public void changed (ChangeEvent event, Actor actor) {
 					System.out.println("Button was pressed");
 					gameSnapshot.setState(GameState.accuse);
+					initAccuseStage(suspect, player);
 				}
 			});
 			
@@ -272,6 +311,8 @@ public class InterviewGUIController {
 		
 		
 	}
+	
+	
 	
 	void initInterviewStage(Suspect suspect, Sprite player){
 		this.genIntentionScreen(suspect, player);
@@ -283,5 +324,13 @@ public class InterviewGUIController {
 	      this.batch.end();
 	      this.interviewStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 	      this.interviewStage.draw();
+	}
+	
+	void displayAccuseStage(){
+		this.batch.begin();
+		this.dialogueSprite.draw(batch);
+		this.batch.end();
+		this.interviewStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		this.interviewStage.draw();
 	}
 }

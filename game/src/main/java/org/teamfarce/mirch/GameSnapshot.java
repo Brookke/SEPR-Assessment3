@@ -16,6 +16,7 @@ public class GameSnapshot {
     private int meansProven;
     private int motiveProven;
     private int time;
+    boolean gameWon;
     Journal journal;
     private DialogueBox currentDialogueBox;
 
@@ -37,6 +38,7 @@ public class GameSnapshot {
         this.motiveProven = 0;
         this.journal = new Journal();
         this.time = 0;
+        this.gameWon = false;
     }
     
     public void incrementTime(){
