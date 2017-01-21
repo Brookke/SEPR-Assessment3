@@ -30,6 +30,6 @@ A specialised content management system provides for simplistic automated genera
 
 Whilst the program is well documented throughout, we understand that it is sometimes easier to just ask someone for help than trawl through documentation. We are therefore available to offer unlimited help and for any aspect of the program, based on the area that each of us created.
 
-Scenario Generation, Database and Website - Peter Smith : ps1011@york.ac.uk
-Front End Graphics Generation and Input Processing - Jacob Unwin : jwu500@york.ac.uk
-Dialogue Tree and Related Systems - Khurram Liaqat : kl985@york.ac.uk
+* Scenario Generation, Database and Website - Peter Smith : ps1011@york.ac.uk
+* Front End Graphics Generation and Input Processing - Jacob Unwin : jwu500@york.ac.uk
+* Dialogue Tree and Related Systems - Khurram Liaqat : kl985@york.ac.uk
