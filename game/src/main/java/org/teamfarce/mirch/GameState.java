@@ -6,5 +6,5 @@ package org.teamfarce.mirch;
  * @author Jacob Wunwin
  */
 public enum GameState {
-    map, dialogueIntention, dialogueStyle, dialogueResponse, journalHome, journalClues, journalQuestions, journalNotepad
+    map, dialogueIntention, dialogueStyle, dialogueResponse, journalHome, journalClues, journalQuestions, journalNotepad, accuse
 }

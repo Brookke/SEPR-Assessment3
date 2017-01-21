@@ -208,6 +208,19 @@ public class InterviewGUIController {
 			qcontainer.add(qscroll).width(550f).height(130f);
 			qcontainer.row();
 			qcontainer.setPosition(720, 270);
+			
+			TextButton accuse = new TextButton("Accuse the Suspect", uiSkin);
+			theTable.add(accuse);
+			theTable.row();
+			
+			accuse.addListener(new ChangeListener() {
+				public void changed (ChangeEvent event, Actor actor) {
+					System.out.println("Button was pressed");
+					gameSnapshot.setState(GameState.accuse);
+				}
+			});
+			
+			
 
 			for (int i = 0; i < suspect.dialogueTree.getAvailableIntents().size(); i++){
 				TextButton button = new TextButton(suspect.dialogueTree.getAvailableIntentsAsString().get(i), uiSkin);
@@ -235,6 +248,10 @@ public class InterviewGUIController {
 			TextButton button = new TextButton("Leave the Interview", uiSkin);
 			button.setPosition(500, 280);
 			this.interviewStage.addActor(button);
+			
+			TextButton accuse = new TextButton("Accuse the Suspect", uiSkin);
+			accuse.setPosition(700, 280);
+			this.interviewStage.addActor(accuse);
 
 			button.addListener(new ChangeListener() {
 				public void changed (ChangeEvent event, Actor actor) {
@@ -242,7 +259,18 @@ public class InterviewGUIController {
 					gameSnapshot.setState(GameState.map);
 				}
 			});
+			
+			accuse.addListener(new ChangeListener() {
+				public void changed (ChangeEvent event, Actor actor) {
+					System.out.println("Button was pressed");
+					gameSnapshot.setState(GameState.accuse);
+				}
+			});
+			
+			
 		}
+		
+		
 	}
 	
 	void initInterviewStage(Suspect suspect, Sprite player){
