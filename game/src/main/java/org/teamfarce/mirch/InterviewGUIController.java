@@ -230,7 +230,7 @@ public class InterviewGUIController {
 			this.interviewStage.addActor(comment);
 			
 		
-			TextButton button = new TextButton("Leave the Intervuew", uiSkin);
+			TextButton button = new TextButton("Leave the Interview", uiSkin);
 			button.setPosition(500, 280);
 			this.interviewStage.addActor(button);
 
