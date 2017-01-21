@@ -54,7 +54,7 @@ public class Prop extends MapEntity {
      *
      * @return The list of clues
      */
-    public ArrayList<Clue> takeClue() {
+    public ArrayList<Clue> takeClues() {
         return this.clue;
     }
 }
