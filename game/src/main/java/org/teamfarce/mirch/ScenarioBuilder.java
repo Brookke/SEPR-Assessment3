@@ -36,153 +36,6 @@ public class ScenarioBuilder {
         public ArrayList<ScenarioBuilderDatabase.Character> suspects = new ArrayList<>();
     }
 
-    private int minRoomCount;
-    private int maxRoomCount;
-    private int minSuspectCount;
-    private int maxSuspectCount;
-    private Random random;
-    private WeightedSelection selector;
-    private ScenarioBuilderDatabase database;
-    private HashSet<QuestioningStyle> chosenStyles;
-
-    /**
-     * Constructs a new scenario builder with some default values set.
-     */
-    public ScenarioBuilder() {
-        minRoomCount = 8;
-        maxRoomCount = 8;
-        minSuspectCount = 5;
-        maxSuspectCount = 5;
-        random = new Random();
-        selector = new WeightedSelection(random);
-        database = null;
-        chosenStyles = new HashSet<>();
-    }
-
-    /**
-     * Sets the minimum room count.
-     *
-     * @param newValue The value to set the minimum room count to.
-     * @return This to allow chaining.
-     */
-    public ScenarioBuilder setMinRoomCount(int newValue) {
-        minRoomCount = newValue;
-        if (minRoomCount < 1) {
-            minRoomCount = 1;
-        }
-        if (maxRoomCount < minRoomCount) {
-            maxRoomCount = minRoomCount;
-        }
-        return this;
-    }
-
-    /**
-     * Sets the maximum room count.
-     *
-     * @param newValue The value to set the maximum room count to.
-     * @return This to allow chaining.
-     */
-    public ScenarioBuilder setMaxRoomCount(int newValue) {
-        maxRoomCount = newValue;
-        if (maxRoomCount < 1) {
-            maxRoomCount = 1;
-        }
-        if (minRoomCount > maxRoomCount) {
-            minRoomCount = maxRoomCount;
-        }
-        return this;
-    }
-
-    /**
-     * Sets the minimum suspect count.
-     *
-     * @param newValue The value to set the minimum suspect count to.
-     * @return This to allow chaining.
-     */
-    public ScenarioBuilder setMinSuspectCount(int newValue) {
-        minSuspectCount = newValue;
-        if (minSuspectCount < 1) {
-            minSuspectCount = 1;
-        }
-        if (maxSuspectCount < minSuspectCount) {
-            maxSuspectCount = minSuspectCount;
-        }
-        return this;
-    }
-
-    /**
-     * Sets the minimum suspect count.
-     *
-     * @param newValue The value to set the suspect maximum count to.
-     * @return This to allow chaining.
-     */
-    public ScenarioBuilder setMaxSuspectCount(int newValue) {
-        maxSuspectCount = newValue;
-        if (maxSuspectCount < 1) {
-            maxSuspectCount = 1;
-        }
-        if (minSuspectCount > maxSuspectCount) {
-            minSuspectCount = maxSuspectCount;
-        }
-        return this;
-    }
-
-    /**
-     * Sets the random object.
-     *
-     * @param newRandom The random object to set.
-     * @return This to allow chaining.
-     */
-    public ScenarioBuilder setRandomObject(Random newRandom) {
-        random = newRandom;
-        selector = new WeightedSelection(random);
-        return this;
-    }
-
-    /**
-     * Sets the database.
-     *
-     * @param newDatabase The database to set.
-     * @return This to allow chaining.
-     */
-    public ScenarioBuilder setData(ScenarioBuilderDatabase newDatabase) {
-        database = newDatabase;
-        return this;
-    }
-
-    /**
-     * Adds a questioning style to the current set of styles to use.
-     *
-     * @param style The style to add.
-     * @return This to allow chaining.
-     */
-    public ScenarioBuilder addStyle(QuestioningStyle style) {
-        chosenStyles.add(style);
-        return this;
-    }
-
-    /**
-     * Adds the questioning styles in the collection to the current set of styles to use.
-     *
-     * @param styles The styles to add.
-     * @return This to allow chaining.
-     */
-    public ScenarioBuilder addStyles(Collection<QuestioningStyle> styles) {
-        chosenStyles.addAll(styles);
-        return this;
-    }
-
-    /**
-     * Replaces the current questioning styles with the ones in the collection.
-     *
-     * @param styles The styles to set.
-     * @return This to allow chaining.
-     */
-    public ScenarioBuilder setStyles(Collection<QuestioningStyle> styles) {
-        chosenStyles = new HashSet<>(styles);
-        return this;
-    }
-
     public static ArrayList<RoomTemplate> chooseRoomTemplates(
         ScenarioBuilderDatabase database,
         int minRoomCount,
@@ -299,7 +152,17 @@ public class ScenarioBuilder {
         return characterData;
     }
 
-    public GameSnapshot generateGame() throws ScenarioBuilderException {
+    public static GameSnapshot generateGame(
+        ScenarioBuilderDatabase database,
+        int minRoomCount,
+        int maxRoomCount,
+        int minSuspectCount,
+        int maxSuspectCount,
+        HashSet<QuestioningStyle> chosenStyles,
+        Random random
+    ) throws ScenarioBuilderException {
+        WeightedSelection selector = new WeightedSelection(random);
+
         ArrayList<RoomTemplate> selectedRoomTemplates = chooseRoomTemplates(
             database,
             minRoomCount,
