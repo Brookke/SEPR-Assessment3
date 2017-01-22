@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.Align;
 import org.teamfarce.mirch.dialogue.QuestionResult;
 
 /**
+ * The Interview GUI controller controls the Interview/Questioning system
  * @author jacobwunwin
  *
  */
@@ -36,6 +37,12 @@ public class InterviewGUIController {
 	Stage interviewStage;
 	Sprite dialogueSprite;
 	
+	/**
+	 * Initialise the controller
+	 * @param skin
+	 * @param gSnapshot
+	 * @param batch
+	 */
 	InterviewGUIController (Skin skin, GameSnapshot gSnapshot, SpriteBatch batch){
 		this.uiSkin = skin;
 		this.gameSnapshot = gSnapshot;
@@ -182,7 +189,12 @@ public class InterviewGUIController {
 		this.interviewStage.addActor(qcontainer);
 	}
 	
-	
+	/**
+	 * Initialise the interview, setting up the desired function for use and the correct tree
+	 * location
+	 * @param suspect
+	 * @param player
+	 */
 	void initAccuseStage(Suspect suspect, Sprite player){
 		this.interviewStage.clear();
 		this.genQuestionBase(suspect, player);
@@ -223,6 +235,7 @@ public class InterviewGUIController {
 		
 		genQuestionBase(suspect, player); //generate the base stage that we can the build off of	
 		
+		//If there is at least one availabel intention to choose from
         if (suspect.dialogueTree.getAvailableIntentChoices().size() > 0) {
 			
 			String suspectMessage = "Go on then, ask your question.";
@@ -319,11 +332,18 @@ public class InterviewGUIController {
 	}
 	
 	
-	
+	/**
+	 * Initialise the interview system
+	 * @param suspect
+	 * @param player
+	 */
 	void initInterviewStage(Suspect suspect, Sprite player){
 		this.genIntentionScreen(suspect, player);
 	}
 	
+	/**
+	 * Display the interview stage
+	 */
 	void displayInterviewStage(){
 	      this.batch.begin();
 	      this.dialogueSprite.draw(batch);
@@ -332,6 +352,9 @@ public class InterviewGUIController {
 	      this.interviewStage.draw();
 	}
 	
+	/**
+	 * Display the accuse stage
+	 */
 	void displayAccuseStage(){
 		this.batch.begin();
 		this.dialogueSprite.draw(batch);

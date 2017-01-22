@@ -13,7 +13,6 @@ public class Journal {
 	ArrayList<Prop> foundProps;
 	String conversations;
 	ArrayList<Clue> foundClues;
-	ArrayList<JournalCharacter> metCharacters;
 	
 	/**
 	 * Initialise the Journal
@@ -52,7 +51,7 @@ public class Journal {
 	}
 	
 	/**
-	 * 
+	 * Returns a list of all props clicked by the player
 	 * @return
 	 */
 	ArrayList<Prop> getProps(){

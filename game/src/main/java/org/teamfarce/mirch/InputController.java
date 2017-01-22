@@ -13,16 +13,24 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 /**
+ * The input controller deals with all mouse and keyboard inputs, converting them to
+ * meaningful commands for use by the render function.
  * @author jacobwunwin
  *
  */
 public class InputController {
 	
+	/**
+	 * Empty initialiser for the input controller
+	 */
 	InputController(){
 		
 	}
 	
-	//returns a new movement vector for the player
+	/**
+	 * Returns a vector of the players latest move
+	 * @return
+	 */
 	Vector2 fetchPlayerPositionUpdate(){
 		// process keyboard touch and translate the player  	
 	
@@ -44,9 +52,6 @@ public class InputController {
 		return move;
 	}
 	
-	void fetchMouseInput(){
-		
-	}
 	
 	/**
 	 * Detects whether a Sprite has been clicked by the mouse. Returns true if this is the case.
@@ -71,6 +76,12 @@ public class InputController {
 		return toReturn;
 	}
 	
+	/**
+	 * Detects whether a RenderItem has been clicked by the mouse, and returns a boolean 
+	 * @param object
+	 * @param camera
+	 * @return
+	 */
 	boolean isObjectClicked(ArrayList<RenderItem> object, Camera camera){
 		// process user touch input
 		if (Gdx.input.isTouched()) {
@@ -89,6 +100,12 @@ public class InputController {
 		return false;
 	}
 	
+	/**
+	 * Returns the RenderItem clicked by the mouse from a given list of RenderItems
+	 * @param object
+	 * @param camera
+	 * @return
+	 */
 	RenderItem getClickedObject(ArrayList<RenderItem> object, Camera camera){
 		// process user touch input
 		if (Gdx.input.isTouched()) {

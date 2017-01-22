@@ -3,6 +3,11 @@ package org.teamfarce.mirch;
 import org.junit.Test;
 import org.teamfarce.mirch.ScenarioBuilder;
 
+/**
+ * Tests functions in the scenario builder class
+ * @author jacobwunwin
+ *
+ */
 public class ScenarioBuilderTest {
     /**
      * Test a typical use case of the ScenarioBuilder.

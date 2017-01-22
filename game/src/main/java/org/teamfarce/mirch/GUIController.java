@@ -17,7 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
 /**
- * 
+ * Generates and controlls all GUI elements in the Game. the GUIController also handles inputs
+ * from the GUI controller.
  * @author jacobwunwin
  *
  */
@@ -30,6 +31,12 @@ public class GUIController {
 	private SpriteBatch batch;
 	private InterviewGUIController interviewController;
 	
+	/**
+	 * Initialises the GUI controller
+	 * @param skin
+	 * @param gSnapshot
+	 * @param batch
+	 */
 	GUIController(Skin skin, GameSnapshot gSnapshot, SpriteBatch batch){
 		this.gameSnapshot = gSnapshot;
 		this.uiSkin = skin;
@@ -66,10 +73,16 @@ public class GUIController {
 		});
 	}
 	
+	/**
+	 * Draws the GUI control button
+	 */
 	void drawControlStage(){
 		this.controlStage.draw();
 	}
 	
+	/**
+	 * Draw the journal home view
+	 */
 	void useJournalHomeView(){
 		//Create an input multiplexer to take input from every stage
   	  InputMultiplexer multiplexer = new InputMultiplexer();
@@ -81,6 +94,9 @@ public class GUIController {
   	  this.journalGUI.drawHome();
 	}
 	
+	/**
+	 * Draw the journal clues view
+	 */
 	void useJournalCluesView(){
 		//Create an input multiplexer to take input from every stage
 	  	  InputMultiplexer multiplexer = new InputMultiplexer();
@@ -93,6 +109,9 @@ public class GUIController {
 	  	  this.journalGUI.drawClues();
 	}
 	
+	/**
+	 * Draw the journal notepad view
+	 */
 	void useJournalNotepadView(){
 		//Create an input multiplexer to take input from every stage
 		InputMultiplexer multiplexer = new InputMultiplexer();
@@ -105,6 +124,9 @@ public class GUIController {
 		this.journalGUI.drawNotepad();
 	}
 	
+	/**
+	 * draw the current journal interview view
+	 */
 	void useJournalInterviewView(){
 		//Create an input multiplexer to take input from every stage
 		InputMultiplexer multiplexer = new InputMultiplexer();
@@ -117,20 +139,34 @@ public class GUIController {
 		this.journalGUI.drawInterviewLog();
 	}
 	
+	/**
+	 * Initialise the interview gui with a suspect and a player
+	 * @param suspect
+	 * @param player
+	 */
 	void initialiseInterviewGUI(Suspect suspect, Sprite player){
 		this.interviewController.initInterviewStage(suspect, player);
 	}
 	
+	/**
+	 * Draw the interview GUI
+	 */
 	void drawInterviewGUI(){
 		Gdx.input.setInputProcessor(this.interviewController.interviewStage);
 		this.interviewController.displayInterviewStage();
 	}
 	
+	/**
+	 * Draw the accuse GUI
+	 */
 	void drawAccuseGUI(){
 		Gdx.input.setInputProcessor(this.interviewController.interviewStage);
 		this.interviewController.displayAccuseStage();
 	}
 	
+	/**
+	 * Draw the win/end screen
+	 */
 	void drawWinScreen(){
 		Texture texture = new Texture(Gdx.files.internal("assets/win_screen.png"));
 		Sprite winScreen = new Sprite(texture);
@@ -143,8 +179,6 @@ public class GUIController {
 		font.draw(batch, "You have Won! You accused the right person!", 550, 600);
 		font.draw(batch, "You took this many moves: " + this.gameSnapshot.getTime(), 600, 400);
 		this.batch.end();
-			
-		
 	}
 
 }

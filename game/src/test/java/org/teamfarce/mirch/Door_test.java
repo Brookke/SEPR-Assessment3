@@ -10,6 +10,7 @@ import org.junit.Test;
 
 
 /**
+ * Tests the door class
  * @author jacobwunwin
  *
  */

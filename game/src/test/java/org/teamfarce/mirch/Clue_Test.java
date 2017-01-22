@@ -9,11 +9,15 @@ import static org.junit.Assert.assertSame;
 import org.junit.Test;
 
 /**
+ * Tests the clues class
  * @author jacobwunwin
  *
  */
 public class Clue_Test {
 	
+	/**
+	 * Test the initialiser function
+	 */
 	@Test
 	public void test_init(){
 		int provesMotive = 100;

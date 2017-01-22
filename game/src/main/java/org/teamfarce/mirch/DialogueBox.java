@@ -2,6 +2,7 @@ package org.teamfarce.mirch;
 
 import java.util.ArrayList;
 
+
 public class DialogueBox {
     private ArrayList<String> textBuffer; //this seems redundant
     private ArrayList<DialogueOption> dialogueOption;

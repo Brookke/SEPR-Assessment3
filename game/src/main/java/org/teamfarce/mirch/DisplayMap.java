@@ -8,12 +8,17 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
+ * Displays the map on the screen
  * @author jacobwunwin
  *
  */
 public class DisplayMap {
 	private SpriteBatch batch;
-
+	
+	/**
+	 * Initialises the map class
+	 * @param batch
+	 */
 	DisplayMap(SpriteBatch batch){
 		this.batch = batch;
 	}
