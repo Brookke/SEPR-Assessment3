@@ -297,6 +297,8 @@ public class ScenarioBuilder {
             constructedSuspects.add(suspectObject);
         }
 
+        // Construct the dialogue trees.
+
         // Construct the props.
         ArrayList<Prop> constructedProps = new ArrayList<>();
         Set<ScenarioBuilderDatabase.Prop> propsWithClues =
@@ -360,6 +362,6 @@ public class ScenarioBuilder {
             }
         }
 
-        return null;
+        return new GameSnapshot(constructedSuspects, constructedProps, constructedRooms, null);
     }
 }
