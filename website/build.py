@@ -11,8 +11,8 @@ OUTPUT_FILES = [
     "plan/index.xhtml",
 ]
 
-ROOT_DIR = "https://teamfarce.github.io/MIRCH/"
-#ROOT_DIR = "/"
+#ROOT_DIR = "https://teamfarce.github.io/MIRCH/"
+ROOT_DIR = "/docs/"
 
 
 TEMPLATE_DIR = "./templates/"
