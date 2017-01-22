@@ -17,14 +17,12 @@ public class Suspect extends MapEntity {
 
     /**
      * Initialiser function
-     * @param dialogue
      * @param roomPosition stores position relative to currentroo perm
      * @param currentRoom a ref to the current room the suspect is in
      * @param name a string for the name
      * @param description a string description 
      */
     public Suspect(
-        DialogueBox dialogue,
         String name,
         String description,
         String filename,
@@ -33,7 +31,6 @@ public class Suspect extends MapEntity {
     ) {
         super(name, description, filename);
 
-        this.dialogueTree = dialogueTree;
         this.beenAccused = false;
         this.isMurderer = false;
         this.mapPosition = startingPosition;
