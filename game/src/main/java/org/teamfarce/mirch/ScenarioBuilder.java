@@ -264,8 +264,11 @@ public class ScenarioBuilder {
             // Indicate that we have placed the room.
             claimedPositions.add(roomPosition);
 
-            // TODO: Actually construct a room
-            Room room = null;
+            // Construct and add a room.
+            Room room = Room.constructWithUnitSizes(
+                template.background.filename,
+                roomPosition.getPosition(new Vector2())
+            );
             constructedRooms.add(room);
         }
 
