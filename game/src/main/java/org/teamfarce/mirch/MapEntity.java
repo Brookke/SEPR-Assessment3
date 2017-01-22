@@ -82,6 +82,14 @@ public class MapEntity {
      }
      
      /**
+      * 
+      * @param room
+      */
+     public void setRoom(Room room){
+    	 this.currentRoom = room;
+     }
+     
+     /**
       * returns the name
       * @return name 
       */
