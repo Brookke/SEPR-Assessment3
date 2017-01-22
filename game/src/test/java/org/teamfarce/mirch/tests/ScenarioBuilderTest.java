@@ -13,4 +13,10 @@ public class ScenarioBuilderTest {
         //temporary output until test is fully built
         System.out.println("Generate Game Successful");
     }
+    
+    public void testChooseRoomTemplate(){
+    	ScenarioBuilder sb = new ScenarioBuilder();
+    	sb.chooseRoomTemplate(ScenarioBuilderDatabase, 8, 8, random);
+    	System.out.println("Choose Room Template Successful");
+    }
 }
