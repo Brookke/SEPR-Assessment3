@@ -87,7 +87,8 @@ public class ScenarioBuilderDatabase {
 
     public class QuestionAndResponse {
         public int id;
-        public String text;
+        public String question_text;
+        public String response_text;
         public boolean mustBeClue;
         public QuestioningStyle style;
         public QuestioningIntention intention;
@@ -307,7 +308,8 @@ public class ScenarioBuilderDatabase {
         while (rsQuestionAndResponse.next()) {
             QuestionAndResponse questionAndResponse = new QuestionAndResponse();
             questionAndResponse.id = rsProp.getInt("id");
-            questionAndResponse.text = rsProp.getString("text");
+            questionAndResponse.question_text = rsProp.getString("question_text");
+            questionAndResponse.response_text = rsProp.getString("response_text");
             questionAndResponse.mustBeClue = rsProp.getBoolean("must_be_clue");
             questionAndResponse.style = questioningStyles.get(rsProp.getInt("question_style"));
             questionAndResponse.style.questions.add(questionAndResponse);
