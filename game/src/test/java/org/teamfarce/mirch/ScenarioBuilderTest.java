@@ -7,6 +7,7 @@ public class ScenarioBuilderTest {
     /**
      * Test a typical use case of the ScenarioBuilder.
      */
+	@Test
     public void testGenerateGame() {
         //ScenarioBuilder sb = new ScenarioBuilder();
         //sb.generateGame(10);

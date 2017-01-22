@@ -54,7 +54,7 @@ public class InputController {
 	 * @param mouse
 	 * @return
 	 */
-	private boolean isObjectPressed(Sprite theSprite, Vector3 mouse){
+	private boolean isSpritePressed(Sprite theSprite, Vector3 mouse){
 		boolean toReturn = false;
 		
 		float x1 = theSprite.getX();
@@ -80,7 +80,7 @@ public class InputController {
 			camera.unproject(touchPos);
 
 			for (int i = 0; i < object.size(); i++){
-				if (this.isObjectPressed(object.get(i).sprite, touchPos)){
+				if (this.isSpritePressed(object.get(i).sprite, touchPos)){
 					return true;
 				}
 			}
@@ -98,7 +98,7 @@ public class InputController {
 			camera.unproject(touchPos);
 
 			for (int i = 0; i < object.size(); i++){
-				if (this.isObjectPressed(object.get(i).sprite, touchPos)){
+				if (this.isSpritePressed(object.get(i).sprite, touchPos)){
 					return object.get(i);
 				}
 			}

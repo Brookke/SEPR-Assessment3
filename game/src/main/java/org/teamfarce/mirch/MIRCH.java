@@ -93,7 +93,7 @@ public class MIRCH extends ApplicationAdapter{
 	 * @param player
 	 * @return
 	 */
-	private boolean inDoor(ArrayList<Door> doors, Sprite player){
+	protected boolean inDoor(ArrayList<Door> doors, Sprite player){
 		boolean toReturn = false;
 		//System.out.println("Checking door");
 		for (Door door: doors){
