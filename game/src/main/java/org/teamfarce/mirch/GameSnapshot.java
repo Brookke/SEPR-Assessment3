@@ -18,7 +18,6 @@ public class GameSnapshot {
     int time;
     boolean gameWon;
     Journal journal;
-    private DialogueBox currentDialogueBox;
 
     /**
      * Initialises function.
