@@ -10,12 +10,12 @@ import java.util.ArrayList;
 public class GameSnapshot {
     private ArrayList<Suspect> suspects;
     private GameState state;
-    private ArrayList<Prop> props;
-    private ArrayList<Room> rooms;
+    ArrayList<Prop> props;
+    ArrayList<Room> rooms;
     private ArrayList<Door> doors;
-    private int meansProven;
-    private int motiveProven;
-    private int time;
+    int meansProven;
+    int motiveProven;
+    int time;
     boolean gameWon;
     Journal journal;
     private DialogueBox currentDialogueBox;
@@ -67,9 +67,11 @@ public class GameSnapshot {
      * @param amount The increase in the "means proof"
      */
     void proveMeans(ArrayList<Clue> clues) {
-    	for (Clue clue : clues){
-            this.meansProven += clue.provesMean;
-    	}
+    	try{
+	    	for (Clue clue : clues){
+	            this.meansProven += clue.provesMean;
+	    	}
+    	} finally {}
     }
 
     /**
@@ -82,9 +84,11 @@ public class GameSnapshot {
      * @param amount The increase in the "motive proof"
      */
     void proveMotive(ArrayList<Clue> clues) {
-    	for (Clue clue : clues){
-    		this.motiveProven += clue.provesMotive;
-    	}
+    	try {
+	    	for (Clue clue : clues){
+	    		this.motiveProven += clue.provesMotive;
+	    	}
+    	} finally {}
     }
 
     /**
