@@ -22,6 +22,8 @@ import org.teamfarce.mirch.ScenarioBuilderDatabase.Clue;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestioningIntention;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestionAndResponse;
 import org.teamfarce.mirch.Room;
+import org.teamfarce.mirch.Suspect;
+import org.teamfarce.mirch.dialogue.DialogueTree;
 
 public class ScenarioBuilder {
     public static class ScenarioBuilderException extends Exception {
@@ -270,6 +272,27 @@ public class ScenarioBuilder {
                 roomPosition.getPosition(new Vector2())
             );
             constructedRooms.add(room);
+        }
+
+        HashMap<ScenarioBuilderDatabase.Character, DialogueTree> dialogueTrees = new HashMap<>();
+        ArrayList<Suspect> constructedSuspects = new ArrayList<>();
+
+        // Construct the characters.
+        for (ScenarioBuilderDatabase.Character suspect: selectedSuspects) {
+            Room chosenRoom = constructedRooms.get(random.nextInt(constructedRooms.size()));
+            Vector2 roomOrigin = new Vector2(chosenRoom.position);
+
+            DialogueTree dialogueTree = new DialogueTree();
+            Suspect suspectObject = new Suspect(
+                suspect.name,
+                suspect.description,
+                suspect.resource.filename,
+                roomOrigin, // TODO: Place them in a proper place.
+                dialogueTree
+            );
+
+            dialogueTrees.put(suspect, dialogueTree);
+            constructedSuspects.add(suspectObject);
         }
 
         return null;
