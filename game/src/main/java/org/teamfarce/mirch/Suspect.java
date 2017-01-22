@@ -11,7 +11,7 @@ import org.teamfarce.mirch.dialogue.DialogueTree;
 public class Suspect extends MapEntity {
     DialogueTree dialogueTree;
     private boolean beenAccused;
-    private boolean isMurderer;
+    boolean isMurderer;
     Vector2 mapPosition;
     Vector2 moveStep;
 
@@ -64,7 +64,13 @@ public class Suspect extends MapEntity {
         return (this.isMurderer)&&(hasEvidence);
     }
 
-    public boolean hasBeenAccused() {
-        return beenAccused;
-    }
+	public boolean hasBeenAccused() {
+		return beenAccused;
+	}
+	
+	public Vector2 getPosition(){
+		return this.mapPosition;
+	}
+
+
 }

@@ -9,10 +9,12 @@ OUTPUT_FILES = [
     "index.xhtml",
     "designdocs/index.xhtml",
     "plan/index.xhtml",
+    "testing/index.xhtml",
+    "executable/index.xhtml",
 ]
 
 ROOT_DIR = "https://teamfarce.github.io/MIRCH/"
-#ROOT_DIR = "/"
+#ROOT_DIR = "/docs/"
 
 
 TEMPLATE_DIR = "./templates/"

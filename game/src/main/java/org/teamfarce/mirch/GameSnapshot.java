@@ -138,8 +138,10 @@ public class GameSnapshot {
      */
     void journalAddProp(Prop prop) {
         this.journal.addProp(prop);
-        proveMeans(prop.takeClues());
-        proveMotive(prop.takeClues());
+        if (prop.takeClues()  != null){
+        	proveMeans(prop.takeClues());
+        	proveMotive(prop.takeClues());
+        }
     }
 
 
