@@ -15,11 +15,8 @@ public class Suspect extends MapEntity {
     Vector2 mapPosition;
     Vector2 moveStep;
 
-//constructors, accessor functions, and a couple of rudimentary implementation of key functions for mapentity, suspect, and prop classes.
     /**
      * Initialiser function
-     * @param id integer for identification
-     * @param resourceIndex index for resources like sprites
      * @param dialogue
      * @param roomPosition stores position relative to currentroo perm
      * @param currentRoom a ref to the current room the suspect is in
@@ -27,19 +24,17 @@ public class Suspect extends MapEntity {
      * @param description a string description 
      */
     public Suspect(
-        int id,
-        int resourceIndex,
-        DialogueBox dialogue,  
-        String name, 
+        DialogueBox dialogue,
+        String name,
         String description,
         String filename,
         Vector2 startingPosition,
         DialogueTree dialogueTree
-        ) {
-    	super(id, resourceIndex, name, description, filename);
+    ) {
+        super(name, description, filename);
 
-    	this.dialogueTree = dialogueTree;
-    	this.beenAccused = false;
+        this.dialogueTree = dialogueTree;
+        this.beenAccused = false;
         this.isMurderer = false;
         this.mapPosition = startingPosition;
         this.moveStep = new Vector2(0, 0);
@@ -47,8 +42,8 @@ public class Suspect extends MapEntity {
     }
 
     public Suspect(String filename, Vector2 pos){
-    	super(0, 0, null, null, filename);
-    	this.mapPosition = pos;
+        super(null, null, filename);
+        this.mapPosition = pos;
     };
 
 
@@ -64,8 +59,8 @@ public class Suspect extends MapEntity {
      * @return Whether the player has successfully accused the suspect
      */
     boolean accuse(boolean hasEvidence) {
-    	this.beenAccused = true;
-    	//clear the dialogue tree here
+        this.beenAccused = true;
+        //clear the dialogue tree here
         return (this.isMurderer)&&(hasEvidence);
     }
 
@@ -76,5 +71,6 @@ public class Suspect extends MapEntity {
 	public Vector2 getPosition(){
 		return this.mapPosition;
 	}
+
 
 }
