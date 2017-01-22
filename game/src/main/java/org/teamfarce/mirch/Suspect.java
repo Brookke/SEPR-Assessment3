@@ -1,6 +1,7 @@
 package org.teamfarce.mirch;
 
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.dialogue.DialogueTree;
 
 /**
  * Stores information about a single suspect character.
@@ -13,7 +14,7 @@ public class Suspect extends MapEntity {
     private boolean isMurderer;
     Vector2 mapPosition;
     Vector2 moveStep;
-    
+
 //constructors, accessor functions, and a couple of rudimentary implementation of key functions for mapentity, suspect, and prop classes.
     /**
      * Initialiser function
@@ -36,7 +37,7 @@ public class Suspect extends MapEntity {
         DialogueTree dialogueTree
         ) {
     	super(id, resourceIndex, name, description, filename);
-    	
+
     	this.dialogueTree = dialogueTree;
     	this.beenAccused = false;
         this.isMurderer = false;
@@ -44,13 +45,13 @@ public class Suspect extends MapEntity {
         this.moveStep = new Vector2(0, 0);
         this.dialogueTree = dialogueTree;
     }
-    
+
     public Suspect(String filename, Vector2 pos){
     	super(0, 0, null, null, filename);
     	this.mapPosition = pos;
     };
-    
-    
+
+
 
     /**
      * Accuse the suspect.

@@ -3,7 +3,7 @@
  */
 package org.teamfarce.mirch;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -21,6 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Align;
+
+import org.teamfarce.mirch.dialogue.QuestionResult;
 
 /**
  * @author jacobwunwin
@@ -94,10 +96,12 @@ public class InterviewGUIController {
 		
 		genQuestionBase(suspect, player);
 		
-		String response = suspect.dialogueTree.selectStyledQuestion(intent, style, gameSnapshot.journal, suspect);
-		gameSnapshot.journal.addConversation(response, suspect.name + " to You"); //add the response to the diagram
-		
-		Label comment = new Label (response, uiSkin);
+        // TODO: utilise the returned clue.
+        QuestionResult result = suspect.dialogueTree.selectQuestion(intent, style);
+        // Add the response to the diagram
+        gameSnapshot.journal.addConversation(result.response, suspect.name + " to You");
+
+        Label comment = new Label(result.response, uiSkin);
 		comment.setPosition(300, 480);
 		this.interviewStage.addActor(comment);
 		
@@ -146,14 +150,13 @@ public class InterviewGUIController {
 		genQuestionBase(suspect, player);
 		
 		float buttonSpace = 50;
-		ArrayList<String> styles = suspect.dialogueTree.getAvailableStyles(intent);
+		List<String> styles = suspect.dialogueTree.getAvailableStyleChoices(intent);
 		
 		Table theTable = new Table(uiSkin);
 		theTable.align(Align.left);
 
 		Table qcontainer = new Table(uiSkin);
 		ScrollPane qscroll = new ScrollPane(theTable, uiSkin);
-		//scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
 
 
 		qscroll.layout();
@@ -220,7 +223,7 @@ public class InterviewGUIController {
 		
 		genQuestionBase(suspect, player); //generate the base stage that we can the build off of	
 		
-		if (suspect.dialogueTree.getAvailableIntents().size() > 0){
+        if (suspect.dialogueTree.getAvailableIntentChoices().size() > 0) {
 			
 			String suspectMessage = "Go on then, ask your question.";
 			if (suspect.hasBeenAccused()){
@@ -235,7 +238,6 @@ public class InterviewGUIController {
 
 			Table qcontainer = new Table(uiSkin);
 			ScrollPane qscroll = new ScrollPane(theTable, uiSkin);
-			//scroll.setStyle("-fx-background: transparent;"); //the numpteys depreciated this very useful command to make the background transparent
 
 
 			qscroll.layout();
@@ -257,14 +259,18 @@ public class InterviewGUIController {
 			
 			
 			if (!suspect.hasBeenAccused()){
-				for (int i = 0; i < suspect.dialogueTree.getAvailableIntents().size(); i++){
-					TextButton button = new TextButton(suspect.dialogueTree.getAvailableIntentsAsString().get(i), uiSkin);
-	
+                List<String> intentChoices = suspect.dialogueTree.getAvailableIntentChoices();
+                for (int i = 0; i < intentChoices.size(); i++){
+                    TextButton button = new TextButton(intentChoices.get(i), uiSkin);
+
 					final int k = i;
 					button.addListener(new ChangeListener() {
 						public void changed (ChangeEvent event, Actor actor) {
 							System.out.println("Button was pressed");
-							gameSnapshot.journal.addConversation(suspect.dialogueTree.getAvailableIntentsAsString().get(k), "You to " + suspect.name); //add the question to the journal
+                            // Add the question to the journal
+                            gameSnapshot.journal.addConversation(
+                                intentChoices.get(k), "You to " + suspect.name
+                            );
 							genStyleScreen(suspect, player, k);
 						}
 					});
