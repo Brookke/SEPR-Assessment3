@@ -1,6 +1,7 @@
 package org.teamfarce.mirch.dialogue;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -16,6 +17,13 @@ public class DialogueTree {
      */
     public DialogueTree(List<QuestionIntent> questionIntents) {
         this.questionIntents = questionIntents;
+    }
+
+    /**
+     * Initialise an empty dialogue tree.
+     */
+    public DialogueTree() {
+        this(new ArrayList<>());
     }
 
     /**
