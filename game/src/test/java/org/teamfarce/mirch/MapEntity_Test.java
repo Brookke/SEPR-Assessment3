@@ -15,7 +15,7 @@ public class MapEntity_Test {
 	
 	@Test
 	public void test_setRoomGetRoom(){
-		MapEntity mapEntity = new MapEntity(0, 0, null, null, null);
+		MapEntity mapEntity = new MapEntity(null, null, null);
 		
 		Room theRoom = new Room(null, null);
 		
@@ -26,20 +26,20 @@ public class MapEntity_Test {
 	
 	public void test_getName(){
 		String input = "Test";
-		MapEntity mapEntity = new MapEntity(0, 0, input, null, null);
+		MapEntity mapEntity = new MapEntity(input, null, null);
 		assertEquals(input, mapEntity.getName());
 		
 	}
 	
 	public void test_genDescription(){
 		String input = "Test";
-		MapEntity mapEntity = new MapEntity(0, 0, null, input, null);
+		MapEntity mapEntity = new MapEntity(null, input, null);
 		assertEquals(input, mapEntity.getDescription());
 	}
 	
 	public void test_getFileName(){
 		String input = "Test";
-		MapEntity mapEntity = new MapEntity(0, 0, null, null, input);
+		MapEntity mapEntity = new MapEntity(null, null, input);
 		assertEquals(input, mapEntity.filename);
 	}
 	
