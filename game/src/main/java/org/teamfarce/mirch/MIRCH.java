@@ -29,6 +29,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
+import org.teamfarce.mirch.dialogue.*;
+
 /**
  * MIRCH is used to generate all graphics in the program. It initialises the scenario generator and game state
  * and provides all interactions with the back end of the program.
@@ -132,13 +134,72 @@ public class MIRCH extends ApplicationAdapter{
 		ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 		
 		Suspect tempSuspect = new Suspect("Devil_sprite.png", new Vector2(400, 400));
-		
-		tempSuspect.dialogueTree = null;
+
+        tempSuspect.dialogueTree = new DialogueTree();
 		tempSuspect.name = "The Devil";
 		tempSuspect.description = "He is the devil";
 		
 		tempSuspects.add(tempSuspect);
-		
+
+        QuestionIntent qi1 = new QuestionIntent("Did you see anything suspicious?");
+        tempSuspect.dialogueTree.addQuestionIntent(qi1);
+
+        QuestionAndResponse qar11 = new QuestionAndResponse(
+            "You look suspicious, what are you hiding?",
+            "Aggressive",
+            "What?! Nothing I swear",
+            new ArrayList<>()
+        );
+        qi1.addQuestion(qar11);
+
+        QuestionAndResponse qar12 = new QuestionAndResponse(
+            "Have you seen anything unusual or suspicious?",
+            "Direct",
+            "The vampire has put on surprisingly good fake blood since the start of the party.",
+            new ArrayList<>()
+        );
+        qi1.addQuestion(qar12);
+
+        QuestionAndResponse qar13 = new QuestionAndResponse(
+            "*Grunts mildly*, *points at suspect*",
+            "Grunts and Points",
+            "*Beats chest*",
+            new ArrayList<>()
+
+        );
+        qi1.addQuestion(qar13);
+
+        QuestionIntent qi2 = new QuestionIntent("How long ago did you notice this");
+        IDialogueTreeAdder qi2_add = new SingleDialogueTreeAdder(tempSuspect.dialogueTree, qi2);
+
+        qar12.addDialogueTreeAdder(qi2_add);
+
+        QuestionAndResponse qar21 = new QuestionAndResponse(
+            "Why didn't you tell me earlier? Tell me now!",
+            "Aggressive",
+            "I don't know!",
+            new ArrayList<>()
+        );
+        qi2.addQuestion(qar21);
+
+        QuestionAndResponse qar22 = new QuestionAndResponse(
+            "When do you think you noticed this?",
+            "Direct",
+            "Maybe an hour ago. Not too long before the body was dumped.",
+            new ArrayList<>()
+        );
+        qi2.addQuestion(qar22);
+
+        QuestionAndResponse qar23 = new QuestionAndResponse(
+            "*Grunts harshly*, *Beat chest*",
+            "Grunts and Points",
+            "*Screams in the fifth dimension*",
+            new ArrayList<>()
+        );
+        qi2.addQuestion(qar23);
+
+        qar23.addDialogueTreeAdder(new SingleDialogueTreeAdder(tempSuspect.dialogueTree, qi2));
+
 		ArrayList<Room> tempRooms = new ArrayList<Room>();
 		
 		Room temp2 = new Room("Classroom_2.png", new Vector2(200, 490));
