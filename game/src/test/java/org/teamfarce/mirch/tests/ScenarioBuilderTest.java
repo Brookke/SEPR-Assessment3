@@ -5,7 +5,7 @@ import org.teamfarce.mirch.ScenarioBuilder;
 
 public class ScenarioBuilderTest {
     /**
-     * Test a typical use case of the ScenarioBuilder.
+     * Test a typical use case of the ScenarioBuilder. needed a push to test build...
      */
     public void testGenerateGame() {
         //ScenarioBuilder sb = new ScenarioBuilder();
