@@ -218,7 +218,7 @@ public class MIRCH extends ApplicationAdapter{
 		ArrayList<Door> tempDoors = new ArrayList<Door>();
 		tempDoors.add(new Door(300, 490, 350, 520));
 		
-		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, tempDoors); //generate the GameSnapshot object
+		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms); //generate the GameSnapshot object
 		
 		//generate RenderItems from each room
 		rooms = new ArrayList<RenderItem>();

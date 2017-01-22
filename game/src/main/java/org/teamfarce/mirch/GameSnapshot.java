@@ -12,7 +12,6 @@ public class GameSnapshot {
     private GameState state;
     ArrayList<Prop> props;
     ArrayList<Room> rooms;
-    private ArrayList<Door> doors;
     int meansProven;
     int motiveProven;
     int time;
@@ -25,14 +24,12 @@ public class GameSnapshot {
     GameSnapshot(
         ArrayList<Suspect> suspects,
         ArrayList<Prop> props,
-        ArrayList<Room> rooms,
-        ArrayList<Door> doors
+        ArrayList<Room> rooms
     ) {
         this.suspects = suspects;
         this.state = GameState.map;
         this.props = props;
         this.rooms = rooms;
-        this.doors = doors;
         this.meansProven = 0;
         this.motiveProven = 0;
         this.journal = new Journal();
@@ -146,15 +143,6 @@ public class GameSnapshot {
      */
 	public ArrayList<Suspect> getSuspects() {
 		return this.suspects;
-	}
-
-	/**
-	 * returns an array list of all doors
-	 * @return
-	 */
-	public ArrayList<Door> getDoors() {
-		// TODO Auto-generated method stub
-		return this.doors;
 	}
 	
 	/**
