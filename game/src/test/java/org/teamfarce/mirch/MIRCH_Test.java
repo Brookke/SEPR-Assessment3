@@ -54,9 +54,14 @@ public class MIRCH_Test extends MIRCH{
 		Sprite sprite = new Sprite();
 		sprite.setPosition(0f, 0f);
 		
+		//test for when character is inside door
 		boolean response = inDoor(doors, sprite);
-		
 		assertTrue("Failure - character not found to be in door", response);
+		
+		//test for when character is outside of door
+		sprite.setPosition(200, 200);
+		response = inDoor(doors, sprite);
+		assertFalse("Failure - character found to be in door", response);
 	}
 	
 	
