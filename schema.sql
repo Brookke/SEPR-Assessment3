@@ -69,6 +69,7 @@ CREATE TABLE props (
 CREATE TABLE question_and_responses (
     id INTEGER NOT NULL,
     question_text TEXT NOT NULL,
+    response_text TEXT NOT NULL,
     must_be_clue BOOLEAN DEFAULT '1' NOT NULL,
     question_intention INTEGER NOT NULL,
     question_style INTEGER NOT NULL,
