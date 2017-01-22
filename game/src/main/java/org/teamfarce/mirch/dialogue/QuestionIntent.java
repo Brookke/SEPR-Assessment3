@@ -1,6 +1,7 @@
 package org.teamfarce.mirch.dialogue;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -23,6 +24,15 @@ public class QuestionIntent {
     public QuestionIntent(List<QuestionAndResponse> questions, String description) {
         this.questions = questions;
         this.description = description;
+    }
+
+    /**
+     * Initialise the question intent with no questions.
+     *
+     * @param description The description of this question intention.
+     */
+    public QuestionIntent(String description) {
+        this(new ArrayList<>(), description);
     }
 
     /**
@@ -51,5 +61,14 @@ public class QuestionIntent {
      */
     public QuestionResult selectQuestion(int style) {
         return questions.get(style).ask();
+    }
+
+    /**
+     * Adds a question to the current list of questions.
+     *
+     * @param question The question to add.
+     */
+    public void addQuestion(QuestionAndResponse question) {
+        this.questions.add(question);
     }
 }
