@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import org.teamfarce.mirch.DialogueTree.Personality;
-import org.teamfarce.mirch.Question.Style;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -135,59 +132,8 @@ public class MIRCH extends ApplicationAdapter{
 		ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 		
 		Suspect tempSuspect = new Suspect("Devil_sprite.png", new Vector2(400, 400));
-
-		/**
-		 * please do not be mad.
-		 * the tree begins to be constructed now.
-		 */
 		
-		//constructing concrete questions:
-		ArrayList<Question> questions1 = new ArrayList<Question>();
-		ArrayList<Question> questions2 = new ArrayList<Question>();
-		
-		questions1.add(new Question(Style.AGGRESSIVE, "You look suspicious. What are you hiding?"));
-		questions1.add(new Question(Style.PLACATING, "Don't worry, you're not in trouble or anything. I just need to know what you were doing earlier"));
-		questions1.add(new Question(Style.CONVERSATIONAL, "Hi, I'm the detective. What have you been up to lately?"));
-		questions1.add(new Question(Style.DIRECT, "What were you doing when the crime took place?"));
-		questions1.add(new Question(Style.GRUNTSANDPOINTS, "*grunts mildly*, *points at suspect*"));
-		
-		questions2.add(new Question(Style.AGGRESSIVE, "Maybe one of your accompalices did the foul deed. Give me a name, now"));
-		questions2.add(new Question(Style.PLACATING, "Everything will be fine, but I need your help; have you seen anyone suspicious?"));
-		questions2.add(new Question(Style.CONVERSATIONAL, "The costumes here are pretty odd, don't you think? What's the weirdest you've seen?"));
-		questions2.add(new Question(Style.DIRECT, "Have you seen anyone suspicious?"));
-		questions2.add(new Question(Style.GRUNTSANDPOINTS, "*grunts harshly*, *beats chest*"));
-		
-		//creating concrete responses
-		
-		ArrayList<String> responses1 = new ArrayList<String>();
-		
-		responses1.add("Uhh I'm not really sure you should be asking me");
-		responses1.add("Go away.");
-		responses1.add("Sorry, I cant help you with that!");
-		responses1.add("...");
-		responses1.add("*beats chest*");
-		
-		String correctResp1 = "uhh, I was at the library earlier";
-		String correctResp2 = "The guy in the vampire costume looked like he put a lot of effort into the fake blood";
-		
-		//creating Clues
-		
-		Clue library = new Clue(2, 4, "Library");
-		Clue vampire = new Clue(2, 2, "Vampire_Costume");
-		
-		//creating responseIntents and QuestionIntents
-		ResponseIntent respInt1 = new ResponseIntent(responses1, correctResp2, vampire);
-		QuestionIntent questInt1 = new QuestionIntent(questions2, respInt1, "did you see anyone suspicious");
-		ResponseIntent respInt2 = new ResponseIntent(responses1, correctResp1, library, questInt1);
-		QuestionIntent questInt2 = new QuestionIntent(questions1, respInt2, "what were you doing earlier");
-		
-		ArrayList<QuestionIntent> questionIntentions = new ArrayList<QuestionIntent>();
-		questionIntentions.add(questInt2);
-		
-		//Creating a dialogue tree of one question intent
-		DialogueTree dTree = new DialogueTree(questionIntentions, Personality.ANXIOUS);
-		
-		tempSuspect.dialogueTree = dTree;
+		tempSuspect.dialogueTree = null;
 		tempSuspect.name = "The Devil";
 		tempSuspect.description = "He is the devil";
 		
