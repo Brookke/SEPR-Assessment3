@@ -71,5 +71,4 @@ public class Suspect_Test {
 		assertEquals(position, suspect.getPosition());
 	}
 	
-	
 }

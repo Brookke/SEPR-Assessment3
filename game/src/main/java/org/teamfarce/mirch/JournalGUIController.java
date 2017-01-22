@@ -18,7 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
 /**
- * 
+ * The journal GUI controller draws the Journal GUI to the screen and handles any inputs 
+ * whilst the journal is displayed
  * @author jacobwunwin
  *
  */
@@ -37,6 +38,12 @@ public class JournalGUIController {
 	private SpriteBatch batch;
 	
 
+	/**
+	 * Initialise the journal controller, creating GUI stages for each view
+	 * @param skin
+	 * @param gSnapshot
+	 * @param batch
+	 */
 	JournalGUIController(Skin skin, GameSnapshot gSnapshot, SpriteBatch batch){
 		this.uiSkin = skin;
 		this.gameSnapshot = gSnapshot;
@@ -202,7 +209,10 @@ public class JournalGUIController {
 			cluesTable.row(); //end the row
 		}
 	}
-
+	
+	/**
+	 * Draw the journal home screen
+	 */
 	void drawHome(){
 		this.batch.begin();
 		this.journalSprite.draw(this.batch); //draw the journal background
@@ -210,6 +220,9 @@ public class JournalGUIController {
 		this.journalStage.draw();
 	}
 
+	/**
+	 * Draw the journal clues screen
+	 */
 	void drawClues(){
 		this.batch.begin();
 		this.journalSprite.draw(this.batch); //draw the journal background
@@ -220,6 +233,9 @@ public class JournalGUIController {
 		this.journalCluesStage.draw();
 	}
 
+	/**
+	 * Draw the journal interview log screen
+	 */
 	void drawInterviewLog(){
 		this.batch.begin();
 		this.journalSprite.draw(this.batch);
@@ -230,6 +246,9 @@ public class JournalGUIController {
 		this.journalQuestionsStage.draw();
 	}
 
+	/**
+	 * draw the notepad screen
+	 */
 	void drawNotepad(){
 		this.batch.begin();
 		this.journalSprite.draw(this.batch); //draw the journal background

@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.badlogic.gdx.math.Vector2;
 
 /**
+ * Tests the journal class
  * @author jacobwunwin
  *
  */

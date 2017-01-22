@@ -14,6 +14,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
+ * The display controller controls the drawing of all items/objects/GUI elements to the display.
+ * It also controls the handling of GUI element inputs
  * @author jacobwunwin
  *
  */
@@ -93,6 +95,12 @@ public class DisplayController {
 		JOptionPane.showMessageDialog(null,output, prop.name,JOptionPane.PLAIN_MESSAGE);
 	}
 	
+	/**
+	 * Initialises the DisplayController
+	 * @param skin
+	 * @param gSnapshot
+	 * @param batch
+	 */
 	DisplayController(Skin skin, GameSnapshot gSnapshot, SpriteBatch batch){
 		this.batch = batch;
 		this.displayMap = new DisplayMap(batch);
@@ -101,12 +109,23 @@ public class DisplayController {
 		this.guiController = new GUIController(uiSkin, gameSnapshot, this.batch);
 	}
 	
+	/**
+	 * Draws the map to the screen
+	 * @param rooms
+	 * @param doors
+	 * @param objects
+	 * @param characters
+	 */
 	void drawMap(ArrayList<RenderItem> rooms, ArrayList<RenderItem> doors, ArrayList<RenderItem> objects, ArrayList<RenderItem> characters){
 		this.displayMap.drawMap(rooms, doors, objects, characters);
 		this.guiController.drawControlStage();
 		Gdx.input.setInputProcessor(this.guiController.controlStage);
 	}
 	
+	/**
+	 * Returns the drawGUI object
+	 * @return
+	 */
 	GUIController drawGUI(){
 		return this.guiController;
 	}

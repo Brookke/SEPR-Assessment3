@@ -37,6 +37,12 @@ public class Prop extends MapEntity {
         this.filename = filename;
     }
 
+    /**
+     * Alternative prop constructor mostly used for testing purposes
+     * @param filename
+     * @param room
+     * @param roomPos
+     */
     public Prop(String filename, Room room, Vector2 roomPos){
         super("", "", filename);
         this.currentRoom = room;

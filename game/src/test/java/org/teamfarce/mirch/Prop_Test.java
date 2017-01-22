@@ -12,6 +12,7 @@ import org.junit.Test;
 import com.badlogic.gdx.math.Vector2;
 
 /**
+ * Tests functions in the PROP class
  * @author jacobwunwin
  *
  */

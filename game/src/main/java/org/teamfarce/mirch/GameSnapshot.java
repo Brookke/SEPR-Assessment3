@@ -41,18 +41,33 @@ public class GameSnapshot {
         this.gameWon = false;
     }
     
+    /**
+     * Increments the pseudotime counter
+     */
     public void incrementTime(){
     	this.time++;
     }
     
+    /**
+     * Returns the current value of the pseudotime variable
+     * @return
+     */
     public int getTime(){
     	return this.time;
     }
     
+    /**
+     * Returns a list of all rooms
+     * @return
+     */
     ArrayList<Room> getRooms(){
     	return this.rooms;
     }
     
+    /**
+     * Returns a list of all props
+     * @return
+     */
     ArrayList<Prop> getProps(){
     	return this.props;
     }
@@ -109,20 +124,35 @@ public class GameSnapshot {
         return (this.motiveProven >= 100);  //Arbitrary value for now
     }
     
+    /**
+     * Allows the setting of the game state
+     * @param state
+     */
     void setState(GameState state){
     	this.state = state;
     	this.incrementTime(); //increment pseudo time evry time we change the game state
     }
     
+    /**
+     * Returns the current game state
+     * @return
+     */
     GameState getState(){
     	return this.state;
     }
 
-
+    /**
+     * Returns an array list of all suspects
+     * @return
+     */
 	public ArrayList<Suspect> getSuspects() {
 		return this.suspects;
 	}
 
+	/**
+	 * returns an array list of all doors
+	 * @return
+	 */
 	public ArrayList<Door> getDoors() {
 		// TODO Auto-generated method stub
 		return this.doors;

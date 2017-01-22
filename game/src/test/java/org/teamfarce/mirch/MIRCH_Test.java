@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
+ * Tests functions in the MIRCH class
  * @author jacobwunwin
  *
  */
