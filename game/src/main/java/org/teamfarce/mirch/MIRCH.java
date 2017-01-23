@@ -267,7 +267,7 @@ public class MIRCH extends ApplicationAdapter{
 		int doorWidth = 50;
 		int doorDepth = 30;
 		
-		
+		//dynamically generate rooms
 		for (RenderItem room : rooms){
 			for (RenderItem extRoom : rooms){		
 				if (!extRoom.equals(room)){			
