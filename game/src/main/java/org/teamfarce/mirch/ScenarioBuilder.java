@@ -218,7 +218,12 @@ public class ScenarioBuilder {
         return constructedRooms;
     }
 
-    public static ArrayList<Props> constructProps() {
+    public static ArrayList<Prop> constructProps(
+        Set<ScenarioBuilderDatabase.Clue> selectedClues,
+        List<RoomTemplate> selectedRoomTemplates,
+        List<Room> constructedRooms,
+        Random random
+    ) {
         ArrayList<Prop> constructedProps = new ArrayList<>();
         Set<ScenarioBuilderDatabase.Prop> propsWithClues =
             selectedClues.stream().flatMap(c -> c.props.stream()).collect(Collectors.toSet());
@@ -385,7 +390,9 @@ public class ScenarioBuilder {
 
         // Construct the dialogue trees.
 
-        ArrayList<Prop> constructedProps = constructProps();
+        ArrayList<Prop> constructedProps = constructProps(
+            selectedClues, selectedRoomTemplates, constructedRooms, random
+        );
 
         return new GameSnapshot(constructedSuspects, constructedProps, constructedRooms, null);
     }
