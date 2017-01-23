@@ -10,18 +10,18 @@ import java.util.stream.Collectors;
 import java.util.Random;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
-import org.teamfarce.mirch.ScenarioBuilderDatabase;
-import org.teamfarce.mirch.WeightedSelection;
-import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestioningStyle;
-import org.teamfarce.mirch.ScenarioBuilderDatabase.RoomTemplate;
-import org.teamfarce.mirch.ScenarioBuilderDatabase.RoomType;
-import org.teamfarce.mirch.ScenarioBuilderDatabase.CharacterMotiveLink;
-import org.teamfarce.mirch.ScenarioBuilderDatabase.Means;
-import org.teamfarce.mirch.ScenarioBuilderDatabase.Motive;
-import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestioningIntention;
-import org.teamfarce.mirch.ScenarioBuilderDatabase.Protoprop;
-import org.teamfarce.mirch.Room;
-import org.teamfarce.mirch.Suspect;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataQuestioningStyle;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataRoomTemplate;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataRoomType;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataCharacterMotiveLink;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataMeans;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataMotive;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataQuestioningIntention;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataProtoprop;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataCharacter;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataClue;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataProp;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.DataQuestionAndResponse;
 import org.teamfarce.mirch.dialogue.DialogueTree;
 import org.teamfarce.mirch.dialogue.QuestionIntent;
 import org.teamfarce.mirch.dialogue.QuestionAndResponse;
@@ -35,12 +35,12 @@ public class ScenarioBuilder {
     }
 
     private static class CharacterData {
-        public ScenarioBuilderDatabase.Character victim = null;
-        public ScenarioBuilderDatabase.Character murderer = null;
-        public ArrayList<ScenarioBuilderDatabase.Character> suspects = new ArrayList<>();
+        public DataCharacter victim = null;
+        public DataCharacter murderer = null;
+        public List<DataCharacter> suspects = new ArrayList<>();
     }
 
-    public static ArrayList<RoomTemplate> chooseRoomTemplates(
+    public static List<DataRoomTemplate> chooseRoomTemplates(
         ScenarioBuilderDatabase database,
         int minRoomCount,
         int maxRoomCount,
@@ -55,14 +55,14 @@ public class ScenarioBuilder {
         int targetRoomCount = minRoomCount + random.nextInt(maxRoomCount - minRoomCount + 1);
 
         // The room templates we have selected.
-        ArrayList<RoomTemplate> selectedRoomTemplates = new ArrayList<>();
+        List<DataRoomTemplate> selectedRoomTemplates = new ArrayList<>();
 
         // A list which represents the room types we can still use. This should include the room
         // types maxCount times. They should be removed from the list when a room template is
         // selected from them.
-        ArrayList<RoomType> selectedRoomTypes = new ArrayList<>();
+        List<DataRoomType> selectedRoomTypes = new ArrayList<>();
 
-        for (RoomType roomType: database.roomTypes.values()) {
+        for (DataRoomType roomType: database.roomTypes.values()) {
             // Include the room types which are required. These are the room types which have a
             // minimum count larger than one.
             for (int i = 0; i < roomType.minCount; ++i) {
@@ -112,7 +112,7 @@ public class ScenarioBuilder {
         ScenarioBuilderDatabase database,
         int minSuspectCount,
         int maxSuspectCount,
-        CharacterMotiveLink selectedCharacterMotiveLink,
+        DataCharacterMotiveLink selectedCharacterMotiveLink,
         Random random
     ) throws ScenarioBuilderException {
         WeightedSelection selector = new WeightedSelection(random);
@@ -124,7 +124,7 @@ public class ScenarioBuilder {
 
         // Create a list of suspect which we can choose from to construct our suspect list. This
         // includes all of the suspects from our data minus the murderer and victim.
-        ArrayList<ScenarioBuilderDatabase.Character> potentialSuspects =
+        List<DataCharacter> potentialSuspects =
             new ArrayList<>(database.characters.values());
         potentialSuspects.remove(characterData.murderer);
         potentialSuspects.remove(characterData.victim);
@@ -156,17 +156,17 @@ public class ScenarioBuilder {
         return characterData;
     }
 
-    public static HashSet<ScenarioBuilderDatabase.Clue> getClues(
-        Means selectedMeans,
-        Motive selectedMotive,
-        ScenarioBuilderDatabase.Character selectedMurderer,
-        ScenarioBuilderDatabase.Character selectedVictim
+    public static Set<DataClue> getClues(
+        DataMeans selectedMeans,
+        DataMotive selectedMotive,
+        DataCharacter selectedMurderer,
+        DataCharacter selectedVictim
     ) {
-        HashSet<ScenarioBuilderDatabase.Clue> selectedClues = new HashSet<>();
+        Set<DataClue> selectedClues = new HashSet<>();
 
         // Get the clues. This is done by filtering out the clues of the selected motive/means
         // which required the victim/murderer to be different.
-        List<ScenarioBuilderDatabase.Clue> meansClues = selectedMeans
+        List<DataClue> meansClues = selectedMeans
             .clues
             .stream()
             .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
@@ -174,7 +174,7 @@ public class ScenarioBuilder {
             .collect(Collectors.toList());
         selectedClues.addAll(meansClues);
 
-        List<ScenarioBuilderDatabase.Clue> motiveClues = selectedMotive
+        List<DataClue> motiveClues = selectedMotive
             .clues
             .stream()
             .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
@@ -185,18 +185,20 @@ public class ScenarioBuilder {
         return selectedClues;
     }
 
-    public static ArrayList<Room> constructRooms(ArrayList<RoomTemplate> selectedRoomTemplates) {
-        ArrayList<Room> constructedRooms = new ArrayList<>();
+    public static List<Room> constructRooms(
+        List<DataRoomTemplate> selectedRoomTemplates
+    ) {
+        List<Room> constructedRooms = new ArrayList<>();
 
         // Store the positions in which a room has been placed. We will use this to decide if we
         // can place a room in a particular position.
-        ArrayList<Rectangle> claimedPositions = new ArrayList<>();
+        List<Rectangle> claimedPositions = new ArrayList<>();
 
         // This is the vector we will add to the position if we cannot place the room.
         Vector2 conflictResolveDirection = new Vector2(1.0f, 0.0f);
 
         // Resolve all of the rooms.
-        for (RoomTemplate template: selectedRoomTemplates) {
+        for (DataRoomTemplate template: selectedRoomTemplates) {
             Rectangle roomPosition = new Rectangle(0.0f, 0.0f, template.width, template.height);
 
             // Keep moving the room until it can be placed.
@@ -221,25 +223,24 @@ public class ScenarioBuilder {
         return constructedRooms;
     }
 
-    public static ArrayList<Prop> constructProps(
-        Set<ScenarioBuilderDatabase.Clue> selectedClues,
-        List<RoomTemplate> selectedRoomTemplates,
+    public static List<Prop> constructProps(
+        Set<DataClue> selectedClues,
+        List<DataRoomTemplate> selectedRoomTemplates,
         List<Room> constructedRooms,
         Random random
     ) {
-        ArrayList<Prop> constructedProps = new ArrayList<>();
-        Set<ScenarioBuilderDatabase.Prop> propsWithClues =
+        List<Prop> constructedProps = new ArrayList<>();
+        Set<DataProp> propsWithClues =
             selectedClues.stream().flatMap(c -> c.props.stream()).collect(Collectors.toSet());
 
         // Iterate through all of the rooms to add their props to them.
         for (int i = 0; i < selectedRoomTemplates.size(); ++i) {
-            RoomTemplate roomTemplate = selectedRoomTemplates.get(i);
+            DataRoomTemplate roomTemplate = selectedRoomTemplates.get(i);
             Room room = constructedRooms.get(i);
 
-            for (Protoprop protoprop: roomTemplate.protoprops) {
+            for (DataProtoprop protoprop: roomTemplate.protoprops) {
                 // Copy the set so that we don't mutate the database.
-                List<ScenarioBuilderDatabase.Prop> reducedPropSelection
-                    = new ArrayList<>(protoprop.props);
+                List<DataProp> reducedPropSelection = new ArrayList<>(protoprop.props);
 
                 // Remove the props which do not have a clues associated with them
                 reducedPropSelection.retainAll(propsWithClues);
@@ -247,7 +248,6 @@ public class ScenarioBuilder {
                 // If the size of the result is 0, then we should attempt to select from the full
                 // range of props, which include props without clues.
                 if (reducedPropSelection.size() == 0) {
-                    // reducedPropSelection = new ArrayList<>(protoprop.props);
                     reducedPropSelection = protoprop
                         .props
                         .stream()
@@ -259,14 +259,12 @@ public class ScenarioBuilder {
 
                 // Select a random prop from our reduced list of props.
                 int propDataSelection = random.nextInt(reducedPropSelection.size());
-                ScenarioBuilderDatabase.Prop propData =
-                    reducedPropSelection.get(propDataSelection);
+                DataProp propData = reducedPropSelection.get(propDataSelection);
 
                 // Create a list of all of the clues this new prop will have. It will be the
                 // potential clues this prop was associated with in the database, intersected with
                 // the clues we selected earlier.
-                ArrayList<ScenarioBuilderDatabase.Clue> propClueData =
-                    new ArrayList<>(propData.clues);
+                List<DataClue> propClueData = new ArrayList<>(propData.clues);
                 propClueData.retainAll(selectedClues);
 
                 List<Clue> propClues = propData
@@ -293,13 +291,11 @@ public class ScenarioBuilder {
     }
 
     public static QuestionIntent generateDialogueTree(
-        QuestioningIntention qiData,
-        HashMap<ScenarioBuilderDatabase.Character, DialogueTree> dialogueTrees
+        DataQuestioningIntention qiData,
+        HashMap<DataCharacter, DialogueTree> dialogueTrees
     ) {
-        QuestionIntent qi = new QuestionIntent(
-            qiData.description
-        );
-        for (ScenarioBuilderDatabase.QuestionAndResponse qarData: qiData.questions) {
+        QuestionIntent qi = new QuestionIntent(qiData.description);
+        for (DataQuestionAndResponse qarData: qiData.questions) {
             DialogueTree currentDialogueTree = dialogueTrees.get(qarData.saidBy);
             QuestionAndResponse qar = new QuestionAndResponse(
                 qarData.questionText,
@@ -308,7 +304,7 @@ public class ScenarioBuilder {
                 new ArrayList<>()
             );
             qi.addQuestion(qar);
-            for (QuestioningIntention qiDataInner: qarData.followUpQuestion) {
+            for (DataQuestioningIntention qiDataInner: qarData.followUpQuestion) {
                 QuestionIntent qiInner = generateDialogueTree(qiDataInner, dialogueTrees);
                 qar.addDialogueTreeAdder(new SingleDialogueTreeAdder(
                     currentDialogueTree, qiInner
@@ -324,12 +320,12 @@ public class ScenarioBuilder {
         int maxRoomCount,
         int minSuspectCount,
         int maxSuspectCount,
-        Set<QuestioningStyle> chosenStyles,
+        Set<DataQuestioningStyle> chosenStyles,
         Random random
     ) throws ScenarioBuilderException {
         WeightedSelection selector = new WeightedSelection(random);
 
-        ArrayList<RoomTemplate> selectedRoomTemplates = chooseRoomTemplates(
+        List<DataRoomTemplate> selectedRoomTemplates = chooseRoomTemplates(
             database,
             minRoomCount,
             maxRoomCount,
@@ -337,10 +333,10 @@ public class ScenarioBuilder {
         );
 
         // Select a character motive link to use.
-        CharacterMotiveLink selectedCharacterMotiveLink = selector.selectWeightedObject(
+        DataCharacterMotiveLink selectedCharacterMotiveLink = selector.selectWeightedObject(
             database.characterMotiveLinks.values(), x -> x.selectionWeight
         ).get();
-        Motive selectedMotive = selectedCharacterMotiveLink.motive;
+        DataMotive selectedMotive = selectedCharacterMotiveLink.motive;
 
         CharacterData characterData = chooseCharacters(
             database,
@@ -349,18 +345,18 @@ public class ScenarioBuilder {
             selectedCharacterMotiveLink,
             random
         );
-        ScenarioBuilderDatabase.Character selectedMurderer = characterData.murderer;
-        ScenarioBuilderDatabase.Character selectedVictim = characterData.victim;
-        ArrayList<ScenarioBuilderDatabase.Character> selectedSuspects = characterData.suspects;
+        DataCharacter selectedMurderer = characterData.murderer;
+        DataCharacter selectedVictim = characterData.victim;
+        List<DataCharacter> selectedSuspects = characterData.suspects;
 
         // Get our means.
-        Means selectedMeans = selector
+        DataMeans selectedMeans = selector
                 .selectWeightedObject(selectedMurderer.meansLink, x -> x.selectionWeight)
                 .get()
                 .means;
 
         // Get the clues
-        HashSet<ScenarioBuilderDatabase.Clue> selectedClues = getClues(
+        Set<DataClue> selectedClues = getClues(
             selectedMeans, selectedMotive, selectedMurderer, selectedVictim
         );
 
@@ -368,20 +364,20 @@ public class ScenarioBuilder {
 
         // Build up our map of dialogue tree roots. This will be the question intentions which are
         // marked as being starting questions.
-        HashMap<ScenarioBuilderDatabase.Character, ArrayList<QuestioningIntention>>
+        HashMap<DataCharacter, List<DataQuestioningIntention>>
             dialgoueTreeRoots = new HashMap<>();
-        for (ScenarioBuilderDatabase.Character character: selectedSuspects) {
+        for (DataCharacter character: selectedSuspects) {
             dialgoueTreeRoots.put(character, new ArrayList<>());
         }
 
         // We'll want to consider all questioning intentions which are marked as being starting
         // questions.
-        for (QuestioningIntention intention: database.questioningIntentions.values()) {
+        for (DataQuestioningIntention intention: database.questioningIntentions.values()) {
             if (!intention.startingQuestion) { continue; }
             // Next consider all of the questions associated response. We'll add the intention we
             // are currently considering to any character's dialogue tree root collection, if the
             // question and response we are considering is said by such character.
-            for (ScenarioBuilderDatabase.QuestionAndResponse response: intention.questions) {
+            for (DataQuestionAndResponse response: intention.questions) {
                 // We only need to consider characters which we have selected to be in this
                 // case of the game. The hashmap has previously be populated with the selected
                 // characters mapped to empty arrays. Because of this, if the character is not
@@ -392,13 +388,13 @@ public class ScenarioBuilder {
             }
         }
 
-        ArrayList<Room> constructedRooms = constructRooms(selectedRoomTemplates);
+        List<Room> constructedRooms = constructRooms(selectedRoomTemplates);
 
-        HashMap<ScenarioBuilderDatabase.Character, DialogueTree> dialogueTrees = new HashMap<>();
-        ArrayList<Suspect> constructedSuspects = new ArrayList<>();
+        HashMap<DataCharacter, DialogueTree> dialogueTrees = new HashMap<>();
+        List<Suspect> constructedSuspects = new ArrayList<>();
 
         // Construct the characters.
-        for (ScenarioBuilderDatabase.Character suspect: selectedSuspects) {
+        for (DataCharacter suspect: selectedSuspects) {
             Room chosenRoom = constructedRooms.get(random.nextInt(constructedRooms.size()));
             Vector2 roomOrigin = new Vector2(chosenRoom.position);
             roomOrigin.x += roomOrigin.x + 20;
@@ -418,16 +414,17 @@ public class ScenarioBuilder {
         }
 
         // Construct the dialogue trees.
-        for (ScenarioBuilderDatabase.Character currentCharacter: selectedSuspects) {
+        for (DataCharacter currentCharacter: selectedSuspects) {
             DialogueTree dialogueTree = dialogueTrees.get(currentCharacter);
-            ArrayList<QuestioningIntention> intentions = dialgoueTreeRoots.get(currentCharacter);
-            for (QuestioningIntention intention: intentions) {
+            List<DataQuestioningIntention> intentions =
+                dialgoueTreeRoots.get(currentCharacter);
+            for (DataQuestioningIntention intention: intentions) {
                 QuestionIntent qi = generateDialogueTree(intention, dialogueTrees);
                 dialogueTree.addQuestionIntent(qi);
             }
         }
 
-        ArrayList<Prop> constructedProps = constructProps(
+        List<Prop> constructedProps = constructProps(
             selectedClues, selectedRoomTemplates, constructedRooms, random
         );
 

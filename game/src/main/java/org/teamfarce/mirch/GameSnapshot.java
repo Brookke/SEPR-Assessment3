@@ -1,6 +1,5 @@
 package org.teamfarce.mirch;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,10 +8,10 @@ import java.util.List;
  * @author jacobwunwin
  */
 public class GameSnapshot {
-    private ArrayList<Suspect> suspects;
+    private List<Suspect> suspects;
     private GameState state;
-    ArrayList<Prop> props;
-    ArrayList<Room> rooms;
+    List<Prop> props;
+    List<Room> rooms;
     int meansProven;
     int motiveProven;
     int time;
@@ -23,9 +22,9 @@ public class GameSnapshot {
      * Initialises function.
      */
     GameSnapshot(
-        ArrayList<Suspect> suspects,
-        ArrayList<Prop> props,
-        ArrayList<Room> rooms
+        List<Suspect> suspects,
+        List<Prop> props,
+        List<Room> rooms
     ) {
         this.suspects = suspects;
         this.state = GameState.map;
@@ -57,7 +56,7 @@ public class GameSnapshot {
      * Returns a list of all rooms
      * @return
      */
-    ArrayList<Room> getRooms(){
+    List<Room> getRooms(){
     	return this.rooms;
     }
     
@@ -65,7 +64,7 @@ public class GameSnapshot {
      * Returns a list of all props
      * @return
      */
-    ArrayList<Prop> getProps(){
+    List<Prop> getProps(){
     	return this.props;
     }
 
@@ -79,11 +78,9 @@ public class GameSnapshot {
      * @param amount The increase in the "means proof"
      */
     void proveMeans(List<Clue> clues) {
-    	try{
-	    	for (Clue clue : clues){
-	            this.meansProven += clue.provesMean;
-	    	}
-    	} finally {}
+        for (Clue clue : clues){
+            this.meansProven += clue.provesMean;
+        }
     }
 
     /**
@@ -96,11 +93,9 @@ public class GameSnapshot {
      * @param amount The increase in the "motive proof"
      */
     void proveMotive(List<Clue> clues) {
-    	try {
-	    	for (Clue clue : clues){
-	    		this.motiveProven += clue.provesMotive;
-	    	}
-    	} finally {}
+        for (Clue clue : clues){
+            this.motiveProven += clue.provesMotive;
+        }
     }
 
     /**
@@ -142,7 +137,7 @@ public class GameSnapshot {
      * Returns an array list of all suspects
      * @return
      */
-	public ArrayList<Suspect> getSuspects() {
+	public List<Suspect> getSuspects() {
 		return this.suspects;
 	}
 	
@@ -161,17 +156,4 @@ public class GameSnapshot {
         	proveMotive(prop.takeClues());
         }
     }
-
-
-    // /**
-    //  * Adds the dialogue to the journal, used for keeping a log of dialogue
-    //  * @param dialogue
-    //  */
-    // void journalAddDialogue(QuestionandResponse dialogue) {
-    //  this.journal.addDialogue(dialogue);
-    //  //for (Clue clue : dialogue.clues) {
-    //  //  proveMeans(clue.provesMeans);
-    //  //  provesMotives(clue.provesMotives);
-    //  //}
-    // }
 }
