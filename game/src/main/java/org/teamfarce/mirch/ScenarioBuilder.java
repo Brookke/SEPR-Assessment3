@@ -292,10 +292,14 @@ public class ScenarioBuilder {
 
     public static QuestionIntent generateDialogueTree(
         DataQuestioningIntention qiData,
-        HashMap<DataCharacter, DialogueTree> dialogueTrees
+        HashMap<DataCharacter, DialogueTree> dialogueTrees,
+        Set<DataQuestioningStyle> chosenStyles
     ) {
         QuestionIntent qi = new QuestionIntent(qiData.description);
         for (DataQuestionAndResponse qarData: qiData.questions) {
+            if (!chosenStyles.contains(qarData.style)) {
+                continue;
+            }
             DialogueTree currentDialogueTree = dialogueTrees.get(qarData.saidBy);
             QuestionAndResponse qar = new QuestionAndResponse(
                 qarData.questionText,
@@ -305,7 +309,9 @@ public class ScenarioBuilder {
             );
             qi.addQuestion(qar);
             for (DataQuestioningIntention qiDataInner: qarData.followUpQuestion) {
-                QuestionIntent qiInner = generateDialogueTree(qiDataInner, dialogueTrees);
+                QuestionIntent qiInner = generateDialogueTree(
+                    qiDataInner, dialogueTrees, chosenStyles
+                );
                 qar.addDialogueTreeAdder(new SingleDialogueTreeAdder(
                     currentDialogueTree, qiInner
                 ));
@@ -422,7 +428,7 @@ public class ScenarioBuilder {
             List<DataQuestioningIntention> intentions =
                 dialgoueTreeRoots.get(currentCharacter);
             for (DataQuestioningIntention intention: intentions) {
-                QuestionIntent qi = generateDialogueTree(intention, dialogueTrees);
+                QuestionIntent qi = generateDialogueTree(intention, dialogueTrees, chosenStyles);
                 dialogueTree.addQuestionIntent(qi);
             }
         }
