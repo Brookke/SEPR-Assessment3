@@ -64,12 +64,17 @@ h1, h2, h3 {
        max-width: 35em;
        float: left;
        display: inline-block;
-       min-height: 100vh;
        box-sizing: border-box;
        box-shadow: 0.5em 0 1em 0 #00000040;
     }
 
     .body-main-article {
         width: calc(100% - 41em);
+    }
+}
+
+@media not all and (min-width: 70em) {
+    .main-site-nav > ul a {
+        width: calc(100% - 2em);
     }
 }
