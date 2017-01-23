@@ -19,7 +19,6 @@ import org.teamfarce.mirch.ScenarioBuilderDatabase.CharacterMotiveLink;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Means;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Motive;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestioningIntention;
-import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestionAndResponse;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Protoprop;
 import org.teamfarce.mirch.Room;
 import org.teamfarce.mirch.Suspect;
@@ -352,16 +351,14 @@ public class ScenarioBuilder {
             // Next consider all of the questions associated response. We'll add the intention we
             // are currently considering to any character's dialogue tree root collection, if the
             // question and response we are considering is said by such character.
-            for (QuestionAndResponse response: intention.questions) {
-                for (ScenarioBuilderDatabase.Character character: response.saidBy) {
-                    // We only need to consider characters which we have selected to be in this
-                    // case of the game. The hashmap has previously be populated with the selected
-                    // characters mapped to empty arrays. Because of this, if the character is not
-                    // in the map's keys, then the character has not be selected and can be
-                    // discarded.
-                    if (!dialgoueTreeRoots.containsKey(character)) { continue; }
-                    dialgoueTreeRoots.get(character).add(intention);
-                }
+            for (ScenarioBuilderDatabase.QuestionAndResponse response: intention.questions) {
+                // We only need to consider characters which we have selected to be in this
+                // case of the game. The hashmap has previously be populated with the selected
+                // characters mapped to empty arrays. Because of this, if the character is not
+                // in the map's keys, then the character has not be selected and can be
+                // discarded.
+                if (!dialgoueTreeRoots.containsKey(response.saidBy)) { continue; }
+                dialgoueTreeRoots.get(response.saidBy).add(intention);
             }
         }
 

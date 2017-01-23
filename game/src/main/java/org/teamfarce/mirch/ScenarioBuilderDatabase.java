@@ -87,15 +87,15 @@ public class ScenarioBuilderDatabase {
 
     public class QuestionAndResponse {
         public int id;
-        public String question_text;
-        public String response_text;
+        public String questionText;
+        public String responseText;
         public boolean mustBeClue;
         public QuestioningStyle style;
         public QuestioningIntention intention;
         public HashSet<QuestioningIntention> followUpQuestion;
         public HashSet<Clue> impliesClues;
         public HashSet<DialogueTextScreen> dialogueScreens;
-        public HashSet<Character> saidBy;
+        public Character saidBy;
     }
 
     public class RoomTemplate {
@@ -307,20 +307,22 @@ public class ScenarioBuilderDatabase {
         );
         while (rsQuestionAndResponse.next()) {
             QuestionAndResponse questionAndResponse = new QuestionAndResponse();
-            questionAndResponse.id = rsProp.getInt("id");
-            questionAndResponse.question_text = rsProp.getString("question_text");
-            questionAndResponse.response_text = rsProp.getString("response_text");
-            questionAndResponse.mustBeClue = rsProp.getBoolean("must_be_clue");
-            questionAndResponse.style = questioningStyles.get(rsProp.getInt("question_style"));
+            questionAndResponse.id = rsQuestionAndResponse.getInt("id");
+            questionAndResponse.questionText = rsQuestionAndResponse.getString("question_text");
+            questionAndResponse.responseText = rsQuestionAndResponse.getString("response_text");
+            questionAndResponse.mustBeClue = rsQuestionAndResponse.getBoolean("must_be_clue");
+            questionAndResponse.saidBy = characters.get(rsQuestionAndResponse.getInt("said_by"));
+            questionAndResponse.style = questioningStyles.get(
+                rsQuestionAndResponse.getInt("question_style")
+            );
             questionAndResponse.style.questions.add(questionAndResponse);
-            questionAndResponse.intention = questioningIntentions.get(rsProp.getInt(
+            questionAndResponse.intention = questioningIntentions.get(rsQuestionAndResponse.getInt(
                 "question_intention"
             ));
             questionAndResponse.intention.questions.add(questionAndResponse);
             questionAndResponse.followUpQuestion = new HashSet<>();
             questionAndResponse.impliesClues = new HashSet<>();
             questionAndResponse.dialogueScreens = new HashSet<>();
-            questionAndResponse.saidBy = new HashSet<>();
             questionAndResponses.put(questionAndResponse.id, questionAndResponse);
         }
 
