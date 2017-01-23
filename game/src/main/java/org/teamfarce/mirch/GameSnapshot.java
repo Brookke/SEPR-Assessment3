@@ -78,6 +78,8 @@ public class GameSnapshot {
         return this.props;
     }
 
+    // The following two functions should be merged at some point.
+
     /**
      * Increment the "means proof" value by the given value in the clues.
      * <p>

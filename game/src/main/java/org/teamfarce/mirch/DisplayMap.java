@@ -32,6 +32,8 @@ public class DisplayMap {
         this.batch.end();
     }
 
+    // This function should be removed at some point since it takes three parameters of the same
+    // type and performs exactly the same operation on them.
     /**
      * Draws the map onto the screen.
      *
