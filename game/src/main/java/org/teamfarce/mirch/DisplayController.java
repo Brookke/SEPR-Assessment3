@@ -34,65 +34,7 @@ public class DisplayController {
         this.guiController = new GUIController(uiSkin, gSnapshot, batch);
     }
 
-    /**
-     * Controls the initial character traits selection at the start of the game.
-     * <p>
-     * Selection is made through a series of pop up windows.
-     * </p>
-     *
-     * @return An array of integers containing the trait selections.
-     */
-    private int[] drawCharacterSelection() {
-        int[] values  = new int[3];
-        String backstory = "Intro";
-        JOptionPane.showMessageDialog(null, backstory, "Character Creation",JOptionPane.PLAIN_MESSAGE);
-        Object[] options1 = {
-            "Aggresive",
-            "Neutral",
-            "Passive"
-        };
-        Object[] options2 = {
-            "Ruthless",
-            "Neutral",
-            "Kind"
-        };
-        Object[] options3 = {
-            "Perceptive",
-            "Crazy",
-            "Evil"
-        };
-        values[0] = JOptionPane.showOptionDialog(
-            null,
-            "How agressive is your character?",
-            "Character Creation",
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            options1,
-            options1[2]
-        );
-        values[1] = JOptionPane.showOptionDialog(
-            null,
-            "How compassionate is your character?",
-            "Character Creation",
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            options2,
-            options2[2]
-        );
-        values[2] = JOptionPane.showOptionDialog(
-            null,
-            "Choose a defining trait for your character",
-            "Character Creation",
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            options3,
-            options3[2]
-        );
-        return values;
-    }
+    
 
     /**
      * Creates a pop up window with text announcing that the user has found the referenced prop.

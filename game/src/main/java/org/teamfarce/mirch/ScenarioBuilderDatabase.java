@@ -303,29 +303,7 @@ public class ScenarioBuilderDatabase {
             props.put(prop.id, prop);
         }
 
-        ResultSet rsQuestionAndResponse = sqlStmt.executeQuery(
-            "SELECT * FROM question_and_responses"
-        );
-        while (rsQuestionAndResponse.next()) {
-            DataQuestionAndResponse questionAndResponse = new DataQuestionAndResponse();
-            questionAndResponse.id = rsQuestionAndResponse.getInt("id");
-            questionAndResponse.questionText = rsQuestionAndResponse.getString("question_text");
-            questionAndResponse.responseText = rsQuestionAndResponse.getString("response_text");
-            questionAndResponse.mustBeClue = rsQuestionAndResponse.getBoolean("must_be_clue");
-            questionAndResponse.saidBy = characters.get(rsQuestionAndResponse.getInt("said_by"));
-            questionAndResponse.style = questioningStyles.get(
-                rsQuestionAndResponse.getInt("question_style")
-            );
-            questionAndResponse.style.questions.add(questionAndResponse);
-            questionAndResponse.intention = questioningIntentions.get(rsQuestionAndResponse.getInt(
-                "question_intention"
-            ));
-            questionAndResponse.intention.questions.add(questionAndResponse);
-            questionAndResponse.followUpQuestion = new HashSet<>();
-            questionAndResponse.impliesClues = new HashSet<>();
-            questionAndResponse.dialogueScreens = new HashSet<>();
-            questionAndResponses.put(questionAndResponse.id, questionAndResponse);
-        }
+        
 
         ResultSet rsRoomTemplate = sqlStmt.executeQuery("SELECT * FROM room_templates");
         while (rsRoomTemplate.next()) {
@@ -359,6 +337,30 @@ public class ScenarioBuilderDatabase {
             character.requiredAsVictim = new HashSet<>();
             character.responses = new HashSet<>();
             characters.put(character.id, character);
+        }
+        
+        ResultSet rsQuestionAndResponse = sqlStmt.executeQuery(
+        	"SELECT * FROM question_and_responses"
+        );
+        while (rsQuestionAndResponse.next()) {
+        	DataQuestionAndResponse questionAndResponse = new DataQuestionAndResponse();
+        	questionAndResponse.id = rsQuestionAndResponse.getInt("id");
+        	questionAndResponse.questionText = rsQuestionAndResponse.getString("question_text");
+        	questionAndResponse.responseText = rsQuestionAndResponse.getString("response_text");
+        	questionAndResponse.mustBeClue = rsQuestionAndResponse.getBoolean("must_be_clue");
+        	questionAndResponse.saidBy = characters.get(rsQuestionAndResponse.getInt("said_by"));
+        	questionAndResponse.style = questioningStyles.get(
+        			rsQuestionAndResponse.getInt("question_style")
+        			);
+        	questionAndResponse.style.questions.add(questionAndResponse);
+        	questionAndResponse.intention = questioningIntentions.get(rsQuestionAndResponse.getInt(
+        			"question_intention"
+        			));
+        	questionAndResponse.intention.questions.add(questionAndResponse);
+        	questionAndResponse.followUpQuestion = new HashSet<>();
+        	questionAndResponse.impliesClues = new HashSet<>();
+        	questionAndResponse.dialogueScreens = new HashSet<>();
+        	questionAndResponses.put(questionAndResponse.id, questionAndResponse);
         }
 
         ResultSet rsCharacterMotiveLink = sqlStmt.executeQuery(
@@ -400,7 +402,7 @@ public class ScenarioBuilderDatabase {
             protoprop.id = rsProtoprop.getInt("id");
             protoprop.x = rsProtoprop.getFloat("x_pos");
             protoprop.y = rsProtoprop.getFloat("y_pos");
-            protoprop.roomTemplate = roomTemplates.get(rsProtoprop.getInt("room_template"));
+            protoprop.roomTemplate = roomTemplates.get(rsProtoprop.getInt("room_template_id"));
             protoprop.roomTemplate.protoprops.add(protoprop);
             protoprop.props = new HashSet<>();
             protoprops.put(protoprop.id, protoprop);
