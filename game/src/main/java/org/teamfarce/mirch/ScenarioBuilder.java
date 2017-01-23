@@ -294,14 +294,16 @@ public class ScenarioBuilder {
 
     public static Collection<IDialogueTreeAdder> createAdders(
         DataQuestioningIntention qiData,
+        Set<DataClue> selectedClues,
         HashMap<DataCharacter, DialogueTree> dialogueTrees,
         Set<DataQuestioningStyle> chosenStyles
     ) {
-        return createAdders(qiData, dialogueTrees, chosenStyles, null);
+        return createAdders(qiData, selectedClues, dialogueTrees, chosenStyles, null);
     }
 
     public static Collection<IDialogueTreeAdder> createAdders(
         DataQuestioningIntention qiData,
+        Set<DataClue> selectedClues,
         HashMap<DataCharacter, DialogueTree> dialogueTrees,
         Set<DataQuestioningStyle> chosenStyles,
         DataCharacter characterFilter
@@ -317,16 +319,22 @@ public class ScenarioBuilder {
                 continue;
             }
 
+            ArrayList<DataClue> clueData = new ArrayList<>(qarData.impliesClues);
+            clueData.retainAll(selectedClues);
+
             QuestionAndResponse qar = new QuestionAndResponse(
                 qarData.questionText,
                 qarData.style.description,
                 qarData.responseText,
-                new ArrayList<>() // TODO: Add clues
+                clueData
+                    .stream()
+                    .map(c -> new Clue(c.impliesMotiveRating, c.impliesMeansRating, c.description))
+                    .collect(Collectors.toList())
             );
 
             for (DataQuestioningIntention qiDataInner: qarData.followUpQuestion) {
                 for (IDialogueTreeAdder adder: createAdders(
-                    qiDataInner, dialogueTrees, chosenStyles
+                    qiDataInner, selectedClues, dialogueTrees, chosenStyles
                 )) {
                     qar.addDialogueTreeAdder(adder);
                 }
@@ -450,7 +458,7 @@ public class ScenarioBuilder {
         for (DataCharacter currentCharacter: selectedSuspects) {
             for (DataQuestioningIntention qiData: dialgoueTreeRoots.get(currentCharacter)) {
                 for (IDialogueTreeAdder adder: createAdders(
-                    qiData, dialogueTrees, chosenStyles, currentCharacter
+                    qiData, selectedClues, dialogueTrees, chosenStyles, currentCharacter
                 )) {
                     adder.addToTrees();
                 }
