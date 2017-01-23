@@ -14,7 +14,7 @@ OUTPUT_FILES = [
 ]
 
 ROOT_DIR = "https://teamfarce.github.io/MIRCH/"
-#ROOT_DIR = "/docs/"
+# ROOT_DIR = "/"
 
 
 TEMPLATE_DIR = "./templates/"
