@@ -92,19 +92,24 @@ public class MIRCH extends ApplicationAdapter{
 	 * @param player
 	 * @return
 	 */
-	protected boolean inDoor(ArrayList<Door> doors, Sprite player){
+	protected boolean inDoor(ArrayList<RenderItem> doors, Sprite player){
 		boolean toReturn = false;
 		//System.out.println("Checking door");
-		for (Door door: doors){
+		for (RenderItem doorRender: doors){
 			//System.out.println(door.startX);
 			//System.out.println(player.getX());
 			//ystem.out.println(door.endX);
+			Door door = (Door) doorRender.object;
 			if ((player.getX() > door.startX - (characterWidth / 2)) && (player.getX() < door.endX - (characterWidth / 2))){ //reduce by characterWidth/2 as sprites are located from bottom left corner
 				//System.out.println("in x");
 				
 				if ((player.getY() > door.startY - 50) && (player.getY() < door.endY + 50)){
 					toReturn = true;
 					//System.out.println("in y");
+				}
+			} else if ((player.getX() > door.startX - 50) && (player.getX() < door.endX + 50)){
+				if ((player.getY() > door.startY - (characterWidth / 2)) && (player.getY() < door.endY - (characterWidth / 2))){
+					toReturn = true;
 				}
 			}
 		}
@@ -203,10 +208,21 @@ public class MIRCH extends ApplicationAdapter{
 		ArrayList<Room> tempRooms = new ArrayList<Room>();
 		
 		Room temp2 = new Room("Classroom_2.png", new Vector2(200, 490));
-		tempRooms.add(temp2);
 		
 		Room temp1 = new Room("Classroom_1.png", new Vector2(200, 200)); //generate a sample room for testign purposes
+		
+		
+		Room temp3 = new Room("Classroom_2.png", new Vector2(500, -250));
+		Room temp4 = new Room("Classroom_2.png", new Vector2(50, -250));
+		Room temp5 = new Room("Classroom_2.png", new Vector2(-250, 200));
+		
+		tempRooms.add(temp3);
 		tempRooms.add(temp1);
+		tempRooms.add(temp2);
+		tempRooms.add(temp4);
+		tempRooms.add(temp5);
+
+
 
 		ArrayList<Prop> tempProps = new ArrayList<Prop>();
 
@@ -218,7 +234,7 @@ public class MIRCH extends ApplicationAdapter{
 		ArrayList<Door> tempDoors = new ArrayList<Door>();
 		tempDoors.add(new Door(300, 490, 350, 520));
 		
-		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, tempDoors); //generate the GameSnapshot object
+		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms); //generate the GameSnapshot object
 		
 		//generate RenderItems from each room
 		rooms = new ArrayList<RenderItem>();
@@ -246,19 +262,93 @@ public class MIRCH extends ApplicationAdapter{
 		
 		//Generate an ArrayList of RenderItems to store every door in the gameSnapshot
 		doorwayTexture = new Texture(Gdx.files.internal("assets/door.png")); //create the doorway texture
-		doors = new ArrayList<RenderItem>();
-		for (Door door : gameSnapshot.getDoors()){			
-			Sprite newSprite = new Sprite(doorwayTexture);
-			float xScale = (door.endX - door.startX)/(newSprite.getWidth());
-			float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
-			//newSprite.setScale(xScale, yScale);
+		doors = new ArrayList<RenderItem>(); //generate an arrayList to store the door RenderItems in
+		int allowedRoomGap = 50;
+		int doorWidth = 50;
+		int doorDepth = 30;
+		
+		
+		for (RenderItem room : rooms){
+			for (RenderItem extRoom : rooms){		
+				if (!extRoom.equals(room)){			
+					//Checks to draw doors in the vertical adjacencys
+					if (room.sprite.getY() + room.sprite.getHeight() <= extRoom.sprite.getY() + allowedRoomGap){
 
-			newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
+						if (room.sprite.getY()  + room.sprite.getHeight() >= extRoom.sprite.getY()  - allowedRoomGap){
 
-			newSprite.setPosition(door.startX, door.startY);
-			//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
-			doors.add(new RenderItem(newSprite, door));
+							boolean roomGrtExtRoom = room.sprite.getX() >= extRoom.sprite.getX();
+							boolean extRoomGrtRoom = room.sprite.getX() <= extRoom.sprite.getX();
+
+							boolean roomOverlapsExtRoom = (room.sprite.getX() + allowedRoomGap >= extRoom.sprite.getX()) && (room.sprite.getX() <= (extRoom.sprite.getX() + extRoom.sprite.getWidth()) + allowedRoomGap);
+							boolean extRoomOverlapsRoom = (extRoom.sprite.getX() + allowedRoomGap >= room.sprite.getX()) && (extRoom.sprite.getX() <= (room.sprite.getX() + room.sprite.getWidth()) + allowedRoomGap);
+							if ((roomGrtExtRoom && roomOverlapsExtRoom) || (extRoomGrtRoom && extRoomOverlapsRoom)){
+								System.out.println("BX2 in range");
+								Sprite newSprite = new Sprite (doorwayTexture);
+
+								float correctWidth;
+								float doorX;
+
+								correctWidth = (room.sprite.getX() + room.sprite.getWidth()) - extRoom.sprite.getX();
+								doorX = extRoom.sprite.getX() + (correctWidth/2) - (doorWidth / 2);
+
+								float doorY = extRoom.sprite.getY();
+								Door door = new Door (doorX, doorY, doorX + doorWidth, doorY  + doorDepth);
+
+								float xScale = (door.endX - door.startX)/(newSprite.getWidth());
+								float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
+								//newSprite.setScale(xScale, yScale);
+
+								newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
+
+								newSprite.setPosition(door.startX, door.startY);
+								//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
+								doors.add(new RenderItem(newSprite, door));
+							}
+						}
+					}
+					
+					//Checks to draw doors in the horizontal adjacencys
+					if (room.sprite.getX() + room.sprite.getWidth() <= extRoom.sprite.getX() + allowedRoomGap){
+
+						if (room.sprite.getX()  + room.sprite.getWidth() >= extRoom.sprite.getX()  - allowedRoomGap){
+
+							boolean roomGrtExtRoom = room.sprite.getY() >= extRoom.sprite.getY();
+							boolean extRoomGrtRoom = room.sprite.getY() <= extRoom.sprite.getY();
+
+							boolean roomOverlapsExtRoom = (room.sprite.getY() + allowedRoomGap >= extRoom.sprite.getY()) && (room.sprite.getY() <= (extRoom.sprite.getY() + extRoom.sprite.getHeight()) + allowedRoomGap);
+							boolean extRoomOverlapsRoom = (extRoom.sprite.getY() + allowedRoomGap >= room.sprite.getY()) && (extRoom.sprite.getY() <= (room.sprite.getY() + room.sprite.getHeight()) + allowedRoomGap);
+							if ((roomGrtExtRoom && roomOverlapsExtRoom) || (extRoomGrtRoom && extRoomOverlapsRoom)){
+								System.out.println("HX2 in range");
+								Sprite newSprite = new Sprite (doorwayTexture);
+
+								float correctHeight;
+								float doorY;
+
+								correctHeight = (room.sprite.getY() + room.sprite.getHeight()) - extRoom.sprite.getY();
+								doorY = extRoom.sprite.getY() + (correctHeight/2) - (doorWidth / 2);
+
+								float doorX = extRoom.sprite.getX();
+								
+								Door door = new Door (doorX, doorY, doorX + doorDepth, doorY  + doorWidth);
+
+								float xScale = (door.endX - door.startX)/(newSprite.getWidth());
+								float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
+								//newSprite.setScale(xScale, yScale);
+
+								newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
+
+								newSprite.setPosition(door.startX, door.startY);
+								//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
+								doors.add(new RenderItem(newSprite, door));
+							}
+						}
+					}
+
+
+				} 
+			}
 		}
+
 		
 		//render the title screen texture
 		detectiveTexture = new Texture(Gdx.files.internal("assets/Detective_sprite.png"));
@@ -313,7 +403,7 @@ public class MIRCH extends ApplicationAdapter{
 	    	  
 	    	  //if we are no longer in the previous room and haven't entered a door, we move the player back
 	    	  //to the old position
-	    	  if (!currentRoom.equals(newRoom) && !inDoor(gameSnapshot.getDoors(), player)){
+	    	  if (!currentRoom.equals(newRoom) && !inDoor(doors, player)){
 	    		  player.setX(currentX);
 	    		  player.setY(currentY); 
 	    	  }
@@ -357,7 +447,7 @@ public class MIRCH extends ApplicationAdapter{
 	    		  RenderItem thisNextRoom = getCurrentRoom(rooms, character.sprite);
 	    		  
 	    		  //check if the character has illegally left the rooms bounds, if it has move it back to its previous location
-	    		  if (!thisRoom.equals(thisNextRoom) && !inDoor(gameSnapshot.getDoors(), character.sprite)){
+	    		  if (!thisRoom.equals(thisNextRoom) && !inDoor(doors, character.sprite)){
 		    		  character.sprite.setX(thisX);
 		    		  character.sprite.setY(thisY); 
 		    	  }
