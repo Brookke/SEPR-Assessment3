@@ -218,6 +218,72 @@ public class ScenarioBuilder {
         return constructedRooms;
     }
 
+    public static ArrayList<Props> constructProps() {
+        ArrayList<Prop> constructedProps = new ArrayList<>();
+        Set<ScenarioBuilderDatabase.Prop> propsWithClues =
+            selectedClues.stream().flatMap(c -> c.props.stream()).collect(Collectors.toSet());
+
+        // Iterate through all of the rooms to add their props to them.
+        for (int i = 0; i < selectedRoomTemplates.size(); ++i) {
+            RoomTemplate roomTemplate = selectedRoomTemplates.get(i);
+            Room room = constructedRooms.get(i);
+
+            for (Protoprop protoprop: roomTemplate.protoprops) {
+                // Copy the set so that we don't mutate the database.
+                List<ScenarioBuilderDatabase.Prop> reducedPropSelection
+                    = new ArrayList<>(protoprop.props);
+
+                // Remove the props which do not have a clues associated with them
+                reducedPropSelection.retainAll(propsWithClues);
+
+                // If the size of the result is 0, then we should attempt to select from the full
+                // range of props, which include props without clues.
+                if (reducedPropSelection.size() == 0) {
+                    // reducedPropSelection = new ArrayList<>(protoprop.props);
+                    reducedPropSelection = protoprop
+                        .props
+                        .stream()
+                        // Since we have no clues for this protoprop instance, we can remove all of
+                        // the props which are required to be clues.
+                        .filter(x -> !x.mustBeClue)
+                        .collect(Collectors.toList());
+                }
+
+                // Select a random prop from our reduced list of props.
+                int propDataSelection = random.nextInt(reducedPropSelection.size());
+                ScenarioBuilderDatabase.Prop propData =
+                    reducedPropSelection.get(propDataSelection);
+
+                // Create a list of all of the clues this new prop will have. It will be the
+                // potential clues this prop was associated with in the database, intersected with
+                // the clues we selected earlier.
+                ArrayList<ScenarioBuilderDatabase.Clue> propClueData =
+                    new ArrayList<>(propData.clues);
+                propClueData.retainAll(selectedClues);
+
+                List<Clue> propClues = propData
+                    .clues
+                    .stream()
+                    .filter(p -> selectedClues.contains(p))
+                    .map(p -> new Clue(p.impliesMotiveRating, p.impliesMeansRating, p.description))
+                    .collect(Collectors.toList());
+
+                // Create and add the instance.
+                Prop propInstance = new Prop(
+                    propData.name,
+                    propData.description,
+                    propData.resource.filename,
+                    new Vector2((float)protoprop.x, (float)protoprop.y),
+                    room,
+                    propClues
+                );
+                constructedProps.add(propInstance);
+            }
+        }
+
+        return constructedProps;
+    }
+
     public static GameSnapshot generateGame(
         ScenarioBuilderDatabase database,
         int minRoomCount,
@@ -319,68 +385,7 @@ public class ScenarioBuilder {
 
         // Construct the dialogue trees.
 
-        // Construct the props.
-        ArrayList<Prop> constructedProps = new ArrayList<>();
-        Set<ScenarioBuilderDatabase.Prop> propsWithClues =
-            selectedClues.stream().flatMap(c -> c.props.stream()).collect(Collectors.toSet());
-
-        // Iterate through all of the rooms to add their props to them.
-        for (int i = 0; i < selectedRoomTemplates.size(); ++i) {
-            RoomTemplate roomTemplate = selectedRoomTemplates.get(i);
-            Room room = constructedRooms.get(i);
-
-            for (Protoprop protoprop: roomTemplate.protoprops) {
-                // Copy the set so that we don't mutate the database.
-                List<ScenarioBuilderDatabase.Prop> reducedPropSelection
-                    = new ArrayList<>(protoprop.props);
-
-                // Remove the props which do not have a clues associated with them
-                reducedPropSelection.retainAll(propsWithClues);
-
-                // If the size of the result is 0, then we should attempt to select from the full
-                // range of props, which include props without clues.
-                if (reducedPropSelection.size() == 0) {
-                    // reducedPropSelection = new ArrayList<>(protoprop.props);
-                    reducedPropSelection = protoprop
-                        .props
-                        .stream()
-                        // Since we have no clues for this protoprop instance, we can remove all of
-                        // the props which are required to be clues.
-                        .filter(x -> !x.mustBeClue)
-                        .collect(Collectors.toList());
-                }
-
-                // Select a random prop from our reduced list of props.
-                int propDataSelection = random.nextInt(reducedPropSelection.size());
-                ScenarioBuilderDatabase.Prop propData =
-                    reducedPropSelection.get(propDataSelection);
-
-                // Create a list of all of the clues this new prop will have. It will be the
-                // potential clues this prop was associated with in the database, intersected with
-                // the clues we selected earlier.
-                ArrayList<ScenarioBuilderDatabase.Clue> propClueData =
-                    new ArrayList<>(propData.clues);
-                propClueData.retainAll(selectedClues);
-
-                List<Clue> propClues = propData
-                    .clues
-                    .stream()
-                    .filter(p -> selectedClues.contains(p))
-                    .map(p -> new Clue(p.impliesMotiveRating, p.impliesMeansRating, p.description))
-                    .collect(Collectors.toList());
-
-                // Create and add the instance.
-                Prop propInstance = new Prop(
-                    propData.name,
-                    propData.description,
-                    propData.resource.filename,
-                    new Vector2((float)protoprop.x, (float)protoprop.y),
-                    room,
-                    propClues
-                );
-                constructedProps.add(propInstance);
-            }
-        }
+        ArrayList<Prop> constructedProps = constructProps();
 
         return new GameSnapshot(constructedSuspects, constructedProps, constructedRooms, null);
     }
