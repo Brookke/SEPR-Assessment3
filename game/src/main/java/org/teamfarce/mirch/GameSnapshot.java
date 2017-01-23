@@ -1,22 +1,22 @@
 package org.teamfarce.mirch;
 
 import java.util.List;
+import java.util.Collection;
 
 /**
  * Stores a snapshot of the game state.
- *
- * @author jacobwunwin
  */
 public class GameSnapshot {
     private List<Suspect> suspects;
     private GameState state;
-    List<Prop> props;
-    List<Room> rooms;
-    int meansProven;
-    int motiveProven;
-    int time;
-    boolean gameWon;
-    Journal journal;
+    private List<Prop> props;
+    private List<Room> rooms;
+    private int meansProven;
+    private int motiveProven;
+    private int time;
+
+    public boolean gameWon;
+    public Journal journal;
 
     /**
      * Initialises function.
@@ -36,49 +36,52 @@ public class GameSnapshot {
         this.time = 0;
         this.gameWon = false;
     }
-    
+
     /**
-     * Increments the pseudotime counter
+     * Increments the pseudo-time counter.
      */
-    public void incrementTime(){
-    	this.time++;
-    }
-    
-    /**
-     * Returns the current value of the pseudotime variable
-     * @return
-     */
-    public int getTime(){
-    	return this.time;
-    }
-    
-    /**
-     * Returns a list of all rooms
-     * @return
-     */
-    List<Room> getRooms(){
-    	return this.rooms;
-    }
-    
-    /**
-     * Returns a list of all props
-     * @return
-     */
-    List<Prop> getProps(){
-    	return this.props;
+    public void incrementTime() {
+        ++this.time;
     }
 
     /**
-     * Increment the "means proof" value by the given value.
+     * Returns the current value of the pseudo-time variable.
+     *
+     * @return The current time.
+     */
+    public int getTime() {
+        return this.time;
+    }
+
+    /**
+     * Returns a list of all rooms.
+     *
+     * @return The rooms.
+     */
+    List<Room> getRooms() {
+        return this.rooms;
+    }
+
+    /**
+     * Returns a list of all props.
+     *
+     * @return The props.
+     */
+    List<Prop> getProps() {
+        return this.props;
+    }
+
+    /**
+     * Increment the "means proof" value by the given value in the clues.
      * <p>
      * This effectively indicates that the means of the murder was proven by the given arbitrary
-     * value.
+     * value in the clues.
      * </p>
      *
-     * @param amount The increase in the "means proof"
+     * @param clues The clues which provide the means proven value.
      */
-    void proveMeans(List<Clue> clues) {
-        for (Clue clue : clues){
+    void proveMeans(Collection<Clue> clues) {
+        for (Clue clue: clues){
             this.meansProven += clue.provesMean;
         }
     }
@@ -87,13 +90,13 @@ public class GameSnapshot {
      * Increment the "motive proof" value by the given value.
      * <p>
      * This effectively indicates that the motive of the murder was proven by the given arbitrary
-     * value.
+     * value in the clues.
      * </p>
      *
-     * @param amount The increase in the "motive proof"
+     * @param clues The clues which provide the motive proven value.
      */
-    void proveMotive(List<Clue> clues) {
-        for (Clue clue : clues){
+    void proveMotive(Collection<Clue> clues) {
+        for (Clue clue: clues){
             this.motiveProven += clue.provesMotive;
         }
     }
@@ -101,59 +104,62 @@ public class GameSnapshot {
     /**
      * Returns true if the means of the murder has been proven.
      *
-     * @return Whether we have "proven" the means
+     * @return Whether we have "proven" the means.
      */
     boolean isMeansProven() {
-        return (this.meansProven >= 100);  //Arbitrary value for now
+        return (this.meansProven >= 100);
     }
 
     /**
      * Returns true if the motive of the murder has been proven.
      *
-     * @return Whether we have "proven" the motive
+     * @return Whether we have "proven" the motive.
      */
     boolean isMotiveProven() {
-        return (this.motiveProven >= 100);  //Arbitrary value for now
-    }
-    
-    /**
-     * Allows the setting of the game state
-     * @param state
-     */
-    void setState(GameState state){
-    	this.state = state;
-    	this.incrementTime(); //increment pseudo time evry time we change the game state
-    }
-    
-    /**
-     * Returns the current game state
-     * @return
-     */
-    GameState getState(){
-    	return this.state;
+        return (this.motiveProven >= 100);
     }
 
     /**
-     * Returns an array list of all suspects
-     * @return
+     * Allows the setting of the game state.
+     *
+     * @param state The state to set.
      */
-	public List<Suspect> getSuspects() {
-		return this.suspects;
-	}
-	
-	/**
+    void setState(GameState state) {
+        this.state = state;
+        this.incrementTime();
+    }
+
+    /**
+     * Returns the current game state.
+     *
+     * @return The game state.
+     */
+    GameState getState() {
+        return this.state;
+    }
+
+    /**
+     * Returns a list of all suspects.
+     *
+     * @return The suspects.
+     */
+    public List<Suspect> getSuspects() {
+        return this.suspects;
+    }
+
+    /**
      * Adds the prop to the journal.
      * <p>
      * This tells the journal to keep a log of this prop.
      * </p>
      *
-     * @param prop The prop to add
+     * @param prop The prop to add.
      */
     void journalAddProp(Prop prop) {
         this.journal.addProp(prop);
         if (prop.takeClues()  != null){
-        	proveMeans(prop.takeClues());
-        	proveMotive(prop.takeClues());
+            proveMeans(prop.takeClues());
+            proveMotive(prop.takeClues());
         }
     }
 }
