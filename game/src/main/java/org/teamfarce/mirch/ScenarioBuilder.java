@@ -37,10 +37,10 @@ public class ScenarioBuilder {
     private static class CharacterData {
         public DataCharacter victim = null;
         public DataCharacter murderer = null;
-        public ArrayList<DataCharacter> suspects = new ArrayList<>();
+        public List<DataCharacter> suspects = new ArrayList<>();
     }
 
-    public static ArrayList<DataRoomTemplate> chooseRoomTemplates(
+    public static List<DataRoomTemplate> chooseRoomTemplates(
         ScenarioBuilderDatabase database,
         int minRoomCount,
         int maxRoomCount,
@@ -55,12 +55,12 @@ public class ScenarioBuilder {
         int targetRoomCount = minRoomCount + random.nextInt(maxRoomCount - minRoomCount + 1);
 
         // The room templates we have selected.
-        ArrayList<DataRoomTemplate> selectedRoomTemplates = new ArrayList<>();
+        List<DataRoomTemplate> selectedRoomTemplates = new ArrayList<>();
 
         // A list which represents the room types we can still use. This should include the room
         // types maxCount times. They should be removed from the list when a room template is
         // selected from them.
-        ArrayList<DataRoomType> selectedRoomTypes = new ArrayList<>();
+        List<DataRoomType> selectedRoomTypes = new ArrayList<>();
 
         for (DataRoomType roomType: database.roomTypes.values()) {
             // Include the room types which are required. These are the room types which have a
@@ -124,7 +124,7 @@ public class ScenarioBuilder {
 
         // Create a list of suspect which we can choose from to construct our suspect list. This
         // includes all of the suspects from our data minus the murderer and victim.
-        ArrayList<DataCharacter> potentialSuspects =
+        List<DataCharacter> potentialSuspects =
             new ArrayList<>(database.characters.values());
         potentialSuspects.remove(characterData.murderer);
         potentialSuspects.remove(characterData.victim);
@@ -185,14 +185,14 @@ public class ScenarioBuilder {
         return selectedClues;
     }
 
-    public static ArrayList<Room> constructRooms(
-        ArrayList<DataRoomTemplate> selectedRoomTemplates
+    public static List<Room> constructRooms(
+        List<DataRoomTemplate> selectedRoomTemplates
     ) {
-        ArrayList<Room> constructedRooms = new ArrayList<>();
+        List<Room> constructedRooms = new ArrayList<>();
 
         // Store the positions in which a room has been placed. We will use this to decide if we
         // can place a room in a particular position.
-        ArrayList<Rectangle> claimedPositions = new ArrayList<>();
+        List<Rectangle> claimedPositions = new ArrayList<>();
 
         // This is the vector we will add to the position if we cannot place the room.
         Vector2 conflictResolveDirection = new Vector2(1.0f, 0.0f);
@@ -223,13 +223,13 @@ public class ScenarioBuilder {
         return constructedRooms;
     }
 
-    public static ArrayList<Prop> constructProps(
+    public static List<Prop> constructProps(
         Set<DataClue> selectedClues,
         List<DataRoomTemplate> selectedRoomTemplates,
         List<Room> constructedRooms,
         Random random
     ) {
-        ArrayList<Prop> constructedProps = new ArrayList<>();
+        List<Prop> constructedProps = new ArrayList<>();
         Set<DataProp> propsWithClues =
             selectedClues.stream().flatMap(c -> c.props.stream()).collect(Collectors.toSet());
 
@@ -264,7 +264,7 @@ public class ScenarioBuilder {
                 // Create a list of all of the clues this new prop will have. It will be the
                 // potential clues this prop was associated with in the database, intersected with
                 // the clues we selected earlier.
-                ArrayList<DataClue> propClueData = new ArrayList<>(propData.clues);
+                List<DataClue> propClueData = new ArrayList<>(propData.clues);
                 propClueData.retainAll(selectedClues);
 
                 List<Clue> propClues = propData
@@ -325,7 +325,7 @@ public class ScenarioBuilder {
     ) throws ScenarioBuilderException {
         WeightedSelection selector = new WeightedSelection(random);
 
-        ArrayList<DataRoomTemplate> selectedRoomTemplates = chooseRoomTemplates(
+        List<DataRoomTemplate> selectedRoomTemplates = chooseRoomTemplates(
             database,
             minRoomCount,
             maxRoomCount,
@@ -347,7 +347,7 @@ public class ScenarioBuilder {
         );
         DataCharacter selectedMurderer = characterData.murderer;
         DataCharacter selectedVictim = characterData.victim;
-        ArrayList<DataCharacter> selectedSuspects = characterData.suspects;
+        List<DataCharacter> selectedSuspects = characterData.suspects;
 
         // Get our means.
         DataMeans selectedMeans = selector
@@ -364,7 +364,7 @@ public class ScenarioBuilder {
 
         // Build up our map of dialogue tree roots. This will be the question intentions which are
         // marked as being starting questions.
-        HashMap<DataCharacter, ArrayList<DataQuestioningIntention>>
+        HashMap<DataCharacter, List<DataQuestioningIntention>>
             dialgoueTreeRoots = new HashMap<>();
         for (DataCharacter character: selectedSuspects) {
             dialgoueTreeRoots.put(character, new ArrayList<>());
@@ -388,10 +388,10 @@ public class ScenarioBuilder {
             }
         }
 
-        ArrayList<Room> constructedRooms = constructRooms(selectedRoomTemplates);
+        List<Room> constructedRooms = constructRooms(selectedRoomTemplates);
 
         HashMap<DataCharacter, DialogueTree> dialogueTrees = new HashMap<>();
-        ArrayList<Suspect> constructedSuspects = new ArrayList<>();
+        List<Suspect> constructedSuspects = new ArrayList<>();
 
         // Construct the characters.
         for (DataCharacter suspect: selectedSuspects) {
@@ -416,7 +416,7 @@ public class ScenarioBuilder {
         // Construct the dialogue trees.
         for (DataCharacter currentCharacter: selectedSuspects) {
             DialogueTree dialogueTree = dialogueTrees.get(currentCharacter);
-            ArrayList<DataQuestioningIntention> intentions =
+            List<DataQuestioningIntention> intentions =
                 dialgoueTreeRoots.get(currentCharacter);
             for (DataQuestioningIntention intention: intentions) {
                 QuestionIntent qi = generateDialogueTree(intention, dialogueTrees);
@@ -424,7 +424,7 @@ public class ScenarioBuilder {
             }
         }
 
-        ArrayList<Prop> constructedProps = constructProps(
+        List<Prop> constructedProps = constructProps(
             selectedClues, selectedRoomTemplates, constructedRooms, random
         );
 

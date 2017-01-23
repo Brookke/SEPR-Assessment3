@@ -1,6 +1,5 @@
 package org.teamfarce.mirch;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,10 +8,10 @@ import java.util.List;
  * @author jacobwunwin
  */
 public class GameSnapshot {
-    private ArrayList<Suspect> suspects;
+    private List<Suspect> suspects;
     private GameState state;
-    ArrayList<Prop> props;
-    ArrayList<Room> rooms;
+    List<Prop> props;
+    List<Room> rooms;
     int meansProven;
     int motiveProven;
     int time;
@@ -23,9 +22,9 @@ public class GameSnapshot {
      * Initialises function.
      */
     GameSnapshot(
-        ArrayList<Suspect> suspects,
-        ArrayList<Prop> props,
-        ArrayList<Room> rooms
+        List<Suspect> suspects,
+        List<Prop> props,
+        List<Room> rooms
     ) {
         this.suspects = suspects;
         this.state = GameState.map;
@@ -57,7 +56,7 @@ public class GameSnapshot {
      * Returns a list of all rooms
      * @return
      */
-    ArrayList<Room> getRooms(){
+    List<Room> getRooms(){
     	return this.rooms;
     }
     
@@ -65,7 +64,7 @@ public class GameSnapshot {
      * Returns a list of all props
      * @return
      */
-    ArrayList<Prop> getProps(){
+    List<Prop> getProps(){
     	return this.props;
     }
 
@@ -142,7 +141,7 @@ public class GameSnapshot {
      * Returns an array list of all suspects
      * @return
      */
-	public ArrayList<Suspect> getSuspects() {
+	public List<Suspect> getSuspects() {
 		return this.suspects;
 	}
 	
