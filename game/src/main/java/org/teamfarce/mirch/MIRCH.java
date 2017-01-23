@@ -106,19 +106,31 @@ public class MIRCH extends ApplicationAdapter{
 			//System.out.println(door.startX);
 			//System.out.println(player.getX());
 			//ystem.out.println(door.endX);
+			float allowedY = 50;
+			float allowedX = 50;
+			float maxX = (characterWidth / 2);
+			float maxY = (characterWidth / 2);
+			
 			Door door = (Door) doorRender.object;
-			if ((player.getX() > door.startX - (characterWidth / 2)) && (player.getX() < door.endX - (characterWidth / 2))){ //reduce by characterWidth/2 as sprites are located from bottom left corner
-				//System.out.println("in x");
-				
-				if ((player.getY() > door.startY - 50) && (player.getY() < door.endY + 50)){
-					toReturn = true;
-					//System.out.println("in y");
+			
+			if (door.face == Door.Face.vertical){
+				if ((player.getX() > door.startX - maxX) && (player.getX() < door.endX - maxX )){ //reduce by characterWidth/2 as sprites are located from bottom left corner
+					if ((player.getY() > door.startY - allowedY) && (player.getY() < door.endY + allowedY)){
+						toReturn = true;
+
+					}
 				}
-			} else if ((player.getX() > door.startX - 50) && (player.getX() < door.endX + 50)){
-				if ((player.getY() > door.startY - (characterWidth / 2)) && (player.getY() < door.endY - (characterWidth / 2))){
-					toReturn = true;
+			} else {
+				if ((player.getY() > door.startY - maxY) && (player.getY() < door.endY - maxY )){ //reduce by characterWidth/2 as sprites are located from bottom left corner
+					if ((player.getX() > door.startX - allowedX) && (player.getX() < door.endX + allowedX)){
+						toReturn = true;
+
+					}
 				}
+
 			}
+			
+			
 		}
 		
 		return toReturn;
@@ -238,10 +250,7 @@ public class MIRCH extends ApplicationAdapter{
 			Prop prop = new Prop("Axe.png", temp1, new Vector2(50, 50)); //generate a sample prop for testing purposes
 			prop.description = "A bloody axe...";
 			prop.name = "Axe";
-			tempProps.add(prop);
-
-			ArrayList<Door> tempDoors = new ArrayList<Door>();
-			tempDoors.add(new Door(300, 490, 350, 520));
+			tempProps.add(prop);			
 
 
 			gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms); //generate the GameSnapshot object
@@ -329,7 +338,7 @@ public class MIRCH extends ApplicationAdapter{
 									doorX = extRoom.sprite.getX() + (correctWidth/2) - (doorWidth / 2);
 
 									float doorY = extRoom.sprite.getY();
-									Door door = new Door (doorX - doorWidth, doorY - doorDepth, doorX + doorWidth, doorY  + doorDepth);
+									Door door = new Door (doorX - doorWidth, doorY - doorDepth, doorX + doorWidth, doorY  + doorDepth, Door.Face.vertical);
 
 									float xScale = (door.endX - door.startX)/(newSprite.getWidth());
 									float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
@@ -346,7 +355,9 @@ public class MIRCH extends ApplicationAdapter{
 					}
 					
 					
+					
 					//Checks to draw doors in the horizontal adjacencys
+					
 					if (room.sprite.getX() + room.sprite.getWidth()   <= extRoom.sprite.getX() + allowedRoomGap ){
 
 						if (room.sprite.getX()  + room.sprite.getWidth()  >= extRoom.sprite.getX()  - allowedRoomGap ){
@@ -372,7 +383,7 @@ public class MIRCH extends ApplicationAdapter{
 	
 									float doorX = extRoom.sprite.getX();
 									
-									Door door = new Door (doorX - doorDepth, doorY, doorX + doorDepth, doorY  + doorWidth);
+									Door door = new Door (doorX - doorDepth, doorY, doorX + doorDepth, doorY  + doorWidth, Door.Face.horizontal);
 	
 									float xScale = (door.endX - door.startX)/(newSprite.getWidth());
 									float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
@@ -386,7 +397,9 @@ public class MIRCH extends ApplicationAdapter{
 								}
 							}
 						}
+						
 					}
+					
 
 
 				} 

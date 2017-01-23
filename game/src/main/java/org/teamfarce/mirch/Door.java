@@ -12,8 +12,12 @@ public class Door {
 	float startY;
 	float endX;
 	float endY;
-	float xOffset; //the x offset from the desired wall location
-	float yOffset; //the y offset from the desired wall location
+	
+	enum Face {
+		horizontal, vertical;
+	}
+	
+	Face face;
 	
 	/**
 	 * Initialise the door by setting the location of its bottom left corner and top right corner.
@@ -22,11 +26,12 @@ public class Door {
 	 * @param endX
 	 * @param endY
 	 */
-	Door (float startX, float startY, float endX, float endY){
+	Door (float startX, float startY, float endX, float endY, Face face){
 		this.startX = startX;
 		this.startY = startY;
 		this.endX = endX;
 		this.endY = endY;
+		this.face = face;	
 	}
 	
 }
