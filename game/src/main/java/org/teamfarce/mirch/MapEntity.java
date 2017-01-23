@@ -4,8 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * Base class to represent different map entities.
- *
- * @author Jacob W Unwin
  */
 public class MapEntity {
     protected Vector2 roomPosition;
@@ -15,12 +13,11 @@ public class MapEntity {
     protected String filename;
 
     /**
-     * Initialise class
-     * @param dialogue
-     * @param roomPosition stores position relative to currentroom
-     * @param currentRoom a ref to the current room the suspect is in
-     * @param name a string for the name
-     * @param description a string description 
+     * Initialise the entity.
+     *
+     * @param name The name of the entity.
+     * @param description The description of the entity.
+     * @param filename The filename of the image to display for the entity.
      */
     public MapEntity(
         String name,
@@ -33,50 +30,56 @@ public class MapEntity {
     }
 
     /**
-     * Allows the setting of the rooms position.
-     * @param pos The provided position
+     * Allows the setting of the entity's position.
+     *
+     * @param position The provided position
      */
-    public void setPosition(Vector2 pos) {
-        this.roomPosition = pos;
+    public void setPosition(Vector2 position) {
+        this.roomPosition = position;
     }
 
     /**
      * Returns position of room as a Vector2.
-     * @return roomPosition
+     *
+     * @return The room's position.
      */
     public Vector2 getPosition() {
         return this.roomPosition;
     }
 
     /**
-     * returns the current room the entity is within
-     *@return currentRoom
+     * Gets the current room the entity is within.
+     *
+     * @return The entity's current room.
      */
-     public Room getRoom(){
-         return this.currentRoom;
-     }
+    public Room getRoom() {
+        return this.currentRoom;
+    }
 
-     /**
-      * 
-      * @param room
-      */
-     public void setRoom(Room room){
-    	 this.currentRoom = room;
-     }
-     
-     /**
-      * returns the name
-      * @return name 
-      */
-     public String getName(){
-         return this.name;
-     }
+    /**
+     * Set the room of the entity.
+     *
+     * @param room The room to set.
+     */
+    public void setRoom(Room room) {
+        this.currentRoom = room;
+    }
 
-     /**
-      * returns the description string field
-      * return description
-      */
-    public String getDescription(){
+    /**
+     * Get the name of the entity.
+     *
+     * @return The entity's name.
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Get the description.
+     *
+     * @return The entity's description.
+     */
+    public String getDescription() {
         return this.description;
     }
 }
