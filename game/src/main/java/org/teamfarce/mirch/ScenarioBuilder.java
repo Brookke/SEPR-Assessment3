@@ -23,6 +23,9 @@ import org.teamfarce.mirch.ScenarioBuilderDatabase.Protoprop;
 import org.teamfarce.mirch.Room;
 import org.teamfarce.mirch.Suspect;
 import org.teamfarce.mirch.dialogue.DialogueTree;
+import org.teamfarce.mirch.dialogue.QuestionIntent;
+import org.teamfarce.mirch.dialogue.QuestionAndResponse;
+import org.teamfarce.mirch.dialogue.SingleDialogueTreeAdder;
 
 public class ScenarioBuilder {
     public static class ScenarioBuilderException extends Exception {
@@ -288,6 +291,32 @@ public class ScenarioBuilder {
         return constructedProps;
     }
 
+    public static QuestionIntent generateDialogueTree(
+        QuestioningIntention qiData,
+        HashMap<ScenarioBuilderDatabase.Character, DialogueTree> dialogueTrees
+    ) {
+        QuestionIntent qi = new QuestionIntent(
+            qiData.description
+        );
+        for (ScenarioBuilderDatabase.QuestionAndResponse qarData: qiData.questions) {
+            DialogueTree currentDialogueTree = dialogueTrees.get(qarData.saidBy);
+            QuestionAndResponse qar = new QuestionAndResponse(
+                qarData.questionText,
+                qarData.style.description,
+                qarData.responseText,
+                new ArrayList<>()
+            );
+            qi.addQuestion(qar);
+            for (QuestioningIntention qiDataInner: qarData.followUpQuestion) {
+                QuestionIntent qiInner = generateDialogueTree(qiDataInner, dialogueTrees);
+                qar.addDialogueTreeAdder(new SingleDialogueTreeAdder(
+                    currentDialogueTree, qiInner
+                ));
+            }
+        }
+        return qi;
+    }
+
     public static GameSnapshot generateGame(
         ScenarioBuilderDatabase database,
         int minRoomCount,
@@ -386,11 +415,19 @@ public class ScenarioBuilder {
         }
 
         // Construct the dialogue trees.
+        for (ScenarioBuilderDatabase.Character currentCharacter: selectedSuspects) {
+            DialogueTree dialogueTree = dialogueTrees.get(currentCharacter);
+            ArrayList<QuestioningIntention> intentions = dialgoueTreeRoots.get(currentCharacter);
+            for (QuestioningIntention intention: intentions) {
+                QuestionIntent qi = generateDialogueTree(intention, dialogueTrees);
+                dialogueTree.addQuestionIntent(qi);
+            }
+        }
 
         ArrayList<Prop> constructedProps = constructProps(
             selectedClues, selectedRoomTemplates, constructedRooms, random
         );
 
-        return new GameSnapshot(constructedSuspects, constructedProps, constructedRooms, null);
+        return new GameSnapshot(constructedSuspects, constructedProps, constructedRooms);
     }
 }
