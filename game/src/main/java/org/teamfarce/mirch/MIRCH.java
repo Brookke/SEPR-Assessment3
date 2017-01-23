@@ -56,7 +56,6 @@ public class MIRCH extends ApplicationAdapter{
 	private InputController inputController;
 	
 	private Skin uiSkin;
-
 	
 	private ArrayList<RenderItem> rooms;
 	private ArrayList<RenderItem> objects;
@@ -106,7 +105,9 @@ public class MIRCH extends ApplicationAdapter{
             null,
             options1,
             options1[2]
-        );        
+        );    
+        
+        values[0]++;
         
         values[1] = JOptionPane.showOptionDialog(
             null,
@@ -118,6 +119,9 @@ public class MIRCH extends ApplicationAdapter{
             options1,
             options1[2]
         );
+        
+        values[1]++;
+        
         values[2] = JOptionPane.showOptionDialog(
             null,
             "Choose a final style for your character.",
@@ -128,6 +132,9 @@ public class MIRCH extends ApplicationAdapter{
             options1,
             options1[2]
         );
+        
+        values[2]++;
+        
         return values;
     }
 	
