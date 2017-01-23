@@ -249,6 +249,7 @@ public class ScenarioBuilderDatabase {
             QuestioningStyle questioningStyle = new QuestioningStyle();
             questioningStyle.id = rsQuestioningStyle.getInt("id");
             questioningStyle.description = rsQuestioningStyle.getString("description");
+            questioningStyle.questions = new HashSet<>();
             questioningStyles.put(questioningStyle.id, questioningStyle);
         }
 
@@ -336,7 +337,7 @@ public class ScenarioBuilderDatabase {
             roomTemplate.roomType = roomTypes.get(rsRoomTemplate.getInt("room_type"));
             roomTemplate.roomType.roomTemplates.add(roomTemplate);
             roomTemplate.protoprops = new HashSet<>();
-            roomTemplate.background = resources.get(rsRoomTemplate.getInt("background"));
+            roomTemplate.background = resources.get(rsRoomTemplate.getInt("background_resource"));
             roomTemplate.background.roomTemplates.add(roomTemplate);
             roomTemplates.put(roomTemplate.id, roomTemplate);
         }
