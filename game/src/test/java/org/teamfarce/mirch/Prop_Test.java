@@ -40,9 +40,9 @@ public class Prop_Test {
 		Room room = new Room(filename, null);
 		Vector2 roomPos = new Vector2(1, 2);
 		Prop prop = new Prop(filename, room, roomPos);
-		prop.clue = clues;
+		prop.clues = clues;
 		
-		assertEquals(clues, prop.clue);
+		assertEquals(clues, prop.clues);
 	}
 
 }

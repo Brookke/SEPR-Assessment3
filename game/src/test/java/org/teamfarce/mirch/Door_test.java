@@ -23,7 +23,7 @@ public class Door_test {
 		float startY = 2;
 		float endY = 3;
 		
-		Door door = new Door(startX, startY, endX, endY);
+		Door door = new Door(startX, startY, endX, endY, null);
 		assertSame((int) startX, (int) door.startX);
 		assertSame((int) endX, (int) door.endX);
 		assertSame((int) startY, (int) door.startY);

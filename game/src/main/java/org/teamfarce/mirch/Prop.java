@@ -1,5 +1,6 @@
 package org.teamfarce.mirch;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.badlogic.gdx.math.Vector2;
 
@@ -7,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
  * Creates an individual prop entity, extends from the MapEntity class.
  */
 public class Prop extends MapEntity {
-    private List<Clue> clues;
+    List<Clue> clues;
 
     /**
      * The current position of the prop in the room.

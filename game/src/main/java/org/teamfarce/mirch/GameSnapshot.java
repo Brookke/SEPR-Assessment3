@@ -9,11 +9,11 @@ import java.util.Collection;
 public class GameSnapshot {
     private List<Suspect> suspects;
     private GameState state;
-    private List<Prop> props;
-    private List<Room> rooms;
-    private int meansProven;
-    private int motiveProven;
-    private int time;
+    List<Prop> props;
+    List<Room> rooms;
+    int meansProven;
+    int motiveProven;
+    int time;
 
     /**
      * Indicates whether the game has been won.

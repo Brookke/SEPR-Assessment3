@@ -25,7 +25,7 @@ public class DialogueTreeTest {
         qi1_questions.add(qar12);
         qi1_questions.add(qar13);
 
-        QuestionIntent qi1 = new QuestionIntent(qi1_questions, "question intent 1");
+        QuestionIntent qi1 = new QuestionIntent(0, qi1_questions, "question intent 1");
 
         SingleDialogueTreeAdder dta = new SingleDialogueTreeAdder(dialogueTree, qi1);
 
@@ -47,7 +47,7 @@ public class DialogueTreeTest {
         qi2_questions.add(qar22);
         qi2_questions.add(qar23);
 
-        QuestionIntent qi2 = new QuestionIntent(qi2_questions, "question intent 2");
+        QuestionIntent qi2 = new QuestionIntent(1, qi2_questions, "question intent 2");
 
         qar12.addDialogueTreeAdder(new SingleDialogueTreeAdder(dialogueTree, qi2));
 
