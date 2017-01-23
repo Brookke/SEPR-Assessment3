@@ -311,16 +311,16 @@ public class ScenarioBuilder {
         ArrayList<IDialogueTreeAdder> returnList = new ArrayList<>();
 
         // Construct out new question intent.
-        QuestionIntent qi = new QuestionIntent(qiData.description);
+        QuestionIntent qi = new QuestionIntent(qiData.id, qiData.description);
 
         for (DataQuestionAndResponse qarData: qiData.questions) {
             DialogueTree treeToAddTo = dialogueTrees.get(qarData.saidBy);
             if (treeToAddTo == null) {
                 continue;
             }
-            
+
             if (!chosenStyles.contains(qarData.style)) {
-            	continue;
+                continue;
             }
 
             ArrayList<DataClue> clueData = new ArrayList<>(qarData.impliesClues);
