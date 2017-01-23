@@ -395,17 +395,20 @@ public class ScenarioBuilder {
 
         // Construct the characters.
         for (DataCharacter suspect: selectedSuspects) {
-            Room chosenRoom = constructedRooms.get(random.nextInt(constructedRooms.size()));
-            Vector2 roomOrigin = new Vector2(chosenRoom.position);
-            roomOrigin.x += roomOrigin.x + 20;
-            roomOrigin.y += roomOrigin.y + 20;
+            int chosenRoom = random.nextInt(constructedRooms.size());
+            Vector2 chosenRoomOrigin = constructedRooms.get(chosenRoom).position;
+            DataRoomTemplate chosenRoomTemplate = selectedRoomTemplates.get(chosenRoom);
+
+            float xPos = random.nextFloat() * chosenRoomTemplate.width * Room.pixelsPerUnit;
+            float yPos = random.nextFloat() * chosenRoomTemplate.height * Room.pixelsPerUnit;
+            Vector2 chosenPosition = new Vector2(xPos, yPos).add(chosenRoomOrigin);
 
             DialogueTree dialogueTree = new DialogueTree();
             Suspect suspectObject = new Suspect(
                 suspect.name,
                 suspect.description,
                 suspect.resource.filename,
-                roomOrigin, // TODO: Place them in a proper place.
+                chosenPosition,
                 dialogueTree
             );
 
