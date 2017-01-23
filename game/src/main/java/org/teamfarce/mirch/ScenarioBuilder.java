@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ import org.teamfarce.mirch.dialogue.DialogueTree;
 import org.teamfarce.mirch.dialogue.QuestionIntent;
 import org.teamfarce.mirch.dialogue.QuestionAndResponse;
 import org.teamfarce.mirch.dialogue.SingleDialogueTreeAdder;
+import org.teamfarce.mirch.dialogue.IDialogueTreeAdder;
 
 public class ScenarioBuilder {
     public static class ScenarioBuilderException extends Exception {
@@ -290,34 +292,51 @@ public class ScenarioBuilder {
         return constructedProps;
     }
 
-    public static QuestionIntent generateDialogueTree(
+    public static Collection<IDialogueTreeAdder> createAdders(
         DataQuestioningIntention qiData,
         HashMap<DataCharacter, DialogueTree> dialogueTrees,
         Set<DataQuestioningStyle> chosenStyles
     ) {
+        return createAdders(qiData, dialogueTrees, chosenStyles, null);
+    }
+
+    public static Collection<IDialogueTreeAdder> createAdders(
+        DataQuestioningIntention qiData,
+        HashMap<DataCharacter, DialogueTree> dialogueTrees,
+        Set<DataQuestioningStyle> chosenStyles,
+        DataCharacter characterFilter
+    ) {
+        ArrayList<IDialogueTreeAdder> returnList = new ArrayList<>();
+
+        // Construct out new question intent.
         QuestionIntent qi = new QuestionIntent(qiData.description);
+
         for (DataQuestionAndResponse qarData: qiData.questions) {
-            if (!chosenStyles.contains(qarData.style)) {
+            DialogueTree treeToAddTo = dialogueTrees.get(qarData.saidBy);
+            if (treeToAddTo == null) {
                 continue;
             }
-            DialogueTree currentDialogueTree = dialogueTrees.get(qarData.saidBy);
+
             QuestionAndResponse qar = new QuestionAndResponse(
                 qarData.questionText,
                 qarData.style.description,
                 qarData.responseText,
-                new ArrayList<>()
+                new ArrayList<>() // TODO: Add clues
             );
-            qi.addQuestion(qar);
+
             for (DataQuestioningIntention qiDataInner: qarData.followUpQuestion) {
-                QuestionIntent qiInner = generateDialogueTree(
+                for (IDialogueTreeAdder adder: createAdders(
                     qiDataInner, dialogueTrees, chosenStyles
-                );
-                qar.addDialogueTreeAdder(new SingleDialogueTreeAdder(
-                    currentDialogueTree, qiInner
-                ));
+                )) {
+                    qar.addDialogueTreeAdder(adder);
+                }
             }
+
+            SingleDialogueTreeAdder adder = new SingleDialogueTreeAdder(treeToAddTo, qi);
+            returnList.add(adder);
         }
-        return qi;
+
+        return returnList;
     }
 
     public static GameSnapshot generateGame(
@@ -401,14 +420,18 @@ public class ScenarioBuilder {
 
         // Construct the characters.
         for (DataCharacter suspect: selectedSuspects) {
+            // Select a random room and get its data which is useful for the following generation.
             int chosenRoom = random.nextInt(constructedRooms.size());
             Vector2 chosenRoomOrigin = constructedRooms.get(chosenRoom).position;
             DataRoomTemplate chosenRoomTemplate = selectedRoomTemplates.get(chosenRoom);
 
+            // Select a random position in the room to place the character.
             float xPos = random.nextFloat() * chosenRoomTemplate.width * Room.pixelsPerUnit;
             float yPos = random.nextFloat() * chosenRoomTemplate.height * Room.pixelsPerUnit;
             Vector2 chosenPosition = new Vector2(xPos, yPos).add(chosenRoomOrigin);
 
+            // Construct the character and associated dialogue tree object. The actual building of
+            // the tree will happen later.
             DialogueTree dialogueTree = new DialogueTree();
             Suspect suspectObject = new Suspect(
                 suspect.name,
@@ -418,18 +441,19 @@ public class ScenarioBuilder {
                 dialogueTree
             );
 
+            // Assign the constructed data to the correct place.
             dialogueTrees.put(suspect, dialogueTree);
             constructedSuspects.add(suspectObject);
         }
 
         // Construct the dialogue trees.
         for (DataCharacter currentCharacter: selectedSuspects) {
-            DialogueTree dialogueTree = dialogueTrees.get(currentCharacter);
-            List<DataQuestioningIntention> intentions =
-                dialgoueTreeRoots.get(currentCharacter);
-            for (DataQuestioningIntention intention: intentions) {
-                QuestionIntent qi = generateDialogueTree(intention, dialogueTrees, chosenStyles);
-                dialogueTree.addQuestionIntent(qi);
+            for (DataQuestioningIntention qiData: dialgoueTreeRoots.get(currentCharacter)) {
+                for (IDialogueTreeAdder adder: createAdders(
+                    qiData, dialogueTrees, chosenStyles, currentCharacter
+                )) {
+                    adder.addToTrees();
+                }
             }
         }
 
