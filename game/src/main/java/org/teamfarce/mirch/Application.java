@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Initiates the Java Program
+ * Initiates the Java Program. Executable for program can be found at: https://teamfarce.github.io/MIRCH/executable/
  * @author jacobwunwin
  *
  */
