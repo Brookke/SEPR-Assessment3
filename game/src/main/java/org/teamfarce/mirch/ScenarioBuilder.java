@@ -208,6 +208,7 @@ public class ScenarioBuilder {
 
             // Indicate that we have placed the room.
             claimedPositions.add(roomPosition);
+            conflictResolveDirection.rotate90(-1);
 
             // Construct and add a room.
             Room room = Room.constructWithUnitSizes(
@@ -400,6 +401,8 @@ public class ScenarioBuilder {
         for (ScenarioBuilderDatabase.Character suspect: selectedSuspects) {
             Room chosenRoom = constructedRooms.get(random.nextInt(constructedRooms.size()));
             Vector2 roomOrigin = new Vector2(chosenRoom.position);
+            roomOrigin.x += roomOrigin.x + 20;
+            roomOrigin.y += roomOrigin.y + 20;
 
             DialogueTree dialogueTree = new DialogueTree();
             Suspect suspectObject = new Suspect(

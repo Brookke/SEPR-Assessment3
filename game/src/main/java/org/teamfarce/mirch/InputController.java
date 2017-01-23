@@ -32,7 +32,7 @@ public class InputController {
 	 * @return
 	 */
 	Vector2 fetchPlayerPositionUpdate(){
-		// process keyboard touch and translate the player  	
+		// process keyboard touch and translate the player  
 	
 		Vector2 move = new Vector2(0, 0);
 
@@ -48,6 +48,8 @@ public class InputController {
 		if (Gdx.input.isKeyPressed(Input.Keys.D)){
 			move.x += 1;
 		}
+		
+		
 		
 		return move;
 	}

@@ -1,4 +1,4 @@
-PRAGMA foreign_keys=ON;
+fPRAGMA foreign_keys=ON;
 BEGIN TRANSACTION;
 CREATE TABLE means (
     id INTEGER NOT NULL,

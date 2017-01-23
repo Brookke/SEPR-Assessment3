@@ -1,6 +1,11 @@
 package org.teamfarce.mirch;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
+
+import java.lang.*;
+
 
 import javax.swing.JOptionPane;
 
@@ -29,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
+import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
 import org.teamfarce.mirch.dialogue.*;
 
 /**
@@ -67,6 +73,7 @@ public class MIRCH extends ApplicationAdapter{
 	
 	private Music music_background;
 	
+	private boolean testGame = false;
 	
 	/**
 	 * Returns a RenderItem referencing the current room that the player sprite is in.
@@ -135,106 +142,129 @@ public class MIRCH extends ApplicationAdapter{
 		//++++INITIALISE THE GAME++++
 		
 		step = 0; //initialise the step variable
-		//create temporary required items, eventually ScenarioBuilder will generate these
-		ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 		
-		Suspect tempSuspect = new Suspect("Devil_sprite.png", new Vector2(400, 400));
+		if (testGame){
+			//create temporary required items, eventually ScenarioBuilder will generate these
+			ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 
-        tempSuspect.dialogueTree = new DialogueTree();
-		tempSuspect.name = "The Devil";
-		tempSuspect.description = "He is the devil";
+			Suspect tempSuspect = new Suspect("Devil_sprite.png", new Vector2(400, 400));
+
+			tempSuspect.dialogueTree = new DialogueTree();
+			tempSuspect.name = "The Devil";
+			tempSuspect.description = "He is the devil";
+
+			tempSuspects.add(tempSuspect);
+
+			QuestionIntent qi1 = new QuestionIntent("Did you see anything suspicious?");
+			tempSuspect.dialogueTree.addQuestionIntent(qi1);
+
+			QuestionAndResponse qar11 = new QuestionAndResponse(
+					"You look suspicious, what are you hiding?",
+					"Aggressive",
+					"What?! Nothing I swear",
+					new ArrayList<>()
+					);
+			qi1.addQuestion(qar11);
+
+			QuestionAndResponse qar12 = new QuestionAndResponse(
+					"Have you seen anything unusual or suspicious?",
+					"Direct",
+					"The vampire has put on surprisingly good fake blood since the start of the party.",
+					new ArrayList<>()
+					);
+			qi1.addQuestion(qar12);
+
+			QuestionAndResponse qar13 = new QuestionAndResponse(
+					"*Grunts mildly*, *points at suspect*",
+					"Grunts and Points",
+					"*Beats chest*",
+					new ArrayList<>()
+
+					);
+			qi1.addQuestion(qar13);
+
+			QuestionIntent qi2 = new QuestionIntent("How long ago did you notice this");
+			IDialogueTreeAdder qi2_add = new SingleDialogueTreeAdder(tempSuspect.dialogueTree, qi2);
+
+			qar12.addDialogueTreeAdder(qi2_add);
+
+			QuestionAndResponse qar21 = new QuestionAndResponse(
+					"Why didn't you tell me earlier? Tell me now!",
+					"Aggressive",
+					"I don't know!",
+					new ArrayList<>()
+					);
+			qi2.addQuestion(qar21);
+
+			QuestionAndResponse qar22 = new QuestionAndResponse(
+					"When do you think you noticed this?",
+					"Direct",
+					"Maybe an hour ago. Not too long before the body was dumped.",
+					new ArrayList<>()
+					);
+			qi2.addQuestion(qar22);
+
+			QuestionAndResponse qar23 = new QuestionAndResponse(
+					"*Grunts harshly*, *Beat chest*",
+					"Grunts and Points",
+					"*Screams in the fifth dimension*",
+					new ArrayList<>()
+					);
+			qi2.addQuestion(qar23);
+
+			qar23.addDialogueTreeAdder(new SingleDialogueTreeAdder(tempSuspect.dialogueTree, qi2));
+
+			ArrayList<Room> tempRooms = new ArrayList<Room>();
+
+			Room temp2 = new Room("Classroom_2.png", new Vector2(200, 490));
+
+			Room temp1 = new Room("Classroom_1.png", new Vector2(200, 200)); //generate a sample room for testign purposes
+
+
+			Room temp3 = new Room("Classroom_2.png", new Vector2(500, -250));
+			Room temp4 = new Room("Classroom_2.png", new Vector2(50, -250));
+			Room temp5 = new Room("Classroom_2.png", new Vector2(-250, 200));
+
+			tempRooms.add(temp3);
+			tempRooms.add(temp1);
+			tempRooms.add(temp2);
+			tempRooms.add(temp4);
+			tempRooms.add(temp5);
+
+
+
+			ArrayList<Prop> tempProps = new ArrayList<Prop>();
+
+			Prop prop = new Prop("Axe.png", temp1, new Vector2(50, 50)); //generate a sample prop for testing purposes
+			prop.description = "A bloody axe...";
+			prop.name = "Axe";
+			tempProps.add(prop);
+
+			ArrayList<Door> tempDoors = new ArrayList<Door>();
+			tempDoors.add(new Door(300, 490, 350, 520));
+
+
+			gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms); //generate the GameSnapshot object
+
+		} else {
 		
-		tempSuspects.add(tempSuspect);
+			ScenarioBuilderDatabase database;
+			try {
+				database = new ScenarioBuilderDatabase("assets/db.db");
+				
+				try {
+					gameSnapshot = ScenarioBuilder.generateGame(database, 8, 10, 6, 6, null, new Random());
+				} catch (ScenarioBuilderException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
-        QuestionIntent qi1 = new QuestionIntent("Did you see anything suspicious?");
-        tempSuspect.dialogueTree.addQuestionIntent(qi1);
-
-        QuestionAndResponse qar11 = new QuestionAndResponse(
-            "You look suspicious, what are you hiding?",
-            "Aggressive",
-            "What?! Nothing I swear",
-            new ArrayList<>()
-        );
-        qi1.addQuestion(qar11);
-
-        QuestionAndResponse qar12 = new QuestionAndResponse(
-            "Have you seen anything unusual or suspicious?",
-            "Direct",
-            "The vampire has put on surprisingly good fake blood since the start of the party.",
-            new ArrayList<>()
-        );
-        qi1.addQuestion(qar12);
-
-        QuestionAndResponse qar13 = new QuestionAndResponse(
-            "*Grunts mildly*, *points at suspect*",
-            "Grunts and Points",
-            "*Beats chest*",
-            new ArrayList<>()
-
-        );
-        qi1.addQuestion(qar13);
-
-        QuestionIntent qi2 = new QuestionIntent("How long ago did you notice this");
-        IDialogueTreeAdder qi2_add = new SingleDialogueTreeAdder(tempSuspect.dialogueTree, qi2);
-
-        qar12.addDialogueTreeAdder(qi2_add);
-
-        QuestionAndResponse qar21 = new QuestionAndResponse(
-            "Why didn't you tell me earlier? Tell me now!",
-            "Aggressive",
-            "I don't know!",
-            new ArrayList<>()
-        );
-        qi2.addQuestion(qar21);
-
-        QuestionAndResponse qar22 = new QuestionAndResponse(
-            "When do you think you noticed this?",
-            "Direct",
-            "Maybe an hour ago. Not too long before the body was dumped.",
-            new ArrayList<>()
-        );
-        qi2.addQuestion(qar22);
-
-        QuestionAndResponse qar23 = new QuestionAndResponse(
-            "*Grunts harshly*, *Beat chest*",
-            "Grunts and Points",
-            "*Screams in the fifth dimension*",
-            new ArrayList<>()
-        );
-        qi2.addQuestion(qar23);
-
-        qar23.addDialogueTreeAdder(new SingleDialogueTreeAdder(tempSuspect.dialogueTree, qi2));
-
-		ArrayList<Room> tempRooms = new ArrayList<Room>();
-		
-		Room temp2 = new Room("Classroom_2.png", new Vector2(200, 490));
-		
-		Room temp1 = new Room("Classroom_1.png", new Vector2(200, 200)); //generate a sample room for testign purposes
-		
-		
-		Room temp3 = new Room("Classroom_2.png", new Vector2(500, -250));
-		Room temp4 = new Room("Classroom_2.png", new Vector2(50, -250));
-		Room temp5 = new Room("Classroom_2.png", new Vector2(-250, 200));
-		
-		tempRooms.add(temp3);
-		tempRooms.add(temp1);
-		tempRooms.add(temp2);
-		tempRooms.add(temp4);
-		tempRooms.add(temp5);
-
-
-
-		ArrayList<Prop> tempProps = new ArrayList<Prop>();
-
-		Prop prop = new Prop("Axe.png", temp1, new Vector2(50, 50)); //generate a sample prop for testing purposes
-		prop.description = "A bloody axe...";
-		prop.name = "Axe";
-		tempProps.add(prop);
-
-		ArrayList<Door> tempDoors = new ArrayList<Door>();
-		tempDoors.add(new Door(300, 490, 350, 520));
-		
-		gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms); //generate the GameSnapshot object
+		}
 		
 		//generate RenderItems from each room
 		rooms = new ArrayList<RenderItem>();
@@ -268,9 +298,11 @@ public class MIRCH extends ApplicationAdapter{
 		int doorDepth = 30;
 		
 		//dynamically generate rooms
+		
 		for (RenderItem room : rooms){
 			for (RenderItem extRoom : rooms){		
-				if (!extRoom.equals(room)){			
+				if (!extRoom.equals(room)){		
+					
 					//Checks to draw doors in the vertical adjacencys
 					if (room.sprite.getY() + room.sprite.getHeight() <= extRoom.sprite.getY() + allowedRoomGap){
 
@@ -289,31 +321,38 @@ public class MIRCH extends ApplicationAdapter{
 								float doorX;
 
 								correctWidth = (room.sprite.getX() + room.sprite.getWidth()) - extRoom.sprite.getX();
-								doorX = extRoom.sprite.getX() + (correctWidth/2) - (doorWidth / 2);
+								System.out.println("Corrext width");
+								System.out.println(correctWidth);
+								
+								
+								if ((Math.abs(correctWidth) > doorWidth) && (Math.abs(correctWidth) < Math.max(room.sprite.getWidth(), extRoom.sprite.getWidth()) + 50)){
+									doorX = extRoom.sprite.getX() + (correctWidth/2) - (doorWidth / 2);
 
-								float doorY = extRoom.sprite.getY();
-								Door door = new Door (doorX, doorY, doorX + doorWidth, doorY  + doorDepth);
+									float doorY = extRoom.sprite.getY();
+									Door door = new Door (doorX - doorWidth, doorY - doorDepth, doorX + doorWidth, doorY  + doorDepth);
 
-								float xScale = (door.endX - door.startX)/(newSprite.getWidth());
-								float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
-								//newSprite.setScale(xScale, yScale);
+									float xScale = (door.endX - door.startX)/(newSprite.getWidth());
+									float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
+									//newSprite.setScale(xScale, yScale);
 
-								newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
+									newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
 
-								newSprite.setPosition(door.startX, door.startY);
-								//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
-								doors.add(new RenderItem(newSprite, door));
+									newSprite.setPosition(door.startX, door.startY);
+									//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
+									doors.add(new RenderItem(newSprite, door));
+								}
 							}
 						}
 					}
 					
+					
 					//Checks to draw doors in the horizontal adjacencys
-					if (room.sprite.getX() + room.sprite.getWidth() <= extRoom.sprite.getX() + allowedRoomGap){
+					if (room.sprite.getX() + room.sprite.getWidth()   <= extRoom.sprite.getX() + allowedRoomGap ){
 
-						if (room.sprite.getX()  + room.sprite.getWidth() >= extRoom.sprite.getX()  - allowedRoomGap){
+						if (room.sprite.getX()  + room.sprite.getWidth()  >= extRoom.sprite.getX()  - allowedRoomGap ){
 
-							boolean roomGrtExtRoom = room.sprite.getY() >= extRoom.sprite.getY();
-							boolean extRoomGrtRoom = room.sprite.getY() <= extRoom.sprite.getY();
+							boolean roomGrtExtRoom = room.sprite.getY()  + 50 >= extRoom.sprite.getY();
+							boolean extRoomGrtRoom = room.sprite.getY()  <= extRoom.sprite.getY() - 50;
 
 							boolean roomOverlapsExtRoom = (room.sprite.getY() + allowedRoomGap >= extRoom.sprite.getY()) && (room.sprite.getY() <= (extRoom.sprite.getY() + extRoom.sprite.getHeight()) + allowedRoomGap);
 							boolean extRoomOverlapsRoom = (extRoom.sprite.getY() + allowedRoomGap >= room.sprite.getY()) && (extRoom.sprite.getY() <= (room.sprite.getY() + room.sprite.getHeight()) + allowedRoomGap);
@@ -323,23 +362,28 @@ public class MIRCH extends ApplicationAdapter{
 
 								float correctHeight;
 								float doorY;
+								
+								
 
 								correctHeight = (room.sprite.getY() + room.sprite.getHeight()) - extRoom.sprite.getY();
 								doorY = extRoom.sprite.getY() + (correctHeight/2) - (doorWidth / 2);
-
-								float doorX = extRoom.sprite.getX();
 								
-								Door door = new Door (doorX, doorY, doorX + doorDepth, doorY  + doorWidth);
-
-								float xScale = (door.endX - door.startX)/(newSprite.getWidth());
-								float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
-								//newSprite.setScale(xScale, yScale);
-
-								newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
-
-								newSprite.setPosition(door.startX, door.startY);
-								//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
-								doors.add(new RenderItem(newSprite, door));
+								if ((Math.abs(correctHeight) > doorWidth) && (Math.abs(correctHeight) < Math.max(room.sprite.getHeight(), extRoom.sprite.getHeight()) + 50 )){
+	
+									float doorX = extRoom.sprite.getX();
+									
+									Door door = new Door (doorX - doorDepth, doorY, doorX + doorDepth, doorY  + doorWidth);
+	
+									float xScale = (door.endX - door.startX)/(newSprite.getWidth());
+									float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
+									//newSprite.setScale(xScale, yScale);
+	
+									newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
+	
+									newSprite.setPosition(door.startX, door.startY);
+									//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
+									doors.add(new RenderItem(newSprite, door));
+								}
 							}
 						}
 					}
@@ -358,7 +402,7 @@ public class MIRCH extends ApplicationAdapter{
 		batch = new SpriteBatch(); //create a new sprite batch - used to display sprites onto the screen		
 		//initialise the player sprite
 		player = new Sprite(detectiveTexture);
-		player.setPosition(250, 250);
+		player.setPosition(210, 210);
 
 		
 		//starts music "Minima.mp3" - Kevin Macleod
@@ -433,7 +477,7 @@ public class MIRCH extends ApplicationAdapter{
 	    		  }
 	    		  
 	    		  //Check to ensure character is still in room
-    			  Suspect suspect = (Suspect) character.object; //retrieve the SUspect object from the renderItem
+    			  Suspect suspect = (Suspect) character.object; //retrieve the Suspect object from the renderItem
 
 	    		  
 	    		  float thisX = character.sprite.getX();
