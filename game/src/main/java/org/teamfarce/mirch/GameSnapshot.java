@@ -78,11 +78,9 @@ public class GameSnapshot {
      * @param amount The increase in the "means proof"
      */
     void proveMeans(List<Clue> clues) {
-    	try{
-	    	for (Clue clue : clues){
-	            this.meansProven += clue.provesMean;
-	    	}
-    	} finally {}
+        for (Clue clue : clues){
+            this.meansProven += clue.provesMean;
+        }
     }
 
     /**
@@ -95,11 +93,9 @@ public class GameSnapshot {
      * @param amount The increase in the "motive proof"
      */
     void proveMotive(List<Clue> clues) {
-    	try {
-	    	for (Clue clue : clues){
-	    		this.motiveProven += clue.provesMotive;
-	    	}
-    	} finally {}
+        for (Clue clue : clues){
+            this.motiveProven += clue.provesMotive;
+        }
     }
 
     /**
