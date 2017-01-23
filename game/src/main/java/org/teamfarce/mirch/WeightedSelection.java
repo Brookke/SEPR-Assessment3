@@ -49,9 +49,11 @@ public class WeightedSelection {
      * this is used to provided some other way to get the object.
      * </p>
      *
-     * @param objects The list of objects to consider
-     * @param weightFunction The function which supplies the weight of an object
-     * @param extractor The extraction method
+     * @param objects The list of objects to consider.
+     * @param weightFunction The function which supplies the weight of an object.
+     * @param extractor The extraction method.
+     * @param <T> The type we are selecting.
+     * @return The result of selection.
      */
     public <T> Optional<T> selectWeightedObject(
         List<T> objects, ToIntFunction<T> weightFunction, IntFunction<T> extractor
@@ -79,8 +81,10 @@ public class WeightedSelection {
      * function.
      * </p>
      *
-     * @param objects The list of objects to consider
-     * @param weightFunction The function which supplies the weight of an object
+     * @param objects The list of objects to consider.
+     * @param weightFunction The function which supplies the weight of an object.
+     * @param <T> The type we are selecting.
+     * @return The result of selection.
      */
     public <T> Optional<T> selectWeightedObject(
         Collection<T> objects,
