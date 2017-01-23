@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
  * Creates an individual prop entity, extends from the MapEntity class.
  */
 public class Prop extends MapEntity {
-    List<Clue> clues;
+    public List<Clue> clues;
 
     /**
      * The current position of the prop in the room.

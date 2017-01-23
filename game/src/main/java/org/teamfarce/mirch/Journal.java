@@ -9,8 +9,8 @@ import java.util.ArrayList;
  * </p>
  */
 public class Journal {
-    ArrayList<Prop> foundProps;
-    ArrayList<Clue> foundClues;
+    public ArrayList<Prop> foundProps;
+    public ArrayList<Clue> foundClues;
 
     /**
      * The conversation buffer.

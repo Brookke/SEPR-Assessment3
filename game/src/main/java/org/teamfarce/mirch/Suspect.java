@@ -8,7 +8,7 @@ import org.teamfarce.mirch.dialogue.DialogueTree;
  */
 public class Suspect extends MapEntity {
     private boolean beenAccused;
-    boolean isMurderer;
+    public boolean isMurderer;
 
     /**
      * The dialogue tree of this suspect.
