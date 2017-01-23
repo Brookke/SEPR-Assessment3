@@ -156,13 +156,13 @@ public class ScenarioBuilder {
         return characterData;
     }
 
-    public static HashSet<DataClue> getClues(
+    public static Set<DataClue> getClues(
         DataMeans selectedMeans,
         DataMotive selectedMotive,
         DataCharacter selectedMurderer,
         DataCharacter selectedVictim
     ) {
-        HashSet<DataClue> selectedClues = new HashSet<>();
+        Set<DataClue> selectedClues = new HashSet<>();
 
         // Get the clues. This is done by filtering out the clues of the selected motive/means
         // which required the victim/murderer to be different.
@@ -356,7 +356,7 @@ public class ScenarioBuilder {
                 .means;
 
         // Get the clues
-        HashSet<DataClue> selectedClues = getClues(
+        Set<DataClue> selectedClues = getClues(
             selectedMeans, selectedMotive, selectedMurderer, selectedVictim
         );
 
