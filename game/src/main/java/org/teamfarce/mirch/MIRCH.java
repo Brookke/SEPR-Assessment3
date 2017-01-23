@@ -4,6 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import java.lang.*;
+
+
 import javax.swing.JOptionPane;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -295,9 +298,11 @@ public class MIRCH extends ApplicationAdapter{
 		int doorDepth = 30;
 		
 		//dynamically generate rooms
+		
 		for (RenderItem room : rooms){
 			for (RenderItem extRoom : rooms){		
-				if (!extRoom.equals(room)){			
+				if (!extRoom.equals(room)){		
+					
 					//Checks to draw doors in the vertical adjacencys
 					if (room.sprite.getY() + room.sprite.getHeight() <= extRoom.sprite.getY() + allowedRoomGap){
 
@@ -316,31 +321,38 @@ public class MIRCH extends ApplicationAdapter{
 								float doorX;
 
 								correctWidth = (room.sprite.getX() + room.sprite.getWidth()) - extRoom.sprite.getX();
-								doorX = extRoom.sprite.getX() + (correctWidth/2) - (doorWidth / 2);
+								System.out.println("Corrext width");
+								System.out.println(correctWidth);
+								
+								
+								if ((Math.abs(correctWidth) > doorWidth) && (Math.abs(correctWidth) < Math.max(room.sprite.getWidth(), extRoom.sprite.getWidth()) + 50)){
+									doorX = extRoom.sprite.getX() + (correctWidth/2) - (doorWidth / 2);
 
-								float doorY = extRoom.sprite.getY();
-								Door door = new Door (doorX, doorY, doorX + doorWidth, doorY  + doorDepth);
+									float doorY = extRoom.sprite.getY();
+									Door door = new Door (doorX - doorWidth, doorY - doorDepth, doorX + doorWidth, doorY  + doorDepth);
 
-								float xScale = (door.endX - door.startX)/(newSprite.getWidth());
-								float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
-								//newSprite.setScale(xScale, yScale);
+									float xScale = (door.endX - door.startX)/(newSprite.getWidth());
+									float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
+									//newSprite.setScale(xScale, yScale);
 
-								newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
+									newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
 
-								newSprite.setPosition(door.startX, door.startY);
-								//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
-								doors.add(new RenderItem(newSprite, door));
+									newSprite.setPosition(door.startX, door.startY);
+									//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
+									doors.add(new RenderItem(newSprite, door));
+								}
 							}
 						}
 					}
 					
+					
 					//Checks to draw doors in the horizontal adjacencys
-					if (room.sprite.getX() + room.sprite.getWidth() <= extRoom.sprite.getX() + allowedRoomGap){
+					if (room.sprite.getX() + room.sprite.getWidth()   <= extRoom.sprite.getX() + allowedRoomGap ){
 
-						if (room.sprite.getX()  + room.sprite.getWidth() >= extRoom.sprite.getX()  - allowedRoomGap){
+						if (room.sprite.getX()  + room.sprite.getWidth()  >= extRoom.sprite.getX()  - allowedRoomGap ){
 
-							boolean roomGrtExtRoom = room.sprite.getY() >= extRoom.sprite.getY();
-							boolean extRoomGrtRoom = room.sprite.getY() <= extRoom.sprite.getY();
+							boolean roomGrtExtRoom = room.sprite.getY()  + 50 >= extRoom.sprite.getY();
+							boolean extRoomGrtRoom = room.sprite.getY()  <= extRoom.sprite.getY() - 50;
 
 							boolean roomOverlapsExtRoom = (room.sprite.getY() + allowedRoomGap >= extRoom.sprite.getY()) && (room.sprite.getY() <= (extRoom.sprite.getY() + extRoom.sprite.getHeight()) + allowedRoomGap);
 							boolean extRoomOverlapsRoom = (extRoom.sprite.getY() + allowedRoomGap >= room.sprite.getY()) && (extRoom.sprite.getY() <= (room.sprite.getY() + room.sprite.getHeight()) + allowedRoomGap);
@@ -350,23 +362,28 @@ public class MIRCH extends ApplicationAdapter{
 
 								float correctHeight;
 								float doorY;
+								
+								
 
 								correctHeight = (room.sprite.getY() + room.sprite.getHeight()) - extRoom.sprite.getY();
 								doorY = extRoom.sprite.getY() + (correctHeight/2) - (doorWidth / 2);
-
-								float doorX = extRoom.sprite.getX();
 								
-								Door door = new Door (doorX, doorY, doorX + doorDepth, doorY  + doorWidth);
-
-								float xScale = (door.endX - door.startX)/(newSprite.getWidth());
-								float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
-								//newSprite.setScale(xScale, yScale);
-
-								newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
-
-								newSprite.setPosition(door.startX, door.startY);
-								//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
-								doors.add(new RenderItem(newSprite, door));
+								if ((Math.abs(correctHeight) > doorWidth) && (Math.abs(correctHeight) < Math.max(room.sprite.getHeight(), extRoom.sprite.getHeight()) + 50 )){
+	
+									float doorX = extRoom.sprite.getX();
+									
+									Door door = new Door (doorX - doorDepth, doorY, doorX + doorDepth, doorY  + doorWidth);
+	
+									float xScale = (door.endX - door.startX)/(newSprite.getWidth());
+									float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
+									//newSprite.setScale(xScale, yScale);
+	
+									newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
+	
+									newSprite.setPosition(door.startX, door.startY);
+									//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
+									doors.add(new RenderItem(newSprite, door));
+								}
 							}
 						}
 					}
@@ -385,7 +402,7 @@ public class MIRCH extends ApplicationAdapter{
 		batch = new SpriteBatch(); //create a new sprite batch - used to display sprites onto the screen		
 		//initialise the player sprite
 		player = new Sprite(detectiveTexture);
-		player.setPosition(250, 250);
+		player.setPosition(210, 210);
 
 		
 		//starts music "Minima.mp3" - Kevin Macleod
@@ -460,7 +477,7 @@ public class MIRCH extends ApplicationAdapter{
 	    		  }
 	    		  
 	    		  //Check to ensure character is still in room
-    			  Suspect suspect = (Suspect) character.object; //retrieve the SUspect object from the renderItem
+    			  Suspect suspect = (Suspect) character.object; //retrieve the Suspect object from the renderItem
 
 	    		  
 	    		  float thisX = character.sprite.getX();
