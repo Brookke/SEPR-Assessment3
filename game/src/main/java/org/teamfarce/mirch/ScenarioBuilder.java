@@ -18,9 +18,9 @@ import org.teamfarce.mirch.ScenarioBuilderDatabase.RoomType;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.CharacterMotiveLink;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Means;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Motive;
-import org.teamfarce.mirch.ScenarioBuilderDatabase.Clue;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestioningIntention;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestionAndResponse;
+import org.teamfarce.mirch.ScenarioBuilderDatabase.Protoprop;
 import org.teamfarce.mirch.Room;
 import org.teamfarce.mirch.Suspect;
 import org.teamfarce.mirch.dialogue.DialogueTree;
@@ -154,6 +154,136 @@ public class ScenarioBuilder {
         return characterData;
     }
 
+    public static HashSet<ScenarioBuilderDatabase.Clue> getClues(
+        Means selectedMeans,
+        Motive selectedMotive,
+        ScenarioBuilderDatabase.Character selectedMurderer,
+        ScenarioBuilderDatabase.Character selectedVictim
+    ) {
+        HashSet<ScenarioBuilderDatabase.Clue> selectedClues = new HashSet<>();
+
+        // Get the clues. This is done by filtering out the clues of the selected motive/means
+        // which required the victim/murderer to be different.
+        List<ScenarioBuilderDatabase.Clue> meansClues = selectedMeans
+            .clues
+            .stream()
+            .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
+            .filter(c -> selectedVictim.requiredAsVictim.contains(c))
+            .collect(Collectors.toList());
+        selectedClues.addAll(meansClues);
+
+        List<ScenarioBuilderDatabase.Clue> motiveClues = selectedMotive
+            .clues
+            .stream()
+            .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
+            .filter(c -> selectedVictim.requiredAsVictim.contains(c))
+            .collect(Collectors.toList());
+        selectedClues.addAll(motiveClues);
+
+        return selectedClues;
+    }
+
+    public static ArrayList<Room> constructRooms(ArrayList<RoomTemplate> selectedRoomTemplates) {
+        ArrayList<Room> constructedRooms = new ArrayList<>();
+
+        // Store the positions in which a room has been placed. We will use this to decide if we
+        // can place a room in a particular position.
+        ArrayList<Rectangle> claimedPositions = new ArrayList<>();
+
+        // This is the vector we will add to the position if we cannot place the room.
+        Vector2 conflictResolveDirection = new Vector2(1.0f, 0.0f);
+
+        // Resolve all of the rooms.
+        for (RoomTemplate template: selectedRoomTemplates) {
+            Rectangle roomPosition = new Rectangle(0.0f, 0.0f, template.width, template.height);
+
+            // Keep moving the room until it can be placed.
+            while (claimedPositions.stream().anyMatch(x -> roomPosition.overlaps(x))) {
+                roomPosition.setPosition(
+                    roomPosition.getPosition(new Vector2()).add(conflictResolveDirection)
+                );
+            }
+
+            // Indicate that we have placed the room.
+            claimedPositions.add(roomPosition);
+
+            // Construct and add a room.
+            Room room = Room.constructWithUnitSizes(
+                template.background.filename,
+                roomPosition.getPosition(new Vector2())
+            );
+            constructedRooms.add(room);
+        }
+
+        return constructedRooms;
+    }
+
+    public static ArrayList<Props> constructProps() {
+        ArrayList<Prop> constructedProps = new ArrayList<>();
+        Set<ScenarioBuilderDatabase.Prop> propsWithClues =
+            selectedClues.stream().flatMap(c -> c.props.stream()).collect(Collectors.toSet());
+
+        // Iterate through all of the rooms to add their props to them.
+        for (int i = 0; i < selectedRoomTemplates.size(); ++i) {
+            RoomTemplate roomTemplate = selectedRoomTemplates.get(i);
+            Room room = constructedRooms.get(i);
+
+            for (Protoprop protoprop: roomTemplate.protoprops) {
+                // Copy the set so that we don't mutate the database.
+                List<ScenarioBuilderDatabase.Prop> reducedPropSelection
+                    = new ArrayList<>(protoprop.props);
+
+                // Remove the props which do not have a clues associated with them
+                reducedPropSelection.retainAll(propsWithClues);
+
+                // If the size of the result is 0, then we should attempt to select from the full
+                // range of props, which include props without clues.
+                if (reducedPropSelection.size() == 0) {
+                    // reducedPropSelection = new ArrayList<>(protoprop.props);
+                    reducedPropSelection = protoprop
+                        .props
+                        .stream()
+                        // Since we have no clues for this protoprop instance, we can remove all of
+                        // the props which are required to be clues.
+                        .filter(x -> !x.mustBeClue)
+                        .collect(Collectors.toList());
+                }
+
+                // Select a random prop from our reduced list of props.
+                int propDataSelection = random.nextInt(reducedPropSelection.size());
+                ScenarioBuilderDatabase.Prop propData =
+                    reducedPropSelection.get(propDataSelection);
+
+                // Create a list of all of the clues this new prop will have. It will be the
+                // potential clues this prop was associated with in the database, intersected with
+                // the clues we selected earlier.
+                ArrayList<ScenarioBuilderDatabase.Clue> propClueData =
+                    new ArrayList<>(propData.clues);
+                propClueData.retainAll(selectedClues);
+
+                List<Clue> propClues = propData
+                    .clues
+                    .stream()
+                    .filter(p -> selectedClues.contains(p))
+                    .map(p -> new Clue(p.impliesMotiveRating, p.impliesMeansRating, p.description))
+                    .collect(Collectors.toList());
+
+                // Create and add the instance.
+                Prop propInstance = new Prop(
+                    propData.name,
+                    propData.description,
+                    propData.resource.filename,
+                    new Vector2((float)protoprop.x, (float)protoprop.y),
+                    room,
+                    propClues
+                );
+                constructedProps.add(propInstance);
+            }
+        }
+
+        return constructedProps;
+    }
+
     public static GameSnapshot generateGame(
         ScenarioBuilderDatabase database,
         int minRoomCount,
@@ -195,25 +325,12 @@ public class ScenarioBuilder {
                 .get()
                 .means;
 
-        HashSet<Clue> selectedClues = new HashSet<>();
+        // Get the clues
+        HashSet<ScenarioBuilderDatabase.Clue> selectedClues = getClues(
+            selectedMeans, selectedMotive, selectedMurderer, selectedVictim
+        );
 
-        // Get the clues. This is done by filtering out the clues of the selected motive/means
-        // which required the victim/murderer to be different.
-        List<Clue> meansClues = selectedMeans
-            .clues
-            .stream()
-            .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
-            .filter(c -> selectedVictim.requiredAsVictim.contains(c))
-            .collect(Collectors.toList());
-        selectedClues.addAll(meansClues);
-
-        List<Clue> motiveClues = selectedMotive
-            .clues
-            .stream()
-            .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
-            .filter(c -> selectedVictim.requiredAsVictim.contains(c))
-            .collect(Collectors.toList());
-        selectedClues.addAll(motiveClues);
+        // TODO: Misleading Clues
 
         // Build up our map of dialogue tree roots. This will be the question intentions which are
         // marked as being starting questions.
@@ -243,36 +360,7 @@ public class ScenarioBuilder {
             }
         }
 
-        ArrayList<Room> constructedRooms = new ArrayList<>();
-
-        // Store the positions in which a room has been placed. We will use this to decide if we
-        // can place a room in a particular position.
-        ArrayList<Rectangle> claimedPositions = new ArrayList<>();
-
-        // This is the vector we will add to the position if we cannot place the room.
-        Vector2 conflictResolveDirection = new Vector2(1.0f, 0.0f);
-
-        // Resolve all of the rooms.
-        for (RoomTemplate template: selectedRoomTemplates) {
-            Rectangle roomPosition = new Rectangle(0.0f, 0.0f, template.width, template.height);
-
-            // Keep moving the room until it can be placed.
-            while (claimedPositions.stream().anyMatch(x -> roomPosition.overlaps(x))) {
-                roomPosition.setPosition(
-                    roomPosition.getPosition(new Vector2()).add(conflictResolveDirection)
-                );
-            }
-
-            // Indicate that we have placed the room.
-            claimedPositions.add(roomPosition);
-
-            // Construct and add a room.
-            Room room = Room.constructWithUnitSizes(
-                template.background.filename,
-                roomPosition.getPosition(new Vector2())
-            );
-            constructedRooms.add(room);
-        }
+        ArrayList<Room> constructedRooms = constructRooms(selectedRoomTemplates);
 
         HashMap<ScenarioBuilderDatabase.Character, DialogueTree> dialogueTrees = new HashMap<>();
         ArrayList<Suspect> constructedSuspects = new ArrayList<>();
@@ -295,6 +383,10 @@ public class ScenarioBuilder {
             constructedSuspects.add(suspectObject);
         }
 
-        return null;
+        // Construct the dialogue trees.
+
+        ArrayList<Prop> constructedProps = constructProps();
+
+        return new GameSnapshot(constructedSuspects, constructedProps, constructedRooms, null);
     }
 }

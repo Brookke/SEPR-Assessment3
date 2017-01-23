@@ -1,6 +1,6 @@
 package org.teamfarce.mirch;
 
-import java.util.ArrayList;
+import java.util.List;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
  * @author Jacob Wunwin
  */
 public class Prop extends MapEntity {
-    ArrayList<Clue> clue;
+    List<Clue> clue;
     public Vector2 roomPosition;
     public Room currentRoom;
 
@@ -27,7 +27,7 @@ public class Prop extends MapEntity {
         String filename,
         Vector2 roomPosition,
         Room currentRoom,
-        ArrayList<Clue> clue
+        List<Clue> clue
     ) {
 
         super(name, description, filename);
@@ -51,11 +51,11 @@ public class Prop extends MapEntity {
 
 
     /**
-     * Returns a Clue ArrayList of all clues attached to this prop.
+     * Returns a Clue List of all clues attached to this prop.
      *
      * @return The list of clues
      */
-    public ArrayList<Clue> takeClues() {
+    public List<Clue> takeClues() {
         return this.clue;
     }
 }

@@ -1,6 +1,7 @@
 package org.teamfarce.mirch;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Stores a snapshot of the game state.
@@ -77,7 +78,7 @@ public class GameSnapshot {
      *
      * @param amount The increase in the "means proof"
      */
-    void proveMeans(ArrayList<Clue> clues) {
+    void proveMeans(List<Clue> clues) {
     	try{
 	    	for (Clue clue : clues){
 	            this.meansProven += clue.provesMean;
@@ -94,7 +95,7 @@ public class GameSnapshot {
      *
      * @param amount The increase in the "motive proof"
      */
-    void proveMotive(ArrayList<Clue> clues) {
+    void proveMotive(List<Clue> clues) {
     	try {
 	    	for (Clue clue : clues){
 	    		this.motiveProven += clue.provesMotive;
