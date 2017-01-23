@@ -154,6 +154,35 @@ public class ScenarioBuilder {
         return characterData;
     }
 
+    public static HashSet<ScenarioBuilderDatabase.Clue> getClues(
+        Means selectedMeans,
+        Motive selectedMotive,
+        ScenarioBuilderDatabase.Character selectedMurderer,
+        ScenarioBuilderDatabase.Character selectedVictim
+    ) {
+        HashSet<ScenarioBuilderDatabase.Clue> selectedClues = new HashSet<>();
+
+        // Get the clues. This is done by filtering out the clues of the selected motive/means
+        // which required the victim/murderer to be different.
+        List<ScenarioBuilderDatabase.Clue> meansClues = selectedMeans
+            .clues
+            .stream()
+            .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
+            .filter(c -> selectedVictim.requiredAsVictim.contains(c))
+            .collect(Collectors.toList());
+        selectedClues.addAll(meansClues);
+
+        List<ScenarioBuilderDatabase.Clue> motiveClues = selectedMotive
+            .clues
+            .stream()
+            .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
+            .filter(c -> selectedVictim.requiredAsVictim.contains(c))
+            .collect(Collectors.toList());
+        selectedClues.addAll(motiveClues);
+
+        return selectedClues;
+    }
+
     public static GameSnapshot generateGame(
         ScenarioBuilderDatabase database,
         int minRoomCount,
@@ -195,25 +224,10 @@ public class ScenarioBuilder {
                 .get()
                 .means;
 
-        HashSet<ScenarioBuilderDatabase.Clue> selectedClues = new HashSet<>();
-
-        // Get the clues. This is done by filtering out the clues of the selected motive/means
-        // which required the victim/murderer to be different.
-        List<ScenarioBuilderDatabase.Clue> meansClues = selectedMeans
-            .clues
-            .stream()
-            .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
-            .filter(c -> selectedVictim.requiredAsVictim.contains(c))
-            .collect(Collectors.toList());
-        selectedClues.addAll(meansClues);
-
-        List<ScenarioBuilderDatabase.Clue> motiveClues = selectedMotive
-            .clues
-            .stream()
-            .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
-            .filter(c -> selectedVictim.requiredAsVictim.contains(c))
-            .collect(Collectors.toList());
-        selectedClues.addAll(motiveClues);
+        // Get the clues
+        HashSet<ScenarioBuilderDatabase.Clue> selectedClues = getClues(
+            selectedMeans, selectedMotive, selectedMurderer, selectedVictim
+        );
 
         // TODO: Misleading Clues
 
