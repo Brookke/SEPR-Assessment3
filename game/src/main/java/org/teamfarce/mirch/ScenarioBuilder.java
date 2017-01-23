@@ -318,6 +318,10 @@ public class ScenarioBuilder {
             if (treeToAddTo == null) {
                 continue;
             }
+            
+            if (!chosenStyles.contains(qarData.style)) {
+            	continue;
+            }
 
             ArrayList<DataClue> clueData = new ArrayList<>(qarData.impliesClues);
             clueData.retainAll(selectedClues);
@@ -331,6 +335,7 @@ public class ScenarioBuilder {
                     .map(c -> new Clue(c.impliesMotiveRating, c.impliesMeansRating, c.description))
                     .collect(Collectors.toList())
             );
+            qi.addQuestion(qar);
 
             for (DataQuestioningIntention qiDataInner: qarData.followUpQuestion) {
                 for (IDialogueTreeAdder adder: createAdders(
@@ -397,10 +402,9 @@ public class ScenarioBuilder {
 
         // Build up our map of dialogue tree roots. This will be the question intentions which are
         // marked as being starting questions.
-        HashMap<DataCharacter, List<DataQuestioningIntention>>
-            dialgoueTreeRoots = new HashMap<>();
+        HashMap<DataCharacter, List<DataQuestioningIntention>> dialogueTreeRoots = new HashMap<>();
         for (DataCharacter character: selectedSuspects) {
-            dialgoueTreeRoots.put(character, new ArrayList<>());
+            dialogueTreeRoots.put(character, new ArrayList<>());
         }
 
         // We'll want to consider all questioning intentions which are marked as being starting
@@ -416,8 +420,8 @@ public class ScenarioBuilder {
                 // characters mapped to empty arrays. Because of this, if the character is not
                 // in the map's keys, then the character has not be selected and can be
                 // discarded.
-                if (!dialgoueTreeRoots.containsKey(response.saidBy)) { continue; }
-                dialgoueTreeRoots.get(response.saidBy).add(intention);
+                if (!dialogueTreeRoots.containsKey(response.saidBy)) { continue; }
+                dialogueTreeRoots.get(response.saidBy).add(intention);
             }
         }
 
@@ -456,7 +460,7 @@ public class ScenarioBuilder {
 
         // Construct the dialogue trees.
         for (DataCharacter currentCharacter: selectedSuspects) {
-            for (DataQuestioningIntention qiData: dialgoueTreeRoots.get(currentCharacter)) {
+            for (DataQuestioningIntention qiData: dialogueTreeRoots.get(currentCharacter)) {
                 for (IDialogueTreeAdder adder: createAdders(
                     qiData, selectedClues, dialogueTrees, chosenStyles, currentCharacter
                 )) {

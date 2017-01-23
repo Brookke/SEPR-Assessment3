@@ -2,8 +2,10 @@ package org.teamfarce.mirch;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Random;
-
+import java.util.Set;
 import java.lang.*;
 
 
@@ -74,6 +76,60 @@ public class MIRCH extends ApplicationAdapter{
 	private Music music_background;
 	
 	private boolean testGame = false;
+	
+	/**
+     * Controls the initial character traits selection at the start of the game.
+     * <p>
+     * Selection is made through a series of pop up windows.
+     * </p>
+     *
+     * @return An array of integers containing the trait selections.
+     */
+    public int[] drawCharacterSelection() {
+        int[] values  = new int[3];
+        String backstory = "Crash! \nA Murder has been committed in the Ron Cooke Hub \nYou are a detective, sent to solve the mystery.";
+        JOptionPane.showMessageDialog(null, backstory, "Character Creation",JOptionPane.PLAIN_MESSAGE);
+        Object[] options1 = {
+            "Aggresive",
+            "Polite",
+            "Conversation",
+            "Direct",
+            "Caveman"
+        };
+
+        values[0] = JOptionPane.showOptionDialog(
+            null,
+            "Choose a style for your character.",
+            "Character Creation",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options1,
+            options1[2]
+        );        
+        
+        values[1] = JOptionPane.showOptionDialog(
+            null,
+            "Choose another style for your character.",
+            "Character Creation",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options1,
+            options1[2]
+        );
+        values[2] = JOptionPane.showOptionDialog(
+            null,
+            "Choose a final style for your character.",
+            "Character Creation",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options1,
+            options1[2]
+        );
+        return values;
+    }
 	
 	/**
 	 * Returns a RenderItem referencing the current room that the player sprite is in.
@@ -261,8 +317,19 @@ public class MIRCH extends ApplicationAdapter{
 			try {
 				database = new ScenarioBuilderDatabase("assets/db.db");
 				
+
 				try {
-					gameSnapshot = ScenarioBuilder.generateGame(database, 8, 10, 6, 6, null, new Random());
+					Set<ScenarioBuilderDatabase.DataQuestioningStyle> newSet = new HashSet<>();
+					
+					int[] output = drawCharacterSelection();
+					
+					for (int i : output){
+						newSet.add(database.questioningStyles.get(i));
+					}
+					
+					gameSnapshot = ScenarioBuilder.generateGame(
+						database, 8, 10, 6, 6, newSet, new Random()
+					);
 				} catch (ScenarioBuilderException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
