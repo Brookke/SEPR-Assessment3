@@ -8,10 +8,10 @@ package org.teamfarce.mirch;
  *
  */
 public class Door {
-	float startX;
-	float startY;
-	float endX;
-	float endY;
+	public float startX;
+	public float startY;
+	public float endX;
+	public float endY;
 	
 	enum Face {
 		horizontal, vertical;

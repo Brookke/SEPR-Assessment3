@@ -7,9 +7,9 @@ package org.teamfarce.mirch;
  */
 public class Clue {
 	//score values until you can accuse someone
-    int provesMotive;
-    int provesMean;
-    String name;
+    public int provesMotive;
+    public int provesMean;
+    public String name;
 
     /**
      * Initialiser function.
