@@ -10,183 +10,183 @@ import java.sql.SQLException;
 import org.sqlite.JDBC;
 
 public class ScenarioBuilderDatabase {
-    public class Means {
+    public class DataMeans {
         public int id;
         public String description;
-        public HashSet<CharacterMeansLink> characterLink;
-        public HashSet<Clue> clues;
+        public HashSet<DataCharacterMeansLink> characterLink;
+        public HashSet<DataClue> clues;
     }
 
-    public class RoomType {
+    public class DataRoomType {
         public int id;
         public String name;
         public int minCount;
         public int maxCount;
-        public HashSet<RoomTemplate> roomTemplates;
+        public HashSet<DataRoomTemplate> roomTemplates;
     }
 
-    public class Resource {
+    public class DataResource {
         public int id;
         public String filename;
-        public HashSet<Character> characters;
-        public HashSet<Costume> costumes;
-        public HashSet<RoomTemplate> roomTemplates;
-        public HashSet<Prop> props;
+        public HashSet<DataCharacter> characters;
+        public HashSet<DataCostume> costumes;
+        public HashSet<DataRoomTemplate> roomTemplates;
+        public HashSet<DataProp> props;
     }
 
-    public class Clue {
+    public class DataClue {
         public int id;
         public String description;
         public int impliesMeansRating;
         public int impliesMotiveRating;
-        public HashSet<Prop> props;
-        public HashSet<Motive> motives;
-        public HashSet<Means> means;
-        public HashSet<Character> requiredAsMurderers;
-        public HashSet<Character> requiredAsVictims;
-        public HashSet<QuestionAndResponse> questionAndResponses;
+        public HashSet<DataProp> props;
+        public HashSet<DataMotive> motives;
+        public HashSet<DataMeans> means;
+        public HashSet<DataCharacter> requiredAsMurderers;
+        public HashSet<DataCharacter> requiredAsVictims;
+        public HashSet<DataQuestionAndResponse> questionAndResponses;
     }
 
-    public class QuestioningStyle {
+    public class DataQuestioningStyle {
         public int id;
         public String description;
-        public HashSet<QuestionAndResponse> questions;
+        public HashSet<DataQuestionAndResponse> questions;
     }
 
-    public class Motive {
+    public class DataMotive {
         public int id;
         public String description;
-        public HashSet<CharacterMotiveLink> characterMotiveLink;
-        public HashSet<Clue> clues;
+        public HashSet<DataCharacterMotiveLink> characterMotiveLink;
+        public HashSet<DataClue> clues;
     }
 
-    public class QuestioningIntention {
+    public class DataQuestioningIntention {
         public int id;
         public String description;
         public boolean startingQuestion;
-        public HashSet<QuestionAndResponse> previousResponses;
-        public HashSet<QuestionAndResponse> questions;
+        public HashSet<DataQuestionAndResponse> previousResponses;
+        public HashSet<DataQuestionAndResponse> questions;
     }
 
-    public class Costume {
+    public class DataCostume {
         public int id;
         public String description;
-        public Resource resource;
-        public HashSet<Character> characters;
+        public DataResource resource;
+        public HashSet<DataCharacter> characters;
     }
 
-    public class Prop {
+    public class DataProp {
         public int id;
         public String name;
         public String description;
         public boolean mustBeClue;
-        public Resource resource;
-        public HashSet<Clue> clues;
-        public HashSet<Protoprop> protoprops;
+        public DataResource resource;
+        public HashSet<DataClue> clues;
+        public HashSet<DataProtoprop> protoprops;
     }
 
-    public class QuestionAndResponse {
+    public class DataQuestionAndResponse {
         public int id;
         public String questionText;
         public String responseText;
         public boolean mustBeClue;
-        public QuestioningStyle style;
-        public QuestioningIntention intention;
-        public HashSet<QuestioningIntention> followUpQuestion;
-        public HashSet<Clue> impliesClues;
-        public HashSet<DialogueTextScreen> dialogueScreens;
-        public Character saidBy;
+        public DataQuestioningStyle style;
+        public DataQuestioningIntention intention;
+        public HashSet<DataQuestioningIntention> followUpQuestion;
+        public HashSet<DataClue> impliesClues;
+        public HashSet<DataDialogueTextScreen> dialogueScreens;
+        public DataCharacter saidBy;
     }
 
-    public class RoomTemplate {
+    public class DataRoomTemplate {
         public int id;
         public int width;
         public int height;
         public int selectionWeight;
-        public RoomType roomType;
-        public HashSet<Protoprop> protoprops;
-        public Resource background;
+        public DataRoomType roomType;
+        public HashSet<DataProtoprop> protoprops;
+        public DataResource background;
     }
 
-    public class Character {
+    public class DataCharacter {
         public int id;
         public String name;
         public String description;
         public int selectionWeight;
-        public Resource resource;
-        public HashSet<Costume> costumes;
-        public HashSet<CharacterMotiveLink> murdererMotiveLink;
-        public HashSet<CharacterMotiveLink> victimMotiveLink;
-        public HashSet<CharacterMeansLink> meansLink;
-        public HashSet<Clue> requiredAsMurderer;
-        public HashSet<Clue> requiredAsVictim;
-        public HashSet<QuestionAndResponse> responses;
+        public DataResource resource;
+        public HashSet<DataCostume> costumes;
+        public HashSet<DataCharacterMotiveLink> murdererMotiveLink;
+        public HashSet<DataCharacterMotiveLink> victimMotiveLink;
+        public HashSet<DataCharacterMeansLink> meansLink;
+        public HashSet<DataClue> requiredAsMurderer;
+        public HashSet<DataClue> requiredAsVictim;
+        public HashSet<DataQuestionAndResponse> responses;
     }
 
-    public class CharacterMotiveLink {
+    public class DataCharacterMotiveLink {
         public int id;
         public int selectionWeight;
-        public Character murderer;
-        public Character victim;
-        public Motive motive;
+        public DataCharacter murderer;
+        public DataCharacter victim;
+        public DataMotive motive;
     }
 
-    public class DialogueTextScreen {
+    public class DataDialogueTextScreen {
         public int id;
         public String text;
         public int order;
-        public QuestionAndResponse dialogue;
+        public DataQuestionAndResponse dialogue;
     }
 
-    public class Protoprop {
+    public class DataProtoprop {
         public int id;
         public float x;
         public float y;
-        public RoomTemplate roomTemplate;
-        public HashSet<Prop> props;
+        public DataRoomTemplate roomTemplate;
+        public HashSet<DataProp> props;
     }
 
-    public class CharacterMeansLink {
+    public class DataCharacterMeansLink {
         public int id;
         public int selectionWeight;
-        public Character character;
-        public Means means;
+        public DataCharacter character;
+        public DataMeans means;
     }
 
-    public HashMap<Integer, Means> means;
-    public HashMap<Integer, RoomType> roomTypes;
-    public HashMap<Integer, Resource> resources;
-    public HashMap<Integer, Clue> clues;
-    public HashMap<Integer, QuestioningStyle> questioningStyles;
-    public HashMap<Integer, Motive> motives;
-    public HashMap<Integer, QuestioningIntention> questioningIntentions;
-    public HashMap<Integer, Costume> costumes;
-    public HashMap<Integer, Prop> props;
-    public HashMap<Integer, QuestionAndResponse> questionAndResponses;
-    public HashMap<Integer, RoomTemplate> roomTemplates;
-    public HashMap<Integer, Character> characters;
-    public HashMap<Integer, CharacterMotiveLink> characterMotiveLinks;
-    public HashMap<Integer, DialogueTextScreen> dialogueTextScreens;
-    public HashMap<Integer, Protoprop> protoprops;
-    public HashMap<Integer, CharacterMeansLink> characterMeansLinks;
+    public HashMap<Integer, DataMeans> means;
+    public HashMap<Integer, DataRoomType> roomTypes;
+    public HashMap<Integer, DataResource> resources;
+    public HashMap<Integer, DataClue> clues;
+    public HashMap<Integer, DataQuestioningStyle> questioningStyles;
+    public HashMap<Integer, DataMotive> motives;
+    public HashMap<Integer, DataQuestioningIntention> questioningIntentions;
+    public HashMap<Integer, DataCostume> costumes;
+    public HashMap<Integer, DataProp> props;
+    public HashMap<Integer, DataQuestionAndResponse> questionAndResponses;
+    public HashMap<Integer, DataRoomTemplate> roomTemplates;
+    public HashMap<Integer, DataCharacter> characters;
+    public HashMap<Integer, DataCharacterMotiveLink> characterMotiveLinks;
+    public HashMap<Integer, DataDialogueTextScreen> dialogueTextScreens;
+    public HashMap<Integer, DataProtoprop> protoprops;
+    public HashMap<Integer, DataCharacterMeansLink> characterMeansLinks;
 
     public ScenarioBuilderDatabase() {
-        means = new HashMap<Integer, Means>();
-        roomTypes = new HashMap<Integer, RoomType>();
-        resources = new HashMap<Integer, Resource>();
-        clues = new HashMap<Integer, Clue>();
-        questioningStyles = new HashMap<Integer, QuestioningStyle>();
-        motives = new HashMap<Integer, Motive>();
-        questioningIntentions = new HashMap<Integer, QuestioningIntention>();
-        costumes = new HashMap<Integer, Costume>();
-        props = new HashMap<Integer, Prop>();
-        questionAndResponses = new HashMap<Integer, QuestionAndResponse>();
-        roomTemplates = new HashMap<Integer, RoomTemplate>();
-        characters = new HashMap<Integer, Character>();
-        characterMotiveLinks = new HashMap<Integer, CharacterMotiveLink>();
-        dialogueTextScreens = new HashMap<Integer, DialogueTextScreen>();
-        protoprops = new HashMap<Integer, Protoprop>();
-        characterMeansLinks = new HashMap<Integer, CharacterMeansLink>();
+        means = new HashMap<>();
+        roomTypes = new HashMap<>();
+        resources = new HashMap<>();
+        clues = new HashMap<>();
+        questioningStyles = new HashMap<>();
+        motives = new HashMap<>();
+        questioningIntentions = new HashMap<>();
+        costumes = new HashMap<>();
+        props = new HashMap<>();
+        questionAndResponses = new HashMap<>();
+        roomTemplates = new HashMap<>();
+        characters = new HashMap<>();
+        characterMotiveLinks = new HashMap<>();
+        dialogueTextScreens = new HashMap<>();
+        protoprops = new HashMap<>();
+        characterMeansLinks = new HashMap<>();
     }
 
     public ScenarioBuilderDatabase(String databaseName) throws SQLException {
@@ -197,7 +197,7 @@ public class ScenarioBuilderDatabase {
 
         ResultSet rsMeans = sqlStmt.executeQuery("SELECT * FROM means");
         while (rsMeans.next()) {
-            Means singleMeans = new Means();
+            DataMeans singleMeans = new DataMeans();
             singleMeans.id = rsMeans.getInt("id");
             singleMeans.description = rsMeans.getString("description");
             singleMeans.characterLink = new HashSet<>();
@@ -207,7 +207,7 @@ public class ScenarioBuilderDatabase {
 
         ResultSet rsRoomType = sqlStmt.executeQuery("SELECT * FROM room_types");
         while (rsRoomType.next()) {
-            RoomType roomType = new RoomType();
+            DataRoomType roomType = new DataRoomType();
             roomType.id = rsRoomType.getInt("id");
             roomType.name = rsRoomType.getString("name");
             roomType.minCount = rsRoomType.getInt("minimum_count");
@@ -218,7 +218,7 @@ public class ScenarioBuilderDatabase {
 
         ResultSet rsResource = sqlStmt.executeQuery("SELECT * FROM resources");
         while (rsResource.next()) {
-            Resource resource = new Resource();
+            DataResource resource = new DataResource();
             resource.id = rsResource.getInt("id");
             resource.filename = rsResource.getString("filename");
             resource.characters = new HashSet<>();
@@ -230,7 +230,7 @@ public class ScenarioBuilderDatabase {
 
         ResultSet rsClue = sqlStmt.executeQuery("SELECT * FROM clues");
         while (rsClue.next()) {
-            Clue clue = new Clue();
+            DataClue clue = new DataClue();
             clue.id = rsClue.getInt("id");
             clue.description = rsClue.getString("description");
             clue.impliesMeansRating = rsClue.getInt("implies_means_rating");
@@ -246,7 +246,7 @@ public class ScenarioBuilderDatabase {
 
         ResultSet rsQuestioningStyle = sqlStmt.executeQuery("SELECT * FROM questioning_styles");
         while (rsQuestioningStyle.next()) {
-            QuestioningStyle questioningStyle = new QuestioningStyle();
+            DataQuestioningStyle questioningStyle = new DataQuestioningStyle();
             questioningStyle.id = rsQuestioningStyle.getInt("id");
             questioningStyle.description = rsQuestioningStyle.getString("description");
             questioningStyle.questions = new HashSet<>();
@@ -255,7 +255,7 @@ public class ScenarioBuilderDatabase {
 
         ResultSet rsMotive = sqlStmt.executeQuery("SELECT * FROM motives");
         while (rsMotive.next()) {
-            Motive motive = new Motive();
+            DataMotive motive = new DataMotive();
             motive.id = rsMotive.getInt("id");
             motive.description = rsMotive.getString("description");
             motive.characterMotiveLink = new HashSet<>();
@@ -267,7 +267,7 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM question_intentions"
         );
         while (rsQuestioningIntention.next()) {
-            QuestioningIntention questioningIntention = new QuestioningIntention();
+            DataQuestioningIntention questioningIntention = new DataQuestioningIntention();
             questioningIntention.id = rsQuestioningIntention.getInt("id");
             questioningIntention.description = rsQuestioningIntention.getString("description");
             questioningIntention.startingQuestion = rsQuestioningIntention.getBoolean(
@@ -280,7 +280,7 @@ public class ScenarioBuilderDatabase {
 
         ResultSet rsCostume = sqlStmt.executeQuery("SELECT * FROM costumes");
         while (rsCostume.next()) {
-            Costume costume = new Costume();
+            DataCostume costume = new DataCostume();
             costume.id = rsCostume.getInt("id");
             costume.description = rsCostume.getString("description");
             costume.resource = resources.get(rsCostume.getInt("resource"));
@@ -291,7 +291,7 @@ public class ScenarioBuilderDatabase {
 
         ResultSet rsProp = sqlStmt.executeQuery("SELECT * FROM props");
         while (rsProp.next()) {
-            Prop prop = new Prop();
+            DataProp prop = new DataProp();
             prop.id = rsProp.getInt("id");
             prop.name = rsProp.getString("name");
             prop.description = rsProp.getString("description");
@@ -307,7 +307,7 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM question_and_responses"
         );
         while (rsQuestionAndResponse.next()) {
-            QuestionAndResponse questionAndResponse = new QuestionAndResponse();
+            DataQuestionAndResponse questionAndResponse = new DataQuestionAndResponse();
             questionAndResponse.id = rsQuestionAndResponse.getInt("id");
             questionAndResponse.questionText = rsQuestionAndResponse.getString("question_text");
             questionAndResponse.responseText = rsQuestionAndResponse.getString("response_text");
@@ -329,7 +329,7 @@ public class ScenarioBuilderDatabase {
 
         ResultSet rsRoomTemplate = sqlStmt.executeQuery("SELECT * FROM room_templates");
         while (rsRoomTemplate.next()) {
-            RoomTemplate roomTemplate = new RoomTemplate();
+            DataRoomTemplate roomTemplate = new DataRoomTemplate();
             roomTemplate.id = rsRoomTemplate.getInt("id");
             roomTemplate.width = rsRoomTemplate.getInt("width");
             roomTemplate.height = rsRoomTemplate.getInt("height");
@@ -344,7 +344,7 @@ public class ScenarioBuilderDatabase {
 
         ResultSet rsCharacter = sqlStmt.executeQuery("SELECT * FROM characters");
         while (rsCharacter.next()) {
-            Character character = new Character();
+            DataCharacter character = new DataCharacter();
             character.id = rsCharacter.getInt("id");
             character.name = rsCharacter.getString("name");
             character.description = rsCharacter.getString("description");
@@ -365,7 +365,7 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM character_motive_links"
         );
         while (rsCharacterMotiveLink.next()) {
-            CharacterMotiveLink characterMotiveLink = new CharacterMotiveLink();
+            DataCharacterMotiveLink characterMotiveLink = new DataCharacterMotiveLink();
             characterMotiveLink.id = rsCharacterMotiveLink.getInt("id");
             characterMotiveLink.selectionWeight = rsCharacterMotiveLink.getInt("selection_weight");
             characterMotiveLink.murderer = characters.get(rsCharacterMotiveLink.getInt(
@@ -383,7 +383,7 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM dialogue_text_screens"
         );
         while (rsDialogueTextScreen.next()) {
-            DialogueTextScreen dialogueTextScreen = new DialogueTextScreen();
+            DataDialogueTextScreen dialogueTextScreen = new DataDialogueTextScreen();
             dialogueTextScreen.id = rsDialogueTextScreen.getInt("id");
             dialogueTextScreen.text = rsDialogueTextScreen.getString("text");
             dialogueTextScreen.order = rsDialogueTextScreen.getInt("order");
@@ -396,7 +396,7 @@ public class ScenarioBuilderDatabase {
 
         ResultSet rsProtoprop = sqlStmt.executeQuery("SELECT * FROM protoprops");
         while (rsProtoprop.next()) {
-            Protoprop protoprop = new Protoprop();
+            DataProtoprop protoprop = new DataProtoprop();
             protoprop.id = rsProtoprop.getInt("id");
             protoprop.x = rsProtoprop.getFloat("x_pos");
             protoprop.y = rsProtoprop.getFloat("y_pos");
@@ -410,7 +410,7 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM character_means_links"
         );
         while (rsCharacterMeansLink.next()) {
-            CharacterMeansLink characterMeansLink = new CharacterMeansLink();
+            DataCharacterMeansLink characterMeansLink = new DataCharacterMeansLink();
             characterMeansLink.id = rsCharacterMeansLink.getInt("id");
             characterMeansLink.selectionWeight = rsCharacterMeansLink.getInt("selection_weight");
             characterMeansLink.character = characters.get(rsCharacterMeansLink.getInt(
@@ -426,8 +426,8 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM clue_motive_requirement"
         );
         while (rsClueMotiveRequirement.next()) {
-            Clue clue = clues.get(rsClueMotiveRequirement.getInt("clue"));
-            Motive motive = motives.get(rsClueMotiveRequirement.getInt("motive"));
+            DataClue clue = clues.get(rsClueMotiveRequirement.getInt("clue"));
+            DataMotive motive = motives.get(rsClueMotiveRequirement.getInt("motive"));
             clue.motives.add(motive);
             motive.clues.add(clue);
         }
@@ -436,8 +436,8 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM clue_means_requirements"
         );
         while (rsClueMeansRequirement.next()) {
-            Clue clue = clues.get(rsClueMeansRequirement.getInt("clue"));
-            Means singleMeans = means.get(rsClueMeansRequirement.getInt("means"));
+            DataClue clue = clues.get(rsClueMeansRequirement.getInt("clue"));
+            DataMeans singleMeans = means.get(rsClueMeansRequirement.getInt("means"));
             clue.means.add(singleMeans);
             singleMeans.clues.add(clue);
         }
@@ -446,8 +446,8 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM character_costume_links"
         );
         while (rsCharacterCostumeLink.next()) {
-            Character character = characters.get(rsCharacterCostumeLink.getInt("character"));
-            Costume costume = costumes.get(rsCharacterCostumeLink.getInt("costume"));
+            DataCharacter character = characters.get(rsCharacterCostumeLink.getInt("character"));
+            DataCostume costume = costumes.get(rsCharacterCostumeLink.getInt("costume"));
             character.costumes.add(costume);
             costume.characters.add(character);
         }
@@ -456,8 +456,8 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM clue_victim_requirements"
         );
         while (rsClueVictimRequirement.next()) {
-            Clue clue = clues.get(rsClueVictimRequirement.getInt("clue"));
-            Character victim = characters.get(rsClueVictimRequirement.getInt("victim"));
+            DataClue clue = clues.get(rsClueVictimRequirement.getInt("clue"));
+            DataCharacter victim = characters.get(rsClueVictimRequirement.getInt("victim"));
             clue.requiredAsVictims.add(victim);
             victim.requiredAsVictim.add(clue);
         }
@@ -466,10 +466,10 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM follow_up_questions"
         );
         while (rsFollowUpQuestion.next()) {
-            QuestioningIntention followingQuestion = questioningIntentions.get(
+            DataQuestioningIntention followingQuestion = questioningIntentions.get(
                 rsFollowUpQuestion.getInt("following_question")
             );
-            QuestionAndResponse precedingResponse = questionAndResponses.get(
+            DataQuestionAndResponse precedingResponse = questionAndResponses.get(
                 rsFollowUpQuestion.getInt("preceding_response")
             );
             followingQuestion.previousResponses.add(precedingResponse);
@@ -480,8 +480,8 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM clue_murderer_requirements"
         );
         while (rsClueMurdererRequirement.next()) {
-            Clue clue = clues.get(rsClueMurdererRequirement.getInt("clue"));
-            Character murderer = characters.get(rsClueMurdererRequirement.getInt("murderer"));
+            DataClue clue = clues.get(rsClueMurdererRequirement.getInt("clue"));
+            DataCharacter murderer = characters.get(rsClueMurdererRequirement.getInt("murderer"));
             clue.requiredAsMurderers.add(murderer);
             murderer.requiredAsMurderer.add(clue);
         }
@@ -490,8 +490,8 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM prop_clue_implication"
         );
         while (rsPropClueImplication.next()) {
-            Prop prop = props.get(rsPropClueImplication.getInt("prop"));
-            Clue clue = clues.get(rsPropClueImplication.getInt("clue"));
+            DataProp prop = props.get(rsPropClueImplication.getInt("prop"));
+            DataClue clue = clues.get(rsPropClueImplication.getInt("clue"));
             prop.clues.add(clue);
             clue.props.add(prop);
         }
@@ -500,10 +500,10 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM response_clue_implication"
         );
         while (rsResponseClueImplication.next()) {
-            QuestionAndResponse questionAndResponse = questionAndResponses.get(
+            DataQuestionAndResponse questionAndResponse = questionAndResponses.get(
                 rsResponseClueImplication.getInt("response")
             );
-            Clue clue = clues.get(rsResponseClueImplication.getInt("clue"));
+            DataClue clue = clues.get(rsResponseClueImplication.getInt("clue"));
             questionAndResponse.impliesClues.add(clue);
             clue.questionAndResponses.add(questionAndResponse);
         }
@@ -512,8 +512,8 @@ public class ScenarioBuilderDatabase {
             "SELECT * FROM potential_prop_instances"
         );
         while (rsPotentialPropInstances.next()) {
-            Prop prop = props.get(rsPotentialPropInstances.getInt("prop"));
-            Protoprop protoprop = protoprops.get(rsPotentialPropInstances.getInt("protoprop"));
+            DataProp prop = props.get(rsPotentialPropInstances.getInt("prop"));
+            DataProtoprop protoprop = protoprops.get(rsPotentialPropInstances.getInt("protoprop"));
             prop.protoprops.add(protoprop);
             protoprop.props.add(prop);
         }
