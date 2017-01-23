@@ -19,11 +19,13 @@ import org.teamfarce.mirch.ScenarioBuilderDatabase.CharacterMotiveLink;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Means;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Motive;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestioningIntention;
-import org.teamfarce.mirch.ScenarioBuilderDatabase.QuestionAndResponse;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.Protoprop;
 import org.teamfarce.mirch.Room;
 import org.teamfarce.mirch.Suspect;
 import org.teamfarce.mirch.dialogue.DialogueTree;
+import org.teamfarce.mirch.dialogue.QuestionIntent;
+import org.teamfarce.mirch.dialogue.QuestionAndResponse;
+import org.teamfarce.mirch.dialogue.SingleDialogueTreeAdder;
 
 public class ScenarioBuilder {
     public static class ScenarioBuilderException extends Exception {
@@ -218,7 +220,12 @@ public class ScenarioBuilder {
         return constructedRooms;
     }
 
-    public static ArrayList<Props> constructProps() {
+    public static ArrayList<Prop> constructProps(
+        Set<ScenarioBuilderDatabase.Clue> selectedClues,
+        List<RoomTemplate> selectedRoomTemplates,
+        List<Room> constructedRooms,
+        Random random
+    ) {
         ArrayList<Prop> constructedProps = new ArrayList<>();
         Set<ScenarioBuilderDatabase.Prop> propsWithClues =
             selectedClues.stream().flatMap(c -> c.props.stream()).collect(Collectors.toSet());
@@ -284,6 +291,32 @@ public class ScenarioBuilder {
         return constructedProps;
     }
 
+    public static QuestionIntent generateDialogueTree(
+        QuestioningIntention qiData,
+        HashMap<ScenarioBuilderDatabase.Character, DialogueTree> dialogueTrees
+    ) {
+        QuestionIntent qi = new QuestionIntent(
+            qiData.description
+        );
+        for (ScenarioBuilderDatabase.QuestionAndResponse qarData: qiData.questions) {
+            DialogueTree currentDialogueTree = dialogueTrees.get(qarData.saidBy);
+            QuestionAndResponse qar = new QuestionAndResponse(
+                qarData.questionText,
+                qarData.style.description,
+                qarData.responseText,
+                new ArrayList<>()
+            );
+            qi.addQuestion(qar);
+            for (QuestioningIntention qiDataInner: qarData.followUpQuestion) {
+                QuestionIntent qiInner = generateDialogueTree(qiDataInner, dialogueTrees);
+                qar.addDialogueTreeAdder(new SingleDialogueTreeAdder(
+                    currentDialogueTree, qiInner
+                ));
+            }
+        }
+        return qi;
+    }
+
     public static GameSnapshot generateGame(
         ScenarioBuilderDatabase database,
         int minRoomCount,
@@ -347,16 +380,14 @@ public class ScenarioBuilder {
             // Next consider all of the questions associated response. We'll add the intention we
             // are currently considering to any character's dialogue tree root collection, if the
             // question and response we are considering is said by such character.
-            for (QuestionAndResponse response: intention.questions) {
-                for (ScenarioBuilderDatabase.Character character: response.saidBy) {
-                    // We only need to consider characters which we have selected to be in this
-                    // case of the game. The hashmap has previously be populated with the selected
-                    // characters mapped to empty arrays. Because of this, if the character is not
-                    // in the map's keys, then the character has not be selected and can be
-                    // discarded.
-                    if (!dialgoueTreeRoots.containsKey(character)) { continue; }
-                    dialgoueTreeRoots.get(character).add(intention);
-                }
+            for (ScenarioBuilderDatabase.QuestionAndResponse response: intention.questions) {
+                // We only need to consider characters which we have selected to be in this
+                // case of the game. The hashmap has previously be populated with the selected
+                // characters mapped to empty arrays. Because of this, if the character is not
+                // in the map's keys, then the character has not be selected and can be
+                // discarded.
+                if (!dialgoueTreeRoots.containsKey(response.saidBy)) { continue; }
+                dialgoueTreeRoots.get(response.saidBy).add(intention);
             }
         }
 
@@ -384,9 +415,19 @@ public class ScenarioBuilder {
         }
 
         // Construct the dialogue trees.
+        for (ScenarioBuilderDatabase.Character currentCharacter: selectedSuspects) {
+            DialogueTree dialogueTree = dialogueTrees.get(currentCharacter);
+            ArrayList<QuestioningIntention> intentions = dialgoueTreeRoots.get(currentCharacter);
+            for (QuestioningIntention intention: intentions) {
+                QuestionIntent qi = generateDialogueTree(intention, dialogueTrees);
+                dialogueTree.addQuestionIntent(qi);
+            }
+        }
 
-        ArrayList<Prop> constructedProps = constructProps();
+        ArrayList<Prop> constructedProps = constructProps(
+            selectedClues, selectedRoomTemplates, constructedRooms, random
+        );
 
-        return new GameSnapshot(constructedSuspects, constructedProps, constructedRooms, null);
+        return new GameSnapshot(constructedSuspects, constructedProps, constructedRooms);
     }
 }
