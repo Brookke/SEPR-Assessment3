@@ -183,6 +183,41 @@ public class ScenarioBuilder {
         return selectedClues;
     }
 
+    public static ArrayList<Room> constructRooms(ArrayList<RoomTemplate> selectedRoomTemplates) {
+        ArrayList<Room> constructedRooms = new ArrayList<>();
+
+        // Store the positions in which a room has been placed. We will use this to decide if we
+        // can place a room in a particular position.
+        ArrayList<Rectangle> claimedPositions = new ArrayList<>();
+
+        // This is the vector we will add to the position if we cannot place the room.
+        Vector2 conflictResolveDirection = new Vector2(1.0f, 0.0f);
+
+        // Resolve all of the rooms.
+        for (RoomTemplate template: selectedRoomTemplates) {
+            Rectangle roomPosition = new Rectangle(0.0f, 0.0f, template.width, template.height);
+
+            // Keep moving the room until it can be placed.
+            while (claimedPositions.stream().anyMatch(x -> roomPosition.overlaps(x))) {
+                roomPosition.setPosition(
+                    roomPosition.getPosition(new Vector2()).add(conflictResolveDirection)
+                );
+            }
+
+            // Indicate that we have placed the room.
+            claimedPositions.add(roomPosition);
+
+            // Construct and add a room.
+            Room room = Room.constructWithUnitSizes(
+                template.background.filename,
+                roomPosition.getPosition(new Vector2())
+            );
+            constructedRooms.add(room);
+        }
+
+        return constructedRooms;
+    }
+
     public static GameSnapshot generateGame(
         ScenarioBuilderDatabase database,
         int minRoomCount,
@@ -259,36 +294,7 @@ public class ScenarioBuilder {
             }
         }
 
-        ArrayList<Room> constructedRooms = new ArrayList<>();
-
-        // Store the positions in which a room has been placed. We will use this to decide if we
-        // can place a room in a particular position.
-        ArrayList<Rectangle> claimedPositions = new ArrayList<>();
-
-        // This is the vector we will add to the position if we cannot place the room.
-        Vector2 conflictResolveDirection = new Vector2(1.0f, 0.0f);
-
-        // Resolve all of the rooms.
-        for (RoomTemplate template: selectedRoomTemplates) {
-            Rectangle roomPosition = new Rectangle(0.0f, 0.0f, template.width, template.height);
-
-            // Keep moving the room until it can be placed.
-            while (claimedPositions.stream().anyMatch(x -> roomPosition.overlaps(x))) {
-                roomPosition.setPosition(
-                    roomPosition.getPosition(new Vector2()).add(conflictResolveDirection)
-                );
-            }
-
-            // Indicate that we have placed the room.
-            claimedPositions.add(roomPosition);
-
-            // Construct and add a room.
-            Room room = Room.constructWithUnitSizes(
-                template.background.filename,
-                roomPosition.getPosition(new Vector2())
-            );
-            constructedRooms.add(room);
-        }
+        ArrayList<Room> constructedRooms = constructRooms(selectedRoomTemplates);
 
         HashMap<ScenarioBuilderDatabase.Character, DialogueTree> dialogueTrees = new HashMap<>();
         ArrayList<Suspect> constructedSuspects = new ArrayList<>();
