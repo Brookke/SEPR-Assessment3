@@ -107,6 +107,10 @@ public class MIRCH extends ApplicationAdapter{
 					toReturn = true;
 					//System.out.println("in y");
 				}
+			} else if ((player.getX() > door.startX - 50) && (player.getX() < door.endX + 50)){
+				if ((player.getY() > door.startY - (characterWidth / 2)) && (player.getY() < door.endY - (characterWidth / 2))){
+					toReturn = true;
+				}
 			}
 		}
 		
@@ -267,7 +271,7 @@ public class MIRCH extends ApplicationAdapter{
 		for (RenderItem room : rooms){
 			for (RenderItem extRoom : rooms){		
 				if (!extRoom.equals(room)){			
-					//Checks to draw doors in the vertical position
+					//Checks to draw doors in the vertical adjacencys
 					if (room.sprite.getY() + room.sprite.getHeight() <= extRoom.sprite.getY() + allowedRoomGap){
 
 						if (room.sprite.getY()  + room.sprite.getHeight() >= extRoom.sprite.getY()  - allowedRoomGap){
@@ -303,7 +307,7 @@ public class MIRCH extends ApplicationAdapter{
 						}
 					}
 					
-					//Checks to draw doors in the horizontal position
+					//Checks to draw doors in the horizontal adjacencys
 					if (room.sprite.getX() + room.sprite.getWidth() <= extRoom.sprite.getX() + allowedRoomGap){
 
 						if (room.sprite.getX()  + room.sprite.getWidth() >= extRoom.sprite.getX()  - allowedRoomGap){
@@ -317,14 +321,15 @@ public class MIRCH extends ApplicationAdapter{
 								System.out.println("HX2 in range");
 								Sprite newSprite = new Sprite (doorwayTexture);
 
-								float correctWidth;
-								float doorX;
+								float correctHeight;
+								float doorY;
 
-								correctWidth = (room.sprite.getX() + room.sprite.getWidth()) - extRoom.sprite.getX();
-								doorX = extRoom.sprite.getX() + (correctWidth/2) - (doorWidth / 2);
+								correctHeight = (room.sprite.getY() + room.sprite.getHeight()) - extRoom.sprite.getY();
+								doorY = extRoom.sprite.getY() + (correctHeight/2) - (doorWidth / 2);
 
-								float doorY = extRoom.sprite.getY();
-								Door door = new Door (doorX, doorY, doorX + doorWidth, doorY  + doorDepth);
+								float doorX = extRoom.sprite.getX();
+								
+								Door door = new Door (doorX, doorY, doorX + doorDepth, doorY  + doorWidth);
 
 								float xScale = (door.endX - door.startX)/(newSprite.getWidth());
 								float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
