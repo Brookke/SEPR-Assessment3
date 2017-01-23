@@ -374,7 +374,6 @@ public class MIRCH extends ApplicationAdapter{
 								float correctHeight;
 								float doorY;
 								
-								
 
 								correctHeight = (room.sprite.getY() + room.sprite.getHeight()) - extRoom.sprite.getY();
 								doorY = extRoom.sprite.getY() + (correctHeight/2) - (doorWidth / 2);
