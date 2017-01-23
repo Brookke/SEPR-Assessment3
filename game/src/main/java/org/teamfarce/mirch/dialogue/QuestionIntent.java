@@ -12,16 +12,19 @@ import java.util.stream.Collectors;
  * </p>
  */
 public class QuestionIntent {
+    private int id;
     private List<QuestionAndResponse> questions;
     private String description;
 
     /**
      * Initialise the question intent.
      *
+     * @param id The unqiue identifier of this question intent.
      * @param questions The questions which can be asked with this intention.
      * @param description The description of this question intention.
      */
-    public QuestionIntent(List<QuestionAndResponse> questions, String description) {
+    public QuestionIntent(int id, List<QuestionAndResponse> questions, String description) {
+        this.id = id;
         this.questions = questions;
         this.description = description;
     }
@@ -29,10 +32,11 @@ public class QuestionIntent {
     /**
      * Initialise the question intent with no questions.
      *
+     * @param id The unqiue identifier of this question intent.
      * @param description The description of this question intention.
      */
-    public QuestionIntent(String description) {
-        this(new ArrayList<>(), description);
+    public QuestionIntent(int id, String description) {
+        this(id, new ArrayList<>(), description);
     }
 
     /**
@@ -70,5 +74,14 @@ public class QuestionIntent {
      */
     public void addQuestion(QuestionAndResponse question) {
         this.questions.add(question);
+    }
+
+    /**
+     * Returns the id of this question itent.
+     *
+     * @return The id
+     */
+    public int getId() {
+        return this.id;
     }
 }

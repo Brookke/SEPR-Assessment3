@@ -2,6 +2,8 @@ package org.teamfarce.mirch.dialogue;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 /**
@@ -9,6 +11,7 @@ import java.util.stream.Collectors;
  */
 public class DialogueTree {
     private List<QuestionIntent> questionIntents;
+    private Set<Integer> addedQuestions;
 
     /**
      * Initialise the dialogue tree.
@@ -17,6 +20,7 @@ public class DialogueTree {
      */
     public DialogueTree(List<QuestionIntent> questionIntents) {
         this.questionIntents = questionIntents;
+        this.addedQuestions = new HashSet<>();
     }
 
     /**
@@ -68,6 +72,13 @@ public class DialogueTree {
      * @param questionIntent The question intent to add.
      */
     public void addQuestionIntent(QuestionIntent questionIntent) {
+        // Check that the questionIntent has not been added.
+        if (addedQuestions.contains(questionIntent.getId())) {
+            return;
+        }
+
+        // Add the questionIntent and keep a note that we have seen it.
         questionIntents.add(questionIntent);
+        addedQuestions.add(questionIntent.getId());
     }
 }

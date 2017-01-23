@@ -223,7 +223,7 @@ public class MIRCH extends ApplicationAdapter{
 
 			tempSuspects.add(tempSuspect);
 
-			QuestionIntent qi1 = new QuestionIntent("Did you see anything suspicious?");
+			QuestionIntent qi1 = new QuestionIntent(1, "Did you see anything suspicious?");
 			tempSuspect.dialogueTree.addQuestionIntent(qi1);
 
 			QuestionAndResponse qar11 = new QuestionAndResponse(
@@ -251,7 +251,7 @@ public class MIRCH extends ApplicationAdapter{
 					);
 			qi1.addQuestion(qar13);
 
-			QuestionIntent qi2 = new QuestionIntent("How long ago did you notice this");
+			QuestionIntent qi2 = new QuestionIntent(2, "How long ago did you notice this");
 			IDialogueTreeAdder qi2_add = new SingleDialogueTreeAdder(tempSuspect.dialogueTree, qi2);
 
 			qar12.addDialogueTreeAdder(qi2_add);
