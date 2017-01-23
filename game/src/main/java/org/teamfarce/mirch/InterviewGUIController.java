@@ -103,10 +103,11 @@ public class InterviewGUIController {
 		
 		genQuestionBase(suspect, player);
 		
-        // TODO: utilise the returned clue.
         QuestionResult result = suspect.dialogueTree.selectQuestion(intent, style);
         // Add the response to the diagram
         gameSnapshot.journal.addConversation(result.response, suspect.name + " to You");
+        gameSnapshot.proveMeans(result.clues);
+        gameSnapshot.proveMotive(result.clues);
 
         Label comment = new Label(result.response, uiSkin);
 		comment.setPosition(300, 480);
