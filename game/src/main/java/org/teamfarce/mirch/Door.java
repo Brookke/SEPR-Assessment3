@@ -27,6 +27,6 @@ public class Door {
 		this.startY = startY;
 		this.endX = endX;
 		this.endY = endY;
-
 	}
+	
 }
