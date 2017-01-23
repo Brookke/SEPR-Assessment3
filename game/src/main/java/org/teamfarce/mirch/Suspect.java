@@ -5,22 +5,34 @@ import org.teamfarce.mirch.dialogue.DialogueTree;
 
 /**
  * Stores information about a single suspect character.
- *
- * @author Jacob Wunwin
  */
 public class Suspect extends MapEntity {
-    DialogueTree dialogueTree;
     private boolean beenAccused;
-    boolean isMurderer;
-    Vector2 mapPosition;
-    Vector2 moveStep;
+    private boolean isMurderer;
 
     /**
-     * Initialiser function
-     * @param roomPosition stores position relative to currentroo perm
-     * @param currentRoom a ref to the current room the suspect is in
-     * @param name a string for the name
-     * @param description a string description 
+     * The dialogue tree of this suspect.
+     */
+    public DialogueTree dialogueTree;
+
+    /**
+     * The position of the suspect on the map.
+     */
+    public Vector2 mapPosition;
+
+    /**
+     * The size of this suspect's step.
+     */
+    public Vector2 moveStep;
+
+    /**
+     * Initialiser function.
+     *
+     * @param name A string for the name
+     * @param description A string description 
+     * @param filename The filename of the image for this suspect.
+     * @param startingPosition The position to start at.
+     * @param dialogueTree The dialogue tree for this suspect.
      */
     public Suspect(
         String name,
@@ -38,12 +50,16 @@ public class Suspect extends MapEntity {
         this.dialogueTree = dialogueTree;
     }
 
+    /**
+     * Initialiser function.
+     *
+     * @param filename The filename of the image for this suspect.
+     * @param pos The position to start at.
+     */
     public Suspect(String filename, Vector2 pos){
         super(null, null, filename);
         this.mapPosition = pos;
     };
-
-
 
     /**
      * Accuse the suspect.
@@ -61,13 +77,21 @@ public class Suspect extends MapEntity {
         return (this.isMurderer)&&(hasEvidence);
     }
 
-	public boolean hasBeenAccused() {
-		return beenAccused;
-	}
-	
-	public Vector2 getPosition(){
-		return this.mapPosition;
-	}
+    /**
+     * Return whether the suspect has been accused.
+     *
+     * @return Whether the suspect has been accused.
+     */
+    public boolean hasBeenAccused() {
+        return beenAccused;
+    }
 
-
+    /**
+     * Return the position of the suspect.
+     *
+     * @return The position of the suspect.
+     */
+    public Vector2 getPosition(){
+        return this.mapPosition;
+    }
 }
