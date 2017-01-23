@@ -15,7 +15,14 @@ public class GameSnapshot {
     private int motiveProven;
     private int time;
 
+    /**
+     * Indicates whether the game has been won.
+     */
     public boolean gameWon;
+
+    /**
+     * Holds the journal associated with this state.
+     */
     public Journal journal;
 
     /**
