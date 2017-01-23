@@ -160,17 +160,4 @@ public class GameSnapshot {
         	proveMotive(prop.takeClues());
         }
     }
-
-
-    // /**
-    //  * Adds the dialogue to the journal, used for keeping a log of dialogue
-    //  * @param dialogue
-    //  */
-    // void journalAddDialogue(QuestionandResponse dialogue) {
-    //  this.journal.addDialogue(dialogue);
-    //  //for (Clue clue : dialogue.clues) {
-    //  //  proveMeans(clue.provesMeans);
-    //  //  provesMotives(clue.provesMotives);
-    //  //}
-    // }
 }
