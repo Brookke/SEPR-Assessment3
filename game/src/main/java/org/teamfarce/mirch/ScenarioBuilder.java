@@ -248,7 +248,6 @@ public class ScenarioBuilder {
                 // If the size of the result is 0, then we should attempt to select from the full
                 // range of props, which include props without clues.
                 if (reducedPropSelection.size() == 0) {
-                    // reducedPropSelection = new ArrayList<>(protoprop.props);
                     reducedPropSelection = protoprop
                         .props
                         .stream()
