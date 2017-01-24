@@ -7,14 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
 /**
  * Generates and controlls all GUI elements in the Game. the GUIController also handles inputs
@@ -153,7 +150,7 @@ public class GUIController {
 	 */
 	void drawInterviewGUI(){
 		Gdx.input.setInputProcessor(this.interviewController.interviewStage);
-		this.interviewController.displayInterviewStage();
+		this.interviewController.display();
 	}
 	
 	/**
@@ -161,7 +158,7 @@ public class GUIController {
 	 */
 	void drawAccuseGUI(){
 		Gdx.input.setInputProcessor(this.interviewController.interviewStage);
-		this.interviewController.displayAccuseStage();
+		this.interviewController.display();
 	}
 	
 	/**
