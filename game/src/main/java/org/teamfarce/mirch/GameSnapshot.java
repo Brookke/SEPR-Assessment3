@@ -13,6 +13,8 @@ public class GameSnapshot {
     List<Room> rooms;
     int meansProven;
     int motiveProven;
+    int sumProvesMotive;
+    int sumProvesMean;
     int time;
 
     /**
@@ -31,7 +33,9 @@ public class GameSnapshot {
     GameSnapshot(
         List<Suspect> suspects,
         List<Prop> props,
-        List<Room> rooms
+        List<Room> rooms,
+        int sumProvesMotive,
+        int sumProvesMeans
     ) {
         this.suspects = suspects;
         this.state = GameState.map;
@@ -42,6 +46,8 @@ public class GameSnapshot {
         this.journal = new Journal();
         this.time = 0;
         this.gameWon = false;
+        this.sumProvesMean = sumProvesMeans;
+        this.sumProvesMotive = sumProvesMotive;
     }
 
     /**
@@ -116,7 +122,7 @@ public class GameSnapshot {
      * @return Whether we have "proven" the means.
      */
     boolean isMeansProven() {
-        return (this.meansProven >= 100);
+        return (this.meansProven >= this.sumProvesMean * 0.5);
     }
 
     /**
@@ -125,7 +131,7 @@ public class GameSnapshot {
      * @return Whether we have "proven" the motive.
      */
     boolean isMotiveProven() {
-        return (this.motiveProven >= 100);
+        return (this.motiveProven >= this.sumProvesMotive * 0.5);
     }
 
     /**

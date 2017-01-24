@@ -49,6 +49,18 @@ public class ScenarioBuilder {
             this.sumProvesMeans = sumProvesMeans;
         }
     }
+    
+    public static class ConstructPropsResult {
+    	public List<Prop> props;
+    	public int sumProvesMotive;
+    	public int sumProvesMeans;
+    	
+    	public ConstructPropsResult(List<Prop> props, int sumProvesMotive, int sumProvesMeans) {
+    		this.props = props;
+    		this.sumProvesMotive = sumProvesMotive;
+    		this.sumProvesMeans = sumProvesMeans;
+    	}
+    }
 
     private static class CharacterData {
         public DataCharacter victim = null;
@@ -238,18 +250,22 @@ public class ScenarioBuilder {
         return constructedRooms;
     }
 
-    public static List<Prop> constructProps(
+    public static ConstructPropsResult constructProps(
         Set<DataClue> selectedClues,
         List<DataRoomTemplate> selectedRoomTemplates,
         List<Room> constructedRooms,
         Random random
     ) {
+        int motiveAcc = 0;
+        int meansAcc = 0;
+
         List<Prop> constructedProps = new ArrayList<>();
         Set<DataProp> propsWithClues =
             selectedClues.stream().flatMap(c -> c.props.stream()).collect(Collectors.toSet());
 
         // Iterate through all of the rooms to add their props to them.
         for (int i = 0; i < selectedRoomTemplates.size(); ++i) {
+
             DataRoomTemplate roomTemplate = selectedRoomTemplates.get(i);
             Room room = constructedRooms.get(i);
 
@@ -281,6 +297,11 @@ public class ScenarioBuilder {
                 // the clues we selected earlier.
                 List<DataClue> propClueData = new ArrayList<>(propData.clues);
                 propClueData.retainAll(selectedClues);
+                
+                for (DataClue clueData: propClueData) {
+                	motiveAcc += clueData.impliesMotiveRating;
+                	meansAcc += clueData.impliesMeansRating;
+                }
 
                 List<Clue> propClues = propData
                     .clues
@@ -302,7 +323,7 @@ public class ScenarioBuilder {
             }
         }
 
-        return constructedProps;
+        return new ConstructPropsResult(constructedProps, motiveAcc, meansAcc);
     }
 
     public static CreateAdderResult createAdders(
@@ -481,6 +502,9 @@ public class ScenarioBuilder {
             dialogueTrees.put(suspect, dialogueTree);
             constructedSuspects.add(suspectObject);
         }
+        
+        int sumProvesMotive = 0;
+        int sumProvesMeans = 0;
 
         // Construct the dialogue trees.
         for (DataCharacter currentCharacter: selectedSuspects) {
@@ -488,22 +512,23 @@ public class ScenarioBuilder {
                 CreateAdderResult result = createAdders(
                     qiData, selectedClues, dialogueTrees, chosenStyles, currentCharacter
                 );
-                if (result.sumProvesMotive < 100) {
-                    throw new ScenarioBuilderException("Could not get enough evidence for the motive");
-                }
-                if (result.sumProvesMeans < 100) {
-                    throw new ScenarioBuilderException("Could not get enough evidence for the means");
-                }
+                sumProvesMotive += result.sumProvesMotive;
+                sumProvesMeans += result.sumProvesMeans;
                 for (IDialogueTreeAdder adder: result.adders) {
                     adder.addToTrees();
                 }
             }
         }
 
-        List<Prop> constructedProps = constructProps(
+        ConstructPropsResult propsResult = constructProps(
             selectedClues, selectedRoomTemplates, constructedRooms, random
         );
+        List<Prop> constructedProps = propsResult.props;
+        sumProvesMotive += propsResult.sumProvesMotive;
+        sumProvesMeans += propsResult.sumProvesMeans;
 
-        return new GameSnapshot(constructedSuspects, constructedProps, constructedRooms);
+        return new GameSnapshot(
+        	constructedSuspects, constructedProps, constructedRooms, sumProvesMotive, sumProvesMeans
+        );
     }
 }

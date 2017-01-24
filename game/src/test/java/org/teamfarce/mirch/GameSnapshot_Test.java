@@ -18,13 +18,13 @@ public class GameSnapshot_Test {
 	
 	@Test
 	public void test_getTime(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null);
+		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
 		assertSame(gameSnapshot.getTime(), gameSnapshot.time);
 	}
 	
 	@Test
 	public void test_incrementTime(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null);
+		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
 		int time = gameSnapshot.getTime();
 		time++;
 		
@@ -34,20 +34,20 @@ public class GameSnapshot_Test {
 	
 	@Test
 	public void test_getRooms(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null);
+		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
 		assertSame(gameSnapshot.getRooms(), gameSnapshot.rooms);
 	}
 	
 	@Test
 	public void test_getProps(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null);
+		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
 		
 		assertSame(gameSnapshot.getProps(), gameSnapshot.props);
 	}
 	
 	@Test
 	public void test_proveMeans(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null);
+		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
 		
 		int addedMeans = 10;
 		Clue clue = new Clue(0, addedMeans, "Clue description");
@@ -63,7 +63,7 @@ public class GameSnapshot_Test {
 	
 	@Test
 	public void test_proveMotive(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null);
+		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
 
 		int addedMotive = 10;
 		Clue clue = new Clue(addedMotive, 0, "Clue description");
@@ -79,7 +79,7 @@ public class GameSnapshot_Test {
 	
 	@Test
 	public void test_isMeansProven(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null);
+		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
 		
 		gameSnapshot.meansProven = 99; //test beneath the boundary
 		assertFalse(gameSnapshot.isMeansProven());
@@ -93,7 +93,7 @@ public class GameSnapshot_Test {
 	
 	@Test
 	public void test_isMotiveProven(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null);
+		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
 		
 		gameSnapshot.motiveProven = 99; //test beneath the boundary
 		assertFalse(gameSnapshot.isMotiveProven());
