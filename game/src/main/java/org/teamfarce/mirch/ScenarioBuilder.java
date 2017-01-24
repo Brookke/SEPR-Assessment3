@@ -36,6 +36,20 @@ public class ScenarioBuilder {
         }
     }
 
+    public static class CreateAdderResult {
+        public Collection<IDialogueTreeAdder> adders;
+        public int sumProvesMotive;
+        public int sumProvesMeans;
+
+        public CreateAdderResult(
+            Collection<IDialogueTreeAdder> adders, int sumProvesMotive, int sumProvesMeans
+        ) {
+            this.adders = adders;
+            this.sumProvesMotive = sumProvesMotive;
+            this.sumProvesMeans = sumProvesMeans;
+        }
+    }
+
     private static class CharacterData {
         public DataCharacter victim = null;
         public DataCharacter murderer = null;
@@ -126,8 +140,7 @@ public class ScenarioBuilder {
 
         // Create a list of suspect which we can choose from to construct our suspect list. This
         // includes all of the suspects from our data minus the murderer and victim.
-        List<DataCharacter> potentialSuspects =
-            new ArrayList<>(database.characters.values());
+        List<DataCharacter> potentialSuspects = new ArrayList<>(database.characters.values());
         potentialSuspects.remove(characterData.murderer);
         potentialSuspects.remove(characterData.victim);
 
@@ -292,7 +305,7 @@ public class ScenarioBuilder {
         return constructedProps;
     }
 
-    public static Collection<IDialogueTreeAdder> createAdders(
+    public static CreateAdderResult createAdders(
         DataQuestioningIntention qiData,
         Set<DataClue> selectedClues,
         HashMap<DataCharacter, DialogueTree> dialogueTrees,
@@ -301,7 +314,7 @@ public class ScenarioBuilder {
         return createAdders(qiData, selectedClues, dialogueTrees, chosenStyles, null);
     }
 
-    public static Collection<IDialogueTreeAdder> createAdders(
+    public static CreateAdderResult createAdders(
         DataQuestioningIntention qiData,
         Set<DataClue> selectedClues,
         HashMap<DataCharacter, DialogueTree> dialogueTrees,
@@ -309,23 +322,31 @@ public class ScenarioBuilder {
         DataCharacter characterFilter
     ) {
         ArrayList<IDialogueTreeAdder> returnList = new ArrayList<>();
+        int motiveAcc = 0;
+        int meansAcc = 0;
 
         // Construct out new question intent.
         QuestionIntent qi = new QuestionIntent(qiData.id, qiData.description);
 
         for (DataQuestionAndResponse qarData: qiData.questions) {
             DialogueTree treeToAddTo = dialogueTrees.get(qarData.saidBy);
+            // If the tree does not exit, the character was not selected and we can discard this
+            // attempt to build a QuestionAndResponse.
             if (treeToAddTo == null) {
                 continue;
             }
 
+            // Discard this QuestionAndResponse if the user has not chosen this style.
             if (!chosenStyles.contains(qarData.style)) {
                 continue;
             }
 
+            // Get the clues associated with this QuestionAndResponse and remove the clues that
+            // have not been selected in this generation.
             ArrayList<DataClue> clueData = new ArrayList<>(qarData.impliesClues);
             clueData.retainAll(selectedClues);
 
+            // Construct the QuestionAndResponse and add it to the QuestionIntent.
             QuestionAndResponse qar = new QuestionAndResponse(
                 qarData.questionText,
                 qarData.style.description,
@@ -338,9 +359,12 @@ public class ScenarioBuilder {
             qi.addQuestion(qar);
 
             for (DataQuestioningIntention qiDataInner: qarData.followUpQuestion) {
-                for (IDialogueTreeAdder adder: createAdders(
+                CreateAdderResult result = createAdders(
                     qiDataInner, selectedClues, dialogueTrees, chosenStyles
-                )) {
+                );
+                motiveAcc += result.sumProvesMotive;
+                meansAcc += result.sumProvesMeans;
+                for (IDialogueTreeAdder adder: result.adders) {
                     qar.addDialogueTreeAdder(adder);
                 }
             }
@@ -349,7 +373,7 @@ public class ScenarioBuilder {
             returnList.add(adder);
         }
 
-        return returnList;
+        return new CreateAdderResult(returnList, motiveAcc, meansAcc);
     }
 
     public static GameSnapshot generateGame(
@@ -461,9 +485,16 @@ public class ScenarioBuilder {
         // Construct the dialogue trees.
         for (DataCharacter currentCharacter: selectedSuspects) {
             for (DataQuestioningIntention qiData: dialogueTreeRoots.get(currentCharacter)) {
-                for (IDialogueTreeAdder adder: createAdders(
+                CreateAdderResult result = createAdders(
                     qiData, selectedClues, dialogueTrees, chosenStyles, currentCharacter
-                )) {
+                );
+                if (result.sumProvesMotive < 100) {
+                    throw new ScenarioBuilderException("Could not get enough evidence for the motive");
+                }
+                if (result.sumProvesMeans < 100) {
+                    throw new ScenarioBuilderException("Could not get enough evidence for the means");
+                }
+                for (IDialogueTreeAdder adder: result.adders) {
                     adder.addToTrees();
                 }
             }
