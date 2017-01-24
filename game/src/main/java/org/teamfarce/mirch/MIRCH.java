@@ -316,7 +316,7 @@ public class MIRCH extends ApplicationAdapter{
 			tempProps.add(prop);			
 
 
-			gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms); //generate the GameSnapshot object
+			gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, 100, 100); //generate the GameSnapshot object
 
 		} else {
 		
