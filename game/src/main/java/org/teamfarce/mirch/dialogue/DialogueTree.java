@@ -1,15 +1,16 @@
 package org.teamfarce.mirch.dialogue;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * Holds question intents for a character and has methods to select from the tree.
  */
-public class DialogueTree {
+public class DialogueTree
+{
     private List<QuestionIntent> questionIntents;
     private Set<Integer> addedQuestions;
 
@@ -18,7 +19,8 @@ public class DialogueTree {
      *
      * @param questionIntents The initial state of the dialogue tree.
      */
-    public DialogueTree(List<QuestionIntent> questionIntents) {
+    public DialogueTree(List<QuestionIntent> questionIntents)
+    {
         this.questionIntents = questionIntents;
         this.addedQuestions = new HashSet<>();
     }
@@ -26,7 +28,8 @@ public class DialogueTree {
     /**
      * Initialise an empty dialogue tree.
      */
-    public DialogueTree() {
+    public DialogueTree()
+    {
         this(new ArrayList<>());
     }
 
@@ -36,7 +39,8 @@ public class DialogueTree {
      *
      * @return The descriptions.
      */
-    public List<String> getAvailableIntentChoices() {
+    public List<String> getAvailableIntentChoices()
+    {
         return questionIntents.stream().map(q -> q.getDescription()).collect(Collectors.toList());
     }
 
@@ -47,7 +51,8 @@ public class DialogueTree {
      * @param intent The intention to query.
      * @return The question texts and styles.
      */
-    public List<String> getAvailableStyleChoices(int intent) {
+    public List<String> getAvailableStyleChoices(int intent)
+    {
         return questionIntents.get(intent).getAvailableStyleChoices();
     }
 
@@ -59,10 +64,11 @@ public class DialogueTree {
      * </p>
      *
      * @param intent The index of the intent to select.
-     * @param style The index of the style to select.
+     * @param style  The index of the style to select.
      * @return The result of selecting the question.
      */
-    public QuestionResult selectQuestion(int intent, int style) {
+    public QuestionResult selectQuestion(int intent, int style)
+    {
         return this.questionIntents.remove(intent).selectQuestion(style);
     }
 
@@ -71,7 +77,8 @@ public class DialogueTree {
      *
      * @param questionIntent The question intent to add.
      */
-    public void addQuestionIntent(QuestionIntent questionIntent) {
+    public void addQuestionIntent(QuestionIntent questionIntent)
+    {
         // Check that the questionIntent has not been added.
         if (addedQuestions.contains(questionIntent.getId())) {
             return;

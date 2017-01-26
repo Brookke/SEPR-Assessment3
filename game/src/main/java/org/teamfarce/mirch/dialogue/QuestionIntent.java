@@ -1,7 +1,7 @@
 package org.teamfarce.mirch.dialogue;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
  * style of questioning.
  * </p>
  */
-public class QuestionIntent {
+public class QuestionIntent
+{
     private int id;
     private List<QuestionAndResponse> questions;
     private String description;
@@ -19,11 +20,12 @@ public class QuestionIntent {
     /**
      * Initialise the question intent.
      *
-     * @param id The unqiue identifier of this question intent.
-     * @param questions The questions which can be asked with this intention.
+     * @param id          The unqiue identifier of this question intent.
+     * @param questions   The questions which can be asked with this intention.
      * @param description The description of this question intention.
      */
-    public QuestionIntent(int id, List<QuestionAndResponse> questions, String description) {
+    public QuestionIntent(int id, List<QuestionAndResponse> questions, String description)
+    {
         this.id = id;
         this.questions = questions;
         this.description = description;
@@ -32,10 +34,11 @@ public class QuestionIntent {
     /**
      * Initialise the question intent with no questions.
      *
-     * @param id The unqiue identifier of this question intent.
+     * @param id          The unqiue identifier of this question intent.
      * @param description The description of this question intention.
      */
-    public QuestionIntent(int id, String description) {
+    public QuestionIntent(int id, String description)
+    {
         this(id, new ArrayList<>(), description);
     }
 
@@ -44,7 +47,8 @@ public class QuestionIntent {
      *
      * @return The description of the question intent.
      */
-    public String getDescription() {
+    public String getDescription()
+    {
         return this.description;
     }
 
@@ -53,7 +57,8 @@ public class QuestionIntent {
      *
      * @return A list of styles and the associated question text.
      */
-    public List<String> getAvailableStyleChoices() {
+    public List<String> getAvailableStyleChoices()
+    {
         return questions.stream().map(q -> q.getDescription()).collect(Collectors.toList());
     }
 
@@ -63,7 +68,8 @@ public class QuestionIntent {
      * @param style The index of the style to select.
      * @return The result of asking the question.
      */
-    public QuestionResult selectQuestion(int style) {
+    public QuestionResult selectQuestion(int style)
+    {
         return questions.get(style).ask();
     }
 
@@ -72,7 +78,8 @@ public class QuestionIntent {
      *
      * @param question The question to add.
      */
-    public void addQuestion(QuestionAndResponse question) {
+    public void addQuestion(QuestionAndResponse question)
+    {
         this.questions.add(question);
     }
 
@@ -81,7 +88,8 @@ public class QuestionIntent {
      *
      * @return The id
      */
-    public int getId() {
+    public int getId()
+    {
         return this.id;
     }
 }

@@ -1,7 +1,8 @@
 package org.teamfarce.mirch.dialogue;
 
-import java.util.Collection;
 import org.teamfarce.mirch.Clue;
+
+import java.util.Collection;
 
 /**
  * Holds the information which is returned by asking a question in the dialogue system.
@@ -10,7 +11,8 @@ import org.teamfarce.mirch.Clue;
  * have public access.
  * </p>
  */
-public class QuestionResult {
+public class QuestionResult
+{
     /**
      * The response of the question.
      */
@@ -25,9 +27,10 @@ public class QuestionResult {
      * Constructs a question result.
      *
      * @param response The textual response of the question.
-     * @param clues The clues provided by the question.
+     * @param clues    The clues provided by the question.
      */
-    public QuestionResult(String response, Collection<Clue> clues) {
+    public QuestionResult(String response, Collection<Clue> clues)
+    {
         this.response = response;
         this.clues = clues;
     }

@@ -6,41 +6,40 @@ import org.teamfarce.mirch.dialogue.DialogueTree;
 /**
  * Stores information about a single suspect character.
  */
-public class Suspect extends MapEntity {
-    private boolean beenAccused;
+public class Suspect extends MapEntity
+{
     public boolean isMurderer;
-
     /**
      * The dialogue tree of this suspect.
      */
     public DialogueTree dialogueTree;
-
     /**
      * The position of the suspect on the map.
      */
     public Vector2 mapPosition;
-
     /**
      * The size of this suspect's step.
      */
     public Vector2 moveStep;
+    private boolean beenAccused;
 
     /**
      * Initialiser function.
      *
-     * @param name A string for the name
-     * @param description A string description 
-     * @param filename The filename of the image for this suspect.
+     * @param name             A string for the name
+     * @param description      A string description
+     * @param filename         The filename of the image for this suspect.
      * @param startingPosition The position to start at.
-     * @param dialogueTree The dialogue tree for this suspect.
+     * @param dialogueTree     The dialogue tree for this suspect.
      */
     public Suspect(
-        String name,
-        String description,
-        String filename,
-        Vector2 startingPosition,
-        DialogueTree dialogueTree
-    ) {
+            String name,
+            String description,
+            String filename,
+            Vector2 startingPosition,
+            DialogueTree dialogueTree
+    )
+    {
         super(name, description, filename);
 
         this.beenAccused = false;
@@ -54,12 +53,15 @@ public class Suspect extends MapEntity {
      * Initialiser function.
      *
      * @param filename The filename of the image for this suspect.
-     * @param pos The position to start at.
+     * @param pos      The position to start at.
      */
-    public Suspect(String filename, Vector2 pos){
+    public Suspect(String filename, Vector2 pos)
+    {
         super(null, null, filename);
         this.mapPosition = pos;
-    };
+    }
+
+    ;
 
     /**
      * Accuse the suspect.
@@ -71,10 +73,11 @@ public class Suspect extends MapEntity {
      * @param hasEvidence Whether the player has sufficient evidence the accuse
      * @return Whether the player has successfully accused the suspect
      */
-    boolean accuse(boolean hasEvidence) {
+    boolean accuse(boolean hasEvidence)
+    {
         this.beenAccused = true;
         //clear the dialogue tree here
-        return (this.isMurderer)&&(hasEvidence);
+        return (this.isMurderer) && (hasEvidence);
     }
 
     /**
@@ -82,7 +85,8 @@ public class Suspect extends MapEntity {
      *
      * @return Whether the suspect has been accused.
      */
-    public boolean hasBeenAccused() {
+    public boolean hasBeenAccused()
+    {
         return beenAccused;
     }
 
@@ -91,7 +95,8 @@ public class Suspect extends MapEntity {
      *
      * @return The position of the suspect.
      */
-    public Vector2 getPosition(){
+    public Vector2 getPosition()
+    {
         return this.mapPosition;
     }
 }

@@ -7,17 +7,23 @@ package org.teamfarce.mirch.dialogue;
  * questionIntent will be added to any dialogueTree.
  * </p>
  */
-public class NullDialogueTreeAdder implements IDialogueTreeAdder {
+public class NullDialogueTreeAdder implements IDialogueTreeAdder
+{
     /**
      * Construct a NullDialogueTreeAdder.
      */
-    public NullDialogueTreeAdder() {}
+    public NullDialogueTreeAdder()
+    {
+    }
 
     @Override
-    public void addToTrees() {}
+    public void addToTrees()
+    {
+    }
 
     @Override
-    public IDialogueTreeAdder addDialogueTreeAdder(IDialogueTreeAdder other) {
+    public IDialogueTreeAdder addDialogueTreeAdder(IDialogueTreeAdder other)
+    {
         return other;
     }
 }

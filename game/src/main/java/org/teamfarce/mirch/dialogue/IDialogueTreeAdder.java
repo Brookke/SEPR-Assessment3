@@ -3,7 +3,8 @@ package org.teamfarce.mirch.dialogue;
 /**
  * An object which adds to some dialogue trees when invoked.
  */
-public interface IDialogueTreeAdder {
+public interface IDialogueTreeAdder
+{
     /**
      * This method adds to the dialogue trees.
      */

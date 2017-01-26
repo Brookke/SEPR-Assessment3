@@ -5,8 +5,9 @@ package org.teamfarce.mirch;
  *
  * @author Jacob Wunwin
  */
-public class Clue {
-	//score values until you can accuse someone
+public class Clue
+{
+    //score values until you can accuse someone
     public int provesMotive;
     public int provesMean;
     public String name;
@@ -14,9 +15,10 @@ public class Clue {
     /**
      * Initialiser function.
      */
-    Clue(int motiveScore, int meansScore, String name) {
-    	this.provesMotive = motiveScore;
-    	this.provesMean = meansScore;
-    	this.name = name;
+    Clue(int motiveScore, int meansScore, String name)
+    {
+        this.provesMotive = motiveScore;
+        this.provesMean = meansScore;
+        this.name = name;
     }
 }

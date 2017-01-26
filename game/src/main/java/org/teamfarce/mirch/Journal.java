@@ -8,7 +8,8 @@ import java.util.ArrayList;
  * This includes a list of all props discovered, and a log of all conversations.
  * </p>
  */
-public class Journal {
+public class Journal
+{
     public ArrayList<Prop> foundProps;
     public ArrayList<Clue> foundClues;
 
@@ -20,7 +21,8 @@ public class Journal {
     /**
      * Initialise the Journal in an empty state.
      */
-    public Journal() {
+    public Journal()
+    {
         this.foundProps = new ArrayList<Prop>();
         this.conversations = "";
         this.foundClues = new ArrayList<Clue>();
@@ -31,7 +33,8 @@ public class Journal {
      *
      * @param prop The prop to add.
      */
-    public void addProp(Prop prop) {
+    public void addProp(Prop prop)
+    {
         this.foundProps.add(prop);
     }
 
@@ -40,19 +43,21 @@ public class Journal {
      *
      * @param clue The clue to add.
      */
-    public void addClue(Clue clue) {
+    public void addClue(Clue clue)
+    {
         this.foundClues.add(clue);
     }
 
     /**
      * Add a conversation with a given character to the journal.
      *
-     * @param text The text to add the journal.
+     * @param text          The text to add the journal.
      * @param characterName The character name to associate with the journal.
      */
-    public void addConversation(String text, String characterName) {
+    public void addConversation(String text, String characterName)
+    {
         this.conversations = String.format(
-            "%1$s: %2$s\n%3$s", characterName, text, this.conversations
+                "%1$s: %2$s\n%3$s", characterName, text, this.conversations
         );
     }
 
@@ -61,7 +66,8 @@ public class Journal {
      *
      * @return The props.
      */
-    ArrayList<Prop> getProps() {
+    ArrayList<Prop> getProps()
+    {
         return this.foundProps;
     }
 }
