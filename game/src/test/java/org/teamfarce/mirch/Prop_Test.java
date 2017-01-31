@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Entities.Prop;
 
 /**
  * Tests functions in the PROP class
@@ -25,7 +26,7 @@ public class Prop_Test {
 		Vector2 roomPos = new Vector2(1, 2);
 		Prop prop = new Prop(filename, room, roomPos);
 		
-		assertEquals(filename, prop.filename);
+		assertEquals(filename, prop.getFilename());
 		assertEquals(room, prop.currentRoom);
 		assertEquals(roomPos, prop.roomPosition);
 	}

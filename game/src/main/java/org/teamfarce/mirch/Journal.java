@@ -1,5 +1,7 @@
 package org.teamfarce.mirch;
 
+import org.teamfarce.mirch.Entities.Prop;
+
 import java.util.ArrayList;
 
 /**

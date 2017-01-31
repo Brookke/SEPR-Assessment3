@@ -1,6 +1,7 @@
-package org.teamfarce.mirch;
+package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Entities.MapEntity;
 import org.teamfarce.mirch.dialogue.DialogueTree;
 
 /**
@@ -73,7 +74,7 @@ public class Suspect extends MapEntity
      * @param hasEvidence Whether the player has sufficient evidence the accuse
      * @return Whether the player has successfully accused the suspect
      */
-    boolean accuse(boolean hasEvidence)
+    public boolean accuse(boolean hasEvidence)
     {
         this.beenAccused = true;
         //clear the dialogue tree here

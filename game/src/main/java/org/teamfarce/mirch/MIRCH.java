@@ -2,7 +2,6 @@ package org.teamfarce.mirch;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -13,10 +12,7 @@ import javax.swing.JOptionPane;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,18 +20,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 
+import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
 import org.teamfarce.mirch.dialogue.*;
 
@@ -68,7 +56,7 @@ public class MIRCH extends ApplicationAdapter{
 	private int step; //stores the current loop number
 	private int characterWidth = 60;
 
-	private Sprite player;
+	public Sprite player;
 	
 	private OrthographicCamera camera;
 	
@@ -218,7 +206,7 @@ public class MIRCH extends ApplicationAdapter{
 		
 		step = 0; //initialise the step variable
 		
-		if (testGame){
+	/*	if (testGame){
 			//create temporary required items, eventually ScenarioBuilder will generate these
 			ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 
@@ -318,8 +306,7 @@ public class MIRCH extends ApplicationAdapter{
 
 			gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, 100, 100); //generate the GameSnapshot object
 
-		} else {
-		
+		} else*/ {
 			ScenarioBuilderDatabase database;
 			try {
 				database = new ScenarioBuilderDatabase("assets/db.db");
@@ -335,7 +322,7 @@ public class MIRCH extends ApplicationAdapter{
 					}
 					
 					gameSnapshot = ScenarioBuilder.generateGame(
-						database, 8, 10, 6, 6, newSet, new Random()
+						database, 10, 10, 6, 6, newSet, new Random()
 					);
 				} catch (ScenarioBuilderException e) {
 					// TODO Auto-generated catch block
@@ -360,7 +347,7 @@ public class MIRCH extends ApplicationAdapter{
 		//generate RenderItems for each prop
 		objects = new ArrayList<RenderItem>();
 		for (Prop sprop : gameSnapshot.getProps()){
-			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/objects/" + sprop.filename)));
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/objects/" + sprop.getFilename())));
 			newSprite.setPosition(sprop.currentRoom.position.x + sprop.roomPosition.x, sprop.currentRoom.position.y + sprop.roomPosition.y);
 			objects.add(new RenderItem(newSprite, sprop));
 		}
@@ -368,7 +355,7 @@ public class MIRCH extends ApplicationAdapter{
 		//generate RenderItems for each suspect
 		characters = new ArrayList<RenderItem>();
 		for (Suspect suspect : gameSnapshot.getSuspects()){
-			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/characters/" + suspect.filename)));
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/characters/" + suspect.getFilename())));
 			newSprite.setPosition(suspect.mapPosition.x, suspect.mapPosition.y);
 			characters.add(new RenderItem(newSprite, (Suspect) suspect));
 		}
@@ -582,7 +569,7 @@ public class MIRCH extends ApplicationAdapter{
 		    		  character.sprite.setY(thisY); 
 		    	  }
 	    		  
-	    		  suspect.currentRoom = (Room) thisNextRoom.object; //update the current room the suspect is in in the back end
+	    		  suspect.setRoom((Room) thisNextRoom.object); //update the current room the suspect is in in the back end
 		    	  
 	    	  } 
 	    	  

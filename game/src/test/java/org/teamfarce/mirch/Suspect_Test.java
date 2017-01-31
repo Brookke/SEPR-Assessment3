@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Entities.Suspect;
 
 /**
  * @author jacobwunwin
@@ -21,7 +22,7 @@ public class Suspect_Test {
 		Vector2 position = new Vector2(0, 1);
 		Suspect suspect = new Suspect(name, position);
 		
-		assertEquals(name, suspect.filename);
+		assertEquals(name, suspect.getFilename());
 		assertEquals(position, suspect.mapPosition);
 	}
 	

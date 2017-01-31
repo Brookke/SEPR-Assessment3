@@ -1,6 +1,9 @@
-package org.teamfarce.mirch;
+package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Clue;
+import org.teamfarce.mirch.Entities.MapEntity;
+import org.teamfarce.mirch.Room;
 
 import java.util.List;
 

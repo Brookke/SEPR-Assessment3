@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.dialogue.QuestionResult;
 
 import java.util.List;
@@ -58,8 +59,8 @@ public class InterviewGUIController
     private void genQuestionBase(Suspect suspect, Sprite player)
     {
         //Create buttons and labels
-        Label characterName = new Label(suspect.name, uiSkin);
-        Image theSuspect = new Image(new Texture(Gdx.files.internal("assets/characters/" + suspect.filename)));
+        Label characterName = new Label(suspect.getName(), uiSkin);
+        Image theSuspect = new Image(new Texture(Gdx.files.internal("assets/characters/" + suspect.getFilename())));
         Image thePlayer = new Image(player.getTexture());
         Label playerName = new Label("You", uiSkin);
 
@@ -103,7 +104,7 @@ public class InterviewGUIController
 
         QuestionResult result = suspect.dialogueTree.selectQuestion(intent, style);
         // Add the response to the diagram
-        gameSnapshot.journal.addConversation(result.response, suspect.name + " to You");
+        gameSnapshot.journal.addConversation(result.response, suspect.getName() + " to You");
         gameSnapshot.proveMeans(result.clues);
         gameSnapshot.proveMotive(result.clues);
 
@@ -297,7 +298,7 @@ public class InterviewGUIController
                             System.out.println("Button was pressed");
                             // Add the question to the journal
                             gameSnapshot.journal.addConversation(
-                                    intentChoices.get(k), "You to " + suspect.name
+                                    intentChoices.get(k), "You to " + suspect.getName()
                             );
                             genStyleScreen(suspect, player, k);
                         }

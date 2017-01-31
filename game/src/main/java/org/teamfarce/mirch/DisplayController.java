@@ -3,6 +3,7 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import org.teamfarce.mirch.Entities.Prop;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -43,9 +44,9 @@ public class DisplayController
     {
         String output;
         output = String.format(
-                "You find: \"%1$s\". It has been added to your journal.", prop.description
+                "You find: \"%1$s\". It has been added to your journal.", prop.getDescription()
         );
-        JOptionPane.showMessageDialog(null, output, prop.name, JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, output, prop.getName(), JOptionPane.PLAIN_MESSAGE);
     }
 
     /**
@@ -58,9 +59,9 @@ public class DisplayController
     {
         String output;
         output = String.format(
-                "You find: \"%1$s\". You've already found the item.", prop.description
+                "You find: \"%1$s\". You've already found the item.", prop.getDescription()
         );
-        JOptionPane.showMessageDialog(null, output, prop.name, JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, output, prop.getName(), JOptionPane.PLAIN_MESSAGE);
     }
 
     /**

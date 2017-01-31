@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import org.teamfarce.mirch.Entities.Suspect;
 
 /**
  * Generates and controlls all GUI elements in the Game. the GUIController also handles inputs

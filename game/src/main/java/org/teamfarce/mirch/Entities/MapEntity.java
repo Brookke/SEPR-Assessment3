@@ -1,6 +1,7 @@
-package org.teamfarce.mirch;
+package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Room;
 
 /**
  * Base class to represent different map entities.
@@ -79,6 +80,10 @@ public class MapEntity
     public String getName()
     {
         return this.name;
+    }
+
+    public String getFilename()  {
+        return this.filename;
     }
 
     /**

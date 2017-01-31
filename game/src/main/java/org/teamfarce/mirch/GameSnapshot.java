@@ -1,5 +1,8 @@
 package org.teamfarce.mirch;
 
+import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Suspect;
+
 import java.util.Collection;
 import java.util.List;
 
