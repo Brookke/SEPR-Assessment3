@@ -183,7 +183,7 @@ public class GUIController
      */
     void drawWinScreen()
     {
-        Texture texture = new Texture(Gdx.files.internal("assets/win_screen.png"));
+        Texture texture = new Texture(Gdx.files.internal("win_screen.png"));
         Sprite winScreen = new Sprite(texture);
         winScreen.setPosition(240, 100);
         BitmapFont font = new BitmapFont();

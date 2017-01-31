@@ -1,14 +1,17 @@
 package org.teamfarce.mirch.Entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.Room;
 
 /**
  * Base class to represent different map entities.
  */
-public class MapEntity
+public class MapEntity extends Sprite
 {
-    protected Vector2 roomPosition;
     protected Room currentRoom;
     protected String name;
     protected String description;
@@ -27,6 +30,7 @@ public class MapEntity
             String filename
     )
     {
+        super(new Texture(Gdx.files.internal(filename)));
         this.name = name;
         this.description = description;
         this.filename = filename;
@@ -37,20 +41,10 @@ public class MapEntity
      *
      * @return The room's position.
      */
-    public Vector2 getPosition()
-    {
-        return this.roomPosition;
-    }
+
 
     /**
-     * Allows the setting of the entity's position.
-     *
-     * @param position The provided position
-     */
-    public void setPosition(Vector2 position)
-    {
-        this.roomPosition = position;
-    }
+
 
     /**
      * Gets the current room the entity is within.

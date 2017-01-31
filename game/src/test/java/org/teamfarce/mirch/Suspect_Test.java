@@ -23,7 +23,8 @@ public class Suspect_Test {
 		Suspect suspect = new Suspect(name, position);
 		
 		assertEquals(name, suspect.getFilename());
-		assertEquals(position, suspect.mapPosition);
+		assertEquals(position.x, suspect.getX(), 0);
+        assertEquals(position.y, suspect.getY(), 0);
 	}
 	
 	@Test
@@ -68,8 +69,9 @@ public class Suspect_Test {
 		String name = "ji";
 		Vector2 position = new Vector2(0, 1);
 		Suspect suspect = new Suspect(name, position);
-		
-		assertEquals(position, suspect.getPosition());
+
+		assertEquals(position.x, suspect.getX(), 0);
+		assertEquals(position.y, suspect.getY(), 0);
 	}
 	
 }

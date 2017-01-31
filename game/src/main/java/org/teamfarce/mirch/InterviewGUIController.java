@@ -45,7 +45,7 @@ public class InterviewGUIController
         this.gameSnapshot = gSnapshot;
         this.batch = batch;
         this.interviewStage = new Stage();
-        Texture dialogueBackground = new Texture(Gdx.files.internal("assets/dialogue_b.png"));
+        Texture dialogueBackground = new Texture(Gdx.files.internal("dialogue_b.png"));
         this.dialogueSprite = new Sprite(dialogueBackground);
         dialogueSprite.setPosition(220, 90);
     }
@@ -60,7 +60,7 @@ public class InterviewGUIController
     {
         //Create buttons and labels
         Label characterName = new Label(suspect.getName(), uiSkin);
-        Image theSuspect = new Image(new Texture(Gdx.files.internal("assets/characters/" + suspect.getFilename())));
+        Image theSuspect = new Image(new Texture(Gdx.files.internal("characters/" + suspect.getFilename())));
         Image thePlayer = new Image(player.getTexture());
         Label playerName = new Label("You", uiSkin);
 

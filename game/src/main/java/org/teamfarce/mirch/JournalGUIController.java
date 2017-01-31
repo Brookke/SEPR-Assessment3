@@ -52,11 +52,11 @@ public class JournalGUIController
         this.journalNotepadStage = new Stage();
 
         //create a sprite for the journal background
-        Texture journalBackground = new Texture(Gdx.files.internal("assets/Open_journal.png"));
+        Texture journalBackground = new Texture(Gdx.files.internal("Open_journal.png"));
         this.journalSprite = new Sprite(journalBackground);
         this.journalSprite.setPosition(220, 90);
 
-        Texture dialogueBackground = new Texture(Gdx.files.internal("assets/dialogue_b.png"));
+        Texture dialogueBackground = new Texture(Gdx.files.internal("dialogue_b.png"));
         this.dialogueSprite = new Sprite(dialogueBackground);
         this.dialogueSprite.setPosition(220, 90);
 

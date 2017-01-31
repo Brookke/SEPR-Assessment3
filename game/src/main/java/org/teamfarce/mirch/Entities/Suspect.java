@@ -17,7 +17,6 @@ public class Suspect extends MapEntity
     /**
      * The position of the suspect on the map.
      */
-    public Vector2 mapPosition;
     /**
      * The size of this suspect's step.
      */
@@ -41,11 +40,11 @@ public class Suspect extends MapEntity
             DialogueTree dialogueTree
     )
     {
-        super(name, description, filename);
+        super(name, description, "characters/"+ filename);
 
         this.beenAccused = false;
         this.isMurderer = false;
-        this.mapPosition = startingPosition;
+        this.setPosition(startingPosition.x, startingPosition.y);
         this.moveStep = new Vector2(0, 0);
         this.dialogueTree = dialogueTree;
     }
@@ -59,7 +58,7 @@ public class Suspect extends MapEntity
     public Suspect(String filename, Vector2 pos)
     {
         super(null, null, filename);
-        this.mapPosition = pos;
+        this.setPosition(pos.x, pos.y);
     }
 
     ;
@@ -91,13 +90,4 @@ public class Suspect extends MapEntity
         return beenAccused;
     }
 
-    /**
-     * Return the position of the suspect.
-     *
-     * @return The position of the suspect.
-     */
-    public Vector2 getPosition()
-    {
-        return this.mapPosition;
-    }
 }

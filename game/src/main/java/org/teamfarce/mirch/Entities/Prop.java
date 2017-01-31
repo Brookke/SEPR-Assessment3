@@ -43,11 +43,11 @@ public class Prop extends MapEntity
             List<Clue> clues
     )
     {
-        super(name, description, filename);
+        super(name, description, "objects/" + filename);
         this.clues = clues;
         this.roomPosition = roomPosition;
         this.currentRoom = currentRoom;
-        this.filename = filename;
+        this.filename = "objects/" + filename;
     }
 
     /**
