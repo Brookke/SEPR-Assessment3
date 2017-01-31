@@ -76,7 +76,8 @@ public class GameSnapshot_Test {
 
 		assertSame(motive + addedMotive, gameSnapshot.motiveProven);
 	}
-	
+
+	/*
 	@Test
 	public void test_isMeansProven(){
 		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
@@ -104,5 +105,5 @@ public class GameSnapshot_Test {
 		gameSnapshot.motiveProven = 101; //test above the boundary
 		assertTrue(gameSnapshot.isMotiveProven());
 	}
-	
+	*/
 }
