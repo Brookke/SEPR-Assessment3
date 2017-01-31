@@ -1,10 +1,14 @@
 package org.teamfarce.mirch.Entities;
 
+import com.badlogic.gdx.math.Vector2;
+
 /**
  * Created by brookehatton on 31/01/2017.
  */
 public class Player extends MapEntity
 {
+    private float speed = 3;
+
     /**
      * Initialise the entity.
      *
@@ -16,5 +20,11 @@ public class Player extends MapEntity
     {
         super(name, description, filename);
 
+    }
+
+    public void move(Vector2 move) {
+
+        move.scl(speed);
+        this.translate(move.x, move.y);
     }
 }

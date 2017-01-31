@@ -36,7 +36,6 @@ import org.teamfarce.mirch.dialogue.*;
  */
 public class MIRCH extends ApplicationAdapter{
 	private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
-	private Texture detectiveTexture;
 	private Texture doorwayTexture;
 	private SpriteBatch batch;
 	private GameSnapshot gameSnapshot;
@@ -50,8 +49,7 @@ public class MIRCH extends ApplicationAdapter{
 	private ArrayList<RenderItem> objects;
 	private ArrayList<RenderItem> characters;
 	private ArrayList<RenderItem> doors;
-	
-	private float move = 3; //sets the speed at which the player move
+
 	private float characterMove = 1f;
 	private int moveStep = 50;
 	private int step; //stores the current loop number
@@ -469,7 +467,6 @@ w
 
 		
 		//render the title screen texture
-		detectiveTexture = new Texture(Gdx.files.internal("Detective_sprite.png"));
 		camera = new OrthographicCamera(); //set up the camera as an Orthographic camera
 		camera.setToOrtho(false, 1366, 768); //set the size of the window
 
@@ -510,13 +507,10 @@ w
 	    	  RenderItem currentRoom = getCurrentRoom(rooms, player); //find the current room that the player is in
 	    	  Float currentX = player.getX();
 	    	  Float currentY = player.getY();
-	    	  
-	    	  Vector2 playerMove = inputController.fetchPlayerPositionUpdate(); //get the player movement input
-	    	  
-	    	  playerMove = playerMove.scl(move); //scale the move amounts
-	    	  
-	    	  player.translate(playerMove.x, playerMove.y);
-	    	  
+
+	    	  player.move(inputController.fetchPlayerPositionUpdate());
+
+              //TODO: Fix this mess of collision handling and move it to the player...
 	    	  RenderItem newRoom = getCurrentRoom(rooms, player); //find the new current room of the player
 	    	  
 	    	  //if we are no longer in the previous room and haven't entered a door, we move the player back
