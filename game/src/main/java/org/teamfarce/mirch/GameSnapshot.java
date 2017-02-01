@@ -160,7 +160,7 @@ public class GameSnapshot
      *
      * @param state The state to set.
      */
-    void setState(GameState state)
+    public void setState(GameState state)
     {
         this.state = state;
         this.incrementTime();
@@ -184,7 +184,7 @@ public class GameSnapshot
      *
      * @param prop The prop to add.
      */
-    void journalAddProp(Prop prop)
+    public void journalAddProp(Prop prop)
     {
         this.journal.addProp(prop);
         if (prop.takeClues() != null) {

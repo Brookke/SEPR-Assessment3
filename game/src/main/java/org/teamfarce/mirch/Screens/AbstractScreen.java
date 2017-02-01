@@ -8,7 +8,7 @@ import org.teamfarce.mirch.MIRCH;
  */
 public abstract class AbstractScreen implements Screen
 {
-    private final MIRCH game;
+    protected final MIRCH game;
 
     public AbstractScreen(MIRCH game)
     {

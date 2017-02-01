@@ -72,7 +72,7 @@ public class DisplayController
      * @param objects    The objects to draw.
      * @param characters The characters to draw.
      */
-    void drawMap(
+    public void drawMap(
             ArrayList<RenderItem> rooms,
             ArrayList<RenderItem> doors,
             ArrayList<RenderItem> objects,
@@ -89,7 +89,7 @@ public class DisplayController
      *
      * @return The internal gui controller.
      */
-    GUIController drawGUI()
+    public GUIController drawGUI()
     {
         return this.guiController;
     }

@@ -155,7 +155,7 @@ public class GUIController
      * @param suspect
      * @param player
      */
-    void initialiseInterviewGUI(Suspect suspect, Sprite player)
+    public void initialiseInterviewGUI(Suspect suspect, Sprite player)
     {
         this.interviewController.initInterviewStage(suspect, player);
     }
