@@ -1,11 +1,15 @@
 package org.teamfarce.mirch;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+
 
 /**
  * Represents a room in the map.
  */
-public class Room
+public class Room extends Sprite
 {
     /**
      * This is the amount of pixels for a single room unit.
@@ -26,10 +30,11 @@ public class Room
      * Initialiser Function for Room Class.
      *
      * @param filename The filename of the background image.
-     * @param postion  The position to set.
+     * @param position  The position to set.
      */
-    Room(String filename, Vector2 position)
+    public Room(String filename, Vector2 position)
     {
+        super(new Texture(Gdx.files.internal("rooms/" + filename)));
         this.filename = filename;
         this.position = position;
     }
@@ -44,5 +49,18 @@ public class Room
     static Room constructWithUnitSizes(String filename, Vector2 position)
     {
         return new Room(filename, position.scl(pixelsPerUnit));
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null) {
+            return false;
+        } else if (obj instanceof Room) {
+            Room r = (Room) obj;
+            return r.position.x == this.position.x && r.position.y == this.position.y;
+        }
+
+        return false;
     }
 }

@@ -90,7 +90,7 @@ public class InputController
      * @param camera
      * @return
      */
-    public boolean isObjectClicked(ArrayList<RenderItem> object, Camera camera)
+    public boolean isObjectClicked(ArrayList<? extends Sprite> object, Camera camera)
     {
         // process user touch input
         if (Gdx.input.isTouched()) {
@@ -100,7 +100,7 @@ public class InputController
             camera.unproject(touchPos);
 
             for (int i = 0; i < object.size(); i++) {
-                if (this.isSpritePressed(object.get(i).sprite, touchPos)) {
+                if (this.isSpritePressed(object.get(i), touchPos)) {
                     return true;
                 }
             }
@@ -116,7 +116,7 @@ public class InputController
      * @param camera
      * @return
      */
-    public RenderItem getClickedObject(ArrayList<RenderItem> object, Camera camera)
+    public Sprite getClickedObject(ArrayList<? extends Sprite> object, Camera camera)
     {
         // process user touch input
         if (Gdx.input.isTouched()) {
@@ -126,7 +126,7 @@ public class InputController
             camera.unproject(touchPos);
 
             for (int i = 0; i < object.size(); i++) {
-                if (this.isSpritePressed(object.get(i).sprite, touchPos)) {
+                if (this.isSpritePressed(object.get(i), touchPos)) {
                     return object.get(i);
                 }
             }

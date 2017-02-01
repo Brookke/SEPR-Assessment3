@@ -38,7 +38,6 @@ import org.teamfarce.mirch.dialogue.*;
  */
 public class MIRCH extends Game {
 	private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
-	private Texture doorwayTexture;
 	public SpriteBatch batch;
 	public GameSnapshot gameSnapshot;
     private InputController inputController;
@@ -49,10 +48,10 @@ public class MIRCH extends Game {
 	
 	private Skin uiSkin;
 	
-	public ArrayList<RenderItem> rooms;
-	public ArrayList<RenderItem> objects;
-	public ArrayList<RenderItem> characters;
-	public ArrayList<RenderItem> doors;
+	public ArrayList<Room> rooms;
+	public ArrayList<Prop> objects;
+	public ArrayList<Suspect> characters;
+	public ArrayList<Door> doors;
 
 
 	public int step; //stores the current loop number
@@ -135,16 +134,16 @@ public class MIRCH extends Game {
 	 * @param player
 	 * @return
 	 */
-	public RenderItem getCurrentRoom(ArrayList<RenderItem> rooms, Sprite player){
-		for (RenderItem room : rooms){
+	public Room getCurrentRoom(ArrayList<Room> rooms, Sprite player){
+		for (Room room : rooms){
 			
-			if ((player.getX() > room.sprite.getX()) && (player.getX() + player.getWidth() < room.sprite.getX() + room.sprite.getWidth())){
-				if ((player.getY()> room.sprite.getY()) && (player.getY() + player.getHeight() < room.sprite.getY() + room.sprite.getHeight())){
+			if ((player.getX() > room.getX()) && (player.getX() + player.getWidth() < room.getX() + room.getWidth())){
+				if ((player.getY()> room.getY()) && (player.getY() + player.getHeight() < room.getY() + room.getHeight())){
 					return room;
 				}
 			}
 		}
-		return new RenderItem(new Sprite(), new Room("", new Vector2(0, 0)));
+		return null;
 	}
 	
 	/**
@@ -153,19 +152,18 @@ public class MIRCH extends Game {
 	 * @param player
 	 * @return
 	 */
-	public boolean inDoor(ArrayList<RenderItem> doors, Sprite player){
+	public boolean inDoor(ArrayList<Door> doors, Sprite player){
 		boolean toReturn = false;
 		//System.out.println("Checking door");
-		for (RenderItem doorRender: doors){
+		for (Door door: doors){
 			//System.out.println(door.startX);
 			//System.out.println(player.getX());
-			//ystem.out.println(door.endX);
+			//System.out.println(door.endX);
 			float allowedY = 50;
 			float allowedX = 50;
 			float maxX = (characterWidth / 2);
 			float maxY = (characterWidth / 2);
-			
-			Door door = (Door) doorRender.object;
+
 			
 			if (door.face == Door.Face.vertical){
 				if ((player.getX() > door.startX - maxX) && (player.getX() < door.endX - maxX )){ //reduce by characterWidth/2 as sprites are located from bottom left corner
@@ -211,7 +209,7 @@ public class MIRCH extends Game {
 	@Override
 	public void create() {
 
-
+        Assets.load();
 	    initScreens();
 	    this.setScreen(mapScreen);
 		//++++INITIALISE THE GAME++++
@@ -349,79 +347,73 @@ w
 		}
 		
 		//generate RenderItems from each room
-		rooms = new ArrayList<RenderItem>();
+		rooms = new ArrayList<>();
 		for (Room room : gameSnapshot.getRooms()){
-			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("rooms/" + room.filename)));
-			newSprite.setPosition(room.position.x, room.position.y); //generate a sprite for the room
-			rooms.add(new RenderItem(newSprite, (Room) room)); //create a new renderItem for the room
+			rooms.add(room); //create a new renderItem for the room
 		}
 		
 		//generate RenderItems for each prop
-		objects = new ArrayList<RenderItem>();
+		objects = new ArrayList<>();
 		for (Prop sprop : gameSnapshot.getProps()){
-			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal(sprop.getFilename())));
-			newSprite.setPosition(sprop.currentRoom.position.x + sprop.roomPosition.x, sprop.currentRoom.position.y + sprop.roomPosition.y);
-			objects.add(new RenderItem(newSprite, sprop));
+			sprop.setPosition(sprop.currentRoom.position.x + sprop.roomPosition.x, sprop.currentRoom.position.y + sprop.roomPosition.y);
+			objects.add(sprop);
 		}
 		
 		//generate RenderItems for each suspect
-		characters = new ArrayList<RenderItem>();
+		characters = new ArrayList<>();
 		for (Suspect suspect : gameSnapshot.getSuspects()){
-			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal(suspect.getFilename())));
-			newSprite.setPosition(suspect.getX(), suspect.getY());
-			characters.add(new RenderItem(newSprite, (Suspect) suspect));
+			characters.add(suspect);
 		}
 		
 		//Generate an ArrayList of RenderItems to store every door in the gameSnapshot
-		doorwayTexture = new Texture(Gdx.files.internal("door.png")); //create the doorway texture
-		doors = new ArrayList<RenderItem>(); //generate an arrayList to store the door RenderItems in
+		doors = new ArrayList<>(); //generate an arrayList to store the door RenderItems in
 		int allowedRoomGap = 50;
 		int doorWidth = 50;
 		int doorDepth = 30;
 		
 		//dynamically generate rooms
 		
-		for (RenderItem room : rooms){
-			for (RenderItem extRoom : rooms){		
+		for (Room room : rooms){
+			for (Room extRoom : rooms){
 				if (!extRoom.equals(room)){		
 					
 					//Checks to draw doors in the vertical adjacencys
-					if (room.sprite.getY() + room.sprite.getHeight() <= extRoom.sprite.getY() + allowedRoomGap){
+					if (room.getY() + room.getHeight() <= extRoom.getY() + allowedRoomGap){
 
-						if (room.sprite.getY()  + room.sprite.getHeight() >= extRoom.sprite.getY()  - allowedRoomGap){
+						if (room.getY()  + room.getHeight() >= extRoom.getY()  - allowedRoomGap){
 
-							boolean roomGrtExtRoom = room.sprite.getX() >= extRoom.sprite.getX();
-							boolean extRoomGrtRoom = room.sprite.getX() <= extRoom.sprite.getX();
+							boolean roomGrtExtRoom = room.getX() >= extRoom.getX();
+							boolean extRoomGrtRoom = room.getX() <= extRoom.getX();
 
-							boolean roomOverlapsExtRoom = (room.sprite.getX() + allowedRoomGap >= extRoom.sprite.getX()) && (room.sprite.getX() <= (extRoom.sprite.getX() + extRoom.sprite.getWidth()) + allowedRoomGap);
-							boolean extRoomOverlapsRoom = (extRoom.sprite.getX() + allowedRoomGap >= room.sprite.getX()) && (extRoom.sprite.getX() <= (room.sprite.getX() + room.sprite.getWidth()) + allowedRoomGap);
+							boolean roomOverlapsExtRoom = (room.getX() + allowedRoomGap >= extRoom.getX()) && (room.getX() <= (extRoom.getX() + extRoom.getWidth()) + allowedRoomGap);
+							boolean extRoomOverlapsRoom = (extRoom.getX() + allowedRoomGap >= room.getX()) && (extRoom.getX() <= (room.getX() + room.getWidth()) + allowedRoomGap);
 							if ((roomGrtExtRoom && roomOverlapsExtRoom) || (extRoomGrtRoom && extRoomOverlapsRoom)){
 								System.out.println("BX2 in range");
-								Sprite newSprite = new Sprite (doorwayTexture);
+
 
 								float correctWidth;
 								float doorX;
 
-								correctWidth = (room.sprite.getX() + room.sprite.getWidth()) - extRoom.sprite.getX();
+								correctWidth = (room.getX() + room.getWidth()) - extRoom.getX();
 								System.out.println("Corrext width");
 								System.out.println(correctWidth);
 								
 								
-								if ((Math.abs(correctWidth) > doorWidth) && (Math.abs(correctWidth) < Math.max(room.sprite.getWidth(), extRoom.sprite.getWidth()) + 50)){
-									doorX = extRoom.sprite.getX() + (correctWidth/2) - (doorWidth / 2);
+								if ((Math.abs(correctWidth) > doorWidth) && (Math.abs(correctWidth) < Math.max(room.getWidth(), extRoom.getWidth()) + 50)){
+									doorX = extRoom.getX() + (correctWidth/2) - (doorWidth / 2);
 
-									float doorY = extRoom.sprite.getY();
+									float doorY = extRoom.getY();
 									Door door = new Door (doorX - doorWidth, doorY - doorDepth, doorX + doorWidth, doorY  + doorDepth, Door.Face.vertical);
 
-									float xScale = (door.endX - door.startX)/(newSprite.getWidth());
-									float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
+									float xScale = (door.endX - door.startX)/(door.getWidth());
+									float yScale = (door.endY - door.startY)/(door.getHeight());
 									//newSprite.setScale(xScale, yScale);
 
-									newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
+									door.setSize(door.getWidth() * xScale, door.getHeight() * yScale);
 
-									newSprite.setPosition(door.startX, door.startY);
+									door.setPosition(door.startX, door.startY);
 									//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
-									doors.add(new RenderItem(newSprite, door));
+									doors.add(door);
 								}
 							}
 						}
@@ -431,41 +423,41 @@ w
 					
 					//Checks to draw doors in the horizontal adjacencys
 					
-					if (room.sprite.getX() + room.sprite.getWidth()   <= extRoom.sprite.getX() + allowedRoomGap ){
+					if (room.getX() + room.getWidth()   <= extRoom.getX() + allowedRoomGap ){
 
-						if (room.sprite.getX()  + room.sprite.getWidth()  >= extRoom.sprite.getX()  - allowedRoomGap ){
+						if (room.getX()  + room.getWidth()  >= extRoom.getX()  - allowedRoomGap ){
 
-							boolean roomGrtExtRoom = room.sprite.getY()  + 50 >= extRoom.sprite.getY();
-							boolean extRoomGrtRoom = room.sprite.getY()  <= extRoom.sprite.getY() - 50;
+							boolean roomGrtExtRoom = room.getY()  + 50 >= extRoom.getY();
+							boolean extRoomGrtRoom = room.getY()  <= extRoom.getY() - 50;
 
-							boolean roomOverlapsExtRoom = (room.sprite.getY() + allowedRoomGap >= extRoom.sprite.getY()) && (room.sprite.getY() <= (extRoom.sprite.getY() + extRoom.sprite.getHeight()) + allowedRoomGap);
-							boolean extRoomOverlapsRoom = (extRoom.sprite.getY() + allowedRoomGap >= room.sprite.getY()) && (extRoom.sprite.getY() <= (room.sprite.getY() + room.sprite.getHeight()) + allowedRoomGap);
+							boolean roomOverlapsExtRoom = (room.getY() + allowedRoomGap >= extRoom.getY()) && (room.getY() <= (extRoom.getY() + extRoom.getHeight()) + allowedRoomGap);
+							boolean extRoomOverlapsRoom = (extRoom.getY() + allowedRoomGap >= room.getY()) && (extRoom.getY() <= (room.getY() + room.getHeight()) + allowedRoomGap);
 							if ((roomGrtExtRoom && roomOverlapsExtRoom) || (extRoomGrtRoom && extRoomOverlapsRoom)){
 								System.out.println("HX2 in range");
-								Sprite newSprite = new Sprite (doorwayTexture);
+
 
 								float correctHeight;
 								float doorY;
 								
 
-								correctHeight = (room.sprite.getY() + room.sprite.getHeight()) - extRoom.sprite.getY();
-								doorY = extRoom.sprite.getY() + (correctHeight/2) - (doorWidth / 2);
+								correctHeight = (room.getY() + room.getHeight()) - extRoom.getY();
+								doorY = extRoom.getY() + (correctHeight/2) - (doorWidth / 2);
 								
-								if ((Math.abs(correctHeight) > doorWidth) && (Math.abs(correctHeight) < Math.max(room.sprite.getHeight(), extRoom.sprite.getHeight()) + 50 )){
+								if ((Math.abs(correctHeight) > doorWidth) && (Math.abs(correctHeight) < Math.max(room.getHeight(), extRoom.getHeight()) + 50 )){
 	
-									float doorX = extRoom.sprite.getX();
+									float doorX = extRoom.getX();
 									
 									Door door = new Door (doorX - doorDepth, doorY, doorX + doorDepth, doorY  + doorWidth, Door.Face.horizontal);
 	
-									float xScale = (door.endX - door.startX)/(newSprite.getWidth());
-									float yScale = (door.endY - door.startY)/(newSprite.getHeight());		
+									float xScale = (door.endX - door.startX)/(door.getWidth());
+									float yScale = (door.endY - door.startY)/(door.getHeight());
 									//newSprite.setScale(xScale, yScale);
 	
-									newSprite.setSize(newSprite.getWidth() * xScale, newSprite.getHeight() * yScale);
+									door.setSize(door.getWidth() * xScale, door.getHeight() * yScale);
 	
-									newSprite.setPosition(door.startX, door.startY);
+									door.setPosition(door.startX, door.startY);
 									//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
-									doors.add(new RenderItem(newSprite, door));
+									doors.add(door);
 								}
 							}
 						}
@@ -476,6 +468,9 @@ w
 
 				} 
 			}
+
+
+
 		}
 
 		
@@ -487,6 +482,8 @@ w
 		//initialise the player sprite
 		player = new Player("Bob", "The player to beat all players", "Detective_sprite.png");
 		player.setPosition(210, 210);
+        Room newRoom = this.getCurrentRoom(this.rooms, this.player);
+        this.player.setRoom(newRoom);
 
 		
 		//starts music "Minima.mp3" - Kevin Macleod

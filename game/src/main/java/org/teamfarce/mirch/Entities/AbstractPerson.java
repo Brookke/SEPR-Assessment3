@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class AbstractPerson extends MapEntity
 {
 
-    private float speed = 3;
+    float speed = 3;
 
     /**
      * Initialise the entity.
@@ -23,7 +23,7 @@ public abstract class AbstractPerson extends MapEntity
     }
 
     /**
-     * This controls the movment of a person
+     * This controls the movement of a person
      * @param move
      */
     public abstract void move(Vector2 move);

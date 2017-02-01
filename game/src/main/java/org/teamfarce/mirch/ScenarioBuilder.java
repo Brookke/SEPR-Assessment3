@@ -178,7 +178,7 @@ public class ScenarioBuilder
             Rectangle roomPosition = new Rectangle(0.0f, 0.0f, template.width, template.height);
 
             // Keep moving the room until it can be placed.
-            while (claimedPositions.stream().anyMatch(x -> roomPosition.overlaps(x))) {
+            while (claimedPositions.stream().anyMatch(roomPosition::overlaps)) {
                 roomPosition.setPosition(
                         roomPosition.getPosition(new Vector2()).add(conflictResolveDirection)
                 );
