@@ -1,13 +1,15 @@
 package org.teamfarce.mirch;
 
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
 /**
  * The Door Class stores the location of a single door on the map. A door is a rectangle which is drawn on the map
  * to allow unhindered transfer between rooms.
  *
  * @author jacobwunwin
  */
-public class Door
+public class Door extends Sprite
 {
     public float startX;
     public float startY;
@@ -25,6 +27,7 @@ public class Door
      */
     Door(float startX, float startY, float endX, float endY, Face face)
     {
+        super(Assets.doorwayTexture);
         this.startX = startX;
         this.startY = startY;
         this.endX = endX;
