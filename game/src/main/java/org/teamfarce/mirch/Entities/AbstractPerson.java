@@ -1,14 +1,14 @@
 package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
-import org.teamfarce.mirch.Screens.AbstractScreen;
 
 /**
- * Created by brookehatton on 31/01/2017.
+ * Created by brookehatton on 01/02/2017.
  */
-public class Player extends AbstractPerson
+public abstract class AbstractPerson extends MapEntity
 {
 
+    private float speed = 3;
 
     /**
      * Initialise the entity.
@@ -17,15 +17,16 @@ public class Player extends AbstractPerson
      * @param description The description of the entity.
      * @param filename    The filename of the image to display for the entity.
      */
-    public Player(String name, String description, String filename)
+    public AbstractPerson(String name, String description, String filename)
     {
         super(name, description, filename);
-
     }
 
-    public void move(Vector2 move) {
+    /**
+     * This controls the movment of a person
+     * @param move
+     */
+    public abstract void move(Vector2 move);
 
-        move.scl(speed);
-        this.translate(move.x, move.y);
-    }
+
 }

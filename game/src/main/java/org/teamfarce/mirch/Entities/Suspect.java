@@ -7,7 +7,7 @@ import org.teamfarce.mirch.dialogue.DialogueTree;
 /**
  * Stores information about a single suspect character.
  */
-public class Suspect extends MapEntity
+public class Suspect extends AbstractPerson
 {
     public boolean isMurderer;
     /**
@@ -90,4 +90,10 @@ public class Suspect extends MapEntity
         return beenAccused;
     }
 
+    @Override
+    public void move(Vector2 move)
+    {
+        move.scl(speed);
+        this.translate(move.x, move.y);
+    }
 }

@@ -516,16 +516,7 @@ w
 	      batch.setProjectionMatrix(camera.combined);
 	      	      
 	      //Draw the map here
-	      if (gameSnapshot.getState() == GameState.map){
-
-	    	  //store the players current room and position, so that we can later check that the player has not stepped over the room bounds
-
-	    	  
-	    	  //check if a character has been clicked
-
-	      
-	    	  //Draw the journal here
-	      } else if (gameSnapshot.getState() == GameState.journalHome){
+	      if (gameSnapshot.getState() == GameState.journalHome){
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 		      this.displayController.drawGUI().useJournalHomeView();
