@@ -3,13 +3,17 @@ package org.teamfarce.mirch.Screens.Elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import org.teamfarce.mirch.GameSnapshot;
+import org.teamfarce.mirch.GameState;
 
 /**
  * Top status bar in game
@@ -46,32 +50,61 @@ public class StatusBar
      */
     private Skin uiSkin;
 
+
+    /**
+     * Game snapshot instance
+     */
+    private GameSnapshot gameSnapshot;
+
     /**
      * The initializer for the StatusBar
      * Sets up UI controls and adds them to the stage ready for rendering
      */
-    public StatusBar()
+    public StatusBar(GameSnapshot snapshot)
     {
+        gameSnapshot = snapshot;
+
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         //TODO: Sort out skins to make this consistent with rest of app
         uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json"));
 
         Table statusBar = new Table();
+        statusBar.debugAll();
         statusBar.setSize(Gdx.graphics.getWidth(), HEIGHT);
         statusBar.setPosition(0, Gdx.graphics.getHeight() - HEIGHT);
         statusBar.row().height(HEIGHT);
         statusBar.defaults().width(WIDTH);
 
-        Label scoreLabel = new Label("Score: 0", uiSkin);
-        scoreLabel.setAlignment(Align.center, Align.center);
+        TextButton scoreLabel = new TextButton("Score: 0", uiSkin);
+        //scoreLabel.setAlignment(Align.center, Align.center);
         statusBar.add(scoreLabel).uniform();
 
         TextButton mapButton = new TextButton("Map", uiSkin);
         statusBar.add(mapButton).uniform();
 
-        TextButton inventoryButton = new TextButton("Journal", uiSkin);
-        statusBar.add(inventoryButton).uniform();
+        TextButton journalButton = new TextButton("Journal", uiSkin);
+        statusBar.add(journalButton).uniform();
+
+        //add a listener for the show interview log button
+        mapButton.addListener(new ChangeListener()
+        {
+            public void changed(ChangeEvent event, Actor actor)
+            {
+            System.out.println("Map button was pressed");
+            gameSnapshot.setState(GameState.map);
+            }
+        });
+
+        //add a listener for the show interview log button
+        journalButton.addListener(new ChangeListener()
+        {
+            public void changed(ChangeEvent event, Actor actor)
+            {
+            System.out.println("Journal button was pressed");
+            gameSnapshot.setState(GameState.journalHome);
+            }
+        });
 
         stage.addActor(statusBar);
     }

@@ -29,7 +29,7 @@ public class MapScreen extends AbstractScreen
     {
         super(game);
         this.inputController = new InputController();
-        statusBar = new StatusBar();
+        statusBar = new StatusBar(game.gameSnapshot);
     }
 
     @Override
