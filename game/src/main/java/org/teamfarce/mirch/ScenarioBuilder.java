@@ -12,75 +12,6 @@ import java.util.stream.Collectors;
 
 public class ScenarioBuilder
 {
-    public static List<DataRoomTemplate> chooseRoomTemplates(
-            ScenarioBuilderDatabase database,
-            int minRoomCount,
-            int maxRoomCount,
-            Random random
-    ) throws ScenarioBuilderException
-    {
-        WeightedSelection selector;
-        selector = new WeightedSelection(random);
-
-        // This is an arbitrary target that lies in between the minimum and maximum room count. The
-        // following process will use this as an indication of when it has enough rooms. Due to
-        // other constraints, the final room count may be different to this value but will lie in
-        // the provided maximum and minimum.
-        int targetRoomCount = minRoomCount + random.nextInt(maxRoomCount - minRoomCount + 1);
-
-        // The room templates we have selected.
-        List<DataRoomTemplate> selectedRoomTemplates = new ArrayList<>();
-
-        // A list which represents the room types we can still use. This should include the room
-        // types maxCount times. They should be removed from the list when a room template is
-        // selected from them.
-        List<DataRoomType> selectedRoomTypes = new ArrayList<>();
-
-        for (DataRoomType roomType : database.roomTypes.values()) {
-            // Include the room types which are required. These are the room types which have a
-            // minimum count larger than one.
-            for (int i = 0; i < roomType.minCount; ++i) {
-                selectedRoomTemplates.add(selector.selectWeightedObject(
-                        roomType.roomTemplates, x -> x.selectionWeight
-                ).get());
-            }
-
-            // Since we have included room templates of the current type minCount times, we can
-            // only include it maxCount - minCount more times.
-            for (int i = 0; i < roomType.maxCount - roomType.minCount; ++i) {
-                selectedRoomTypes.add(roomType);
-            }
-        }
-
-        // First check that the minimum room requirements hasn't caused us to overrun our quota.
-        if (selectedRoomTemplates.size() > maxRoomCount) {
-            throw new ScenarioBuilderException("Could not fulfil maximum room count");
-        }
-
-        // Now check that we the maximum count constraint will allow us to fulfil our minimum room
-        // count. Since every room type has been included in selectedRoomTypes maxCount - minCount
-        // times, the size of selectedRoomTypes is how many more rooms we can add. If the currently
-        // selected rooms plus to total room types we can still add are under the minimum room
-        // count, we cannot fulfil it.
-        if (selectedRoomTemplates.size() + selectedRoomTypes.size() < minRoomCount) {
-            throw new ScenarioBuilderException("Could not fulfil minimum room count");
-        }
-
-        // Shuffle our list to get a unique combination of room types.
-        Collections.shuffle(selectedRoomTypes, random);
-
-        // Keep selecting room templates whilst we haven't reached our selected room count target.
-        // Abandon this target if we run out of room types.
-        while (selectedRoomTemplates.size() < targetRoomCount && selectedRoomTypes.size() > 0) {
-            // Add the room template by selecting one from the room type "popped" off the selected
-            // room types array.
-            selectedRoomTemplates.add(selector.selectWeightedObject(
-                    selectedRoomTypes.remove(0).roomTemplates, x -> x.selectionWeight
-            ).get());
-        }
-
-        return selectedRoomTemplates;
-    }
 
     public static CharacterData chooseCharacters(
             ScenarioBuilderDatabase database,
@@ -114,7 +45,7 @@ public class ScenarioBuilder
             characterData.suspects.add(selector.selectWeightedObject(
                     potentialSuspects,
                     x -> x.selectionWeight,
-                    x -> potentialSuspects.remove(x)
+                    potentialSuspects::remove
             ).get());
         }
 
@@ -236,8 +167,6 @@ public class ScenarioBuilder
 
     public static GameSnapshot generateGame(
             ScenarioBuilderDatabase database,
-            int minRoomCount,
-            int maxRoomCount,
             int minSuspectCount,
             int maxSuspectCount,
             Set<DataQuestioningStyle> chosenStyles,
@@ -246,12 +175,6 @@ public class ScenarioBuilder
     {
         WeightedSelection selector = new WeightedSelection(random);
 
-        List<DataRoomTemplate> selectedRoomTemplates = chooseRoomTemplates(
-                database,
-                minRoomCount,
-                maxRoomCount,
-                random
-        );
 
         // Select a character motive link to use.
         DataCharacterMotiveLink selectedCharacterMotiveLink = selector.selectWeightedObject(
@@ -364,7 +287,7 @@ public class ScenarioBuilder
         ///sumProvesMeans += propsResult.sumProvesMeans;
 
         return new GameSnapshot(
-                constructedSuspects, constructedProps, constructedRooms, sumProvesMotive, sumProvesMeans
+                constructedSuspects, constructedClues, constructedRooms, sumProvesMotive, sumProvesMeans
         );
     }
 
