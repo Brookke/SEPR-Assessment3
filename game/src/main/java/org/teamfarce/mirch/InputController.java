@@ -24,7 +24,7 @@ public class InputController
     /**
      * Empty initialiser for the input controller
      */
-    InputController()
+    public InputController()
     {
 
     }
@@ -34,7 +34,7 @@ public class InputController
      *
      * @return
      */
-    Vector2 fetchPlayerPositionUpdate()
+    public Vector2 fetchPlayerPositionUpdate()
     {
         // process keyboard touch and translate the player
 
@@ -90,7 +90,7 @@ public class InputController
      * @param camera
      * @return
      */
-    boolean isObjectClicked(ArrayList<RenderItem> object, Camera camera)
+    public boolean isObjectClicked(ArrayList<RenderItem> object, Camera camera)
     {
         // process user touch input
         if (Gdx.input.isTouched()) {
@@ -116,7 +116,7 @@ public class InputController
      * @param camera
      * @return
      */
-    RenderItem getClickedObject(ArrayList<RenderItem> object, Camera camera)
+    public RenderItem getClickedObject(ArrayList<RenderItem> object, Camera camera)
     {
         // process user touch input
         if (Gdx.input.isTouched()) {

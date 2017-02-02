@@ -1,5 +1,7 @@
 package org.teamfarce.mirch;
 
+import org.teamfarce.mirch.Entities.Prop;
+
 import java.util.ArrayList;
 
 /**
@@ -66,7 +68,7 @@ public class Journal
      *
      * @return The props.
      */
-    ArrayList<Prop> getProps()
+    public ArrayList<Prop> getProps()
     {
         return this.foundProps;
     }

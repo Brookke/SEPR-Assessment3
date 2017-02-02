@@ -1,6 +1,9 @@
-package org.teamfarce.mirch;
+package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Clue;
+import org.teamfarce.mirch.Entities.MapEntity;
+import org.teamfarce.mirch.Room;
 
 import java.util.List;
 
@@ -40,11 +43,11 @@ public class Prop extends MapEntity
             List<Clue> clues
     )
     {
-        super(name, description, filename);
+        super(name, description, "objects/" + filename);
         this.clues = clues;
         this.roomPosition = roomPosition;
         this.currentRoom = currentRoom;
-        this.filename = filename;
+        this.filename = "objects/" + filename;
     }
 
     /**

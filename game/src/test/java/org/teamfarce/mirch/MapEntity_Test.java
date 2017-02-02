@@ -6,6 +6,7 @@ package org.teamfarce.mirch;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.teamfarce.mirch.Entities.MapEntity;
 
 /**
  * Test the Map Entity
@@ -41,7 +42,7 @@ public class MapEntity_Test {
 	public void test_getFileName(){
 		String input = "Test";
 		MapEntity mapEntity = new MapEntity(null, null, input);
-		assertEquals(input, mapEntity.filename);
+		assertEquals(input, mapEntity.getFilename());
 	}
 	
 

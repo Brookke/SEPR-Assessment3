@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import org.teamfarce.mirch.Entities.Suspect;
 
 /**
  * Generates and controlls all GUI elements in the Game. the GUIController also handles inputs
@@ -154,7 +155,7 @@ public class GUIController
      * @param suspect
      * @param player
      */
-    void initialiseInterviewGUI(Suspect suspect, Sprite player)
+    public void initialiseInterviewGUI(Suspect suspect, Sprite player)
     {
         this.interviewController.initInterviewStage(suspect, player);
     }
@@ -182,7 +183,7 @@ public class GUIController
      */
     void drawWinScreen()
     {
-        Texture texture = new Texture(Gdx.files.internal("assets/win_screen.png"));
+        Texture texture = new Texture(Gdx.files.internal("win_screen.png"));
         Sprite winScreen = new Sprite(texture);
         winScreen.setPosition(240, 100);
         BitmapFont font = new BitmapFont();

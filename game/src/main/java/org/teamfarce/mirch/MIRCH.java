@@ -2,7 +2,6 @@ package org.teamfarce.mirch;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -12,11 +11,9 @@ import java.lang.*;
 import javax.swing.JOptionPane;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,19 +21,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 
+import org.teamfarce.mirch.Entities.Player;
+import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
+import org.teamfarce.mirch.Screens.MapScreen;
 import org.teamfarce.mirch.dialogue.*;
 
 /**
@@ -45,38 +36,38 @@ import org.teamfarce.mirch.dialogue.*;
  * @author jacobwunwin
  *
  */
-public class MIRCH extends ApplicationAdapter{
+public class MIRCH extends Game {
 	private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
-	private Texture detectiveTexture;
 	private Texture doorwayTexture;
-	private SpriteBatch batch;
-	private GameSnapshot gameSnapshot;
+	public SpriteBatch batch;
+	public GameSnapshot gameSnapshot;
+    private InputController inputController;
+    public Game me;
 	
-	private DisplayController displayController;
-	private InputController inputController;
+	public DisplayController displayController;
+
 	
 	private Skin uiSkin;
 	
-	private ArrayList<RenderItem> rooms;
-	private ArrayList<RenderItem> objects;
-	private ArrayList<RenderItem> characters;
-	private ArrayList<RenderItem> doors;
-	
-	private float move = 3; //sets the speed at which the player move
-	private float characterMove = 1f;
-	private int moveStep = 50;
-	private int step; //stores the current loop number
+	public ArrayList<RenderItem> rooms;
+	public ArrayList<RenderItem> objects;
+	public ArrayList<RenderItem> characters;
+	public ArrayList<RenderItem> doors;
+
+
+	public int step; //stores the current loop number
 	private int characterWidth = 60;
 
-	private Sprite player;
+	public Player player;
 	
-	private OrthographicCamera camera;
+	public OrthographicCamera camera;
 	
 	private Music music_background;
 	
 	private boolean testGame = false;
-	
-	/**
+    private MapScreen mapScreen;
+
+    /**
      * Controls the initial character traits selection at the start of the game.
      * <p>
      * Selection is made through a series of pop up windows.
@@ -144,7 +135,7 @@ public class MIRCH extends ApplicationAdapter{
 	 * @param player
 	 * @return
 	 */
-	private RenderItem getCurrentRoom(ArrayList<RenderItem> rooms, Sprite player){
+	public RenderItem getCurrentRoom(ArrayList<RenderItem> rooms, Sprite player){
 		for (RenderItem room : rooms){
 			
 			if ((player.getX() > room.sprite.getX()) && (player.getX() + player.getWidth() < room.sprite.getX() + room.sprite.getWidth())){
@@ -162,7 +153,7 @@ public class MIRCH extends ApplicationAdapter{
 	 * @param player
 	 * @return
 	 */
-	protected boolean inDoor(ArrayList<RenderItem> doors, Sprite player){
+	public boolean inDoor(ArrayList<RenderItem> doors, Sprite player){
 		boolean toReturn = false;
 		//System.out.println("Checking door");
 		for (RenderItem doorRender: doors){
@@ -204,21 +195,30 @@ public class MIRCH extends ApplicationAdapter{
 	 * Plays music in the background
 	 */
 	private void playMusic(){
-		music_background = Gdx.audio.newMusic(Gdx.files.internal("assets/music/Minima.mp3"));
+		music_background = Gdx.audio.newMusic(Gdx.files.internal("music/Minima.mp3"));
 		music_background.setLooping(true);
 		music_background.play();
 	}
+
+
+	private void initScreens() {
+	    this.mapScreen = new MapScreen(this);
+    }
 
 	/**
 	 * Initialises all variables in the game and sets up the game for play.
 	 */
 	@Override
 	public void create() {
+
+
+	    initScreens();
+	    this.setScreen(mapScreen);
 		//++++INITIALISE THE GAME++++
 		
 		step = 0; //initialise the step variable
 		
-		if (testGame){
+	/*	if (testGame){
 			//create temporary required items, eventually ScenarioBuilder will generate these
 			ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 
@@ -232,7 +232,7 @@ public class MIRCH extends ApplicationAdapter{
 
 			QuestionIntent qi1 = new QuestionIntent(1, "Did you see anything suspicious?");
 			tempSuspect.dialogueTree.addQuestionIntent(qi1);
-
+w
 			QuestionAndResponse qar11 = new QuestionAndResponse(
 					"You look suspicious, what are you hiding?",
 					"Aggressive",
@@ -318,11 +318,10 @@ public class MIRCH extends ApplicationAdapter{
 
 			gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, 100, 100); //generate the GameSnapshot object
 
-		} else {
-		
+		} else*/ {
 			ScenarioBuilderDatabase database;
 			try {
-				database = new ScenarioBuilderDatabase("assets/db.db");
+				database = new ScenarioBuilderDatabase("db.db");
 				
 
 				try {
@@ -335,7 +334,7 @@ public class MIRCH extends ApplicationAdapter{
 					}
 					
 					gameSnapshot = ScenarioBuilder.generateGame(
-						database, 8, 10, 6, 6, newSet, new Random()
+						database, 10, 10, 6, 6, newSet, new Random()
 					);
 				} catch (ScenarioBuilderException e) {
 					// TODO Auto-generated catch block
@@ -352,7 +351,7 @@ public class MIRCH extends ApplicationAdapter{
 		//generate RenderItems from each room
 		rooms = new ArrayList<RenderItem>();
 		for (Room room : gameSnapshot.getRooms()){
-			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/rooms/" + room.filename)));
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("rooms/" + room.filename)));
 			newSprite.setPosition(room.position.x, room.position.y); //generate a sprite for the room
 			rooms.add(new RenderItem(newSprite, (Room) room)); //create a new renderItem for the room
 		}
@@ -360,7 +359,7 @@ public class MIRCH extends ApplicationAdapter{
 		//generate RenderItems for each prop
 		objects = new ArrayList<RenderItem>();
 		for (Prop sprop : gameSnapshot.getProps()){
-			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/objects/" + sprop.filename)));
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal(sprop.getFilename())));
 			newSprite.setPosition(sprop.currentRoom.position.x + sprop.roomPosition.x, sprop.currentRoom.position.y + sprop.roomPosition.y);
 			objects.add(new RenderItem(newSprite, sprop));
 		}
@@ -368,13 +367,13 @@ public class MIRCH extends ApplicationAdapter{
 		//generate RenderItems for each suspect
 		characters = new ArrayList<RenderItem>();
 		for (Suspect suspect : gameSnapshot.getSuspects()){
-			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal("assets/characters/" + suspect.filename)));
-			newSprite.setPosition(suspect.mapPosition.x, suspect.mapPosition.y);
+			Sprite newSprite = new Sprite(new Texture(Gdx.files.internal(suspect.getFilename())));
+			newSprite.setPosition(suspect.getX(), suspect.getY());
 			characters.add(new RenderItem(newSprite, (Suspect) suspect));
 		}
 		
 		//Generate an ArrayList of RenderItems to store every door in the gameSnapshot
-		doorwayTexture = new Texture(Gdx.files.internal("assets/door.png")); //create the doorway texture
+		doorwayTexture = new Texture(Gdx.files.internal("door.png")); //create the doorway texture
 		doors = new ArrayList<RenderItem>(); //generate an arrayList to store the door RenderItems in
 		int allowedRoomGap = 50;
 		int doorWidth = 50;
@@ -481,13 +480,12 @@ public class MIRCH extends ApplicationAdapter{
 
 		
 		//render the title screen texture
-		detectiveTexture = new Texture(Gdx.files.internal("assets/Detective_sprite.png"));
 		camera = new OrthographicCamera(); //set up the camera as an Orthographic camera
 		camera.setToOrtho(false, 1366, 768); //set the size of the window
 
-		batch = new SpriteBatch(); //create a new sprite batch - used to display sprites onto the screen		
+		batch = new SpriteBatch(); //create a new sprite batch - used to display sprites onto the screen
 		//initialise the player sprite
-		player = new Sprite(detectiveTexture);
+		player = new Player("Bob", "The player to beat all players", "Detective_sprite.png");
 		player.setPosition(210, 210);
 
 		
@@ -496,8 +494,8 @@ public class MIRCH extends ApplicationAdapter{
 			playMusic();
 		}
 		
-		uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_pretty/skin.json")); //load ui skin from assets
-		//uiSkin = new Skin(Gdx.files.internal("assets/skins/skin_default/uiskin.json")); //load ui skin from assets
+		uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json")); //load ui skin from assets
+		//uiSkin = new Skin(Gdx.files.internal("skins/skin_default/uiskin.json")); //load ui skin from assets
 		
 		this.displayController = new DisplayController(uiSkin, gameSnapshot, batch);
 		this.inputController = new InputController();
@@ -510,110 +508,15 @@ public class MIRCH extends ApplicationAdapter{
 	 */
 	@Override
 	public void render() {
-	      Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
-	      Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        super.render();
 	      
 	      batch.setProjectionMatrix(camera.combined);
 	      	      
 	      //Draw the map here
-	      if (gameSnapshot.getState() == GameState.map){
-
-	    	  //store the players current room and position, so that we can later check that the player has not stepped over the room bounds
-	    	  RenderItem currentRoom = getCurrentRoom(rooms, player); //find the current room that the player is in
-	    	  Float currentX = player.getX();
-	    	  Float currentY = player.getY();
-	    	  
-	    	  Vector2 playerMove = inputController.fetchPlayerPositionUpdate(); //get the player movement input
-	    	  
-	    	  playerMove = playerMove.scl(move); //scale the move amounts
-	    	  
-	    	  player.translate(playerMove.x, playerMove.y);
-	    	  
-	    	  RenderItem newRoom = getCurrentRoom(rooms, player); //find the new current room of the player
-	    	  
-	    	  //if we are no longer in the previous room and haven't entered a door, we move the player back
-	    	  //to the old position
-	    	  if (!currentRoom.equals(newRoom) && !inDoor(doors, player)){
-	    		  player.setX(currentX);
-	    		  player.setY(currentY); 
-	    	  }
-	    	  
-	    	  java.util.Random random = new java.util.Random();
-	    	  //System.out.println(random.nextInt(10));
-	    	  
-	    	  //loop through each suspect character, moving them randomly
-	    	  for (RenderItem character: characters){
-	    		  if ((step % moveStep) == 0){
-	    			  //System.out.println("Updating move step");
-	    			  //Carries out a probability check to determine whether the character should move or stay stationary
-	    			  //This gives the characters a 'meandering' look
-	    			  if (random.nextInt(2) >= 1){ 
-	    				  //calculate the new move vector for the character
-		    			  float randX =  (float) random.nextInt((int) characterMove * 2 + 1) - characterMove;
-			    		  float randY = (float) random.nextInt((int) characterMove * 2 + 1) - characterMove;
-			    		  //System.out.println(randX); 
-		    			  Suspect suspect = (Suspect) character.object; //store the characters current room
-		    			  suspect.moveStep = new Vector2(randX, randY);
-		    			  character.object = suspect;
-	    			  } else {
-	    				  Suspect suspect = (Suspect) character.object;
-		    			  suspect.moveStep = new Vector2(0f, 0f);
-		    			  character.object = suspect;
-	    			  }
-	    		  }
-	    		  
-	    		  //Check to ensure character is still in room
-    			  Suspect suspect = (Suspect) character.object; //retrieve the Suspect object from the renderItem
-
-	    		  
-	    		  float thisX = character.sprite.getX();
-	    		  float thisY = character.sprite.getY();
-	    		  //find the objects current room
-	    		  RenderItem thisRoom = getCurrentRoom(rooms, character.sprite);
-					
-	    		  character.sprite.translate(suspect.moveStep.x, suspect.moveStep.y); //translate the character
-	    		  
-	    		  //find the characters new room
-	    		  RenderItem thisNextRoom = getCurrentRoom(rooms, character.sprite);
-	    		  
-	    		  //check if the character has illegally left the rooms bounds, if it has move it back to its previous location
-	    		  if (!thisRoom.equals(thisNextRoom) && !inDoor(doors, character.sprite)){
-		    		  character.sprite.setX(thisX);
-		    		  character.sprite.setY(thisY); 
-		    	  }
-	    		  
-	    		  suspect.currentRoom = (Room) thisNextRoom.object; //update the current room the suspect is in in the back end
-		    	  
-	    	  } 
-	    	  
-	    	  //check if a character has been clicked
-	    	  if (inputController.isObjectClicked(characters, camera)){
-	    		  RenderItem character = inputController.getClickedObject(characters, camera);
-				  this.displayController.drawGUI().initialiseInterviewGUI((Suspect) character.object, player);
-				  gameSnapshot.setState(GameState.dialogueIntention); 
-				  
-	    	  } else if (inputController.isObjectClicked(objects, camera)){
-	    		  RenderItem object = inputController.getClickedObject(objects, camera);
-	    		  if (gameSnapshot.journal.getProps().indexOf((Prop) object.object) == -1){
-    				  this.displayController.drawItemDialogue((Prop) object.object);
-					  gameSnapshot.journalAddProp((Prop) object.object); 
-				  } else {
-					  //otherwise we report to the user that the object is already in the journal
-    				  this.displayController.drawItemAlreadyFoundDialogue((Prop) object.object);
-				  }
-	    	  }
-	    	  
-	    	  //Draw the map to the display
-	    	  camera.position.set (new Vector3(player.getX(), player.getY(), 1)); //move the camera to follow the player
-		      camera.update();
-	    	  displayController.drawMap(rooms, doors, objects, characters);
-	    	  
-	    	  batch.begin();
-	    	  player.draw(batch);
-	    	  batch.end();
-	      
-	    	  //Draw the journal here
-	      } else if (gameSnapshot.getState() == GameState.journalHome){
+	      if (gameSnapshot.getState() == GameState.journalHome){
 	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
 		      camera.update();
 		      this.displayController.drawGUI().useJournalHomeView();

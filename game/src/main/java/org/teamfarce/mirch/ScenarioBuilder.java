@@ -2,6 +2,8 @@ package org.teamfarce.mirch;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.*;
 import org.teamfarce.mirch.dialogue.*;
 
@@ -17,7 +19,8 @@ public class ScenarioBuilder
             Random random
     ) throws ScenarioBuilderException
     {
-        WeightedSelection selector = new WeightedSelection(random);
+        WeightedSelection selector;
+        selector = new WeightedSelection(random);
 
         // This is an arbitrary target that lies in between the minimum and maximum room count. The
         // following process will use this as an indication of when it has enough rooms. Due to
@@ -81,7 +84,7 @@ public class ScenarioBuilder
 
     public static CharacterData chooseCharacters(
             ScenarioBuilderDatabase database,
-            int minSuspectCount,
+            int minSuspectCount ,
             int maxSuspectCount,
             DataCharacterMotiveLink selectedCharacterMotiveLink,
             Random random
