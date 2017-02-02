@@ -2,13 +2,16 @@ package org.teamfarce.mirch.Screens;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import org.teamfarce.mirch.*;
 import org.teamfarce.mirch.Entities.Prop;
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.Screens.Elements.StatusBar;
 
 import java.util.Random;
 
-import static sun.audio.AudioPlayer.player;
+
 
 /**
  * Created by brookehatton on 31/01/2017.
@@ -20,17 +23,21 @@ public class MapScreen extends AbstractScreen
     private float characterMove = 1f;
     private int moveStep = 50;
 
+    private StatusBar statusBar;
 
     public MapScreen(MIRCH game)
     {
         super(game);
         this.inputController = new InputController();
+        statusBar = new StatusBar();
     }
 
     @Override
     public void show()
     {
-
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(statusBar.stage);
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
@@ -136,13 +143,13 @@ public class MapScreen extends AbstractScreen
         game.player.draw(game.batch);
         game.batch.end();
 
-
+        statusBar.render();
     }
 
     @Override
     public void resize(int width, int height)
     {
-
+        statusBar.resize(width, height);
     }
 
     @Override
@@ -166,6 +173,6 @@ public class MapScreen extends AbstractScreen
     @Override
     public void dispose()
     {
-
+        statusBar.dispose();
     }
 }
