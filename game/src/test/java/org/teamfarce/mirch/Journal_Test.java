@@ -8,7 +8,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.badlogic.gdx.math.Vector2;
-import org.teamfarce.mirch.Entities.Prop;
 
 /**
  * Tests the journal class

@@ -42,7 +42,7 @@ public class GameSnapshot_Test {
 	public void test_getProps(){
 		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
 		
-		assertSame(gameSnapshot.getProps(), gameSnapshot.props);
+		assertSame(gameSnapshot.getClues(), gameSnapshot.props);
 	}
 	
 	@Test

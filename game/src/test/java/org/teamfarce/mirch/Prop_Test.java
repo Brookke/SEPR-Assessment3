@@ -3,14 +3,11 @@
  */
 package org.teamfarce.mirch;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
 import org.junit.Test;
 
 import com.badlogic.gdx.math.Vector2;
-import org.teamfarce.mirch.Entities.Prop;
 
 /**
  * Tests functions in the PROP class

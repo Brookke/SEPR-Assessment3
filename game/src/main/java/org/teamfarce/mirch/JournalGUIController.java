@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Clue;
 
 /**
  * The journal GUI controller draws the Journal GUI to the screen and handles any inputs
@@ -210,8 +210,8 @@ public class JournalGUIController
     {
         cluesTable.reset(); //reset the table
 
-        for (Prop prop : journal.getProps()) {
-            Label label = new Label(prop.getName() + " : " + prop.getDescription(), uiSkin);
+        for (Clue clue : journal.getClues()) {
+            Label label = new Label(clue.getName() + " : " + clue.getDescription(), uiSkin);
             cluesTable.add(label).width(280f); //set a maximum width on the row of 300 pixels
             cluesTable.row(); //end the row
         }

@@ -1,8 +1,9 @@
 package org.teamfarce.mirch;
 
-import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Clue;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Journal stores relevant information to the players progress through the game.
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Journal
 {
-    public ArrayList<Prop> foundProps;
+
     public ArrayList<Clue> foundClues;
 
     /**
@@ -25,19 +26,8 @@ public class Journal
      */
     public Journal()
     {
-        this.foundProps = new ArrayList<Prop>();
         this.conversations = "";
-        this.foundClues = new ArrayList<Clue>();
-    }
-
-    /**
-     * Add a prop to the journal.
-     *
-     * @param prop The prop to add.
-     */
-    public void addProp(Prop prop)
-    {
-        this.foundProps.add(prop);
+        this.foundClues = new ArrayList<>();
     }
 
     /**
@@ -63,13 +53,8 @@ public class Journal
         );
     }
 
-    /**
-     * Returns a list of all props clicked by the player.
-     *
-     * @return The props.
-     */
-    public ArrayList<Prop> getProps()
-    {
-        return this.foundProps;
+    public List<Clue> getClues() {
+        return this.foundClues;
     }
+
 }

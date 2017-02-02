@@ -3,12 +3,11 @@ package org.teamfarce.mirch.Screens;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import org.teamfarce.mirch.*;
-import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.map.Room;
 
 import java.util.Random;
-
-import static sun.audio.AudioPlayer.player;
 
 /**
  * Created by brookehatton on 31/01/2017.
@@ -19,12 +18,14 @@ public class MapScreen extends AbstractScreen
     private InputController inputController;
     private float characterMove = 1f;
     private int moveStep = 50;
+    private OrthogonalTiledMapRendererWithPeople tileRender;
 
 
     public MapScreen(MIRCH game)
     {
         super(game);
         this.inputController = new InputController();
+        this.tileRender = new OrthogonalTiledMapRendererWithPeople(game.player.getRoom().getTiledMap());
     }
 
     @Override
@@ -36,6 +37,7 @@ public class MapScreen extends AbstractScreen
     @Override
     public void render(float delta)
     {
+
         Room currentRoom = game.player.getRoom(); //find the current room that the player is in
         Float currentX = game.player.getX();
         Float currentY = game.player.getY();
@@ -43,18 +45,10 @@ public class MapScreen extends AbstractScreen
         game.player.move(inputController.fetchPlayerPositionUpdate());
 
         //TODO: Fix this mess of collision handling and move it to the player...
-        Room newRoom = game.getCurrentRoom(game.rooms, game.player); //find the new current room of the player
+        //Room newRoom = game.getCurrentRoom(game.rooms, game.player); //find the new current room of the player
 
         //if we are no longer in the previous room and haven't entered a door, we move the player back
         //to the old position
-        if (!currentRoom.equals(newRoom)) {
-            if (!game.inDoor(game.doors, game.player)) {
-                game.player.setX(currentX);
-                game.player.setY(currentY);
-            }
-        } else {
-            game.player.setRoom(newRoom);
-        }
 
         Random random = new Random();
         //System.out.println(random.nextInt(10));
@@ -117,20 +111,19 @@ public class MapScreen extends AbstractScreen
             game.gameSnapshot.setState(GameState.dialogueIntention);
 
         } else if (inputController.isObjectClicked(game.objects, game.camera)){
-            Prop object = (Prop) inputController.getClickedObject(game.objects, game.camera);
-            if (game.gameSnapshot.journal.getProps().indexOf(object) == -1){
-                game.displayController.drawItemDialogue(object);
-                game.gameSnapshot.journalAddProp(object);
+            Clue clue = (Clue) inputController.getClickedObject(game.objects, game.camera);
+            if (game.gameSnapshot.journal.getClues().indexOf(clue) == -1){
+                game.displayController.drawItemDialogue(clue);
+                game.gameSnapshot.journalAddClue(clue);
             } else {
                 //otherwise we report to the user that the object is already in the journal
-                game.displayController.drawItemAlreadyFoundDialogue(object);
+                game.displayController.drawItemAlreadyFoundDialogue(clue);
             }
         }
 
-        //Draw the map to the display
-        game.camera.position.set(new Vector3(game.player.getX(), game.player.getY(), 1)); //move the camera to follow the player
+        //Draw the map to the dispay
+        game.camera.position.set(new Vector3(game.player.getX(), game.player.getY(), 1)); //move the camera to follow the playerl
         game.camera.update();
-        game.displayController.drawMap(game.rooms, game.doors, game.objects, game.characters);
 
         game.batch.begin();
         game.player.draw(game.batch);

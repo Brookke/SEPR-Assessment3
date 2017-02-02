@@ -1,6 +1,6 @@
 package org.teamfarce.mirch.dialogue;
 
-import org.teamfarce.mirch.Clue;
+import org.teamfarce.mirch.Entities.Clue;
 
 import java.util.Collection;
 

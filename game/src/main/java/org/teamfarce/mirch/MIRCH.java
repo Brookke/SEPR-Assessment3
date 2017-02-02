@@ -10,25 +10,22 @@ import java.lang.*;
 
 import javax.swing.JOptionPane;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Player;
-import org.teamfarce.mirch.Entities.Prop;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
 import org.teamfarce.mirch.Screens.MapScreen;
-import org.teamfarce.mirch.dialogue.*;
+import org.teamfarce.mirch.map.Room;
 
 /**
  * MIRCH is used to generate all graphics in the program. It initialises the scenario generator and game state
@@ -41,7 +38,7 @@ public class MIRCH extends Game {
 	public SpriteBatch batch;
 	public GameSnapshot gameSnapshot;
     private InputController inputController;
-    public Game me;
+    public static MIRCH me;
 	
 	public DisplayController displayController;
 
@@ -49,7 +46,7 @@ public class MIRCH extends Game {
 	private Skin uiSkin;
 	
 	public ArrayList<Room> rooms;
-	public ArrayList<Prop> objects;
+	public ArrayList<Clue> objects;
 	public ArrayList<Suspect> characters;
 	public ArrayList<Door> doors;
 
@@ -64,7 +61,7 @@ public class MIRCH extends Game {
 	private Music music_background;
 	
 	private boolean testGame = false;
-    private MapScreen mapScreen;
+    public MapScreen mapScreen;
 
     /**
      * Controls the initial character traits selection at the start of the game.
@@ -127,25 +124,7 @@ public class MIRCH extends Game {
         
         return values;
     }
-	
-	/**
-	 * Returns a RenderItem referencing the current room that the player sprite is in.
-	 * @param rooms
-	 * @param player
-	 * @return
-	 */
-	public Room  getCurrentRoom(ArrayList<Room> rooms, Sprite player){
-		for (Room room : rooms){
-			
-			if ((player.getX() > room.getX()) && (player.getX() + player.getWidth() < room.getX() + room.getWidth())){
-				if ((player.getY()> room.getY()) && (player.getY() + player.getHeight() < room.getY() + room.getHeight())){
-					return room;
-				}
-			}
-		}
-		return null;
-	}
-	
+
 	/**
 	 * Returns true if the sprite is in a doorway.
 	 * @param doors
@@ -209,9 +188,11 @@ public class MIRCH extends Game {
 	@Override
 	public void create() {
 
+		this.me = this;
         Assets.load();
 	    initScreens();
 	    this.setScreen(mapScreen);
+
 		//++++INITIALISE THE GAME++++
 		
 		step = 0; //initialise the step variable
@@ -353,125 +334,14 @@ w
 		}
 		
 		//generate RenderItems for each prop
-		objects = new ArrayList<>();
-		for (Prop sprop : gameSnapshot.getProps()){
-			sprop.setPosition(sprop.currentRoom.getX()+ sprop.roomPosition.x, sprop.currentRoom.getY() + sprop.roomPosition.y);
-			objects.add(sprop);
-		}
+
 		
 		//generate RenderItems for each suspect
 		characters = new ArrayList<>();
 		for (Suspect suspect : gameSnapshot.getSuspects()){
 			characters.add(suspect);
 		}
-		
-		//Generate an ArrayList of RenderItems to store every door in the gameSnapshot
-		doors = new ArrayList<>(); //generate an arrayList to store the door RenderItems in
-		int allowedRoomGap = 50;
-		int doorWidth = 50;
-		int doorDepth = 30;
-		
-		//dynamically generate rooms
-		
-		for (Room room : rooms){
-			for (Room extRoom : rooms){
-				if (!extRoom.equals(room)){		
-					
-					//Checks to draw doors in the vertical adjacencys
-					if (room.getY() + room.getHeight() <= extRoom.getY() + allowedRoomGap){
 
-						if (room.getY()  + room.getHeight() >= extRoom.getY()  - allowedRoomGap){
-
-							boolean roomGrtExtRoom = room.getX() >= extRoom.getX();
-							boolean extRoomGrtRoom = room.getX() <= extRoom.getX();
-
-							boolean roomOverlapsExtRoom = (room.getX() + allowedRoomGap >= extRoom.getX()) && (room.getX() <= (extRoom.getX() + extRoom.getWidth()) + allowedRoomGap);
-							boolean extRoomOverlapsRoom = (extRoom.getX() + allowedRoomGap >= room.getX()) && (extRoom.getX() <= (room.getX() + room.getWidth()) + allowedRoomGap);
-							if ((roomGrtExtRoom && roomOverlapsExtRoom) || (extRoomGrtRoom && extRoomOverlapsRoom)){
-								System.out.println("BX2 in range");
-
-
-								float correctWidth;
-								float doorX;
-
-								correctWidth = (room.getX() + room.getWidth()) - extRoom.getX();
-								System.out.println("Corrext width");
-								System.out.println(correctWidth);
-								
-								
-								if ((Math.abs(correctWidth) > doorWidth) && (Math.abs(correctWidth) < Math.max(room.getWidth(), extRoom.getWidth()) + 50)){
-									doorX = extRoom.getX() + (correctWidth/2) - (doorWidth / 2);
-
-									float doorY = extRoom.getY();
-									Door door = new Door (doorX - doorWidth, doorY - doorDepth, doorX + doorWidth, doorY  + doorDepth, Door.Face.vertical);
-
-									float xScale = (door.endX - door.startX)/(door.getWidth());
-									float yScale = (door.endY - door.startY)/(door.getHeight());
-									//newSprite.setScale(xScale, yScale);
-
-									door.setSize(door.getWidth() * xScale, door.getHeight() * yScale);
-
-									door.setPosition(door.startX, door.startY);
-									//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
-									doors.add(door);
-								}
-							}
-						}
-					}
-					
-					
-					
-					//Checks to draw doors in the horizontal adjacencys
-					
-					if (room.getX() + room.getWidth()   <= extRoom.getX() + allowedRoomGap ){
-
-						if (room.getX()  + room.getWidth()  >= extRoom.getX()  - allowedRoomGap ){
-
-							boolean roomGrtExtRoom = room.getY()  + 50 >= extRoom.getY();
-							boolean extRoomGrtRoom = room.getY()  <= extRoom.getY() - 50;
-
-							boolean roomOverlapsExtRoom = (room.getY() + allowedRoomGap >= extRoom.getY()) && (room.getY() <= (extRoom.getY() + extRoom.getHeight()) + allowedRoomGap);
-							boolean extRoomOverlapsRoom = (extRoom.getY() + allowedRoomGap >= room.getY()) && (extRoom.getY() <= (room.getY() + room.getHeight()) + allowedRoomGap);
-							if ((roomGrtExtRoom && roomOverlapsExtRoom) || (extRoomGrtRoom && extRoomOverlapsRoom)){
-								System.out.println("HX2 in range");
-
-
-								float correctHeight;
-								float doorY;
-								
-
-								correctHeight = (room.getY() + room.getHeight()) - extRoom.getY();
-								doorY = extRoom.getY() + (correctHeight/2) - (doorWidth / 2);
-								
-								if ((Math.abs(correctHeight) > doorWidth) && (Math.abs(correctHeight) < Math.max(room.getHeight(), extRoom.getHeight()) + 50 )){
-	
-									float doorX = extRoom.getX();
-									
-									Door door = new Door (doorX - doorDepth, doorY, doorX + doorDepth, doorY  + doorWidth, Door.Face.horizontal);
-	
-									float xScale = (door.endX - door.startX)/(door.getWidth());
-									float yScale = (door.endY - door.startY)/(door.getHeight());
-									//newSprite.setScale(xScale, yScale);
-	
-									door.setSize(door.getWidth() * xScale, door.getHeight() * yScale);
-	
-									door.setPosition(door.startX, door.startY);
-									//newSprite.setRegion(door.startX, door.startY, (door.endX - door.startX)/2, door.endY - door.startY);
-									doors.add(door);
-								}
-							}
-						}
-						
-					}
-					
-
-
-				} 
-			}
-
-
-
-		}
 
 		
 		//render the title screen texture
@@ -482,8 +352,7 @@ w
 		//initialise the player sprite
 		player = new Player("Bob", "The player to beat all players", "Detective_sprite.png");
 		player.setPosition(210, 210);
-        Room newRoom = this.getCurrentRoom(this.rooms, this.player);
-        this.player.setRoom(newRoom);
+        this.player.setRoom(rooms.get(0));
 
 		
 		//starts music "Minima.mp3" - Kevin Macleod
