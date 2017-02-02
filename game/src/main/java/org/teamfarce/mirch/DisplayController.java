@@ -76,7 +76,6 @@ public class DisplayController
      */
     public void drawMap(
             ArrayList<Room> rooms,
-            ArrayList<Door> doors,
             ArrayList<Clue> clues,
             ArrayList<Suspect> characters
     )
