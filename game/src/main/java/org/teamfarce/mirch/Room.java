@@ -19,7 +19,6 @@ public class Room extends Sprite
     /**
      * The position of origin of this room
      */
-    public Vector2 position;
 
     /**
      * The filename of the image for the background of this room.
@@ -36,7 +35,7 @@ public class Room extends Sprite
     {
         super(new Texture(Gdx.files.internal("rooms/" + filename)));
         this.filename = filename;
-        this.position = position;
+        this.setPosition(position.x, position.y);
     }
 
     /**
@@ -58,7 +57,7 @@ public class Room extends Sprite
             return false;
         } else if (obj instanceof Room) {
             Room r = (Room) obj;
-            return r.position.x == this.position.x && r.position.y == this.position.y;
+            return r.getX() == this.getX() && r.getY() == this.getY();
         }
 
         return false;

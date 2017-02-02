@@ -134,7 +134,7 @@ public class MIRCH extends Game {
 	 * @param player
 	 * @return
 	 */
-	public Room getCurrentRoom(ArrayList<Room> rooms, Sprite player){
+	public Room  getCurrentRoom(ArrayList<Room> rooms, Sprite player){
 		for (Room room : rooms){
 			
 			if ((player.getX() > room.getX()) && (player.getX() + player.getWidth() < room.getX() + room.getWidth())){
@@ -332,7 +332,7 @@ w
 					}
 					
 					gameSnapshot = ScenarioBuilder.generateGame(
-						database, 10, 10, 6, 6, newSet, new Random()
+						database, 10, 10, 5, 10, newSet, new Random()
 					);
 				} catch (ScenarioBuilderException e) {
 					// TODO Auto-generated catch block
@@ -355,7 +355,7 @@ w
 		//generate RenderItems for each prop
 		objects = new ArrayList<>();
 		for (Prop sprop : gameSnapshot.getProps()){
-			sprop.setPosition(sprop.currentRoom.position.x + sprop.roomPosition.x, sprop.currentRoom.position.y + sprop.roomPosition.y);
+			sprop.setPosition(sprop.currentRoom.getX()+ sprop.roomPosition.x, sprop.currentRoom.getY() + sprop.roomPosition.y);
 			objects.add(sprop);
 		}
 		

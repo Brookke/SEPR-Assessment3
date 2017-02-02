@@ -436,7 +436,7 @@ public class ScenarioBuilder
         for (DataCharacter suspect : selectedSuspects) {
             // Select a random room and get its data which is useful for the following generation.
             int chosenRoom = random.nextInt(constructedRooms.size());
-            Vector2 chosenRoomOrigin = constructedRooms.get(chosenRoom).position;
+            Vector2 chosenRoomOrigin = new Vector2(constructedRooms.get(chosenRoom).getOriginX(), constructedRooms.get(chosenRoom).getOriginY());
             DataRoomTemplate chosenRoomTemplate = selectedRoomTemplates.get(chosenRoom);
 
             // Select a random position in the room to place the character.

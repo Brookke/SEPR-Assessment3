@@ -47,9 +47,11 @@ public class MapScreen extends AbstractScreen
 
         //if we are no longer in the previous room and haven't entered a door, we move the player back
         //to the old position
-        if (!currentRoom.equals(newRoom) && !game.inDoor(game.doors, game.player)){
-            game.player.setX(currentX);
-            game.player.setY(currentY);
+        if (!currentRoom.equals(newRoom)) {
+            if (!game.inDoor(game.doors, game.player)) {
+                game.player.setX(currentX);
+                game.player.setY(currentY);
+            }
         } else {
             game.player.setRoom(newRoom);
         }
@@ -92,10 +94,15 @@ public class MapScreen extends AbstractScreen
             //find the characters new room
             Room thisNextRoom = game.getCurrentRoom(game.rooms, character);
 
-            //check if the character has illegally left the rooms bounds, if it has move it back to its previous location
-            if ((thisNextRoom != null) && !thisRoom.equals(thisNextRoom) && !game.inDoor(game.doors, character)){
-                character.setX(thisX);
-                character.setY(thisY);
+            if (thisNextRoom == null || thisRoom == null) {
+
+                //check if the character has illegally left the rooms bounds, if it has move it back to its previous location
+            } else if (!thisRoom.equals(thisNextRoom)) {
+                if (!game.inDoor(game.doors, character)) {
+                    character.setX(thisX);
+                    character.setY(thisY);
+                }
+
             }
 
             suspect.setRoom(thisNextRoom); //update the current room the suspect is in in the back end
@@ -121,7 +128,7 @@ public class MapScreen extends AbstractScreen
         }
 
         //Draw the map to the display
-        game.camera.position.set (new Vector3(game.player.getX(), game.player.getY(), 1)); //move the camera to follow the player
+        game.camera.position.set(new Vector3(game.player.getX(), game.player.getY(), 1)); //move the camera to follow the player
         game.camera.update();
         game.displayController.drawMap(game.rooms, game.doors, game.objects, game.characters);
 
