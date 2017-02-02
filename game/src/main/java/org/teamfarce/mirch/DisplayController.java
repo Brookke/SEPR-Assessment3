@@ -3,8 +3,9 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.map.Room;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  */
 public class DisplayController
 {
-    private DisplayMap displayMap;
+    //private DisplayMap displayMap;
     private GUIController guiController;
     private Skin uiSkin;
 
@@ -30,7 +31,7 @@ public class DisplayController
      */
     DisplayController(Skin skin, GameSnapshot gSnapshot, SpriteBatch batch)
     {
-        this.displayMap = new DisplayMap(batch);
+        //this.displayMap = new DisplayMap(batch);
         this.uiSkin = skin;
         this.guiController = new GUIController(uiSkin, gSnapshot, batch);
     }
@@ -41,13 +42,13 @@ public class DisplayController
      *
      * @param prop The prop to draw the dialogue for.
      */
-    public void drawItemDialogue(Prop prop)
+    public void drawItemDialogue(Clue clue)
     {
         String output;
         output = String.format(
-                "You find: \"%1$s\". It has been added to your journal.", prop.getDescription()
+                "You find: \"%1$s\". It has been added to your journal.", clue.getDescription()
         );
-        JOptionPane.showMessageDialog(null, output, prop.getName(), JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, output, clue.getName(), JOptionPane.PLAIN_MESSAGE);
     }
 
     /**
@@ -56,13 +57,13 @@ public class DisplayController
      *
      * @param prop The prop to create a window.
      */
-    public void drawItemAlreadyFoundDialogue(Prop prop)
+    public void drawItemAlreadyFoundDialogue(Clue clue)
     {
         String output;
         output = String.format(
-                "You find: \"%1$s\". You've already found the item.", prop.getDescription()
+                "You find: \"%1$s\". You've already found the item.", clue.getDescription()
         );
-        JOptionPane.showMessageDialog(null, output, prop.getName(), JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, output, clue.getName(), JOptionPane.PLAIN_MESSAGE);
     }
 
     /**
@@ -76,11 +77,11 @@ public class DisplayController
     public void drawMap(
             ArrayList<Room> rooms,
             ArrayList<Door> doors,
-            ArrayList<Prop> objects,
+            ArrayList<Clue> clues,
             ArrayList<Suspect> characters
     )
     {
-        this.displayMap.drawMap(rooms, doors, objects, characters);
+        //drawMap(rooms, doors, clues, characters);
         this.guiController.drawControlStage();
         Gdx.input.setInputProcessor(this.guiController.controlStage);
     }
