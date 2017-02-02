@@ -2,6 +2,7 @@ package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.Entities.MapEntity;
+import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.dialogue.DialogueTree;
 
 /**
@@ -36,7 +37,7 @@ public class Suspect extends AbstractPerson
             String name,
             String description,
             String filename,
-            Vector2 startingPosition,
+            Vector2Int startingPosition,
             DialogueTree dialogueTree
     )
     {
@@ -44,7 +45,7 @@ public class Suspect extends AbstractPerson
 
         this.beenAccused = false;
         this.isMurderer = false;
-        this.setPosition(startingPosition.x, startingPosition.y);
+        this.setTileCoordinates(startingPosition.x, startingPosition.y);
         this.moveStep = new Vector2(0, 0);
         this.dialogueTree = dialogueTree;
     }
