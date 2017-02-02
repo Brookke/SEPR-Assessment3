@@ -47,7 +47,6 @@ public class Prop extends MapEntity
         this.clues = clues;
         this.roomPosition = roomPosition;
         this.currentRoom = currentRoom;
-        this.filename = "objects/" + filename;
     }
 
     /**
@@ -59,7 +58,7 @@ public class Prop extends MapEntity
      */
     public Prop(String filename, Room room, Vector2 roomPos)
     {
-        super("", "", filename);
+        super("", "","objects/" + filename);
         this.currentRoom = room;
         this.roomPosition = roomPos;
     }

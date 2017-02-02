@@ -1,7 +1,6 @@
 package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
-import org.teamfarce.mirch.Screens.AbstractScreen;
 
 /**
  * Created by brookehatton on 31/01/2017.

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Suspect;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -73,10 +74,10 @@ public class DisplayController
      * @param characters The characters to draw.
      */
     public void drawMap(
-            ArrayList<RenderItem> rooms,
-            ArrayList<RenderItem> doors,
-            ArrayList<RenderItem> objects,
-            ArrayList<RenderItem> characters
+            ArrayList<Room> rooms,
+            ArrayList<Door> doors,
+            ArrayList<Prop> objects,
+            ArrayList<Suspect> characters
     )
     {
         this.displayMap.drawMap(rooms, doors, objects, characters);

@@ -1,6 +1,9 @@
 package org.teamfarce.mirch;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Suspect;
 
 import java.util.List;
 
@@ -26,11 +29,11 @@ public class DisplayMap
      *
      * @param items The items to draw.
      */
-    private void drawRenderItems(List<RenderItem> items)
+    private void drawRenderItems(List<? extends Sprite> items)
     {
         this.batch.begin();
-        for (RenderItem item : items) {
-            item.sprite.draw(this.batch);
+        for (Sprite item : items) {
+            item.draw(this.batch);
         }
         this.batch.end();
     }
@@ -47,10 +50,10 @@ public class DisplayMap
      * @param characters The characters to draw.
      */
     public void drawMap(
-            List<RenderItem> rooms,
-            List<RenderItem> doors,
-            List<RenderItem> objects,
-            List<RenderItem> characters
+            List<Room> rooms,
+            List<Door> doors,
+            List<Prop> objects,
+            List<Suspect> characters
     )
     {
         this.drawRenderItems(rooms);

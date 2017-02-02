@@ -23,6 +23,7 @@ public class Room_Test {
 		Room room = new Room(file, position);
 		
 		assertEquals(room.filename, file);
-		assertEquals(room.position, position);
+		assertEquals(room.getX(), position.x, 0);
+		assertEquals(room.getY(), position.y, 0);
 	}
 }
