@@ -36,11 +36,6 @@ public class StatusBar
     private static final int WIDTH = Gdx.graphics.getWidth() / ITEM_COUNT;
 
     /**
-     * Background colour
-     */
-    private static final Color BACKGROUND_COLOR = new Color(0,0,0, 128);
-
-    /**
      * The stage to render the elements to
      */
     public Stage stage;
@@ -61,7 +56,6 @@ public class StatusBar
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         Table statusBar = new Table();
-        statusBar.debugAll();
         statusBar.setSize(Gdx.graphics.getWidth(), HEIGHT);
         statusBar.setPosition(0, Gdx.graphics.getHeight() - HEIGHT);
         statusBar.row().height(HEIGHT);

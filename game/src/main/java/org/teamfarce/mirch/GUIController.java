@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.teamfarce.mirch.Screens.AbstractScreen;
 import org.teamfarce.mirch.Screens.MapScreen;
-import org.teamfarce.mirch.Screens.StartScreen;
+import org.teamfarce.mirch.Screens.JournalScreen;
 
 /**
  * Generates and controls all GUI screens
@@ -15,10 +15,10 @@ import org.teamfarce.mirch.Screens.StartScreen;
 public class GUIController {
     public MIRCH game;
     public Skin uiSkin;
-    public AbstractScreen currentScreen;
+    public GameState currentState;
 
     public AbstractScreen mapScreen;
-    public AbstractScreen startScreen;
+    public AbstractScreen journalScreen;
 
     GUIController(MIRCH game) {
         this.game = game;
@@ -26,22 +26,34 @@ public class GUIController {
         uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json")); //load ui skin from assets
 
         mapScreen = new MapScreen(game, uiSkin);
-        startScreen = new StartScreen(game, uiSkin);
-
-        showMapScreen(); //TODO: change this to startScreen when implemented
+        journalScreen = new JournalScreen(game, uiSkin);
     }
 
-    public void showMapScreen() {
-        currentScreen = mapScreen;
-        updateScreen();
-    }
 
-    public void showStartScreen() {
-        currentScreen = startScreen;
-        updateScreen();
-    }
+    public void update() {
 
-    public void updateScreen() {
-        this.game.setScreen(currentScreen);
+        //Get latest game state
+        GameState newState = game.gameSnapshot.getState();
+
+        //Check if screen needs changing
+        if (currentState != newState) {
+
+            //Set new screen depending on current game state
+            switch (newState) { //TODO: Handle other states
+                case map:
+                    this.game.setScreen(mapScreen);
+                    break;
+                case journalHome:
+                    this.game.setScreen(journalScreen); //TODO: change this
+                    break;
+                default:
+                    this.game.setScreen(mapScreen);
+                    break;
+            }
+
+            //Update current screen to reflect changed screen
+            currentState = newState;
+        }
+
     }
 }
