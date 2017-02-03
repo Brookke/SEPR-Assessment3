@@ -50,19 +50,6 @@ public class Suspect extends AbstractPerson
         this.dialogueTree = dialogueTree;
     }
 
-    /**
-     * Initialiser function.
-     *
-     * @param filename The filename of the image for this suspect.
-     * @param pos      The position to start at.
-     */
-    public Suspect(String filename, Vector2 pos)
-    {
-        super(null, null, filename);
-        this.setPosition(pos.x, pos.y);
-    }
-
-    ;
 
     /**
      * Accuse the suspect.

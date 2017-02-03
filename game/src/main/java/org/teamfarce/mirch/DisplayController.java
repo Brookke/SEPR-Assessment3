@@ -82,7 +82,7 @@ public class DisplayController
     {
         //drawMap(rooms, doors, clues, characters);
         this.guiController.drawControlStage();
-        Gdx.input.setInputProcessor(this.guiController.controlStage);
+        //Gdx.input.setInputProcessor(this.guiController.controlStage);
     }
 
     /**

@@ -23,8 +23,7 @@ public class Player extends AbstractPerson
         super(name, description, filename);
 
         this.state = PersonState.STANDING;
-        this.tileCoordinates = new Vector2Int(10,10);
-        this.updatePosition();
+
 
 
     }

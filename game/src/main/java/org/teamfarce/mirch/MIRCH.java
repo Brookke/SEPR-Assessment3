@@ -305,7 +305,7 @@ w
 		batch = new SpriteBatch(); //create a new sprite batch - used to display sprites onto the screen
 		//initialise the player sprite
 		player = new Player("Bob", "The player to beat all players", "Detective_sprite.png");
-		player.setTileCoordinates(10, 10);
+		player.setTileCoordinates(7, 10);
         this.player.setRoom(rooms.get(0));
 
 		

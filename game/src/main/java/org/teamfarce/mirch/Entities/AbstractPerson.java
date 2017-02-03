@@ -42,10 +42,7 @@ public abstract class AbstractPerson extends MapEntity
     {
         return state;
     }
-
-    public void updatePosition() {
-        this.setPosition(this.tileCoordinates.x, this.tileCoordinates.y);
-    }
+    
 
     /**
      * This class is to sort a list of AbstractPerson in highest Y coordinate to lowest Y coordinate
