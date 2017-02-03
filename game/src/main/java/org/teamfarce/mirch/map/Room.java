@@ -7,12 +7,13 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import me.lihq.game.Assets;
-import me.lihq.game.GameMain;
-import me.lihq.game.Settings;
-import me.lihq.game.people.AbstractPerson.Direction;
-import me.lihq.game.people.NPC;
+import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.Entities.Direction;
+import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.MIRCH;
+import org.teamfarce.mirch.Settings;
+import org.teamfarce.mirch.Vector2Int;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -156,7 +157,7 @@ public class Room
      */
     public void addClue(Clue newClue)
     {
-        System.out.println("Added Clue " + newClue.getName() + " at location " + newClue.getPosition() + " in room " + getID());
+        System.out.println("Added Clue " + newClue.getName() + " at location " + newClue.getTileCoordinates() + " in room " + getID());
 
         if (!cluesInRoom.contains(newClue)) {
             cluesInRoom.add(newClue);
@@ -176,7 +177,7 @@ public class Room
         Clue out = null;
         //Check for a clue at that coordinate
         for (Clue c : cluesInRoom) {
-            if (c.getPosition().x == x && c.getPosition().y == y) {
+            if (c.getTileX() == x && c.getTileY() == y) {
                 out = c;
             }
         }
@@ -198,8 +199,9 @@ public class Room
         animationStateTime += delta;
 
         for (Clue c : cluesInRoom) {
-            TextureRegion currentFrame = Assets.CLUE_GLINT.getKeyFrame(animationStateTime, true);
-            batch.draw(currentFrame, c.getTileX() * Settings.TILE_SIZE, c.getTileY() * Settings.TILE_SIZE);
+            //TODO: add glint back
+            //TextureRegion currentFrame = Assets.CLUE_GLINT.getKeyFrame(animationStateTime, true);
+            //batch.draw(currentFrame, c.getTileX() * Settings.TILE_SIZE, c.getTileY() * Settings.TILE_SIZE);
         }
     }
 
@@ -256,7 +258,7 @@ public class Room
         for (int currentLayer = 0; currentLayer < amountOfLayers; currentLayer++) {
             TiledMapTileLayer tiledLayer = (TiledMapTileLayer) map.getLayers().get(currentLayer);
 
-            if (tiledLayer.getName().equals("Blood") && !GameMain.me.player.getRoom().isMurderRoom()) {
+            if (tiledLayer.getName().equals("Blood") && !this.isMurderRoom()) {
                 //Don't check the layer as the blood splat isn't there
                 emptyCellCount++;
                 continue;
@@ -289,17 +291,16 @@ public class Room
              /*
             Check to see if the player is standing in the target destination
             */
-            if (GameMain.me.player.getTileCoordinates().x == x && GameMain.me.player.getTileCoordinates().y == y) {
+            if (MIRCH.me.player.getTileCoordinates().x == x && MIRCH.me.player.getTileCoordinates().y == y) {
                 return false;
             }
 
              /*
              Check to see if any NPCs are standing in the target destination
              */
-            for (Sprite sprite : GameMain.me.getNavigationScreen().getNPCs()) {
-                NPC npc = (NPC) sprite;
+            for (Suspect suspect : MIRCH.me.characters) {
 
-                if (npc.getTileCoordinates().x == x && npc.getTileCoordinates().y == y) {
+                if (suspect.getRoom() == this && suspect.getTileCoordinates().x == x && suspect.getTileCoordinates().y == y) {
                     return false;
                 }
             }
@@ -311,7 +312,7 @@ public class Room
         Check to see if any people object has locked the target destination for them to move to
          */
         try {
-            if (this.lockedTiles[x][y] == true) {
+            if (this.lockedTiles[x][y]) {
                 return false;
             }
         } catch (Exception e) {
