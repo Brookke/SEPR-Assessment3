@@ -40,14 +40,9 @@ public class MIRCH extends Game {
 	private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
 	public SpriteBatch batch;
 	public GameSnapshot gameSnapshot;
-    private InputController inputController;
-    public Game me;
 	
-	public DisplayController displayController;
+	public GUIController guiController;
 
-	
-	private Skin uiSkin;
-	
 	public ArrayList<Room> rooms;
 	public ArrayList<Prop> objects;
 	public ArrayList<Suspect> characters;
@@ -64,7 +59,6 @@ public class MIRCH extends Game {
 	private Music music_background;
 	
 	private boolean testGame = false;
-    private MapScreen mapScreen;
 
     /**
      * Controls the initial character traits selection at the start of the game.
@@ -199,10 +193,6 @@ public class MIRCH extends Game {
 	}
 
 
-	private void initScreens() {
-	    this.mapScreen = new MapScreen(this);
-    }
-
 	/**
 	 * Initialises all variables in the game and sets up the game for play.
 	 */
@@ -210,10 +200,7 @@ public class MIRCH extends Game {
 	public void create() {
 
         Assets.load();
-	    initScreens();
-	    this.setScreen(mapScreen);
-		//++++INITIALISE THE GAME++++
-		
+
 		step = 0; //initialise the step variable
 		
 	/*	if (testGame){
@@ -490,66 +477,20 @@ w
 		if (playAnnoyingMusic){ 
 			playMusic();
 		}
-		
-		uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json")); //load ui skin from assets
-		//uiSkin = new Skin(Gdx.files.internal("skins/skin_default/uiskin.json")); //load ui skin from assets
-		
-		this.displayController = new DisplayController(uiSkin, gameSnapshot, batch);
-		this.inputController = new InputController();
 
+		//Setup screens
+		this.guiController = new GUIController(this);
 	}
 	
 	/**
-	 * The render function deals with all game logic. It recieves inputs from the input controller, 
+	 * The render function deals with all game logic. It receives inputs from the input controller,
 	 * carries out logic and pushes outputs to the screen through the display controller
 	 */
 	@Override
 	public void render() {
-        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        super.render();
-	      
-	      batch.setProjectionMatrix(camera.combined);
-	      	      
-	      //Draw the map here
-	      if (gameSnapshot.getState() == GameState.journalHome){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().useJournalHomeView();
-	    	  
-	      } else if (gameSnapshot.getState() == GameState.journalClues){	    	  
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().useJournalCluesView();
-	    	  
-	      } else if (gameSnapshot.getState() == GameState.journalQuestions){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().useJournalInterviewView();
-	    	  
-	      } else if (gameSnapshot.getState() == GameState.journalNotepad){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-	    	  this.displayController.drawGUI().useJournalNotepadView();	    	  
-	    	  
-	      } else if (gameSnapshot.getState() == GameState.dialogueIntention){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().drawInterviewGUI();
-		      
-	      }  else if (gameSnapshot.getState() == GameState.accuse){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().drawAccuseGUI();
-	      } else if (gameSnapshot.getState() == GameState.gameWon){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().drawWinScreen();
-	      }
-	      
-	      step++; //increment the step counter
-		
+		super.render();
+		batch.setProjectionMatrix(camera.combined);
+		step++; //increment the step counter
 	}
 	
 	@Override

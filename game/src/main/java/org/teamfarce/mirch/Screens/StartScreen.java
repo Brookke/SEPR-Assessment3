@@ -1,13 +1,14 @@
 package org.teamfarce.mirch.Screens;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.teamfarce.mirch.MIRCH;
 
 /**
  * Created by brookehatton on 31/01/2017.
  */
-public class Start extends AbstractScreen
+public class StartScreen extends AbstractScreen
 {
-    public Start(MIRCH game)
+    public StartScreen(MIRCH game, Skin uiSkin)
     {
         super(game);
     }

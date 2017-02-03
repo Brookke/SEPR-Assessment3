@@ -46,12 +46,6 @@ public class StatusBar
     public Stage stage;
 
     /**
-     * Styles
-     */
-    private Skin uiSkin;
-
-
-    /**
      * Game snapshot instance
      */
     private GameSnapshot gameSnapshot;
@@ -60,14 +54,11 @@ public class StatusBar
      * The initializer for the StatusBar
      * Sets up UI controls and adds them to the stage ready for rendering
      */
-    public StatusBar(GameSnapshot snapshot)
+    public StatusBar(GameSnapshot snapshot, Skin uiSkin)
     {
         gameSnapshot = snapshot;
 
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-
-        //TODO: Sort out skins to make this consistent with rest of app
-        uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json"));
 
         Table statusBar = new Table();
         statusBar.debugAll();
