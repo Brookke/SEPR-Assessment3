@@ -1,6 +1,7 @@
 package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Vector2Int;
 
 import java.util.Comparator;
 
@@ -10,8 +11,8 @@ import java.util.Comparator;
 public abstract class AbstractPerson extends MapEntity
 {
 
-    float speed = 3;
 
+    Direction direction;
     /**
      * Initialise the entity.
      *
@@ -26,9 +27,8 @@ public abstract class AbstractPerson extends MapEntity
 
     /**
      * This controls the movement of a person
-     * @param move
      */
-    public abstract void move(Vector2 move);
+    public abstract void move(Direction dir);
 
 
     /**

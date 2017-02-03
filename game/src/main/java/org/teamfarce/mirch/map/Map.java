@@ -1,6 +1,7 @@
 package org.teamfarce.mirch.map;
 
-import me.lihq.game.people.AbstractPerson.Direction;
+
+import org.teamfarce.mirch.Entities.Direction;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,23 +12,12 @@ import java.util.Random;
  */
 public class Map
 {
-    /**
-     * Store of the rooms in the map
-     */
-    private List<Room> rooms;
 
-    /**
-     * Constructs the map
-     */
-    public Map()
-    {
-        initialiseRooms();
-    }
 
     /**
      * This function initialises all the rooms of the Ron Cooke Hub and their transitions
      */
-    public void initialiseRooms()
+    public static List<Room> initialiseRooms()
     {
 
         Room mainRoom = new Room(0, "mainroom.tmx", "Main Foyer");
@@ -99,49 +89,15 @@ public class Map
         pod.addTransition(new Room.Transition().setFrom(18, 9).setTo(outside, 9, 11, Direction.EAST))    //To Outside
                 .addTransition(new Room.Transition().setFrom(18, 10).setTo(outside, 9, 12, Direction.EAST));  //To Outside
 
-        rooms = Arrays.asList(mainRoom, rch037, portersOffice, kitchen, islandOfInteraction, toilet, computerRoom, lakeHouse, outside, pod);
+        List<Room> rooms = Arrays.asList(mainRoom, rch037, portersOffice, kitchen, islandOfInteraction, toilet, computerRoom, lakeHouse, outside, pod);
 
         /**
          * Assign the murder room
          */
         rooms.get(new Random().nextInt(rooms.size())).setMurderRoom();
-    }
 
-    /**
-     * This returns a room from the list based on the id.
-     *
-     * @param id - The ID of the room they request.
-     * @return (Room) the corresponding room
-     */
-    public Room getRoom(int id)
-    {
-        for (Room room : rooms) {
-            if (room.getID() == id) return room;
-        }
-
-        return null;
-    }
-
-
-    /**
-     * Returns the amount of rooms created by the map
-     *
-     * @return (int) number of rooms
-     */
-    public int getAmountOfRooms()
-    {
-        return rooms.size();
-    }
-
-
-    /**
-     * Gets the rooms in the map
-     *
-     * @return (List<Room>) List of rooms that the map initialised
-     */
-    public List<Room> getRooms()
-    {
         return rooms;
     }
+
 
 }

@@ -287,36 +287,36 @@ public class Room
             return false;
         }
 
-        try {
-             /*
-            Check to see if the player is standing in the target destination
-            */
-            if (MIRCH.me.player.getTileCoordinates().x == x && MIRCH.me.player.getTileCoordinates().y == y) {
-                return false;
-            }
-
-             /*
-             Check to see if any NPCs are standing in the target destination
-             */
-            for (Suspect suspect : MIRCH.me.characters) {
-
-                if (suspect.getRoom() == this && suspect.getTileCoordinates().x == x && suspect.getTileCoordinates().y == y) {
-                    return false;
-                }
-            }
-        } catch (Exception e) {
-
-        }
+//        try {
+//             /*
+//            Check to see if the player is standing in the target destination
+//            */
+//            if (MIRCH.me.player.getTileCoordinates().x == x && MIRCH.me.player.getTileCoordinates().y == y) {
+//                return false;
+//            }
+//
+//             /*
+//             Check to see if any NPCs are standing in the target destination
+//             */
+//            for (Suspect suspect : MIRCH.me.characters) {
+//
+//                if (suspect.getRoom() == this && suspect.getTileCoordinates().x == x && suspect.getTileCoordinates().y == y) {
+//                    return false;
+//                }
+//            }
+//        } catch (Exception e) {
+//
+//        }
 
         /*
         Check to see if any people object has locked the target destination for them to move to
          */
-        try {
-            if (this.lockedTiles[x][y]) {
-                return false;
-            }
-        } catch (Exception e) {
-        }
+//        try {
+//            if (this.lockedTiles[x][y]) {
+//                return false;
+//            }
+//        } catch (Exception e) {
+//        }
 
         return true;
     }

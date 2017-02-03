@@ -5,6 +5,7 @@ import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.*;
 import org.teamfarce.mirch.dialogue.*;
+import org.teamfarce.mirch.map.Map;
 import org.teamfarce.mirch.map.Room;
 
 import java.util.*;
@@ -142,7 +143,7 @@ public class ScenarioBuilder
                     qarData.responseText,
                     clueData
                             .stream()
-                            .map(c -> new Clue(c.impliesMotiveRating, c.impliesMeansRating, c.description))
+                            .map(c -> new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.resource))
                             .collect(Collectors.toList())
             );
             qi.addQuestion(qar);
@@ -173,6 +174,8 @@ public class ScenarioBuilder
             Random random
     ) throws ScenarioBuilderException
     {
+
+        List<Room> rooms = Map.initialiseRooms();
         WeightedSelection selector = new WeightedSelection(random);
 
 
@@ -203,6 +206,18 @@ public class ScenarioBuilder
         Set<DataClue> selectedClues = getClues(
                 selectedMeans, selectedMotive, selectedMurderer, selectedVictim
         );
+
+        List<Clue> constructedClues = new ArrayList<>();
+
+        for (DataClue c : selectedClues) {
+            Clue tempClue = new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.resource);
+
+            Collections.shuffle(rooms);
+            tempClue.setRoom(rooms.get(0));
+            constructedClues.add(tempClue);
+        }
+
+
 
         // TODO: Misleading Clues
 
@@ -242,8 +257,8 @@ public class ScenarioBuilder
         // Construct the characters.
         for (DataCharacter suspect : selectedSuspects) {
             // Select a random room and get its data which is useful for the following generation.
-            int chosenRoom = random.nextInt(MIRCH.me.rooms.size());
-            Vector2Int chosenPosition = MIRCH.me.rooms.get(chosenRoom).getRandomLocation();
+            int chosenRoom = random.nextInt(rooms.size());
+            Vector2Int chosenPosition = rooms.get(chosenRoom).getRandomLocation();
 
             // Select a random position in the room to place the character.
 
@@ -282,12 +297,12 @@ public class ScenarioBuilder
         }
 
 
-        //List<Clue> constructedProps = propsResult.props;
-        //sumProvesMotive += propsResult.sumProvesMotive;
-        ///sumProvesMeans += propsResult.sumProvesMeans;
+//        List<Clue> constructedClues = propsResult.props;
+//        sumProvesMotive += propsResult.sumProvesMotive;
+//        sumProvesMeans += propsResult.sumProvesMeans;
 
         return new GameSnapshot(
-                constructedSuspects, constructedClues, constructedRooms, sumProvesMotive, sumProvesMeans
+                constructedSuspects, constructedClues, rooms, sumProvesMotive, sumProvesMeans
         );
     }
 

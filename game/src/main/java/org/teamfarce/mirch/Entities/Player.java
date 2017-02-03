@@ -1,6 +1,8 @@
 package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Settings;
+import org.teamfarce.mirch.Vector2Int;
 
 /**
  * Created by brookehatton on 31/01/2017.
@@ -20,11 +22,20 @@ public class Player extends AbstractPerson
     {
         super(name, description, filename);
 
+
     }
 
-    public void move(Vector2 move) {
 
-        move.scl(speed);
-        this.translate(move.x, move.y);
+    @Override
+    public void move(Direction dir) {
+
+
+
+        if (!getRoom().isWalkableTile(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy())) {
+            this.direction = dir;
+            return;
+        }
+        this.setTileCoordinates(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy());
+        this.setPosition(this.tileCoordinates.x * Settings.TILE_SIZE, this.tileCoordinates.y * Settings.TILE_SIZE);
     }
 }

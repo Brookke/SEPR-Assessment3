@@ -91,10 +91,10 @@ public class Suspect extends AbstractPerson
         return beenAccused;
     }
 
+
     @Override
-    public void move(Vector2 move)
+    public void move(Direction dir)
     {
-        move.scl(speed);
-        this.translate(move.x, move.y);
+
     }
 }

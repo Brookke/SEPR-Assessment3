@@ -37,7 +37,6 @@ public class MIRCH extends Game {
 	private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
 	public SpriteBatch batch;
 	public GameSnapshot gameSnapshot;
-    private InputController inputController;
     public static MIRCH me;
 	
 	public DisplayController displayController;
@@ -48,11 +47,9 @@ public class MIRCH extends Game {
 	public ArrayList<Room> rooms;
 	public ArrayList<Clue> objects;
 	public ArrayList<Suspect> characters;
-	public ArrayList<Door> doors;
 
 
 	public int step; //stores the current loop number
-	private int characterWidth = 60;
 
 	public Player player;
 	
@@ -125,48 +122,6 @@ public class MIRCH extends Game {
         return values;
     }
 
-	/**
-	 * Returns true if the sprite is in a doorway.
-	 * @param doors
-	 * @param player
-	 * @return
-	 */
-	public boolean inDoor(ArrayList<Door> doors, Sprite player){
-		boolean toReturn = false;
-		//System.out.println("Checking door");
-		for (Door door: doors){
-			//System.out.println(door.startX);
-			//System.out.println(player.getX());
-			//System.out.println(door.endX);
-			float allowedY = 50;
-			float allowedX = 50;
-			float maxX = (characterWidth / 2);
-			float maxY = (characterWidth / 2);
-
-			
-			if (door.face == Door.Face.vertical){
-				if ((player.getX() > door.startX - maxX) && (player.getX() < door.endX - maxX )){ //reduce by characterWidth/2 as sprites are located from bottom left corner
-					if ((player.getY() > door.startY - allowedY) && (player.getY() < door.endY + allowedY)){
-						toReturn = true;
-
-					}
-				}
-			} else {
-				if ((player.getY() > door.startY - maxY) && (player.getY() < door.endY - maxY )){ //reduce by characterWidth/2 as sprites are located from bottom left corner
-					if ((player.getX() > door.startX - allowedX) && (player.getX() < door.endX + allowedX)){
-						toReturn = true;
-
-					}
-				}
-
-			}
-			
-			
-		}
-		
-		return toReturn;
-	}
-
 	
 	/**
 	 * Plays music in the background
@@ -188,10 +143,9 @@ public class MIRCH extends Game {
 	@Override
 	public void create() {
 
-		this.me = this;
+		me = this;
         Assets.load();
-	    initScreens();
-	    this.setScreen(mapScreen);
+
 
 		//++++INITIALISE THE GAME++++
 		
@@ -313,7 +267,7 @@ w
 					}
 					
 					gameSnapshot = ScenarioBuilder.generateGame(
-						database, 10, 10, 5, 10, newSet, new Random()
+						database, 6, 10, newSet, new Random()
 					);
 				} catch (ScenarioBuilderException e) {
 					// TODO Auto-generated catch block
@@ -345,13 +299,13 @@ w
 
 		
 		//render the title screen texture
-		camera = new OrthographicCamera(); //set up the camera as an Orthographic camera
-		camera.setToOrtho(false, 1366, 768); //set the size of the window
+//		camera = new OrthographicCamera(); //set up the camera as an Orthographic camera
+//		camera.setToOrtho(false, 1366, 768); //set the size of the window
 
 		batch = new SpriteBatch(); //create a new sprite batch - used to display sprites onto the screen
 		//initialise the player sprite
 		player = new Player("Bob", "The player to beat all players", "Detective_sprite.png");
-		player.setPosition(210, 210);
+		player.setTileCoordinates(10, 10);
         this.player.setRoom(rooms.get(0));
 
 		
@@ -364,7 +318,9 @@ w
 		//uiSkin = new Skin(Gdx.files.internal("skins/skin_default/uiskin.json")); //load ui skin from assets
 		
 		this.displayController = new DisplayController(uiSkin, gameSnapshot, batch);
-		this.inputController = new InputController();
+
+        initScreens();
+        this.setScreen(mapScreen);
 
 	}
 	
@@ -379,7 +335,7 @@ w
 
         super.render();
 	      
-	      batch.setProjectionMatrix(camera.combined);
+	      //batch.setProjectionMatrix(camera.combined);
 	      	      
 	      //Draw the map here
 	      if (gameSnapshot.getState() == GameState.journalHome){

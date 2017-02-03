@@ -78,14 +78,14 @@ public class OrthogonalTiledMapRendererWithPeople extends OrthogonalTiledMapRend
     {
         beginRender();
 
-        people.sort(new PersonPositionComparator());
+        people.sort(new AbstractPerson.PersonPositionComparator());
 
         int amountOfLayers = map.getLayers().getCount();
 
         for (int currentLayer = 0; currentLayer < amountOfLayers; currentLayer++) {
             MapLayer layer = map.getLayers().get(currentLayer);
 
-            if (layer.getName().equals("Blood") && !game.player.getRoom().isMurderRoom()) {
+            if (layer.getName().equals("Blood") && !MIRCH.me.player.getRoom().isMurderRoom()) {
                 //Don't draw the layer as its not the murder room
             } else {
                 renderTileLayer((TiledMapTileLayer) layer);

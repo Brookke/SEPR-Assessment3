@@ -1,5 +1,6 @@
 package org.teamfarce.mirch;
 
+
 /**
  * This class defines a 2D vector to represent coordinates within the game.
  */
@@ -70,5 +71,11 @@ public class Vector2Int
     public String toString()
     {
         return "(" + x + "," + y + ")";
+    }
+
+    public Vector2Int scl (int scalar) {
+        x *= scalar;
+        y *= scalar;
+        return this;
     }
 }

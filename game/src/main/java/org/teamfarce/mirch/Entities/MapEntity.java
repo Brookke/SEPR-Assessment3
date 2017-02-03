@@ -40,6 +40,7 @@ public class MapEntity extends Sprite
         this.name = name;
         this.description = description;
         this.filename = filename;
+        this.tileCoordinates = new Vector2Int(0,0);
     }
 
     public void setTileCoordinates(int x, int y) {

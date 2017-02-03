@@ -15,16 +15,16 @@ import org.teamfarce.mirch.Entities.MapEntity;
  */
 public class MapEntity_Test {
 	
-	@Test
-	public void test_setRoomGetRoom(){
-		MapEntity mapEntity = new MapEntity(null, null, null);
-		
-		Room theRoom = new Room(null, null);
-		
-		mapEntity.setRoom(theRoom);
-		
-		assertEquals(theRoom, mapEntity.getRoom());
-	}
+//	@Test
+//	public void test_setRoomGetRoom(){
+//		MapEntity mapEntity = new MapEntity(null, null, null);
+//
+//		Room theRoom = new Room(null, null);
+//
+//		mapEntity.setRoom(theRoom);
+//
+//		assertEquals(theRoom, mapEntity.getRoom());
+//	}
 	
 	public void test_getName(){
 		String input = "Test";
