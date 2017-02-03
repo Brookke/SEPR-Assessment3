@@ -50,8 +50,8 @@ public class MapScreen extends AbstractScreen
     public void render(float delta)
     {
 
-
-
+        playerController.update(delta);
+        game.player.update(delta);
         camera.position.x = game.player.getX();
         camera.position.y = game.player.getY();
         camera.update();

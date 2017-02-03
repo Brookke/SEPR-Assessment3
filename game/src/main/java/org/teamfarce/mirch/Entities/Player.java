@@ -22,20 +22,30 @@ public class Player extends AbstractPerson
     {
         super(name, description, filename);
 
+        this.state = PersonState.STANDING;
+        this.tileCoordinates = new Vector2Int(10,10);
+        this.updatePosition();
+
 
     }
 
-
-    @Override
-    public void move(Direction dir) {
-
-
-
-        if (!getRoom().isWalkableTile(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy())) {
-            this.direction = dir;
+    /**
+     * This Moves the player to a new tile.
+     *
+     * @param dir the direction that the player should move in.
+     */
+    public void move(Direction dir)
+    {
+        if (this.state != PersonState.STANDING) {
             return;
         }
-        this.setTileCoordinates(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy());
-        this.setPosition(this.tileCoordinates.x * Settings.TILE_SIZE, this.tileCoordinates.y * Settings.TILE_SIZE);
+
+        if (!getRoom().isWalkableTile(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy())) {
+            //setDirection(dir);
+            return;
+        }
+
+        initialiseMove(dir);
     }
+
 }

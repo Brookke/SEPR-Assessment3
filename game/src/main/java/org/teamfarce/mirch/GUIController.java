@@ -95,7 +95,7 @@ public class GUIController
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this.journalGUI.journalStage);
         multiplexer.addProcessor(this.controlStage);
-        Gdx.input.setInputProcessor(multiplexer);
+        //Gdx.input.setInputProcessor(multiplexer);
 
         this.controlStage.draw(); //draw the global control buttons
         this.journalGUI.drawHome();
@@ -111,7 +111,7 @@ public class GUIController
         multiplexer.addProcessor(this.journalGUI.journalStage);
         multiplexer.addProcessor(this.controlStage);
         multiplexer.addProcessor(this.journalGUI.journalCluesStage);
-        Gdx.input.setInputProcessor(multiplexer);
+        //Gdx.input.setInputProcessor(multiplexer);
 
         this.controlStage.draw(); //draw the global control buttons
         this.journalGUI.drawClues();
@@ -127,7 +127,7 @@ public class GUIController
         multiplexer.addProcessor(this.journalGUI.journalStage);
         multiplexer.addProcessor(this.journalGUI.journalNotepadStage);
         multiplexer.addProcessor(this.controlStage);
-        Gdx.input.setInputProcessor(multiplexer);
+        //Gdx.input.setInputProcessor(multiplexer);
 
         this.drawControlStage();
         this.journalGUI.drawNotepad();
@@ -143,7 +143,7 @@ public class GUIController
         multiplexer.addProcessor(this.journalGUI.journalStage);
         multiplexer.addProcessor(this.journalGUI.journalQuestionsStage);
         multiplexer.addProcessor(this.controlStage);
-        Gdx.input.setInputProcessor(multiplexer);
+        //Gdx.input.setInputProcessor(multiplexer);
 
         this.drawControlStage();
         this.journalGUI.drawInterviewLog();
@@ -165,7 +165,7 @@ public class GUIController
      */
     void drawInterviewGUI()
     {
-        Gdx.input.setInputProcessor(this.interviewController.interviewStage);
+       // Gdx.input.setInputProcessor(this.interviewController.interviewStage);
         this.interviewController.display();
     }
 
@@ -174,7 +174,7 @@ public class GUIController
      */
     void drawAccuseGUI()
     {
-        Gdx.input.setInputProcessor(this.interviewController.interviewStage);
+       // Gdx.input.setInputProcessor(this.interviewController.interviewStage);
         this.interviewController.display();
     }
 
