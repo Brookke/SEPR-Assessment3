@@ -1,14 +1,19 @@
 package org.teamfarce.mirch.Screens;
 
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.teamfarce.mirch.*;
 import org.teamfarce.mirch.Entities.Prop;
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.Screens.Elements.StatusBar;
 
 import java.util.Random;
 
-import static sun.audio.AudioPlayer.player;
+
 
 /**
  * Created by brookehatton on 31/01/2017.
@@ -20,17 +25,21 @@ public class MapScreen extends AbstractScreen
     private float characterMove = 1f;
     private int moveStep = 50;
 
+    private StatusBar statusBar;
 
-    public MapScreen(MIRCH game)
+    public MapScreen(MIRCH game, Skin uiSkin)
     {
         super(game);
         this.inputController = new InputController();
+        statusBar = new StatusBar(game.gameSnapshot, uiSkin);
     }
 
     @Override
     public void show()
     {
-
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(statusBar.stage);
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
@@ -111,7 +120,7 @@ public class MapScreen extends AbstractScreen
 
         if (inputController.isObjectClicked(game.characters, game.camera)){
             Suspect character = (Suspect) inputController.getClickedObject(game.characters, game.camera);
-            game.displayController.drawGUI().initialiseInterviewGUI((Suspect) character, game.player);
+            //game.displayController.drawGUI().initialiseInterviewGUI((Suspect) character, game.player);
 
             //TODO: swap to the dialogue screen here
             game.gameSnapshot.setState(GameState.dialogueIntention);
@@ -119,30 +128,30 @@ public class MapScreen extends AbstractScreen
         } else if (inputController.isObjectClicked(game.objects, game.camera)){
             Prop object = (Prop) inputController.getClickedObject(game.objects, game.camera);
             if (game.gameSnapshot.journal.getProps().indexOf(object) == -1){
-                game.displayController.drawItemDialogue(object);
+        //        game.displayController.drawItemDialogue(object);
                 game.gameSnapshot.journalAddProp(object);
             } else {
                 //otherwise we report to the user that the object is already in the journal
-                game.displayController.drawItemAlreadyFoundDialogue(object);
+       //         game.displayController.drawItemAlreadyFoundDialogue(object);
             }
         }
 
         //Draw the map to the display
         game.camera.position.set(new Vector3(game.player.getX(), game.player.getY(), 1)); //move the camera to follow the player
         game.camera.update();
-        game.displayController.drawMap(game.rooms, game.doors, game.objects, game.characters);
+       // game.displayController.drawMap(game.rooms, game.doors, game.objects, game.characters);
 
         game.batch.begin();
         game.player.draw(game.batch);
         game.batch.end();
 
-
+        statusBar.render();
     }
 
     @Override
     public void resize(int width, int height)
     {
-
+        statusBar.resize(width, height);
     }
 
     @Override
@@ -166,6 +175,6 @@ public class MapScreen extends AbstractScreen
     @Override
     public void dispose()
     {
-
+        statusBar.dispose();
     }
 }
