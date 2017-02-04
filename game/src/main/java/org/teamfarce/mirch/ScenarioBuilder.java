@@ -1,86 +1,18 @@
 package org.teamfarce.mirch;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.*;
 import org.teamfarce.mirch.dialogue.*;
+import org.teamfarce.mirch.map.Map;
+import org.teamfarce.mirch.map.Room;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class ScenarioBuilder
 {
-    public static List<DataRoomTemplate> chooseRoomTemplates(
-            ScenarioBuilderDatabase database,
-            int minRoomCount,
-            int maxRoomCount,
-            Random random
-    ) throws ScenarioBuilderException
-    {
-        WeightedSelection selector;
-        selector = new WeightedSelection(random);
-
-        // This is an arbitrary target that lies in between the minimum and maximum room count. The
-        // following process will use this as an indication of when it has enough rooms. Due to
-        // other constraints, the final room count may be different to this value but will lie in
-        // the provided maximum and minimum.
-        int targetRoomCount = minRoomCount + random.nextInt(maxRoomCount - minRoomCount + 1);
-
-        // The room templates we have selected.
-        List<DataRoomTemplate> selectedRoomTemplates = new ArrayList<>();
-
-        // A list which represents the room types we can still use. This should include the room
-        // types maxCount times. They should be removed from the list when a room template is
-        // selected from them.
-        List<DataRoomType> selectedRoomTypes = new ArrayList<>();
-
-        for (DataRoomType roomType : database.roomTypes.values()) {
-            // Include the room types which are required. These are the room types which have a
-            // minimum count larger than one.
-            for (int i = 0; i < roomType.minCount; ++i) {
-                selectedRoomTemplates.add(selector.selectWeightedObject(
-                        roomType.roomTemplates, x -> x.selectionWeight
-                ).get());
-            }
-
-            // Since we have included room templates of the current type minCount times, we can
-            // only include it maxCount - minCount more times.
-            for (int i = 0; i < roomType.maxCount - roomType.minCount; ++i) {
-                selectedRoomTypes.add(roomType);
-            }
-        }
-
-        // First check that the minimum room requirements hasn't caused us to overrun our quota.
-        if (selectedRoomTemplates.size() > maxRoomCount) {
-            throw new ScenarioBuilderException("Could not fulfil maximum room count");
-        }
-
-        // Now check that we the maximum count constraint will allow us to fulfil our minimum room
-        // count. Since every room type has been included in selectedRoomTypes maxCount - minCount
-        // times, the size of selectedRoomTypes is how many more rooms we can add. If the currently
-        // selected rooms plus to total room types we can still add are under the minimum room
-        // count, we cannot fulfil it.
-        if (selectedRoomTemplates.size() + selectedRoomTypes.size() < minRoomCount) {
-            throw new ScenarioBuilderException("Could not fulfil minimum room count");
-        }
-
-        // Shuffle our list to get a unique combination of room types.
-        Collections.shuffle(selectedRoomTypes, random);
-
-        // Keep selecting room templates whilst we haven't reached our selected room count target.
-        // Abandon this target if we run out of room types.
-        while (selectedRoomTemplates.size() < targetRoomCount && selectedRoomTypes.size() > 0) {
-            // Add the room template by selecting one from the room type "popped" off the selected
-            // room types array.
-            selectedRoomTemplates.add(selector.selectWeightedObject(
-                    selectedRoomTypes.remove(0).roomTemplates, x -> x.selectionWeight
-            ).get());
-        }
-
-        return selectedRoomTemplates;
-    }
 
     public static CharacterData chooseCharacters(
             ScenarioBuilderDatabase database,
@@ -114,7 +46,7 @@ public class ScenarioBuilder
             characterData.suspects.add(selector.selectWeightedObject(
                     potentialSuspects,
                     x -> x.selectionWeight,
-                    x -> potentialSuspects.remove(x)
+                    potentialSuspects::remove
             ).get());
         }
 
@@ -160,121 +92,6 @@ public class ScenarioBuilder
         return selectedClues;
     }
 
-    public static List<Room> constructRooms(
-            List<DataRoomTemplate> selectedRoomTemplates
-    )
-    {
-        List<Room> constructedRooms = new ArrayList<>();
-
-        // Store the positions in which a room has been placed. We will use this to decide if we
-        // can place a room in a particular position.
-        List<Rectangle> claimedPositions = new ArrayList<>();
-
-        // This is the vector we will add to the position if we cannot place the room.
-        Vector2 conflictResolveDirection = new Vector2(1.0f, 0.0f);
-
-        // Resolve all of the rooms.
-        for (DataRoomTemplate template : selectedRoomTemplates) {
-            Rectangle roomPosition = new Rectangle(0.0f, 0.0f, template.width, template.height);
-
-            // Keep moving the room until it can be placed.
-            while (claimedPositions.stream().anyMatch(roomPosition::overlaps)) {
-                roomPosition.setPosition(
-                        roomPosition.getPosition(new Vector2()).add(conflictResolveDirection)
-                );
-            }
-
-            // Indicate that we have placed the room.
-            claimedPositions.add(roomPosition);
-            conflictResolveDirection.rotate90(-1);
-
-            // Construct and add a room.
-            Room room = Room.constructWithUnitSizes(
-                    template.background.filename,
-                    roomPosition.getPosition(new Vector2())
-            );
-            constructedRooms.add(room);
-        }
-
-        return constructedRooms;
-    }
-
-    public static ConstructPropsResult constructProps(
-            Set<DataClue> selectedClues,
-            List<DataRoomTemplate> selectedRoomTemplates,
-            List<Room> constructedRooms,
-            Random random
-    )
-    {
-        int motiveAcc = 0;
-        int meansAcc = 0;
-
-        List<Prop> constructedProps = new ArrayList<>();
-        Set<DataProp> propsWithClues =
-                selectedClues.stream().flatMap(c -> c.props.stream()).collect(Collectors.toSet());
-
-        // Iterate through all of the rooms to add their props to them.
-        for (int i = 0; i < selectedRoomTemplates.size(); ++i) {
-
-            DataRoomTemplate roomTemplate = selectedRoomTemplates.get(i);
-            Room room = constructedRooms.get(i);
-
-            for (DataProtoprop protoprop : roomTemplate.protoprops) {
-                // Copy the set so that we don't mutate the database.
-                List<DataProp> reducedPropSelection = new ArrayList<>(protoprop.props);
-
-                // Remove the props which do not have a clues associated with them
-                reducedPropSelection.retainAll(propsWithClues);
-
-                // If the size of the result is 0, then we should attempt to select from the full
-                // range of props, which include props without clues.
-                if (reducedPropSelection.size() == 0) {
-                    reducedPropSelection = protoprop
-                            .props
-                            .stream()
-                            // Since we have no clues for this protoprop instance, we can remove all of
-                            // the props which are required to be clues.
-                            .filter(x -> !x.mustBeClue)
-                            .collect(Collectors.toList());
-                }
-
-                // Select a random prop from our reduced list of props.
-                int propDataSelection = random.nextInt(reducedPropSelection.size());
-                DataProp propData = reducedPropSelection.get(propDataSelection);
-
-                // Create a list of all of the clues this new prop will have. It will be the
-                // potential clues this prop was associated with in the database, intersected with
-                // the clues we selected earlier.
-                List<DataClue> propClueData = new ArrayList<>(propData.clues);
-                propClueData.retainAll(selectedClues);
-
-                for (DataClue clueData : propClueData) {
-                    motiveAcc += clueData.impliesMotiveRating;
-                    meansAcc += clueData.impliesMeansRating;
-                }
-
-                List<Clue> propClues = propData
-                        .clues
-                        .stream()
-                        .filter(p -> selectedClues.contains(p))
-                        .map(p -> new Clue(p.impliesMotiveRating, p.impliesMeansRating, p.description))
-                        .collect(Collectors.toList());
-
-                // Create and add the instance.
-                Prop propInstance = new Prop(
-                        propData.name,
-                        propData.description,
-                        propData.resource.filename,
-                        new Vector2((float) protoprop.x, (float) protoprop.y),
-                        room,
-                        propClues
-                );
-                constructedProps.add(propInstance);
-            }
-        }
-
-        return new ConstructPropsResult(constructedProps, motiveAcc, meansAcc);
-    }
 
     public static CreateAdderResult createAdders(
             DataQuestioningIntention qiData,
@@ -326,7 +143,7 @@ public class ScenarioBuilder
                     qarData.responseText,
                     clueData
                             .stream()
-                            .map(c -> new Clue(c.impliesMotiveRating, c.impliesMeansRating, c.description))
+                            .map(c -> new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.resource))
                             .collect(Collectors.toList())
             );
             qi.addQuestion(qar);
@@ -351,22 +168,16 @@ public class ScenarioBuilder
 
     public static GameSnapshot generateGame(
             ScenarioBuilderDatabase database,
-            int minRoomCount,
-            int maxRoomCount,
             int minSuspectCount,
             int maxSuspectCount,
             Set<DataQuestioningStyle> chosenStyles,
             Random random
     ) throws ScenarioBuilderException
     {
+
+        List<Room> rooms = Map.initialiseRooms();
         WeightedSelection selector = new WeightedSelection(random);
 
-        List<DataRoomTemplate> selectedRoomTemplates = chooseRoomTemplates(
-                database,
-                minRoomCount,
-                maxRoomCount,
-                random
-        );
 
         // Select a character motive link to use.
         DataCharacterMotiveLink selectedCharacterMotiveLink = selector.selectWeightedObject(
@@ -395,6 +206,18 @@ public class ScenarioBuilder
         Set<DataClue> selectedClues = getClues(
                 selectedMeans, selectedMotive, selectedMurderer, selectedVictim
         );
+
+        List<Clue> constructedClues = new ArrayList<>();
+
+        for (DataClue c : selectedClues) {
+            Clue tempClue = new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.resource);
+
+            Collections.shuffle(rooms);
+            tempClue.setRoom(rooms.get(0));
+            constructedClues.add(tempClue);
+        }
+
+
 
         // TODO: Misleading Clues
 
@@ -427,7 +250,6 @@ public class ScenarioBuilder
             }
         }
 
-        List<Room> constructedRooms = constructRooms(selectedRoomTemplates);
 
         HashMap<DataCharacter, DialogueTree> dialogueTrees = new HashMap<>();
         List<Suspect> constructedSuspects = new ArrayList<>();
@@ -435,14 +257,11 @@ public class ScenarioBuilder
         // Construct the characters.
         for (DataCharacter suspect : selectedSuspects) {
             // Select a random room and get its data which is useful for the following generation.
-            int chosenRoom = random.nextInt(constructedRooms.size());
-            Vector2 chosenRoomOrigin = new Vector2(constructedRooms.get(chosenRoom).getOriginX(), constructedRooms.get(chosenRoom).getOriginY());
-            DataRoomTemplate chosenRoomTemplate = selectedRoomTemplates.get(chosenRoom);
+            int chosenRoom = random.nextInt(rooms.size());
+            Vector2Int chosenPosition = rooms.get(chosenRoom).getRandomLocation();
 
             // Select a random position in the room to place the character.
-            float xPos = random.nextFloat() * chosenRoomTemplate.width * Room.pixelsPerUnit;
-            float yPos = random.nextFloat() * chosenRoomTemplate.height * Room.pixelsPerUnit;
-            Vector2 chosenPosition = new Vector2(xPos, yPos).add(chosenRoomOrigin);
+
 
             // Construct the character and associated dialogue tree object. The actual building of
             // the tree will happen later.
@@ -477,15 +296,13 @@ public class ScenarioBuilder
             }
         }
 
-        ConstructPropsResult propsResult = constructProps(
-                selectedClues, selectedRoomTemplates, constructedRooms, random
-        );
-        List<Prop> constructedProps = propsResult.props;
-        sumProvesMotive += propsResult.sumProvesMotive;
-        sumProvesMeans += propsResult.sumProvesMeans;
+
+//        List<Clue> constructedClues = propsResult.props;
+//        sumProvesMotive += propsResult.sumProvesMotive;
+//        sumProvesMeans += propsResult.sumProvesMeans;
 
         return new GameSnapshot(
-                constructedSuspects, constructedProps, constructedRooms, sumProvesMotive, sumProvesMeans
+                constructedSuspects, constructedClues, rooms, sumProvesMotive, sumProvesMeans
         );
     }
 
@@ -513,19 +330,6 @@ public class ScenarioBuilder
         }
     }
 
-    public static class ConstructPropsResult
-    {
-        public List<Prop> props;
-        public int sumProvesMotive;
-        public int sumProvesMeans;
-
-        public ConstructPropsResult(List<Prop> props, int sumProvesMotive, int sumProvesMeans)
-        {
-            this.props = props;
-            this.sumProvesMotive = sumProvesMotive;
-            this.sumProvesMeans = sumProvesMeans;
-        }
-    }
 
     private static class CharacterData
     {

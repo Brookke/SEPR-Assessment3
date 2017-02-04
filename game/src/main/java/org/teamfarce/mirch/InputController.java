@@ -5,6 +5,7 @@ package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  *
  * @author jacobwunwin
  */
-public class InputController
+public class InputController extends InputAdapter
 {
 
     /**
@@ -34,11 +35,10 @@ public class InputController
      *
      * @return
      */
-    public Vector2 fetchPlayerPositionUpdate()
+    public Vector2Int fetchPlayerPositionUpdate()
     {
-        // process keyboard touch and translate the player
-
-        Vector2 move = new Vector2(0, 0);
+        // process keyboard touch and translate
+        Vector2Int move = new Vector2Int(0, 0);
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             move.y += 1;

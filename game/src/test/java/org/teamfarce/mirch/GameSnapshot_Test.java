@@ -38,44 +38,44 @@ public class GameSnapshot_Test {
 		assertSame(gameSnapshot.getRooms(), gameSnapshot.rooms);
 	}
 	
-	@Test
-	public void test_getProps(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
-		
-		assertSame(gameSnapshot.getProps(), gameSnapshot.props);
-	}
+//	@Test
+//	public void test_getProps(){
+//		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
+//
+//		assertSame(gameSnapshot.getClues(), gameSnapshot.props);
+//	}
 	
-	@Test
-	public void test_proveMeans(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
-		
-		int addedMeans = 10;
-		Clue clue = new Clue(0, addedMeans, "Clue description");
-		ArrayList<Clue> clues = new ArrayList<Clue>();
-		clues.add(clue);
-		
-		int means = gameSnapshot.meansProven;
-		
-		gameSnapshot.proveMeans(clues);
-		
-		assertSame(means + addedMeans, gameSnapshot.meansProven);
-	}
-	
-	@Test
-	public void test_proveMotive(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
-
-		int addedMotive = 10;
-		Clue clue = new Clue(addedMotive, 0, "Clue description");
-		ArrayList<Clue> clues = new ArrayList<Clue>();
-		clues.add(clue);
-
-		int motive = gameSnapshot.motiveProven;
-
-		gameSnapshot.proveMotive(clues);
-
-		assertSame(motive + addedMotive, gameSnapshot.motiveProven);
-	}
+//	@Test
+//	public void test_proveMeans(){
+//		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
+//
+//		int addedMeans = 10;
+//		Clue clue = new Clue(0, addedMeans, "Clue description");
+//		ArrayList<Clue> clues = new ArrayList<Clue>();
+//		clues.add(clue);
+//
+//		int means = gameSnapshot.meansProven;
+//
+//		gameSnapshot.proveMeans(clues);
+//
+//		assertSame(means + addedMeans, gameSnapshot.meansProven);
+//	}
+//
+//	@Test
+//	public void test_proveMotive(){
+//		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
+//
+//		int addedMotive = 10;
+//		Clue clue = new Clue(addedMotive, 0, "Clue description");
+//		ArrayList<Clue> clues = new ArrayList<Clue>();
+//		clues.add(clue);
+//
+//		int motive = gameSnapshot.motiveProven;
+//
+//		gameSnapshot.proveMotive(clues);
+//
+//		assertSame(motive + addedMotive, gameSnapshot.motiveProven);
+//	}
 
 	/*
 	@Test

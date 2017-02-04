@@ -1,6 +1,8 @@
 package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Settings;
+import org.teamfarce.mirch.Vector2Int;
 
 /**
  * Created by brookehatton on 31/01/2017.
@@ -20,11 +22,29 @@ public class Player extends AbstractPerson
     {
         super(name, description, filename);
 
+        this.state = PersonState.STANDING;
+
+
+
     }
 
-    public void move(Vector2 move) {
+    /**
+     * This Moves the player to a new tile.
+     *
+     * @param dir the direction that the player should move in.
+     */
+    public void move(Direction dir)
+    {
+        if (this.state != PersonState.STANDING) {
+            return;
+        }
 
-        move.scl(speed);
-        this.translate(move.x, move.y);
+        if (!getRoom().isWalkableTile(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy())) {
+            //setDirection(dir);
+            return;
+        }
+
+        initialiseMove(dir);
     }
+
 }

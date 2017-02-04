@@ -86,9 +86,13 @@ public class ScenarioBuilderDatabase
         while (rsClue.next()) {
             DataClue clue = new DataClue();
             clue.id = rsClue.getInt("id");
+            //TODO: Update to Name column when done
+            //clue.name = rsClue.getString("name");
+            clue.name = "Default";
             clue.description = rsClue.getString("description");
             clue.impliesMeansRating = rsClue.getInt("implies_means_rating");
             clue.impliesMotiveRating = rsClue.getInt("implies_motive_rating");
+            clue.resource = "clock.png";
             clue.props = new HashSet<>();
             clue.motives = new HashSet<>();
             clue.means = new HashSet<>();
@@ -404,7 +408,9 @@ public class ScenarioBuilderDatabase
     public class DataClue
     {
         public int id;
+        public String name;
         public String description;
+        public String resource;
         public int impliesMeansRating;
         public int impliesMotiveRating;
         public HashSet<DataProp> props;

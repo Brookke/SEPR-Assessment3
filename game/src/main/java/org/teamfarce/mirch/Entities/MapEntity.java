@@ -3,9 +3,9 @@ package org.teamfarce.mirch.Entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import org.teamfarce.mirch.Room;
+import org.teamfarce.mirch.Settings;
+import org.teamfarce.mirch.Vector2Int;
+import org.teamfarce.mirch.map.Room;
 
 /**
  * Base class to represent different map entities.
@@ -17,6 +17,12 @@ public class MapEntity extends Sprite
     protected String description;
     protected String filename;
 
+    /**
+     * This is the location on the map in terms of tiles can be set using {@link #setTileCoordinates(int, int)}
+     * Note: this is different to com.badlogic.gdx.graphics.g2d.Sprite.position that is the position on the screen in terms of pixels,
+     * whereas this is in terms of map tiles relative to the bottom left of the map.
+     */
+    protected Vector2Int tileCoordinates;
     /**
      * Initialise the entity.
      *
@@ -34,8 +40,37 @@ public class MapEntity extends Sprite
         this.name = name;
         this.description = description;
         this.filename = filename;
+        this.tileCoordinates = new Vector2Int(0,0);
     }
 
+    public void setTileCoordinates(int x, int y) {
+        this.tileCoordinates = new Vector2Int(x,y);
+        this.setPosition(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE);
+    }
+
+    /**
+     * This method returns the x component of the clues tile coordinates from
+     *
+     * @return (int) The x tile coordinate of the clue
+     */
+    public int getTileX()
+    {
+        return tileCoordinates.x;
+    }
+
+    /**
+     * This method returns the y component of the clues tile coordinates from
+     *
+     * @return (int) The y tile coordinate of the clue
+     */
+    public int getTileY()
+    {
+        return tileCoordinates.y;
+    }
+
+    public Vector2Int getTileCoordinates() {
+        return this.tileCoordinates;
+    }
     /**
      * Returns position of room as a Vector2.
      *

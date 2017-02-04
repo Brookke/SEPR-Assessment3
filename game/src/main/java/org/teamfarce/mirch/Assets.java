@@ -9,11 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 public class Assets
 {
 
-    public static Texture doorwayTexture;
 
     public static void load()
     {
-        doorwayTexture = new Texture(Gdx.files.internal("door.png"));
+
     }
 
 

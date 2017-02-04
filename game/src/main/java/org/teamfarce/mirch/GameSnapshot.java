@@ -1,9 +1,9 @@
 package org.teamfarce.mirch;
 
-import org.teamfarce.mirch.Entities.Prop;
+import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.map.Room;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ public class GameSnapshot
      * Holds the journal associated with this state.
      */
     public Journal journal;
-    List<Prop> props;
+    List<Clue> clues;
     List<Room> rooms;
     int meansProven;
     int motiveProven;
@@ -34,7 +34,7 @@ public class GameSnapshot
      */
     GameSnapshot(
             List<Suspect> suspects,
-            List<Prop> props,
+            List<Clue> clues,
             List<Room> rooms,
             int sumProvesMotive,
             int sumProvesMeans
@@ -42,7 +42,7 @@ public class GameSnapshot
     {
         this.suspects = suspects;
         this.state = GameState.map;
-        this.props = props;
+        this.clues = clues;
         this.rooms = rooms;
         this.meansProven = 0;
         this.motiveProven = 0;
@@ -86,14 +86,14 @@ public class GameSnapshot
      *
      * @return The props.
      */
-    List<Prop> getProps()
+    List<Clue> getClues()
     {
-        return this.props;
+        return this.clues;
     }
 
     // The following two functions should be merged at some point.
 
-    /**
+ /*   *//**
      * Increment the "means proof" value by the given value in the clues.
      * <p>
      * This effectively indicates that the means of the murder was proven by the given arbitrary
@@ -101,7 +101,7 @@ public class GameSnapshot
      * </p>
      *
      * @param clues The clues which provide the means proven value.
-     */
+     *//*
     void proveMeans(Collection<Clue> clues)
     {
         for (Clue clue : clues) {
@@ -109,7 +109,7 @@ public class GameSnapshot
         }
     }
 
-    /**
+    *//**
      * Increment the "motive proof" value by the given value.
      * <p>
      * This effectively indicates that the motive of the murder was proven by the given arbitrary
@@ -117,13 +117,13 @@ public class GameSnapshot
      * </p>
      *
      * @param clues The clues which provide the motive proven value.
-     */
+     *//*
     void proveMotive(Collection<Clue> clues)
     {
         for (Clue clue : clues) {
             this.motiveProven += clue.provesMotive;
         }
-    }
+    }*/
 
     /**
      * Returns true if the means of the murder has been proven.
@@ -182,14 +182,11 @@ public class GameSnapshot
      * This tells the journal to keep a log of this prop.
      * </p>
      *
-     * @param prop The prop to add.
+     * @param Clue The clue to add.
      */
-    public void journalAddProp(Prop prop)
+    public void journalAddClue(Clue clue)
     {
-        this.journal.addProp(prop);
-        if (prop.takeClues() != null) {
-            proveMeans(prop.takeClues());
-            proveMotive(prop.takeClues());
-        }
+        this.journal.foundClues.add(clue);
+
     }
 }
