@@ -14,16 +14,16 @@ import static org.junit.Assert.*;
  * @author jacobwunwin
  *
  */
-public class ScenarioBuilderTest {
+public class ScenarioBuilderTest extends GameTest {
 
     @Test
     public void distributeClues() throws Exception
     {
         List<Clue> clues = new ArrayList<>();
-        clues.add(new Clue("1", "1", 0,0));
-        clues.add(new Clue("2", "2", 0,0));
-        clues.add(new Clue("3", "3", 0,0));
-        clues.add(new Clue("4", "4", 0,0));
+        clues.add(new Clue("1", "1", 0,0, "Axe.png"));
+        clues.add(new Clue("2", "2", 0,0, "Axe.png"));
+        clues.add(new Clue("3", "3", 0,0, "Axe.png"));
+        clues.add(new Clue("4", "4", 0,0, "Axe.png"));
 
         List<Room> rooms = new ArrayList<>();
         rooms.add(new Room(0, "testMap.tmx", "Test Room1"));
