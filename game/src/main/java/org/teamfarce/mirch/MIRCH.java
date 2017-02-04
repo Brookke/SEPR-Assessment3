@@ -476,7 +476,7 @@ w
 
 	/**
 	 * The render function deals with all game logic. It receives inputs from the input controller,
-	 * carries out logic and pushes outputs to the screen through the display controller
+	 * carries out logic and pushes outputs to the screen through the GUIController
 	 */
 	@Override
 	public void render() {

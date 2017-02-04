@@ -14,13 +14,36 @@ import org.teamfarce.mirch.Screens.JournalScreen;
  * @author jasonmash
  */
 public class GUIController {
+    /**
+     * Reference to main game, used to set current screen and access GameState
+     */
     public MIRCH game;
+
+    /**
+     * Global skin used to render Scene2D controls
+     */
     public Skin uiSkin;
+
+    /**
+     * State of the game last time update() was called
+     */
     public GameState currentState;
 
+
+    /**
+     * Used to present the map screen when game state changes
+     */
     public AbstractScreen mapScreen;
+
+    /**
+     * Used to present the journal screen when game state changes
+     */
     public AbstractScreen journalScreen;
 
+    /**
+     * Constructor for GUIController, initialises required variables
+     * @param game Used to set current screen, and access GameState
+     */
     GUIController(MIRCH game) {
         this.game = game;
 
@@ -31,6 +54,10 @@ public class GUIController {
     }
 
 
+    /**
+     * Updates current GUI screen
+     * Usage: use within render() methods
+     */
     public void update() {
 
         //Clear background
@@ -44,7 +71,7 @@ public class GUIController {
         if (currentState != newState) {
 
             //Set new screen depending on current game state
-            switch (newState) { //TODO: Handle other states
+            switch (newState) {
                 case map:
                     this.game.setScreen(mapScreen);
                     break;
