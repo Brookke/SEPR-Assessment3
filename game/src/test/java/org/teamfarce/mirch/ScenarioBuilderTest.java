@@ -1,14 +1,46 @@
 package org.teamfarce.mirch;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.ScenarioBuilder;
+import org.teamfarce.mirch.map.Room;
 
+import java.util.ArrayList;
+import java.util.List;
+import static org.junit.Assert.*;
 /**
  * Tests functions in the scenario builder class
  * @author jacobwunwin
  *
  */
 public class ScenarioBuilderTest {
+
+    @Test
+    public void distributeClues() throws Exception
+    {
+        List<Clue> clues = new ArrayList<>();
+        clues.add(new Clue("1", "1", 0,0));
+        clues.add(new Clue("2", "2", 0,0));
+        clues.add(new Clue("3", "3", 0,0));
+        clues.add(new Clue("4", "4", 0,0));
+
+        List<Room> rooms = new ArrayList<>();
+        rooms.add(new Room(0, "testMap.tmx", "Test Room1"));
+        rooms.add(new Room(1, "testMap.tmx", "Test Room1"));
+        rooms.add(new Room(2, "testMap.tmx", "Test Room1"));
+        rooms.add(new Room(3, "testMap.tmx", "Test Room1"));
+
+        ScenarioBuilder.distributeClues(clues,rooms);
+
+        for (Clue c: clues) {
+            if (!rooms.contains(c.getRoom())) {
+                fail();
+            }
+        }
+
+    }
+
     /**
      * Test a typical use case of the ScenarioBuilder.
      */
