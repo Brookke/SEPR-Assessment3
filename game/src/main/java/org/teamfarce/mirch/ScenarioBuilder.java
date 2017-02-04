@@ -1,6 +1,5 @@
 package org.teamfarce.mirch;
 
-import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.*;
@@ -143,7 +142,7 @@ public class ScenarioBuilder
                     qarData.responseText,
                     clueData
                             .stream()
-                            .map(c -> new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.resource))
+                            .map(c -> new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating))
                             .collect(Collectors.toList())
             );
             qi.addQuestion(qar);
@@ -210,7 +209,7 @@ public class ScenarioBuilder
         List<Clue> constructedClues = new ArrayList<>();
 
         for (DataClue c : selectedClues) {
-            Clue tempClue = new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.resource);
+            Clue tempClue = new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating);
 
             Collections.shuffle(rooms);
             tempClue.setRoom(rooms.get(0));
@@ -301,6 +300,7 @@ public class ScenarioBuilder
 //        sumProvesMotive += propsResult.sumProvesMotive;
 //        sumProvesMeans += propsResult.sumProvesMeans;
 
+        distributeClues(constructedClues, rooms);
         return new GameSnapshot(
                 constructedSuspects, constructedClues, rooms, sumProvesMotive, sumProvesMeans
         );
@@ -336,5 +336,29 @@ public class ScenarioBuilder
         public DataCharacter victim = null;
         public DataCharacter murderer = null;
         public List<DataCharacter> suspects = new ArrayList<>();
+    }
+
+
+    /**
+     * @param clues
+     * @param rooms
+     */
+    public static void distributeClues(List<Clue> clues, List<Room> rooms) {
+
+        Collections.shuffle(clues);
+        int amountOfClues = clues.size();
+        for (Room room : rooms) {
+            if (amountOfClues == 0) return;
+
+            Vector2Int randHidingSpot = room.getRandHidingSpot();
+
+            if (randHidingSpot != null) {
+                clues.get(amountOfClues).setTileCoordinates(randHidingSpot);
+                clues.get(amountOfClues).setRoom(room);
+                amountOfClues--;
+            }
+
+        }
+
     }
 }
