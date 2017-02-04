@@ -18,7 +18,7 @@ public class PlayerController extends InputAdapter
     /**
      * This timer is used to measure how long input has been read for
      */
-    public float movementTime = 0.5f;
+    public float movementTime = 0.1f;
     /**
      * Booleans storing what keys have been pressed and not released
      */

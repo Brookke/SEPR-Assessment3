@@ -19,7 +19,7 @@ public abstract class AbstractPerson extends MapEntity
     private Vector2Int startTile = new Vector2Int(0,0);
     private Vector2Int endTile = new Vector2Int(0,0);
     private float animTimer;
-    private float animTime = 0.5f;
+    private float animTime = 0.35f;
 
     /**
      * Initialise the entity.
