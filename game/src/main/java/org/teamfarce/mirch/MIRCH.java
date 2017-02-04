@@ -297,12 +297,8 @@ w
 		}
 
 
-		
-		//render the title screen texture
-//		camera = new OrthographicCamera(); //set up the camera as an Orthographic camera
-//		camera.setToOrtho(false, 1366, 768); //set the size of the window
 
-		batch = new SpriteBatch(); //create a new sprite batch - used to display sprites onto the screen
+
 		//initialise the player sprite
 		player = new Player("Bob", "The player to beat all players", "Detective_sprite.png");
 		player.setTileCoordinates(7, 10);
