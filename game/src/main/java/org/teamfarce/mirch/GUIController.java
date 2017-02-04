@@ -1,199 +1,91 @@
 package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.Screens.AbstractScreen;
+import org.teamfarce.mirch.Screens.MapScreen;
+import org.teamfarce.mirch.Screens.JournalScreen;
 
 /**
- * Generates and controlls all GUI elements in the Game. the GUIController also handles inputs
+ * Generates and controls all GUI screens
  * from the GUI controller.
  *
- * @author jacobwunwin
+ * @author jasonmash
  */
-public class GUIController
-{
-    Gdx globalGdx;
-    Stage controlStage;
-    private JournalGUIController journalGUI;
-    private GameSnapshot gameSnapshot;
-    private Skin uiSkin;
-    private SpriteBatch batch;
-    private InterviewGUIController interviewController;
+public class GUIController {
+    /**
+     * Reference to main game, used to set current screen and access GameState
+     */
+    public MIRCH game;
 
     /**
-     * Initialises the GUI controller
-     *
-     * @param skin
-     * @param gSnapshot
-     * @param batch
+     * Global skin used to render Scene2D controls
      */
-    GUIController(Skin skin, GameSnapshot gSnapshot, SpriteBatch batch)
-    {
-        this.gameSnapshot = gSnapshot;
-        this.uiSkin = skin;
-        this.batch = batch;
-        this.journalGUI = new JournalGUIController(this.uiSkin, this.gameSnapshot, this.batch);
-        this.interviewController = new InterviewGUIController(this.uiSkin, this.gameSnapshot, this.batch);
+    public Skin uiSkin;
 
-        //++++CREATE MAIN CONRTOL STAGE++++
-        final TextButton mapButton = new TextButton("Map", this.uiSkin);
-        final TextButton journalButton = new TextButton("Journal", this.uiSkin);
+    /**
+     * State of the game last time update() was called
+     */
+    public GameState currentState;
 
-        mapButton.setPosition(500, 700);
-        journalButton.setPosition(650, 700);
 
-        this.controlStage = new Stage();
+    /**
+     * Used to present the map screen when game state changes
+     */
+    public AbstractScreen mapScreen;
 
-        this.controlStage.addActor(mapButton);
-        this.controlStage.addActor(journalButton);
+    /**
+     * Used to present the journal screen when game state changes
+     */
+    public AbstractScreen journalScreen;
 
-        //add a listener for the show interview log button
-        mapButton.addListener(new ChangeListener()
-        {
-            public void changed(ChangeEvent event, Actor actor)
-            {
-                System.out.println("Map button was pressed");
-                gameSnapshot.setState(GameState.map);
+    /**
+     * Constructor for GUIController, initialises required variables
+     * @param game Used to set current screen, and access GameState
+     */
+    GUIController(MIRCH game) {
+        this.game = game;
+
+        uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json")); //load ui skin from assets
+
+        mapScreen = new MapScreen(game, uiSkin);
+        journalScreen = new JournalScreen(game, uiSkin);
+    }
+
+
+    /**
+     * Updates current GUI screen
+     * Usage: use within render() methods
+     */
+    public void update() {
+
+        //Clear background
+        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        //Get latest game state
+        GameState newState = game.gameSnapshot.getState();
+
+        //Check if screen needs changing
+        if (currentState != newState) {
+
+            //Set new screen depending on current game state
+            switch (newState) {
+                case map:
+                    this.game.setScreen(mapScreen);
+                    break;
+                case journalHome:
+                    this.game.setScreen(journalScreen);
+                    break;
+                default:
+                    this.game.setScreen(mapScreen);
+                    break;
             }
-        });
 
-        //add a listener for the show interview log button
-        journalButton.addListener(new ChangeListener()
-        {
-            public void changed(ChangeEvent event, Actor actor)
-            {
-                System.out.println("Journal button was pressed");
-                gameSnapshot.setState(GameState.journalHome);
-            }
-        });
+            //Update current screen to reflect changed screen
+            currentState = newState;
+        }
+
     }
-
-    /**
-     * Draws the GUI control button
-     */
-    void drawControlStage()
-    {
-        this.controlStage.draw();
-    }
-
-    /**
-     * Draw the journal home view
-     */
-    void useJournalHomeView()
-    {
-        //Create an input multiplexer to take input from every stage
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(this.journalGUI.journalStage);
-        multiplexer.addProcessor(this.controlStage);
-        //Gdx.input.setInputProcessor(multiplexer);
-
-        this.controlStage.draw(); //draw the global control buttons
-        this.journalGUI.drawHome();
-    }
-
-    /**
-     * Draw the journal clues view
-     */
-    void useJournalCluesView()
-    {
-        //Create an input multiplexer to take input from every stage
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(this.journalGUI.journalStage);
-        multiplexer.addProcessor(this.controlStage);
-        multiplexer.addProcessor(this.journalGUI.journalCluesStage);
-        //Gdx.input.setInputProcessor(multiplexer);
-
-        this.controlStage.draw(); //draw the global control buttons
-        this.journalGUI.drawClues();
-    }
-
-    /**
-     * Draw the journal notepad view
-     */
-    void useJournalNotepadView()
-    {
-        //Create an input multiplexer to take input from every stage
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(this.journalGUI.journalStage);
-        multiplexer.addProcessor(this.journalGUI.journalNotepadStage);
-        multiplexer.addProcessor(this.controlStage);
-        //Gdx.input.setInputProcessor(multiplexer);
-
-        this.drawControlStage();
-        this.journalGUI.drawNotepad();
-    }
-
-    /**
-     * draw the current journal interview view
-     */
-    void useJournalInterviewView()
-    {
-        //Create an input multiplexer to take input from every stage
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(this.journalGUI.journalStage);
-        multiplexer.addProcessor(this.journalGUI.journalQuestionsStage);
-        multiplexer.addProcessor(this.controlStage);
-        //Gdx.input.setInputProcessor(multiplexer);
-
-        this.drawControlStage();
-        this.journalGUI.drawInterviewLog();
-    }
-
-    /**
-     * Initialise the interview gui with a suspect and a player
-     *
-     * @param suspect
-     * @param player
-     */
-    public void initialiseInterviewGUI(Suspect suspect, Sprite player)
-    {
-        this.interviewController.initInterviewStage(suspect, player);
-    }
-
-    /**
-     * Draw the interview GUI
-     */
-    void drawInterviewGUI()
-    {
-       // Gdx.input.setInputProcessor(this.interviewController.interviewStage);
-        this.interviewController.display();
-    }
-
-    /**
-     * Draw the accuse GUI
-     */
-    void drawAccuseGUI()
-    {
-       // Gdx.input.setInputProcessor(this.interviewController.interviewStage);
-        this.interviewController.display();
-    }
-
-    /**
-     * Draw the win/end screen
-     */
-    void drawWinScreen()
-    {
-        Texture texture = new Texture(Gdx.files.internal("win_screen.png"));
-        Sprite winScreen = new Sprite(texture);
-        winScreen.setPosition(240, 100);
-        BitmapFont font = new BitmapFont();
-        font.setColor(Color.BLACK);
-
-        this.batch.begin();
-        winScreen.draw(batch);
-        font.draw(batch, "You have Won! You accused the right person!", 550, 600);
-        font.draw(batch, "You took this many moves: " + this.gameSnapshot.getTime(), 600, 400);
-        this.batch.end();
-    }
-
 }

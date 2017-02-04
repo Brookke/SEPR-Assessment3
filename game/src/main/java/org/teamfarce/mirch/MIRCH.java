@@ -13,18 +13,11 @@ import javax.swing.JOptionPane;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Player;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
-import org.teamfarce.mirch.Screens.MapScreen;
 import org.teamfarce.mirch.map.Room;
 
 /**
@@ -35,15 +28,11 @@ import org.teamfarce.mirch.map.Room;
  */
 public class MIRCH extends Game {
 	private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
-	public SpriteBatch batch;
 	public GameSnapshot gameSnapshot;
     public static MIRCH me;
-	
-	public DisplayController displayController;
 
-	
-	private Skin uiSkin;
-	
+	public GUIController guiController;
+
 	public ArrayList<Room> rooms;
 	public ArrayList<Clue> objects;
 	public ArrayList<Suspect> characters;
@@ -52,13 +41,10 @@ public class MIRCH extends Game {
 	public int step; //stores the current loop number
 
 	public Player player;
-	
-	public OrthographicCamera camera;
-	
+
 	private Music music_background;
-	
+
 	private boolean testGame = false;
-    public MapScreen mapScreen;
 
     /**
      * Controls the initial character traits selection at the start of the game.
@@ -89,10 +75,10 @@ public class MIRCH extends Game {
             null,
             options1,
             options1[2]
-        );    
-        
+        );
+
         values[0]++;
-        
+
         values[1] = JOptionPane.showOptionDialog(
             null,
             "Choose another style for your character.",
@@ -103,9 +89,9 @@ public class MIRCH extends Game {
             options1,
             options1[2]
         );
-        
+
         values[1]++;
-        
+
         values[2] = JOptionPane.showOptionDialog(
             null,
             "Choose a final style for your character.",
@@ -116,13 +102,13 @@ public class MIRCH extends Game {
             options1,
             options1[2]
         );
-        
+
         values[2]++;
-        
+
         return values;
     }
 
-	
+
 	/**
 	 * Plays music in the background
 	 */
@@ -133,10 +119,6 @@ public class MIRCH extends Game {
 	}
 
 
-	private void initScreens() {
-	    this.mapScreen = new MapScreen(this);
-    }
-
 	/**
 	 * Initialises all variables in the game and sets up the game for play.
 	 */
@@ -146,11 +128,8 @@ public class MIRCH extends Game {
 		me = this;
         Assets.load();
 
-
-		//++++INITIALISE THE GAME++++
-		
 		step = 0; //initialise the step variable
-		
+
 	/*	if (testGame){
 			//create temporary required items, eventually ScenarioBuilder will generate these
 			ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
@@ -246,7 +225,7 @@ w
 			Prop prop = new Prop("Axe.png", temp1, new Vector2(50, 50)); //generate a sample prop for testing purposes
 			prop.description = "A bloody axe...";
 			prop.name = "Axe";
-			tempProps.add(prop);			
+			tempProps.add(prop);
 
 
 			gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, 100, 100); //generate the GameSnapshot object
@@ -255,17 +234,17 @@ w
 			ScenarioBuilderDatabase database;
 			try {
 				database = new ScenarioBuilderDatabase("db.db");
-				
+
 
 				try {
 					Set<ScenarioBuilderDatabase.DataQuestioningStyle> newSet = new HashSet<>();
-					
+
 					int[] output = drawCharacterSelection();
-					
+
 					for (int i : output){
 						newSet.add(database.questioningStyles.get(i));
 					}
-					
+
 					gameSnapshot = ScenarioBuilder.generateGame(
 						database, 6, 10, newSet, new Random()
 					);
@@ -273,20 +252,20 @@ w
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
 		}
-		
+
 		//generate RenderItems from each room
 		rooms = new ArrayList<>();
 		for (Room room : gameSnapshot.getRooms()){
 			rooms.add(room); //create a new renderItem for the room
 		}
-		
+
 		//generate RenderItems for each prop
 
 		
@@ -304,77 +283,30 @@ w
 		player.setTileCoordinates(7, 10);
         this.player.setRoom(rooms.get(0));
 
-		
+
 		//starts music "Minima.mp3" - Kevin Macleod
-		if (playAnnoyingMusic){ 
+		if (playAnnoyingMusic){
 			playMusic();
 		}
-		
-		uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json")); //load ui skin from assets
-		//uiSkin = new Skin(Gdx.files.internal("skins/skin_default/uiskin.json")); //load ui skin from assets
-		
-		this.displayController = new DisplayController(uiSkin, gameSnapshot, batch);
 
-        initScreens();
-        this.setScreen(mapScreen);
-
+		//Setup screens
+		this.guiController = new GUIController(this);
 	}
-	
+
 	/**
-	 * The render function deals with all game logic. It recieves inputs from the input controller, 
-	 * carries out logic and pushes outputs to the screen through the display controller
+	 * The render function deals with all game logic. It receives inputs from the input controller,
+	 * carries out logic and pushes outputs to the screen through the GUIController
 	 */
 	@Override
 	public void render() {
-        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		this.guiController.update();
+		super.render();
 
-        super.render();
-	      
-	      //batch.setProjectionMatrix(camera.combined);
-	      	      
-	      //Draw the map here
-	      if (gameSnapshot.getState() == GameState.journalHome){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().useJournalHomeView();
-	    	  
-	      } else if (gameSnapshot.getState() == GameState.journalClues){	    	  
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().useJournalCluesView();
-	    	  
-	      } else if (gameSnapshot.getState() == GameState.journalQuestions){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().useJournalInterviewView();
-	    	  
-	      } else if (gameSnapshot.getState() == GameState.journalNotepad){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-	    	  this.displayController.drawGUI().useJournalNotepadView();	    	  
-	    	  
-	      } else if (gameSnapshot.getState() == GameState.dialogueIntention){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().drawInterviewGUI();
-		      
-	      }  else if (gameSnapshot.getState() == GameState.accuse){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().drawAccuseGUI();
-	      } else if (gameSnapshot.getState() == GameState.gameWon){
-	    	  camera.position.set (new Vector3(camera.viewportWidth / 2, camera.viewportHeight / 2, 1)); //move the camera to follow the player
-		      camera.update();
-		      this.displayController.drawGUI().drawWinScreen();
-	      }
-	      
-	      step++; //increment the step counter
-		
+		step++; //increment the step counter
 	}
-	
+
 	@Override
 	public void dispose() {
-		
+
 	}
 }

@@ -3,16 +3,18 @@ package org.teamfarce.mirch.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.teamfarce.mirch.*;
-import org.teamfarce.mirch.Entities.Clue;
+
 import org.teamfarce.mirch.Entities.Direction;
 import org.teamfarce.mirch.Entities.PlayerController;
 import org.teamfarce.mirch.Entities.Suspect;
-import org.teamfarce.mirch.map.Room;
+import org.teamfarce.mirch.Screens.Elements.StatusBar;
+
 
 import java.util.Random;
+
+
 
 /**
  * Created by brookehatton on 31/01/2017.
@@ -24,7 +26,10 @@ public class MapScreen extends AbstractScreen
     private OrthographicCamera camera;
     private PlayerController playerController;
     private int moveStep = 50;
-    public MapScreen(MIRCH game)
+
+    private StatusBar statusBar;
+
+    public MapScreen(MIRCH game, Skin uiSkin)
     {
         super(game);
         float w = Gdx.graphics.getWidth();
@@ -36,14 +41,16 @@ public class MapScreen extends AbstractScreen
         this.tileRender.addPerson(game.player);
         this.playerController = new PlayerController(game.player);
 
+        this.statusBar = new StatusBar(game.gameSnapshot, uiSkin);
     }
 
     @Override
     public void show()
     {
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(playerController);
-        Gdx.input.setInputProcessor(inputMultiplexer);
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(statusBar.stage);
+        multiplexer.addProcessor(playerController);
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
@@ -114,16 +121,14 @@ public class MapScreen extends AbstractScreen
 //            }
 //        }
 
-        //Draw the map to the dispay
 
-
-
+        statusBar.render();
     }
 
     @Override
     public void resize(int width, int height)
     {
-
+        statusBar.resize(width, height);
     }
 
     @Override
@@ -147,6 +152,6 @@ public class MapScreen extends AbstractScreen
     @Override
     public void dispose()
     {
-
+        statusBar.dispose();
     }
 }
