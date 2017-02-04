@@ -48,7 +48,13 @@ public class GUIController {
         this.game = game;
 
         uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json")); //load ui skin from assets
+    }
 
+
+    /**
+     * Initialises AbstractScreens ready to display later
+     */
+    public void initScreens() {
         mapScreen = new MapScreen(game, uiSkin);
         journalScreen = new JournalScreen(game, uiSkin);
     }
