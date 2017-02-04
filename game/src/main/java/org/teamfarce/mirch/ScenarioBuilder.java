@@ -142,7 +142,7 @@ public class ScenarioBuilder
                     qarData.responseText,
                     clueData
                             .stream()
-                            .map(c -> new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating))
+                            .map(c -> new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.resource))
                             .collect(Collectors.toList())
             );
             qi.addQuestion(qar);
@@ -209,7 +209,7 @@ public class ScenarioBuilder
         List<Clue> constructedClues = new ArrayList<>();
 
         for (DataClue c : selectedClues) {
-            Clue tempClue = new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating);
+            Clue tempClue = new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.resource);
 
             Collections.shuffle(rooms);
             tempClue.setRoom(rooms.get(0));
@@ -346,9 +346,9 @@ public class ScenarioBuilder
     public static void distributeClues(List<Clue> clues, List<Room> rooms) {
 
         Collections.shuffle(clues);
-        int amountOfClues = clues.size();
+        int amountOfClues = clues.size() - 1;
         for (Room room : rooms) {
-            if (amountOfClues == 0) return;
+            if (amountOfClues == -1) return;
 
             Vector2Int randHidingSpot = room.getRandHidingSpot();
 

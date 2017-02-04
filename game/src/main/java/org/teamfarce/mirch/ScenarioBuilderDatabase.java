@@ -92,6 +92,7 @@ public class ScenarioBuilderDatabase
             clue.description = rsClue.getString("description");
             clue.impliesMeansRating = rsClue.getInt("implies_means_rating");
             clue.impliesMotiveRating = rsClue.getInt("implies_motive_rating");
+            //TODO: set to resource when column has been added
             clue.resource = "clock.png";
             clue.props = new HashSet<>();
             clue.motives = new HashSet<>();
