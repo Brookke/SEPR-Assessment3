@@ -1,6 +1,7 @@
 package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.teamfarce.mirch.Screens.AbstractScreen;
 import org.teamfarce.mirch.Screens.MapScreen;
@@ -32,6 +33,10 @@ public class GUIController {
 
     public void update() {
 
+        //Clear background
+        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         //Get latest game state
         GameState newState = game.gameSnapshot.getState();
 
@@ -44,7 +49,7 @@ public class GUIController {
                     this.game.setScreen(mapScreen);
                     break;
                 case journalHome:
-                    this.game.setScreen(journalScreen); //TODO: change this
+                    this.game.setScreen(journalScreen);
                     break;
                 default:
                     this.game.setScreen(mapScreen);

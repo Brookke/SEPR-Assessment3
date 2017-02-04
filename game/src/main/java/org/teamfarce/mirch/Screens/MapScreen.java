@@ -45,9 +45,6 @@ public class MapScreen extends AbstractScreen
     @Override
     public void render(float delta)
     {
-        Gdx.gl.glClearColor(0,0,0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         Room currentRoom = game.player.getRoom(); //find the current room that the player is in
         Float currentX = game.player.getX();
         Float currentY = game.player.getY();

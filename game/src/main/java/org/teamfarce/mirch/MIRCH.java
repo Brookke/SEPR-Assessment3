@@ -10,26 +10,17 @@ import java.lang.*;
 
 import javax.swing.JOptionPane;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import org.teamfarce.mirch.Entities.Player;
 import org.teamfarce.mirch.Entities.Prop;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
-import org.teamfarce.mirch.Screens.AbstractScreen;
-import org.teamfarce.mirch.Screens.MapScreen;
-import org.teamfarce.mirch.dialogue.*;
 
 /**
  * MIRCH is used to generate all graphics in the program. It initialises the scenario generator and game state
