@@ -10,9 +10,9 @@ import org.teamfarce.mirch.map.Room;
 /**
  * Base class to represent different map entities.
  */
-public class MapEntity extends Sprite
+public class MapEntity extends Sprite implements tileLocation
 {
-    protected Room currentRoom;
+    protected Room room;
     protected String name;
     protected String description;
     protected String filename;
@@ -43,9 +43,19 @@ public class MapEntity extends Sprite
         this.tileCoordinates = new Vector2Int(0,0);
     }
 
+
+
+
+    @Override
     public void setTileCoordinates(int x, int y) {
         this.tileCoordinates = new Vector2Int(x,y);
         this.setPosition(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE);
+    }
+
+    @Override
+    public void setTileCoordinates(Vector2Int vector) {
+        this.tileCoordinates = vector;
+        this.setPosition(vector.x * Settings.TILE_SIZE, vector.y * Settings.TILE_SIZE);
     }
 
     /**
@@ -68,6 +78,8 @@ public class MapEntity extends Sprite
         return tileCoordinates.y;
     }
 
+
+
     public Vector2Int getTileCoordinates() {
         return this.tileCoordinates;
     }
@@ -88,7 +100,7 @@ public class MapEntity extends Sprite
      */
     public Room getRoom()
     {
-        return this.currentRoom;
+        return this.room;
     }
 
     /**
@@ -98,7 +110,7 @@ public class MapEntity extends Sprite
      */
     public void setRoom(Room room)
     {
-        this.currentRoom = room;
+        this.room = room;
     }
 
     /**
