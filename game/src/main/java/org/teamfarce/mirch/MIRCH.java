@@ -291,6 +291,7 @@ w
 
 		//Setup screens
 		this.guiController = new GUIController(this);
+		this.guiController.initScreens();
 	}
 
 	/**
