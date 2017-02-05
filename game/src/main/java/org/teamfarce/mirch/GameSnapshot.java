@@ -78,15 +78,6 @@ public class GameSnapshot
         return this.score;
     }
 
-    /**
-     * Increments the pseudo-time counter.
-     */
-    public void incrementTime()
-    {
-        this.modifyScore(-1);
-        ++this.time;
-    }
-
     public void updateScore(float delta) {
         counter += delta;
         if (counter > 5) {
@@ -198,7 +189,6 @@ public class GameSnapshot
     public void setState(GameState state)
     {
         this.state = state;
-        this.incrementTime();
     }
 
     /**
