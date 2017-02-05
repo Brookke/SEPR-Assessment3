@@ -84,6 +84,15 @@ public class GUIController {
                 case journalHome:
                     this.game.setScreen(journalScreen);
                     break;
+                case journalClues:
+                    this.game.setScreen(journalScreen);
+                    break;
+                case journalNotepad:
+                    this.game.setScreen(journalScreen);
+                    break;
+                case journalQuestions:
+                    this.game.setScreen(journalScreen);
+                    break;
                 default:
                     this.game.setScreen(mapScreen);
                     break;
