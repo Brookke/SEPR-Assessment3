@@ -79,11 +79,26 @@ public class GameSnapshot
     }
 
     /**
-     * Increments the pseudo-time counter.
+     * This method increments the game timer as a second passes by
+     * @BEN You will need to change to the correct time frame. I'm not certain how many times this is called
+     *
+     * Defaults the reduce score value to true so the players score gets reduced.
      */
     public void incrementTime()
     {
-        this.modifyScore(-1);
+        incrementTime(true);
+    }
+
+    /**
+     * Increments the pseudo-time counter.
+     */
+    public void incrementTime(boolean reduceScore)
+    {
+        if (reduceScore)
+        {
+            this.modifyScore(-1);
+        }
+
         ++this.time;
     }
 
@@ -198,7 +213,7 @@ public class GameSnapshot
     public void setState(GameState state)
     {
         this.state = state;
-        this.incrementTime();
+        this.incrementTime(false);
     }
 
     /**
