@@ -28,6 +28,18 @@ public class JournalScreen extends AbstractScreen
     public Stage journalStage;
     private Skin uiSkin;
     private StatusBar statusBar;
+    private Table notepadPage;
+
+    final static float JOURNAL_X_OFFSET = 10;
+    final static float JOURNAL_Y_OFFSET = 20;
+    final static float JOURNAL_WIDTH = Gdx.graphics.getWidth() - (2 * JOURNAL_X_OFFSET);
+    final static float JOURNAL_HEIGHT = Gdx.graphics.getHeight() - (2 * JOURNAL_Y_OFFSET);
+    final static float PAGE_X_OFFSET = 50;
+    final static float PAGE_Y_OFFSET = 50;
+    final static float PAGE_WIDTH = (JOURNAL_WIDTH / 2) - PAGE_X_OFFSET;
+    final static float PAGE_HEIGHT = JOURNAL_HEIGHT - (2 * PAGE_Y_OFFSET);
+    final static float PAGE_MARGIN = 50;
+
 
     public JournalScreen(MIRCH game, Skin uiSkin)
     {
@@ -37,45 +49,57 @@ public class JournalScreen extends AbstractScreen
         this.uiSkin = uiSkin;
 
         statusBar = new StatusBar(game.gameSnapshot, uiSkin);
+
+        //Initialise notepad page here to preserve page contents across screen transitions
+        notepadPage = initJournalNotepadPage();
     }
 
     private void initStage() {
         //Initialise stage used to show journal contents
         journalStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-        //Create table to present contents within
-        Table table = new Table();
-        table.setBounds(80, 20, Gdx.graphics.getWidth() - 160, Gdx.graphics.getHeight() - 20);
 
+        //Create table to represent journal "book"
+        Table journalContainer = new Table();
+        journalContainer.setBounds(JOURNAL_X_OFFSET, JOURNAL_Y_OFFSET, JOURNAL_WIDTH, JOURNAL_HEIGHT);
         //Set background image for journal
         Texture journalBackground = new Texture(Gdx.files.internal("Open_journal.png"));
         TextureRegion tr = new TextureRegion(journalBackground);
         TextureRegionDrawable trd = new TextureRegionDrawable(tr);
-        table.setBackground(trd);
+        journalContainer.setBackground(trd);
 
-        //Load journal navigation controls
-        initJournalNavControls(table);
 
+        //Load journal navigation controls to journal
+        journalContainer.addActor(initJournalNavControls());
+
+
+        //Load details page onto right journal page
+        Table detailsPage;
         GameState currentState = game.gameSnapshot.getState();
         switch (currentState) {
             case journalClues:
-                initJournalCluesPage(table);
+                detailsPage = initJournalCluesPage();
                 break;
             case journalQuestions:
-                initJournalQuestionsPage(table);
+                detailsPage = initJournalQuestionsPage();
                 break;
             case journalNotepad:
-                initJournalNotepadPage(table);
+                //Initialised in constructor to preserve page contents
+                detailsPage = notepadPage;
                 break;
             default:
+                detailsPage = new Table();
                 break;
         }
+        journalContainer.addActor(detailsPage);
 
 
-        journalStage.addActor(table);
+        journalStage.addActor(journalContainer);
     }
 
-    private void initJournalNavControls(Table table) {
+    private Table initJournalNavControls() {
+        Table table = new Table();
+        table.setBounds(PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
         //Initiate clues button
         final TextButton cluesButton = new TextButton("Clues", this.uiSkin);
         cluesButton.setPosition(380, 400);
@@ -114,7 +138,7 @@ public class JournalScreen extends AbstractScreen
 
         //Initiate journal title label
         Label journalLabel = new Label("Journal", this.uiSkin);
-        journalLabel.setPosition(360, 600);
+        journalLabel.setPosition(PAGE_WIDTH - 200, PAGE_HEIGHT - PAGE_MARGIN);
         journalLabel.setColor(Color.BLACK);
         journalLabel.setFontScale(2f);
 
@@ -124,72 +148,53 @@ public class JournalScreen extends AbstractScreen
         table.addActor(journalLabel);
         table.addActor(notepadButton);
         table.addActor(questionsButton);
+
+        return table;
     }
 
-    private void initJournalCluesPage(Table table) {
+    private Table initJournalCluesPage() {
+        Table page = new Table();
+        page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
         //Initialise clue page title
         Label clueLabel = new Label("Clues", uiSkin);
         clueLabel.setColor(Color.BLACK);
         clueLabel.setFontScale(1.5f);
-        clueLabel.setPosition(750, 600);
+        clueLabel.setPosition(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN);
+        page.addActor(clueLabel);
 
-        //create a new table to store clues
-        Table cluesTable = new Table(uiSkin);
-
-        //place the clues table in a scroll pane
-        Table container = new Table(uiSkin);
-        ScrollPane scroll = new ScrollPane(cluesTable, uiSkin);
-        scroll.layout();
-
-        //add the scroll pane to an external container
-        container.add(scroll).width(300f).height(400f);
-        container.row();
-        container.setPosition(800, 360); //set the position of the extenal container
-
-        //add actors to the clues stage
-        table.addActor(clueLabel);
-        table.addActor(container);
-
+        return page;
     }
 
-    private void initJournalQuestionsPage(Table table) {
-        Label questionsLabel = new Label("Interview Log", uiSkin);
+    private Table initJournalQuestionsPage() {
+        Table page = new Table();
+        page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
+        Label questionsLabel = new Label("Interview Log", uiSkin);
         questionsLabel.setColor(Color.BLACK);
         questionsLabel.setFontScale(1.5f);
+        questionsLabel.setPosition(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN);
+        page.addActor(questionsLabel);
 
-        questionsLabel.setPosition(720, 600);
-
-        Table questionsTable = new Table(uiSkin);
-
-        ScrollPane qscroll = new ScrollPane(questionsTable, uiSkin);
-        qscroll.layout();
-
-        Table qcontainer = new Table(uiSkin);
-        qcontainer.add(qscroll).width(300f).height(400f);
-        qcontainer.row();
-        qcontainer.setPosition(800, 360);
-
-        table.addActor(questionsLabel);
-        table.addActor(qcontainer);
-
+        return page;
     }
 
-    private void initJournalNotepadPage(Table table) {
-        //Create labels
-        Label notepadLabel = new Label("Notepad", uiSkin);
+    private Table initJournalNotepadPage() {
+        Table page = new Table();
+        page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
+        Label notepadLabel = new Label("Notepad", uiSkin);
         notepadLabel.setColor(Color.BLACK);
         notepadLabel.setFontScale(1.5f);
-        notepadLabel.setPosition(720, 600);
+        notepadLabel.setPosition(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN);
+        page.addActor(notepadLabel);
 
-        TextArea notepad = new TextArea("Here are my notes about a particularly develish crime...", uiSkin);
-        notepad.setBounds(650,150,290,400);
+        TextArea notepad = new TextArea("Type here to add some notes about this particularly intriguing crime...", uiSkin);
+        notepad.setSize(PAGE_WIDTH - (2 * PAGE_MARGIN),PAGE_HEIGHT - 150);
+        notepad.setPosition(PAGE_MARGIN, PAGE_MARGIN);
+        page.addActor(notepad);
 
-        table.addActor(notepadLabel);
-        table.addActor(notepad);
-
+        return page;
     }
 
     @Override
