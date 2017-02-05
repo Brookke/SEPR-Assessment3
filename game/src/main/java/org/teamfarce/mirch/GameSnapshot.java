@@ -150,7 +150,7 @@ public class GameSnapshot
      *
      * @return The game state.
      */
-    GameState getState()
+    public GameState getState()
     {
         return this.state;
     }

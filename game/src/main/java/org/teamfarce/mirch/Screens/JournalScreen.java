@@ -9,10 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -23,7 +20,8 @@ import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
 
 /**
- * Created by brookehatton on 31/01/2017.
+ * The journal screen draws the Journal GUI to the screen and handles any inputs
+ * whilst the journal is displayed
  */
 public class JournalScreen extends AbstractScreen
 {
@@ -40,8 +38,6 @@ public class JournalScreen extends AbstractScreen
         this.game = game;
         this.gameSnapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
-
-        initStage();
 
         statusBar = new StatusBar(game.gameSnapshot, uiSkin);
     }
@@ -61,12 +57,28 @@ public class JournalScreen extends AbstractScreen
         table.setBackground(trd);
 
         //Load journal navigation controls
-        initJournalControls(table);
+        initJournalNavControls(table);
+
+        GameState currentState = game.gameSnapshot.getState();
+        switch (currentState) {
+            case journalClues:
+                initJournalCluesPage(table);
+                break;
+            case journalQuestions:
+                initJournalQuestionsPage(table);
+                break;
+            case journalNotepad:
+                initJournalNotepadPage(table);
+                break;
+            default:
+                break;
+        }
+
 
         journalStage.addActor(table);
     }
 
-    private void initJournalControls(Table table) {
+    private void initJournalNavControls(Table table) {
         //Initiate clues button
         final TextButton cluesButton = new TextButton("Clues", this.uiSkin);
         cluesButton.setPosition(380, 400);
@@ -117,9 +129,77 @@ public class JournalScreen extends AbstractScreen
         table.addActor(questionsButton);
     }
 
+    private void initJournalCluesPage(Table table) {
+
+        //Initialise clue page title
+        Label clueLabel = new Label("Clues", uiSkin);
+        clueLabel.setColor(Color.BLACK);
+        clueLabel.setFontScale(1.5f);
+        clueLabel.setPosition(750, 600);
+
+        //create a new table to store clues
+        Table cluesTable = new Table(uiSkin);
+
+        //place the clues table in a scroll pane
+        Table container = new Table(uiSkin);
+        ScrollPane scroll = new ScrollPane(cluesTable, uiSkin);
+        scroll.layout();
+
+        //add the scroll pane to an external container
+        container.add(scroll).width(300f).height(400f);
+        container.row();
+        container.setPosition(800, 360); //set the position of the extenal container
+
+        //add actors to the clues stage
+        table.addActor(clueLabel);
+        table.addActor(container);
+
+    }
+
+    private void initJournalQuestionsPage(Table table) {
+        Label questionsLabel = new Label("Interview Log", uiSkin);
+
+        questionsLabel.setColor(Color.BLACK);
+        questionsLabel.setFontScale(1.5f);
+
+        questionsLabel.setPosition(720, 600);
+
+        Table questionsTable = new Table(uiSkin);
+
+        ScrollPane qscroll = new ScrollPane(questionsTable, uiSkin);
+        qscroll.layout();
+
+        Table qcontainer = new Table(uiSkin);
+        qcontainer.add(qscroll).width(300f).height(400f);
+        qcontainer.row();
+        qcontainer.setPosition(800, 360);
+
+        table.addActor(questionsLabel);
+        table.addActor(qcontainer);
+
+    }
+
+    private void initJournalNotepadPage(Table table) {
+        //Create labels
+        Label notepadLabel = new Label("Notepad", uiSkin);
+
+        notepadLabel.setColor(Color.BLACK);
+        notepadLabel.setFontScale(1.5f);
+        notepadLabel.setPosition(720, 600);
+
+        TextArea notepad = new TextArea("Here are my notes about a particularly develish crime...", uiSkin);
+        notepad.setBounds(650,150,290,400);
+
+        table.addActor(notepadLabel);
+        table.addActor(notepad);
+
+    }
+
     @Override
     public void show()
     {
+        initStage();
+
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(journalStage);
         multiplexer.addProcessor(statusBar.stage);
@@ -142,22 +222,13 @@ public class JournalScreen extends AbstractScreen
     }
 
     @Override
-    public void pause()
-    {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume()
-    {
-
-    }
+    public void resume() { }
 
     @Override
-    public void hide()
-    {
-
-    }
+    public void hide() { }
 
     @Override
     public void dispose()

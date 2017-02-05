@@ -94,7 +94,6 @@ public class GUIController {
                     this.game.setScreen(journalScreen);
                     break;
                 default:
-                    this.game.setScreen(mapScreen);
                     break;
             }
 
