@@ -72,7 +72,7 @@ public class QuestionIntent
      */
     public QuestionResult selectQuestion(int style)
     {
-        MIRCH.score.addScore(-10);
+        MIRCH.me.gameSnapshot.modifyScore(-10);
         return questions.get(style).ask();
     }
 

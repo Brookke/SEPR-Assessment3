@@ -17,7 +17,6 @@ import com.badlogic.gdx.audio.Music;
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Player;
 import org.teamfarce.mirch.Entities.Suspect;
-import org.teamfarce.mirch.Miscellaneous.Score;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
 import org.teamfarce.mirch.map.Room;
 
@@ -47,7 +46,7 @@ public class MIRCH extends Game {
 
 	private boolean testGame = false;
 
-	public static Score score = new Score();
+
 
     /**
      * Controls the initial character traits selection at the start of the game.

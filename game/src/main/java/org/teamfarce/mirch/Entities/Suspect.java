@@ -1,8 +1,6 @@
 package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
-import com.sun.org.apache.xpath.internal.operations.Or;
-import org.teamfarce.mirch.Entities.MapEntity;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.dialogue.DialogueTree;
@@ -69,11 +67,11 @@ public class Suspect extends AbstractPerson
         //clear the dialogue tree here
         if (this.isMurderer == false || hasEvidence == false)
         {
-            MIRCH.score.addScore(-50);
+            MIRCH.me.gameSnapshot.modifyScore(-50);
         }
         else
         {
-            MIRCH.score.addScore(100);
+            MIRCH.me.gameSnapshot.modifyScore(100);
         }
         return (this.isMurderer) && (hasEvidence);
     }
