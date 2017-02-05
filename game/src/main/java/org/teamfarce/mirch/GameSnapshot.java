@@ -58,6 +58,7 @@ public class GameSnapshot
      */
     public void incrementTime()
     {
+        MIRCH.score.addScore(-1);
         ++this.time;
     }
 
@@ -182,7 +183,7 @@ public class GameSnapshot
      * This tells the journal to keep a log of this prop.
      * </p>
      *
-     * @param Clue The clue to add.
+     * @param //Clue The clue to add.
      */
     public void journalAddClue(Clue clue)
     {

@@ -1,5 +1,7 @@
 package org.teamfarce.mirch.dialogue;
 
+import org.teamfarce.mirch.MIRCH;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,6 +72,7 @@ public class QuestionIntent
      */
     public QuestionResult selectQuestion(int style)
     {
+        MIRCH.score.addScore(-10);
         return questions.get(style).ask();
     }
 
