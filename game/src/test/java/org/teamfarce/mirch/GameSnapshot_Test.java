@@ -23,21 +23,6 @@ public class GameSnapshot_Test {
 	}
 	
 	@Test
-	public void test_incrementTime(){
-
-		/**
-		 * This entire method tests increment time, should I remove?
-		 */
-
-//		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
-//		int time = gameSnapshot.getTime();
-//		time++;
-//
-//		gameSnapshot.incrementTime();
-//		assertSame(time, gameSnapshot.getTime());
-	}
-	
-	@Test
 	public void test_getRooms(){
 		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
 		assertSame(gameSnapshot.getRooms(), gameSnapshot.rooms);
