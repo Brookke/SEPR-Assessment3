@@ -32,13 +32,16 @@ public class JournalScreen extends AbstractScreen
 
     final static float JOURNAL_X_OFFSET = 10;
     final static float JOURNAL_Y_OFFSET = 20;
-    final static float JOURNAL_WIDTH = Gdx.graphics.getWidth() - (2 * JOURNAL_X_OFFSET);
-    final static float JOURNAL_HEIGHT = Gdx.graphics.getHeight() - (2 * JOURNAL_Y_OFFSET);
     final static float PAGE_X_OFFSET = 50;
     final static float PAGE_Y_OFFSET = 50;
+    final static float JOURNAL_WIDTH = Gdx.graphics.getWidth() - (2 * JOURNAL_X_OFFSET);
+    final static float JOURNAL_HEIGHT = Gdx.graphics.getHeight() - JOURNAL_Y_OFFSET;
+    final static float NAV_BUTTON_WIDTH = 200;
+    final static float NAV_BUTTON_HEIGHT = 40;
     final static float PAGE_WIDTH = (JOURNAL_WIDTH / 2) - PAGE_X_OFFSET;
     final static float PAGE_HEIGHT = JOURNAL_HEIGHT - (2 * PAGE_Y_OFFSET);
     final static float PAGE_MARGIN = 50;
+    final static float PAGE_CONTENT_SPACE = 150;
 
 
     public JournalScreen(MIRCH game, Skin uiSkin)
@@ -100,54 +103,19 @@ public class JournalScreen extends AbstractScreen
     private Table initJournalNavControls() {
         Table table = new Table();
         table.setBounds(PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
-        //Initiate clues button
-        final TextButton cluesButton = new TextButton("Clues", this.uiSkin);
-        cluesButton.setPosition(380, 400);
-        cluesButton.addListener(new ChangeListener()
-        {
-            public void changed(ChangeEvent event, Actor actor)
-            {
-                gameSnapshot.setState(GameState.journalClues);
-            }
-        });
 
-
-        //Initiate questions button
-        final TextButton questionsButton = new TextButton("Interview Log", this.uiSkin);
-        questionsButton.setPosition(350, 350);
-        questionsButton.addListener(new ChangeListener()
-        {
-            public void changed(ChangeEvent event, Actor actor)
-            {
-                gameSnapshot.setState(GameState.journalQuestions);
-            }
-        });
-
-
-        //Initiate notepad button
-        final TextButton notepadButton = new TextButton("Notepad", this.uiSkin);
-        notepadButton.setPosition(370, 300);
-        notepadButton.addListener(new ChangeListener()
-        {
-            public void changed(ChangeEvent event, Actor actor)
-            {
-                gameSnapshot.setState(GameState.journalNotepad);
-            }
-        });
+        //Initiate buttons
+        table.addActor(getJournalNavButton("Clues", GameState.journalClues, 0));
+        table.addActor(getJournalNavButton("Interview Log", GameState.journalQuestions, 1));
+        table.addActor(getJournalNavButton("Notepad", GameState.journalNotepad, 2));
 
 
         //Initiate journal title label
-        Label journalLabel = new Label("Journal", this.uiSkin);
-        journalLabel.setPosition(PAGE_WIDTH - 200, PAGE_HEIGHT - PAGE_MARGIN);
-        journalLabel.setColor(Color.BLACK);
+        Label journalLabel = getJournalPageTitle("Journal");
+        journalLabel.setWidth(100);
+        journalLabel.setPosition(PAGE_WIDTH - PAGE_MARGIN - 100, PAGE_HEIGHT - PAGE_MARGIN);
         journalLabel.setFontScale(2f);
-
-
-        //Add controls to table for display
-        table.addActor(cluesButton);
         table.addActor(journalLabel);
-        table.addActor(notepadButton);
-        table.addActor(questionsButton);
 
         return table;
     }
@@ -156,12 +124,7 @@ public class JournalScreen extends AbstractScreen
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
-        //Initialise clue page title
-        Label clueLabel = new Label("Clues", uiSkin);
-        clueLabel.setColor(Color.BLACK);
-        clueLabel.setFontScale(1.5f);
-        clueLabel.setPosition(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN);
-        page.addActor(clueLabel);
+        page.addActor(getJournalPageTitle("Clues"));
 
         return page;
     }
@@ -170,11 +133,7 @@ public class JournalScreen extends AbstractScreen
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
-        Label questionsLabel = new Label("Interview Log", uiSkin);
-        questionsLabel.setColor(Color.BLACK);
-        questionsLabel.setFontScale(1.5f);
-        questionsLabel.setPosition(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN);
-        page.addActor(questionsLabel);
+        page.addActor(getJournalPageTitle("Interview Log"));
 
         return page;
     }
@@ -183,18 +142,36 @@ public class JournalScreen extends AbstractScreen
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
-        Label notepadLabel = new Label("Notepad", uiSkin);
-        notepadLabel.setColor(Color.BLACK);
-        notepadLabel.setFontScale(1.5f);
-        notepadLabel.setPosition(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN);
-        page.addActor(notepadLabel);
+        page.addActor(getJournalPageTitle("Notepad"));
 
         TextArea notepad = new TextArea("Type here to add some notes about this particularly intriguing crime...", uiSkin);
-        notepad.setSize(PAGE_WIDTH - (2 * PAGE_MARGIN),PAGE_HEIGHT - 150);
+        notepad.setSize(PAGE_WIDTH - (2 * PAGE_MARGIN),PAGE_HEIGHT - PAGE_CONTENT_SPACE);
         notepad.setPosition(PAGE_MARGIN, PAGE_MARGIN);
         page.addActor(notepad);
 
         return page;
+    }
+
+    private Label getJournalPageTitle(String pageTitle) {
+        Label title = new Label(pageTitle, uiSkin);
+        title.setColor(Color.BLACK);
+        title.setFontScale(1.5f);
+        title.setPosition(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN);
+        return title;
+    }
+
+    private TextButton getJournalNavButton(String pageTitle, GameState linkState, int position) {
+        TextButton button = new TextButton(pageTitle, this.uiSkin);
+        button.setSize(NAV_BUTTON_WIDTH, NAV_BUTTON_HEIGHT);
+        button.setPosition(PAGE_WIDTH - PAGE_MARGIN - NAV_BUTTON_WIDTH, PAGE_HEIGHT - PAGE_CONTENT_SPACE - (1.5f * position * NAV_BUTTON_HEIGHT));
+        button.addListener(new ChangeListener()
+        {
+            public void changed(ChangeEvent event, Actor actor)
+            {
+                gameSnapshot.setState(linkState);
+            }
+        });
+        return button;
     }
 
     @Override
@@ -219,7 +196,7 @@ public class JournalScreen extends AbstractScreen
     @Override
     public void resize(int width, int height)
     {
-        journalStage.getViewport().update(width, height, true);
+        journalStage.getViewport().update(width, height, false);
         statusBar.resize(width, height);
     }
 
