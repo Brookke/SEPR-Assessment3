@@ -81,9 +81,6 @@ public class GUIController {
                 case map:
                     this.game.setScreen(mapScreen);
                     break;
-                case journalHome:
-                    this.game.setScreen(journalScreen);
-                    break;
                 case journalClues:
                     this.game.setScreen(journalScreen);
                     break;
