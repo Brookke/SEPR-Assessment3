@@ -340,21 +340,23 @@ public class ScenarioBuilder
 
 
     /**
+     * Takes a list of clues and rooms and gives each of the clues a random room and location
      * @param clues
      * @param rooms
      */
     public static void distributeClues(List<Clue> clues, List<Room> rooms) {
 
         Collections.shuffle(clues);
-        int amountOfClues = clues.size() - 1;
+        int amountOfClues = clues.size();
         for (Room room : rooms) {
-            if (amountOfClues == -1) return;
+            if (amountOfClues == 0) return;
 
             Vector2Int randHidingSpot = room.getRandHidingSpot();
 
             if (randHidingSpot != null) {
-                clues.get(amountOfClues).setTileCoordinates(randHidingSpot);
-                clues.get(amountOfClues).setRoom(room);
+                //Subtract 1 as java counts from 0
+                clues.get(amountOfClues - 1).setTileCoordinates(randHidingSpot);
+                clues.get(amountOfClues - 1).setRoom(room);
                 amountOfClues--;
             }
 
