@@ -166,39 +166,34 @@ public class JournalScreen extends AbstractScreen
         page.addActor(getJournalPageTitle("Interview Log"));
 
         //Add list of previous conversations to journal
-        game.gameSnapshot.journal.addConversation("Convo 1", "Character 1");
-        game.gameSnapshot.journal.addConversation("Convo 2", "Character 2");
-        game.gameSnapshot.journal.addConversation("Convo 3", "Character 1");
-        game.gameSnapshot.journal.addConversation("Convo 4", "Character 2");
-
         List<String> conversations = game.gameSnapshot.journal.getConversations();
-        float CONTENT_HEIGHT = 30 * conversations.size();
 
+        //Loop through each conversation entry and add to table
         Table content = new Table();
-        //content.setSize(PAGE_CONTENT_WIDTH, CONTENT_HEIGHT);
-        content.debug();
-
         for (int i = 0; i < conversations.size(); i++) {
             Label conversationLabel = new Label(conversations.get(i), uiSkin);
-            conversationLabel.setSize(PAGE_CONTENT_WIDTH, 20);
-            conversationLabel.setPosition(0, CONTENT_HEIGHT - (i * 30) - 20);
-            content.add(conversationLabel);
+            content.add(conversationLabel).width(PAGE_CONTENT_WIDTH).height(30);
             content.row();
         }
 
-
-        ScrollPane contentScroll = new ScrollPane(content);
+        //Put conversation content table into a scroll pane
+        //Need to click and hold while dragging to scroll
+        ScrollPane contentScroll = new ScrollPane(content, uiSkin);
         contentScroll.layout();
         contentScroll.setScrollbarsOnTop(true);
         contentScroll.setForceScroll(false,true);
-        contentScroll.debug();
 
+        //Calculate content position
+        float CONTENT_HEIGHT = 30 * conversations.size();
+        if (CONTENT_HEIGHT > (PAGE_HEIGHT - PAGE_CONTENT_SPACE)) {
+            CONTENT_HEIGHT = PAGE_HEIGHT - PAGE_CONTENT_SPACE;
+        }
+
+        //Add conversation content to container, then to page
         Table contentContainer = new Table();
-        contentContainer.setSize(PAGE_CONTENT_WIDTH,PAGE_HEIGHT - PAGE_CONTENT_SPACE);
-        contentContainer.setPosition(PAGE_MARGIN, PAGE_MARGIN);
-        contentContainer.add(contentScroll).width(PAGE_CONTENT_WIDTH).height(PAGE_HEIGHT - PAGE_CONTENT_SPACE);
-        contentContainer.debug();
-
+        contentContainer.setSize(PAGE_CONTENT_WIDTH, CONTENT_HEIGHT);
+        contentContainer.setPosition(PAGE_MARGIN,  PAGE_HEIGHT - 100 - CONTENT_HEIGHT);
+        contentContainer.add(contentScroll).width(PAGE_CONTENT_WIDTH).height(CONTENT_HEIGHT);
         page.addActor(contentContainer);
 
         return page;
