@@ -10,9 +10,9 @@ import org.teamfarce.mirch.map.Room;
 /**
  * Base class to represent different map entities.
  */
-public class MapEntity extends Sprite
+public class MapEntity extends Sprite implements tileLocation
 {
-    protected Room currentRoom;
+    protected Room room;
     protected String name;
     protected String description;
     protected String filename;
@@ -43,43 +43,51 @@ public class MapEntity extends Sprite
         this.tileCoordinates = new Vector2Int(0,0);
     }
 
+    /**
+     * Sets the tile location of the object
+     * @param x the x tile
+     * @param y the y tile
+     */
+    @Override
     public void setTileCoordinates(int x, int y) {
         this.tileCoordinates = new Vector2Int(x,y);
         this.setPosition(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE);
     }
 
     /**
-     * This method returns the x component of the clues tile coordinates from
-     *
-     * @return (int) The x tile coordinate of the clue
+     * Sets the tile location of the object
+     * @param vector the vector location to set it to
      */
+    @Override
+    public void setTileCoordinates(Vector2Int vector) {
+        this.tileCoordinates = vector;
+        this.setPosition(vector.x * Settings.TILE_SIZE, vector.y * Settings.TILE_SIZE);
+    }
+
+    /**
+     * Gets the x location of the object in terms of tiles
+     * @return x tiles
+     */
+    @Override
     public int getTileX()
     {
         return tileCoordinates.x;
     }
 
     /**
-     * This method returns the y component of the clues tile coordinates from
-     *
-     * @return (int) The y tile coordinate of the clue
+     * Gets the y location of the object in terms of tiles
+     * @return y tile
      */
+    @Override
     public int getTileY()
     {
         return tileCoordinates.y;
     }
 
+
     public Vector2Int getTileCoordinates() {
         return this.tileCoordinates;
     }
-    /**
-     * Returns position of room as a Vector2.
-     *
-     * @return The room's position.
-     */
-
-
-    /**
-
 
     /**
      * Gets the current room the entity is within.
@@ -88,7 +96,7 @@ public class MapEntity extends Sprite
      */
     public Room getRoom()
     {
-        return this.currentRoom;
+        return this.room;
     }
 
     /**
@@ -98,7 +106,7 @@ public class MapEntity extends Sprite
      */
     public void setRoom(Room room)
     {
-        this.currentRoom = room;
+        this.room = room;
     }
 
     /**
