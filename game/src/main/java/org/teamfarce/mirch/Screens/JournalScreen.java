@@ -16,9 +16,7 @@ import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
-import sun.jvm.hotspot.debugger.Page;
 
-import java.util.*;
 import java.util.List;
 
 /**
@@ -46,10 +44,14 @@ public class JournalScreen extends AbstractScreen
     final static float PAGE_WIDTH = (JOURNAL_WIDTH / 2) - PAGE_X_OFFSET;
     final static float PAGE_HEIGHT = JOURNAL_HEIGHT - (2 * PAGE_Y_OFFSET);
     final static float PAGE_MARGIN = 50;
-    final static float PAGE_CONTENT_SPACE = 150;
+    final static float PAGE_CONTENT_SPACE = 170;
     final static float PAGE_CONTENT_WIDTH = PAGE_WIDTH - (2 * PAGE_MARGIN);
 
 
+    /**
+     * @param game Reference
+     * @param uiSkin
+     */
     public JournalScreen(MIRCH game, Skin uiSkin)
     {
         super(game);
@@ -127,7 +129,7 @@ public class JournalScreen extends AbstractScreen
         //Initiate journal title label
         Label journalLabel = getJournalPageTitle("Journal");
         journalLabel.setWidth(100);
-        journalLabel.setPosition(PAGE_WIDTH - PAGE_MARGIN - 100, PAGE_HEIGHT - PAGE_MARGIN);
+        journalLabel.setPosition(PAGE_WIDTH - PAGE_MARGIN - 120, PAGE_HEIGHT - PAGE_MARGIN);
         journalLabel.setFontScale(2f);
         table.addActor(journalLabel);
 
@@ -145,10 +147,39 @@ public class JournalScreen extends AbstractScreen
 
         //Add title to page
         page.addActor(getJournalPageTitle("Clues"));
+        page.addActor(getJournalPageSubtitle("All of the clues you have found in the Ron Cooke Hub are shown below.", 0));
+        page.addActor(getJournalPageSubtitle("Click and drag below to scroll", 1));
 
         //Add list of found clues to journal
         List<Clue> clues = game.gameSnapshot.journal.getClues();
-        System.out.println(clues);
+
+        //Loop through each clue and add to table
+        Table content = new Table();
+        for (int i = 0; i < clues.size(); i++) {
+            Label clueLabel = new Label(clues.get(i).getName(), uiSkin);
+            content.add(clueLabel).width(PAGE_CONTENT_WIDTH).height(30);
+            content.row();
+        }
+
+        //Put clue content table into a scroll pane
+        //Need to click and hold while dragging to scroll
+        ScrollPane contentScroll = new ScrollPane(content, uiSkin);
+        contentScroll.layout();
+        contentScroll.setScrollbarsOnTop(true);
+        contentScroll.setForceScroll(false,true);
+
+        //Calculate content position
+        float CONTENT_HEIGHT = 30 * clues.size();
+        if (CONTENT_HEIGHT > (PAGE_HEIGHT - PAGE_CONTENT_SPACE)) {
+            CONTENT_HEIGHT = PAGE_HEIGHT - PAGE_CONTENT_SPACE;
+        }
+
+        //Add clue content to container, then to page
+        Table contentContainer = new Table();
+        contentContainer.setSize(PAGE_CONTENT_WIDTH, CONTENT_HEIGHT);
+        contentContainer.setPosition(PAGE_MARGIN,  PAGE_HEIGHT - 120 - CONTENT_HEIGHT);
+        contentContainer.add(contentScroll).width(PAGE_CONTENT_WIDTH).height(CONTENT_HEIGHT);
+        page.addActor(contentContainer);
 
         return page;
     }
@@ -164,6 +195,8 @@ public class JournalScreen extends AbstractScreen
 
         //Add title to page
         page.addActor(getJournalPageTitle("Interview Log"));
+        page.addActor(getJournalPageSubtitle("All of the conversations you have had with other detectives are shown below.", 0));
+        page.addActor(getJournalPageSubtitle("Click and drag below to scroll", 1));
 
         //Add list of previous conversations to journal
         List<String> conversations = game.gameSnapshot.journal.getConversations();
@@ -210,9 +243,11 @@ public class JournalScreen extends AbstractScreen
 
         //Add title to page
         page.addActor(getJournalPageTitle("Notepad"));
+        page.addActor(getJournalPageSubtitle("A space where you can take some notes about this particularly intriguing crime.", 0));
+        page.addActor(getJournalPageSubtitle("Your journal will remember any notes you make", 1));
 
         //Adds notepad to page
-        TextArea notepad = new TextArea("Type here to add some notes about this particularly intriguing crime...", uiSkin);
+        TextArea notepad = new TextArea("Type here...", uiSkin);
         notepad.setSize(PAGE_CONTENT_WIDTH,PAGE_HEIGHT - PAGE_CONTENT_SPACE);
         notepad.setPosition(PAGE_MARGIN, PAGE_MARGIN);
         page.addActor(notepad);
@@ -232,6 +267,21 @@ public class JournalScreen extends AbstractScreen
         title.setPosition(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN);
         return title;
     }
+
+    /**
+     * Creates a Label for a journal subtitle
+     * @param subtitle Subtitle of journal page
+     * @param lineNumber Line number for subtitle
+     * @return Label to add to a journal page with appropriate position and style
+     */
+    private Label getJournalPageSubtitle(String subtitle, int lineNumber) {
+        Label title = new Label(subtitle, uiSkin);
+        title.setColor(Color.GRAY);
+        title.setFontScale(1f);
+        title.setPosition(PAGE_MARGIN, PAGE_HEIGHT - PAGE_MARGIN - 30 - (20 * lineNumber));
+        return title;
+    }
+
 
     /**
      * Creates a TextButton for journal page navigation
@@ -254,6 +304,9 @@ public class JournalScreen extends AbstractScreen
         return button;
     }
 
+    /**
+     * Called whenever JournalScreen is about to become visible
+     */
     @Override
     public void show()
     {
@@ -265,6 +318,9 @@ public class JournalScreen extends AbstractScreen
         Gdx.input.setInputProcessor(multiplexer);
     }
 
+    /**
+     * Render function to display the JournalScreen
+     */
     @Override
     public void render(float delta)
     {
@@ -273,6 +329,12 @@ public class JournalScreen extends AbstractScreen
         statusBar.render();
     }
 
+    /**
+     * Used for window resize event
+     *
+     * @param width  - updated width
+     * @param height - updated height
+     */
     @Override
     public void resize(int width, int height)
     {
@@ -280,15 +342,27 @@ public class JournalScreen extends AbstractScreen
         statusBar.resize(width, height);
     }
 
+    /**
+     * Pause method
+     */
     @Override
     public void pause() { }
 
+    /**
+     * Resume method
+     */
     @Override
     public void resume() { }
 
+    /**
+     * Hide method
+     */
     @Override
     public void hide() { }
 
+    /**
+     * Disposes of JournalScreen resources
+     */
     @Override
     public void dispose()
     {
