@@ -57,6 +57,10 @@ public class JournalScreen extends AbstractScreen
         notepadPage = initJournalNotepadPage();
     }
 
+    /**
+     * Initialises the GUI controls for the JournalScreen
+     * Is called within show() to ensure data is up to date
+     */
     private void initStage() {
         //Initialise stage used to show journal contents
         journalStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -100,6 +104,10 @@ public class JournalScreen extends AbstractScreen
         journalStage.addActor(journalContainer);
     }
 
+    /**
+     * Creates a Table containing the journal navigation page
+     * @return Table containing contents of page
+     */
     private Table initJournalNavControls() {
         Table table = new Table();
         table.setBounds(PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
@@ -120,30 +128,49 @@ public class JournalScreen extends AbstractScreen
         return table;
     }
 
+    /**
+     * Creates a Table containing journal clue page content
+     * @return Table containing contents of page
+     */
     private Table initJournalCluesPage() {
+        //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
+        //Add title to page
         page.addActor(getJournalPageTitle("Clues"));
 
         return page;
     }
 
+    /**
+     * Creates a Table containing journal questions page content
+     * @return Table containing contents of page
+     */
     private Table initJournalQuestionsPage() {
+        //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
+        //Add title to page
         page.addActor(getJournalPageTitle("Interview Log"));
 
         return page;
     }
 
+    /**
+     * Creates a Table containing journal notepad page content
+     * @return Table containing contents of page
+     */
     private Table initJournalNotepadPage() {
+        //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
+        //Add title to page
         page.addActor(getJournalPageTitle("Notepad"));
 
+        //Adds notepad to page
         TextArea notepad = new TextArea("Type here to add some notes about this particularly intriguing crime...", uiSkin);
         notepad.setSize(PAGE_WIDTH - (2 * PAGE_MARGIN),PAGE_HEIGHT - PAGE_CONTENT_SPACE);
         notepad.setPosition(PAGE_MARGIN, PAGE_MARGIN);
@@ -152,6 +179,11 @@ public class JournalScreen extends AbstractScreen
         return page;
     }
 
+    /**
+     * Creates a Label for a journal page title
+     * @param pageTitle Title of journal page
+     * @return Label to add to a journal page with appropriate position and style
+     */
     private Label getJournalPageTitle(String pageTitle) {
         Label title = new Label(pageTitle, uiSkin);
         title.setColor(Color.BLACK);
@@ -160,6 +192,13 @@ public class JournalScreen extends AbstractScreen
         return title;
     }
 
+    /**
+     * Creates a TextButton for journal page navigation
+     * @param pageTitle Defines the button text
+     * @param linkState Defines which GameState the button should navigate to
+     * @param position Defines the position of button, use the index of button in order
+     * @return TextButton with appropriate event handlers, position and style
+     */
     private TextButton getJournalNavButton(String pageTitle, GameState linkState, int position) {
         TextButton button = new TextButton(pageTitle, this.uiSkin);
         button.setSize(NAV_BUTTON_WIDTH, NAV_BUTTON_HEIGHT);
