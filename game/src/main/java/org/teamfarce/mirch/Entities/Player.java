@@ -49,7 +49,6 @@ public class Player extends AbstractPerson
 
     public void interact(Vector2Int tileLocation) {
 
-
     }
 
 }
