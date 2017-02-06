@@ -195,8 +195,8 @@ public class JournalGUIController
     {
         qTable.reset(); //reset the table
 
-        Label tlabel = new Label(journal.conversations, uiSkin);
-        qTable.add(tlabel).width(300f); //set a maximum width on the row of 300 pixels
+        //Label tlabel = new Label(journal.conversations, uiSkin);
+        //qTable.add(tlabel).width(300f); //set a maximum width on the row of 300 pixels
         qTable.row(); //end the row
     }
 

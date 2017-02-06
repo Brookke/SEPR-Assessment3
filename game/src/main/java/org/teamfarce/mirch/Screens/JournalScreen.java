@@ -11,10 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
+
+import java.util.*;
+import java.util.List;
 
 /**
  * The journal screen draws the Journal GUI to the screen and handles any inputs
@@ -140,6 +144,10 @@ public class JournalScreen extends AbstractScreen
         //Add title to page
         page.addActor(getJournalPageTitle("Clues"));
 
+        //Add list of found clues to journal
+        List<Clue> clues = game.gameSnapshot.journal.getClues();
+        System.out.println(clues);
+
         return page;
     }
 
@@ -154,6 +162,10 @@ public class JournalScreen extends AbstractScreen
 
         //Add title to page
         page.addActor(getJournalPageTitle("Interview Log"));
+
+        //Add list of previous conversations to journal
+        List<String> conversations = game.gameSnapshot.journal.getConversations();
+        System.out.println(conversations);
 
         return page;
     }
