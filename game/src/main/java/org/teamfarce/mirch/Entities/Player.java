@@ -47,4 +47,9 @@ public class Player extends AbstractPerson
         initialiseMove(dir);
     }
 
+    public void interact(Vector2Int tileLocation) {
+
+
+    }
+
 }
