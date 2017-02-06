@@ -16,6 +16,7 @@ import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
+import sun.jvm.hotspot.debugger.Page;
 
 import java.util.*;
 import java.util.List;
@@ -46,6 +47,7 @@ public class JournalScreen extends AbstractScreen
     final static float PAGE_HEIGHT = JOURNAL_HEIGHT - (2 * PAGE_Y_OFFSET);
     final static float PAGE_MARGIN = 50;
     final static float PAGE_CONTENT_SPACE = 150;
+    final static float PAGE_CONTENT_WIDTH = PAGE_WIDTH - (2 * PAGE_MARGIN);
 
 
     public JournalScreen(MIRCH game, Skin uiSkin)
@@ -164,8 +166,40 @@ public class JournalScreen extends AbstractScreen
         page.addActor(getJournalPageTitle("Interview Log"));
 
         //Add list of previous conversations to journal
+        game.gameSnapshot.journal.addConversation("Convo 1", "Character 1");
+        game.gameSnapshot.journal.addConversation("Convo 2", "Character 2");
+        game.gameSnapshot.journal.addConversation("Convo 3", "Character 1");
+        game.gameSnapshot.journal.addConversation("Convo 4", "Character 2");
+
         List<String> conversations = game.gameSnapshot.journal.getConversations();
-        System.out.println(conversations);
+        float CONTENT_HEIGHT = 30 * conversations.size();
+
+        Table content = new Table();
+        //content.setSize(PAGE_CONTENT_WIDTH, CONTENT_HEIGHT);
+        content.debug();
+
+        for (int i = 0; i < conversations.size(); i++) {
+            Label conversationLabel = new Label(conversations.get(i), uiSkin);
+            conversationLabel.setSize(PAGE_CONTENT_WIDTH, 20);
+            conversationLabel.setPosition(0, CONTENT_HEIGHT - (i * 30) - 20);
+            content.add(conversationLabel);
+            content.row();
+        }
+
+
+        ScrollPane contentScroll = new ScrollPane(content);
+        contentScroll.layout();
+        contentScroll.setScrollbarsOnTop(true);
+        contentScroll.setForceScroll(false,true);
+        contentScroll.debug();
+
+        Table contentContainer = new Table();
+        contentContainer.setSize(PAGE_CONTENT_WIDTH,PAGE_HEIGHT - PAGE_CONTENT_SPACE);
+        contentContainer.setPosition(PAGE_MARGIN, PAGE_MARGIN);
+        contentContainer.add(contentScroll).width(PAGE_CONTENT_WIDTH).height(PAGE_HEIGHT - PAGE_CONTENT_SPACE);
+        contentContainer.debug();
+
+        page.addActor(contentContainer);
 
         return page;
     }
@@ -184,7 +218,7 @@ public class JournalScreen extends AbstractScreen
 
         //Adds notepad to page
         TextArea notepad = new TextArea("Type here to add some notes about this particularly intriguing crime...", uiSkin);
-        notepad.setSize(PAGE_WIDTH - (2 * PAGE_MARGIN),PAGE_HEIGHT - PAGE_CONTENT_SPACE);
+        notepad.setSize(PAGE_CONTENT_WIDTH,PAGE_HEIGHT - PAGE_CONTENT_SPACE);
         notepad.setPosition(PAGE_MARGIN, PAGE_MARGIN);
         page.addActor(notepad);
 
