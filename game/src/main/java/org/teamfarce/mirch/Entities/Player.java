@@ -85,10 +85,6 @@ public class Player extends AbstractPerson
             }
 
             this.setTileCoordinates(newRoomData.newTileCoordinates.x, newRoomData.newTileCoordinates.y);
-
-            //TODO: Look into making a getter for the players Game this way we can do this.getGame() here instead of GameMain.
-
-            ((MapScreen) MIRCH.me.guiController.mapScreen).getTileRenderer().setMap(newRoomData.getNewRoom().getTiledMap());
         }
     }
 }

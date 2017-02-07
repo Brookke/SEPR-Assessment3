@@ -235,6 +235,7 @@ public class MapScreen extends AbstractScreen
 
                 if (animTimer == ANIM_TIME) {
                     game.player.moveRoom();
+                    getTileRenderer().setMap(game.player.getRoom().getTiledMap());
                 }
 
                 if (animTimer > ANIM_TIME) {
