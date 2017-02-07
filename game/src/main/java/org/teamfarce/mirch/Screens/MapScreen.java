@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.teamfarce.mirch.*;
 
@@ -49,9 +50,23 @@ public class MapScreen extends AbstractScreen
     private boolean roomTransition = false;
 
     /**
-     * This is the black sprite that draws the fading effect
+     * The amount of ticks it takes for the black to fade in and out
+     */
+
+    /**
+     * The black sprite that is used to fade in/out
      */
     private Sprite BLACK_BACKGROUND = new Sprite();
+
+    /**
+     * The current animation frame of the fading in/out
+     */
+    private float animTimer = 0.0f;
+
+    /**
+     * This boolean determines whether the black is fading in or out
+     */
+    private boolean fadeToBlack = true;
 
     private StatusBar statusBar;
 
@@ -91,7 +106,6 @@ public class MapScreen extends AbstractScreen
     @Override
     public void render(float delta)
     {
-
         playerController.update(delta);
         game.player.update(delta);
         camera.position.x = game.player.getX();
@@ -115,6 +129,8 @@ public class MapScreen extends AbstractScreen
         arrow.draw(tileRender.getBatch());
 
         tileRender.getBatch().end();
+
+        updateTransition();
 
         //Everything to be drawn relative to bottom left of the screen
         spriteBatch.begin();
@@ -176,6 +192,55 @@ public class MapScreen extends AbstractScreen
         statusBar.render();
     }
 
+    /**
+     * This is called when the player decides to move to another room
+     */
+    public void initialiseRoomTransition()
+    {
+        roomTransition = true;
+    }
+
+    /**
+     * This is called when the room transition animation has completed so the necessary variables
+     * can be returned to their normal values
+     */
+    public void finishRoomTransition()
+    {
+        animTimer = 0;
+        roomTransition = false;
+        fadeToBlack = true;
+        //pause = false;
+        //roomTag = new RoomTag(game.player.getRoom().getName());
+    }
+
+    /**
+     * This method is called once a game tick to update the room transition animation
+     */
+    private void updateTransition()
+    {
+        if (roomTransition) {
+            BLACK_BACKGROUND.setAlpha(Interpolation.pow4.apply(0, 1, animTimer / ANIM_TIME));
+
+            if (fadeToBlack) {
+                animTimer++;
+
+                if (animTimer == ANIM_TIME) {
+                    game.player.moveRoom();
+                }
+
+                if (animTimer > ANIM_TIME) {
+                    fadeToBlack = false;
+                }
+            } else {
+                animTimer--;
+
+                if (animTimer < 0) {
+                    finishRoomTransition();
+                }
+            }
+        }
+    }
+
     @Override
     public void resize(int width, int height)
     {
@@ -204,5 +269,10 @@ public class MapScreen extends AbstractScreen
     public void dispose()
     {
         statusBar.dispose();
+    }
+
+    public OrthogonalTiledMapRendererWithPeople getTileRenderer()
+    {
+        return tileRender;
     }
 }

@@ -1,8 +1,11 @@
 package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.MIRCH;
+import org.teamfarce.mirch.Screens.MapScreen;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
+import org.teamfarce.mirch.map.Room;
 
 /**
  * Created by brookehatton on 31/01/2017.
@@ -36,6 +39,11 @@ public class Player extends AbstractPerson
             return;
         }
 
+        if (this.isOnTriggerTile() && dir.toString().equals(getRoom().getMatRotation(this.tileCoordinates.x, this.tileCoordinates.y))) {
+            ((MapScreen)MIRCH.me.guiController.mapScreen).initialiseRoomTransition();
+            return;
+        }
+
         if (!getRoom().isWalkableTile(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy())) {
             //setDirection(dir);
             return;
@@ -54,4 +62,28 @@ public class Player extends AbstractPerson
         return this.getRoom().isTriggerTile(this.tileCoordinates.x, this.tileCoordinates.y);
     }
 
+
+    /**
+     * This takes the player at its current position, and automatically gets the transition data for the next room and applies it to the player and game
+     */
+    public void moveRoom()
+    {
+        if (isOnTriggerTile()) {
+            Room.Transition newRoomData = this.getRoom().getTransitionData(this.getTileCoordinates().x, this.getTileCoordinates().y);
+
+            this.setRoom(newRoomData.getNewRoom());
+
+
+            if (newRoomData.newDirection != null) {
+                //this.setDirection(newRoomData.newDirection);
+                //this.updateTextureRegion();
+            }
+
+            this.setTileCoordinates(newRoomData.newTileCoordinates.x, newRoomData.newTileCoordinates.y);
+
+            //TODO: Look into making a getter for the players Game this way we can do this.getGame() here instead of GameMain.
+
+            ((MapScreen) MIRCH.me.guiController.mapScreen).getTileRenderer().setMap(newRoomData.getNewRoom().getTiledMap());
+        }
+    }
 }
