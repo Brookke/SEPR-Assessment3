@@ -2,13 +2,19 @@ package org.teamfarce.mirch.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.teamfarce.mirch.*;
 
 import org.teamfarce.mirch.Entities.Direction;
 import org.teamfarce.mirch.Entities.PlayerController;
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.Screens.Elements.RoomArrow;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
 
 
@@ -27,6 +33,26 @@ public class MapScreen extends AbstractScreen
     private PlayerController playerController;
     private int moveStep = 50;
 
+    /**
+     * This stores the room arrow that is drawn when the player stands on a room changing mat
+     */
+    private RoomArrow arrow = new RoomArrow(game.player);
+
+    /**
+     * This is the sprite batch that is relative to the screens origin
+     */
+    private SpriteBatch spriteBatch;
+
+    /**
+     * This stores whether the room is currently in transition or not
+     */
+    private boolean roomTransition = false;
+
+    /**
+     * This is the black sprite that draws the fading effect
+     */
+    private Sprite BLACK_BACKGROUND = new Sprite();
+
     private StatusBar statusBar;
 
     public MapScreen(MIRCH game, Skin uiSkin)
@@ -40,6 +66,15 @@ public class MapScreen extends AbstractScreen
         this.tileRender = new OrthogonalTiledMapRendererWithPeople(game.player.getRoom().getTiledMap());
         this.tileRender.addPerson(game.player);
         this.playerController = new PlayerController(game.player);
+
+        this.spriteBatch = new SpriteBatch();
+
+        Pixmap pixMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Pixmap.Format.RGBA8888);
+
+        pixMap.setColor(Color.BLACK);
+        pixMap.fill();
+
+        BLACK_BACKGROUND = new Sprite(new Texture(pixMap));
 
         this.statusBar = new StatusBar(game.gameSnapshot, uiSkin);
     }
@@ -73,6 +108,18 @@ public class MapScreen extends AbstractScreen
 
         //if we are no longer in the previous room and haven't entered a door, we move the player back
         //to the old position
+
+        arrow.update();
+        arrow.draw(tileRender.getBatch());
+
+        //Everything to be drawn relative to bottom left of the screen
+        spriteBatch.begin();
+
+        if (roomTransition) {
+            BLACK_BACKGROUND.draw(spriteBatch);
+        }
+
+        spriteBatch.end();
 
         Random random = new Random();
         //System.out.println(random.nextInt(10));

@@ -23,9 +23,6 @@ public class Player extends AbstractPerson
         super(name, description, filename);
 
         this.state = PersonState.STANDING;
-
-
-
     }
 
     /**
@@ -45,6 +42,16 @@ public class Player extends AbstractPerson
         }
 
         initialiseMove(dir);
+    }
+
+    /**
+     * This method returns whether or not the player is standing on a tile that initiates a Transition to another room
+     *
+     * @return (boolean) Whether the player is on a trigger tile or not
+     */
+    public boolean isOnTriggerTile()
+    {
+        return this.getRoom().isTriggerTile(this.tileCoordinates.x, this.tileCoordinates.y);
     }
 
 }
