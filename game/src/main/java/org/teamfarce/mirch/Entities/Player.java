@@ -13,6 +13,10 @@ import org.teamfarce.mirch.map.Room;
 public class Player extends AbstractPerson
 {
 
+    /**
+     * This variable is detected by the mapScreen and initialises the room change
+     */
+    public boolean roomChange = false;
 
     /**
      * Initialise the entity.
@@ -40,7 +44,7 @@ public class Player extends AbstractPerson
         }
 
         if (this.isOnTriggerTile() && dir.toString().equals(getRoom().getMatRotation(this.tileCoordinates.x, this.tileCoordinates.y))) {
-            ((MapScreen)MIRCH.me.guiController.mapScreen).initialiseRoomTransition();
+            roomChange = true;
             return;
         }
 

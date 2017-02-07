@@ -55,6 +55,11 @@ public class MapScreen extends AbstractScreen
     private float ANIM_TIME = 0.7f;
 
     /**
+     * The current room ID. This is used to catch when a player has moved rooms.
+     */
+    private int currentRoomID = 0;
+
+    /**
      * The black sprite that is used to fade in/out
      */
     private Sprite BLACK_BACKGROUND = new Sprite();
@@ -248,6 +253,12 @@ public class MapScreen extends AbstractScreen
                     finishRoomTransition();
                 }
             }
+        }
+
+        if (game.player.roomChange)
+        {
+            initialiseRoomTransition();
+            game.player.roomChange = false;
         }
     }
 
