@@ -35,6 +35,11 @@ public class Player extends AbstractPerson
      */
     public void move(Direction dir)
     {
+        if (((MapScreen) MIRCH.me.guiController.mapScreen).isTransitioning())
+        {
+            return;
+        }
+
         if (this.state != PersonState.STANDING) {
             return;
         }

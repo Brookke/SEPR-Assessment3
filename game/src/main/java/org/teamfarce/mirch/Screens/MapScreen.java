@@ -215,6 +215,14 @@ public class MapScreen extends AbstractScreen
     }
 
     /**
+     * This method returns true if the game is currently transitioning between rooms
+     */
+    public boolean isTransitioning()
+    {
+        return roomTransition;
+    }
+
+    /**
      * This method is called once a game tick to update the room transition animation
      */
     private void updateTransition()
