@@ -19,14 +19,14 @@ public class Journal
     /**
      * The conversation buffer.
      */
-    public String conversations;
+    public ArrayList<String> conversations;
 
     /**
      * Initialise the Journal in an empty state.
      */
     public Journal()
     {
-        this.conversations = "";
+        this.conversations = new ArrayList<>();
         this.foundClues = new ArrayList<>();
     }
 
@@ -40,6 +40,10 @@ public class Journal
         this.foundClues.add(clue);
     }
 
+    public List<Clue> getClues() {
+        return this.foundClues;
+    }
+
     /**
      * Add a conversation with a given character to the journal.
      *
@@ -48,13 +52,11 @@ public class Journal
      */
     public void addConversation(String text, String characterName)
     {
-        this.conversations = String.format(
-                "%1$s: %2$s\n%3$s", characterName, text, this.conversations
-        );
+        this.conversations.add(String.format("%1$s: %2$s", characterName, text));
     }
 
-    public List<Clue> getClues() {
-        return this.foundClues;
+    public List<String> getConversations() {
+        return this.conversations;
     }
 
 }
