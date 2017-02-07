@@ -52,6 +52,7 @@ public class MapScreen extends AbstractScreen
     /**
      * The amount of ticks it takes for the black to fade in and out
      */
+    private float ANIM_TIME = 0.7f;
 
     /**
      * The black sprite that is used to fade in/out
