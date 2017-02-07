@@ -109,8 +109,12 @@ public class MapScreen extends AbstractScreen
         //if we are no longer in the previous room and haven't entered a door, we move the player back
         //to the old position
 
+        tileRender.getBatch().begin();
+
         arrow.update();
         arrow.draw(tileRender.getBatch());
+
+        tileRender.getBatch().end();
 
         //Everything to be drawn relative to bottom left of the screen
         spriteBatch.begin();
