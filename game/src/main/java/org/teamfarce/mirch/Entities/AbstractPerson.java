@@ -110,7 +110,6 @@ public abstract class AbstractPerson extends MapEntity
     }
 
 
-
     /**
      * Finalises the move by resetting the animation timer and setting the state back to standing.
      * Called when the player is no longer moving.
