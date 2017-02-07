@@ -52,7 +52,6 @@ public class MapScreen extends AbstractScreen
     /**
      * The amount of ticks it takes for the black to fade in and out
      */
-    private float ANIM_TIME = 40f;
 
     /**
      * The black sprite that is used to fade in/out
@@ -131,7 +130,7 @@ public class MapScreen extends AbstractScreen
 
         tileRender.getBatch().end();
 
-        updateTransition();
+        updateTransition(delta);
 
         //Everything to be drawn relative to bottom left of the screen
         spriteBatch.begin();
@@ -225,15 +224,15 @@ public class MapScreen extends AbstractScreen
     /**
      * This method is called once a game tick to update the room transition animation
      */
-    private void updateTransition()
+    private void updateTransition(float delta)
     {
         if (roomTransition) {
             BLACK_BACKGROUND.setAlpha(Interpolation.pow4.apply(0, 1, animTimer / ANIM_TIME));
 
             if (fadeToBlack) {
-                animTimer++;
+                animTimer+= delta;
 
-                if (animTimer == ANIM_TIME) {
+                if (animTimer >= ANIM_TIME) {
                     game.player.moveRoom();
                     getTileRenderer().setMap(game.player.getRoom().getTiledMap());
                 }
@@ -242,9 +241,9 @@ public class MapScreen extends AbstractScreen
                     fadeToBlack = false;
                 }
             } else {
-                animTimer--;
+                animTimer-= delta;
 
-                if (animTimer < 0) {
+                if (animTimer <= 0f) {
                     finishRoomTransition();
                 }
             }
