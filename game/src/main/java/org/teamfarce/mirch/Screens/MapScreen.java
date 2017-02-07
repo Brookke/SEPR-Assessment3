@@ -228,7 +228,7 @@ public class MapScreen extends AbstractScreen
     }
 
     /**
-     * This method is called once a game tick to update the room transition animation
+     * This method is called once a render loop to update the room transition animation
      */
     private void updateTransition(float delta)
     {
