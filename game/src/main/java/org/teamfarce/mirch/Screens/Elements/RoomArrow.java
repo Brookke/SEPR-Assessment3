@@ -2,6 +2,7 @@ package org.teamfarce.mirch.Screens.Elements;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.sun.media.jfxmedia.events.PlayerStateEvent;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Entities.AbstractPerson;
 import org.teamfarce.mirch.Entities.Direction;
@@ -54,7 +55,7 @@ public class RoomArrow extends Sprite
      */
     public void update()
     {
-        if (this.player.isOnTriggerTile()) {
+        if (this.player.isOnTriggerTile() && this.player.getState() == AbstractPerson.PersonState.STANDING) {
 
             //this is the rotation of the mat (ie the way the arrow should face)
             String rotation = player.getRoom().getMatRotation(player.getTileCoordinates().x, player.getTileCoordinates().y);
