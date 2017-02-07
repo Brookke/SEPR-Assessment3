@@ -2,7 +2,6 @@ package org.teamfarce.mirch.Screens.Elements;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.sun.media.jfxmedia.events.PlayerStateEvent;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Entities.AbstractPerson;
 import org.teamfarce.mirch.Entities.Direction;
