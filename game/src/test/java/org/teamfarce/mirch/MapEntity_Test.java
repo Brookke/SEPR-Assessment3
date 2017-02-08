@@ -22,7 +22,7 @@ public class MapEntity_Test extends GameTest {
 	public void test_setRoomGetRoom(){
 		MapEntity mapEntity = new MapEntity(null, null,  new Texture(Gdx.files.internal("clues/Axe.png")));
 
-		Room theRoom = new Room(0, "TestMap.tmx", "test");
+		Room theRoom = new Room(0, "testMap.tmx", "test");
 		mapEntity.setRoom(theRoom);
 		assertEquals(theRoom, mapEntity.getRoom());
 	}
