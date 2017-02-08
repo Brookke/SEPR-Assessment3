@@ -3,13 +3,9 @@ package org.teamfarce.mirch.Entities;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import javafx.scene.Camera;
-import org.lwjgl.Sys;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
-import org.teamfarce.mirch.map.Map;
 
 
 /**
