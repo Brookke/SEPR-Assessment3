@@ -80,7 +80,7 @@ public class GameSnapshot
 
     public void updateScore(float delta) {
         counter += delta;
-        if (counter > 5) {
+        if (counter >= 5) {
             counter = 0;
             score--;
         }
