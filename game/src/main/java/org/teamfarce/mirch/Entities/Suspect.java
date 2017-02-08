@@ -41,7 +41,7 @@ public class Suspect extends AbstractPerson
             DialogueTree dialogueTree
     )
     {
-        super(name, description, "characters/"+ filename);
+        super(name, description, filename);
 
         this.beenAccused = false;
         this.isMurderer = false;
