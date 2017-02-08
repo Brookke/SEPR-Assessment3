@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
-
+import org.teamfarce.mirch.MIRCH;
+import org.teamfarce.mirch.Screens.MapScreen;
 
 /**
  * This class allows the player to be moved and controlled.
@@ -34,14 +35,20 @@ public class PlayerController extends InputAdapter
     private Player player;
 
     /**
+     * This stores the game that is running
+     */
+    private MIRCH game;
+
+    /**
      * Constructor to create the PlayerController to control the provided Player
      *
      * @param player - The player that we want this controller to control
      */
-    public PlayerController(Player player, OrthographicCamera camera)
+    public PlayerController(Player player, MIRCH game, OrthographicCamera camera)
     {
         this.player = player;
         this.camera = camera;
+        this.game = game;
     }
 
     /**
@@ -156,7 +163,7 @@ public class PlayerController extends InputAdapter
 
         timer += delta;
 
-        if (timer > movementTime) {
+        if (timer > movementTime && !((MapScreen) game.guiController.mapScreen).isTransitioning()) {
             player.move(goTo);
             return;
         }
