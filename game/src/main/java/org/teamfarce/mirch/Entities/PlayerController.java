@@ -3,7 +3,7 @@ package org.teamfarce.mirch.Entities;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import org.teamfarce.mirch.MIRCH;
-
+import org.teamfarce.mirch.Screens.MapScreen;
 
 /**
  * This class allows the player to be moved and controlled.
@@ -30,13 +30,19 @@ public class PlayerController extends InputAdapter
     private Player player;
 
     /**
+     * This stores the game that is running
+     */
+    private MIRCH game;
+
+    /**
      * Constructor to create the PlayerController to control the provided Player
      *
      * @param player - The player that we want this controller to control
      */
-    public PlayerController(Player player)
+    public PlayerController(MIRCH game, Player player)
     {
         this.player = player;
+        this.game = game;
     }
 
     /**
@@ -137,7 +143,7 @@ public class PlayerController extends InputAdapter
 
         timer += delta;
 
-        if (timer > movementTime) {
+        if (timer > movementTime && !((MapScreen) game.guiController.mapScreen).isTransitioning()) {
             player.move(goTo);
             return;
         }

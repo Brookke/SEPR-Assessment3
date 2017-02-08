@@ -1,6 +1,5 @@
 package org.teamfarce.mirch;
 
-import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.*;
@@ -301,6 +300,7 @@ public class ScenarioBuilder
 //        sumProvesMotive += propsResult.sumProvesMotive;
 //        sumProvesMeans += propsResult.sumProvesMeans;
 
+        distributeClues(constructedClues, rooms);
         return new GameSnapshot(
                 constructedSuspects, constructedClues, rooms, sumProvesMotive, sumProvesMeans
         );
@@ -336,5 +336,31 @@ public class ScenarioBuilder
         public DataCharacter victim = null;
         public DataCharacter murderer = null;
         public List<DataCharacter> suspects = new ArrayList<>();
+    }
+
+
+    /**
+     * Takes a list of clues and rooms and gives each of the clues a random room and location
+     * @param clues
+     * @param rooms
+     */
+    public static void distributeClues(List<Clue> clues, List<Room> rooms) {
+
+        Collections.shuffle(clues);
+        int amountOfClues = clues.size();
+        for (Room room : rooms) {
+            if (amountOfClues == 0) return;
+
+            Vector2Int randHidingSpot = room.getRandHidingSpot();
+
+            if (randHidingSpot != null) {
+                //Subtract 1 as java counts from 0
+                clues.get(amountOfClues - 1).setTileCoordinates(randHidingSpot);
+                clues.get(amountOfClues - 1).setRoom(room);
+                amountOfClues--;
+            }
+
+        }
+
     }
 }

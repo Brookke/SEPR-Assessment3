@@ -89,7 +89,7 @@ public class StatusBar
             public void changed(ChangeEvent event, Actor actor)
             {
             System.out.println("Journal button was pressed");
-            gameSnapshot.setState(GameState.journalHome);
+            gameSnapshot.setState(GameState.journalClues);
             }
         });
 

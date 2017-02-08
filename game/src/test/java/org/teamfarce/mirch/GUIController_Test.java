@@ -108,11 +108,11 @@ public class GUIController_Test extends GameTest {
         assertNotSame(game.getScreen(), guiController.journalScreen);
 
         //Switch to JournalScreen
-        game.gameSnapshot.setState(GameState.journalHome);
+        game.gameSnapshot.setState(GameState.journalClues);
         guiController.update();
 
         //Check JournalScreen is active
-        assertSame(guiController.currentState, GameState.journalHome);
+        assertSame(guiController.currentState, GameState.journalClues);
         assertSame(game.getScreen(), guiController.journalScreen);
         assertNotSame(game.getScreen(), guiController.mapScreen);
     }
