@@ -46,6 +46,8 @@ public class MIRCH extends Game {
 
 	private boolean testGame = false;
 
+
+
     /**
      * Controls the initial character traits selection at the start of the game.
      * <p>
