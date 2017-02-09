@@ -1,6 +1,7 @@
 package org.teamfarce.mirch.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.MIRCH;
+import org.w3c.dom.Text;
 
 /**
  * Created by joeshuff on 09/02/2017.
@@ -28,6 +30,7 @@ public class NarratorScreen extends AbstractScreen {
     private String endMessage = "";
 
     private TextArea speech;
+    private TextArea prompt;
 
     final static int FRAMES_PER_LETTER = 2;
 
@@ -62,14 +65,22 @@ public class NarratorScreen extends AbstractScreen {
         speech.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.6f);
         speech.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 0.25f);
 
+        prompt = new TextArea("Press ENTER to Continue", uiSkin);
+        prompt.setStyle(textFieldStyle);
+        prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
+        prompt.setPosition(Gdx.graphics.getWidth() * 0.55f, Gdx.graphics.getHeight() * 0.25f);
+        prompt.setVisible(false);
+
         narratorStage.addActor(background);
         narratorStage.addActor(speech);
+        narratorStage.addActor(prompt);
     }
 
     private void updateSpeech()
     {
         if (endMessage.equals(currentMessage))
         {
+            prompt.setVisible(true);
             return;
         }
 
@@ -87,6 +98,10 @@ public class NarratorScreen extends AbstractScreen {
     @Override
     public void show() {
         initStage();
+
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(narratorStage);
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
