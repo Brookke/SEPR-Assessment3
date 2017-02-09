@@ -56,7 +56,7 @@ public class Scoring_Test extends GameTest {
     @Test
     public void test_updateScore_has_decrease(){
         int currentScore;
-        float delta = 1.00f;
+        float delta = 5.00f;
         int newScore;
         currentScore = gameSnapshot.getScore();
         gameSnapshot.updateScore(delta);
