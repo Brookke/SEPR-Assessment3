@@ -1,11 +1,13 @@
 package org.teamfarce.mirch.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.GameSnapshot;
@@ -40,6 +42,7 @@ public class NarratorScreen extends AbstractScreen {
         this.gameSnapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
 
+        //Set introduction speech
         setSpeech("Hello, my name is Sir Heslington, kill me");
     }
 
@@ -51,16 +54,11 @@ public class NarratorScreen extends AbstractScreen {
         background.setHeight(Gdx.graphics.getHeight());
         background.setWidth(Gdx.graphics.getWidth());
 
-        String testText = "";
-
-        for (int i = 0; i <= 1000; i ++)
-        {
-            testText = testText + "Aas";
-        }
-
-        testText = testText + "END";
+        TextField.TextFieldStyle textFieldStyle = uiSkin.get(TextField.TextFieldStyle.class);
+        textFieldStyle.fontColor = Color.WHITE;
 
         speech = new TextArea(currentMessage, uiSkin);
+        speech.setStyle(textFieldStyle);
         speech.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.6f);
         speech.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 0.25f);
 
