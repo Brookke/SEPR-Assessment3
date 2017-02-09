@@ -112,6 +112,8 @@ public class MapScreen extends AbstractScreen
     @Override
     public void render(float delta)
     {
+
+        game.gameSnapshot.updateScore(delta);
         playerController.update(delta);
         game.player.update(delta);
         camera.position.x = game.player.getX();
