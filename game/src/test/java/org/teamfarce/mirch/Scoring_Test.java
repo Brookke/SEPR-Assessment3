@@ -9,12 +9,13 @@ import static org.junit.Assert.assertSame;
  */
 public class Scoring_Test extends GameTest {
     
+    GameSnapshot gameSnapshot;
+    
     @Before
     public void init_tests()
     {
-        MIRCH game;
-        game = new MIRCH();
-        game.gameSnapshot = new GameSnapshot(null, null, null, 0, 0);
+        
+        gameSnapshot = new GameSnapshot(null, null, null, 0, 0);
         
     }
     
@@ -24,9 +25,9 @@ public class Scoring_Test extends GameTest {
         int currentScore;
         int inc = 20;
         int newScore;
-        currentScore = game.gameSnapshot.getScore();
-        game.gameSnapshot.modifyScore(inc);
-        newScore = game.gameSnapshot.getScore();
+        currentScore = gameSnapshot.getScore();
+        gameSnapshot.modifyScore(inc);
+        newScore = gameSnapshot.getScore();
         assertSame(newScore, currentScore + inc);
     }
 
@@ -35,9 +36,9 @@ public class Scoring_Test extends GameTest {
         int currentScore;
         int inc = -20;
         int newScore;
-        currentScore = game.gameSnapshot.getScore();
-        game.gameSnapshot.modifyScore(inc);
-        newScore = game.gameSnapshot.getScore();
+        currentScore = gameSnapshot.getScore();
+        gameSnapshot.modifyScore(inc);
+        newScore = gameSnapshot.getScore();
         assertSame(newScore, currentScore - inc);
     }
 
@@ -46,9 +47,9 @@ public class Scoring_Test extends GameTest {
         int currentScore;
         float delta = 0.25f;
         int newScore;
-        currentScore = game.gameSnapshot.getScore();
-        game.gameSnapshot.updateScore(delta);
-        newScore = game.gameSnapshot.getScore();
+        currentScore = gameSnapshot.getScore();
+        gameSnapshot.updateScore(delta);
+        newScore = gameSnapshot.getScore();
         assertSame(newScore, currentScore);
     }
 
@@ -57,9 +58,9 @@ public class Scoring_Test extends GameTest {
         int currentScore;
         float delta = 1.00f;
         int newScore;
-        currentScore = game.gameSnapshot.getScore();
-        game.gameSnapshot.updateScore(delta);
-        newScore = game.gameSnapshot.getScore();
+        currentScore = gameSnapshot.getScore();
+        gameSnapshot.updateScore(delta);
+        newScore = gameSnapshot.getScore();
         assertSame(newScore, currentScore - 1);
     }
 }
