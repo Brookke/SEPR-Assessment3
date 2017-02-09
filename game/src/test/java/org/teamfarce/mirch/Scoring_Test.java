@@ -61,6 +61,6 @@ public class Scoring_Test extends GameTest {
         currentScore = gameSnapshot.getScore();
         gameSnapshot.updateScore(delta);
         newScore = gameSnapshot.getScore();
-        assertEquals(newScore, currentScore + 1);
+        assertEquals(newScore, currentScore - 1);
     }
 }
