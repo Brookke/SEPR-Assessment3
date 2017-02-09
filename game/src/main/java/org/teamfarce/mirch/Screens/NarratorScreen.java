@@ -46,7 +46,8 @@ public class NarratorScreen extends AbstractScreen {
         this.uiSkin = uiSkin;
 
         //Set introduction speech
-        setSpeech("Hello, my name is Sir Heslington, kill me");
+        setSpeech("Hello, my name is Sir Heslington.\n\n Last night, there was a murder in the Ron Cooke Hub! It is your job to try and find out who did it!" +
+                "\n\nWander around the Hub and try to find clues and talk to the suspsects to work out who the murderer is!");
     }
 
     private void initStage()
