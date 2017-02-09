@@ -1,16 +1,24 @@
 package org.teamfarce.mirch;
 
 import org.junit.Test;
-
+import org.junit.Before;
 import static org.junit.Assert.assertSame;
 
 /**
  * Tests for scoring
  */
 public class Scoring_Test extends GameTest {
-    MIRCH game;
-    game = new MIRCH();
-    //game.gameSnapshot = new GameSnapshot(null, null, null, 0, 0);
+    
+    @Before
+    public void init_tests()
+    {
+        MIRCH game;
+        game = new MIRCH();
+        game.gameSnapshot = new GameSnapshot(null, null, null, 0, 0);
+        
+    }
+    
+    
     @Test
     public void test_modifyScore_Addition(){
         int currentScore;
