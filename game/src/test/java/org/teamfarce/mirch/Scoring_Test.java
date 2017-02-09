@@ -9,6 +9,8 @@ import static org.junit.Assert.assertSame;
  */
 public class Scoring_Test extends GameTest {
     MIRCH game;
+    game = new MIRCH();
+    game.gameSnapshot = new GameSnapshot(null, null, null, 0, 0);
     @Test
     public void test_modifyScore_Addition(){
         int currentScore;
