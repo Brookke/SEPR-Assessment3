@@ -2,7 +2,7 @@ package org.teamfarce.mirch;
 
 import org.junit.Test;
 import org.junit.Before;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for scoring
@@ -28,7 +28,7 @@ public class Scoring_Test extends GameTest {
         currentScore = gameSnapshot.getScore();
         gameSnapshot.modifyScore(inc);
         newScore = gameSnapshot.getScore();
-        assertSame(newScore, currentScore + inc);
+        assertEquals(newScore, currentScore + inc);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class Scoring_Test extends GameTest {
         currentScore = gameSnapshot.getScore();
         gameSnapshot.modifyScore(inc);
         newScore = gameSnapshot.getScore();
-        assertSame(newScore, currentScore - inc);
+        assertEquals(newScore, currentScore - inc);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class Scoring_Test extends GameTest {
         currentScore = gameSnapshot.getScore();
         gameSnapshot.updateScore(delta);
         newScore = gameSnapshot.getScore();
-        assertSame(newScore, currentScore);
+        assertEquals(newScore, currentScore);
     }
 
     @Test
@@ -61,6 +61,6 @@ public class Scoring_Test extends GameTest {
         currentScore = gameSnapshot.getScore();
         gameSnapshot.updateScore(delta);
         newScore = gameSnapshot.getScore();
-        assertSame(newScore, currentScore - 1);
+        assertEquals(newScore, currentScore - 1);
     }
 }
