@@ -25,9 +25,12 @@ public class GameSnapshot
     int motiveProven;
     int sumProvesMotive;
     int sumProvesMean;
+    int score;
     int time;
     private List<Suspect> suspects;
     private GameState state;
+    private float counter = 0f;
+
 
     /**
      * Initialises function.
@@ -51,14 +54,37 @@ public class GameSnapshot
         this.gameWon = false;
         this.sumProvesMean = sumProvesMeans;
         this.sumProvesMotive = sumProvesMotive;
+        this.score = 500;
+
+    }
+
+
+    /**
+     * Takes an integer and adds it on to the current score.
+     * @param amount - the integer to add to the score.
+     */
+    public void modifyScore(int amount)
+    {
+        score += amount;
     }
 
     /**
-     * Increments the pseudo-time counter.
+     * Getter for current score
+     * @return Returns current score.
      */
-    public void incrementTime()
+
+    public int getScore()
     {
-        ++this.time;
+        return this.score;
+    }
+
+    public void updateScore(float delta) {
+        counter += delta;
+        if (counter >= 5) {
+            counter = 0;
+            score--;
+        }
+
     }
 
     /**
@@ -163,7 +189,6 @@ public class GameSnapshot
     public void setState(GameState state)
     {
         this.state = state;
-        this.incrementTime();
     }
 
     /**
@@ -182,7 +207,7 @@ public class GameSnapshot
      * This tells the journal to keep a log of this prop.
      * </p>
      *
-     * @param Clue The clue to add.
+     * @param //Clue The clue to add.
      */
     public void journalAddClue(Clue clue)
     {

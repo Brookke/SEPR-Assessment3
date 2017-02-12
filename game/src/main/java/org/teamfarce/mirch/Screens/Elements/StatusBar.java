@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
+import org.teamfarce.mirch.MIRCH;
+
 
 /**
  * Top status bar in game
@@ -37,6 +39,8 @@ public class StatusBar
      */
     public Stage stage;
 
+    private TextButton scoreLabel;
+
     /**
      * Game snapshot instance
      */
@@ -58,7 +62,8 @@ public class StatusBar
         statusBar.row().height(HEIGHT);
         statusBar.defaults().width(WIDTH);
 
-        TextButton scoreLabel = new TextButton("Score: 0", uiSkin);
+
+        scoreLabel = new TextButton("Score: "+ gameSnapshot.getScore(), uiSkin);
         //scoreLabel.setAlignment(Align.center, Align.center);
         statusBar.add(scoreLabel).uniform();
 
@@ -97,7 +102,9 @@ public class StatusBar
      */
     public void render()
     {
+        scoreLabel.setText("Score: "+ gameSnapshot.getScore());
         stage.act();
+
         stage.draw();
     }
 

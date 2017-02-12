@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputAdapter;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.MapScreen;
 
-
 /**
  * This class allows the player to be moved and controlled.
  */
