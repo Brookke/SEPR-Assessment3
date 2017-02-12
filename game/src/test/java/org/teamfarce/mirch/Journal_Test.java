@@ -46,4 +46,28 @@ public class Journal_Test extends GameTest {
 
 		assertEquals(cluesList, journal.foundClues);
 	}
+
+	@Test
+	public void test_addConversation(){
+		Journal journal = new Journal();
+
+		String dialogue = "Convo text";
+		String character = "Character name";
+		journal.addConversation(dialogue, character);
+
+		String result = character + ": " + dialogue;
+
+		assertEquals(result, journal.getConversations().get(0));
+	}
+
+	@Test
+	public void test_getConversations(){
+		Journal journal = new Journal();
+
+		journal.addConversation("Dialogue", "Character 1");
+		journal.addConversation("Dialogue", "Character 2");
+		journal.addConversation("Dialogue", "Character 3");
+
+		assertEquals(3, journal.getConversations().size());
+	}
 }
