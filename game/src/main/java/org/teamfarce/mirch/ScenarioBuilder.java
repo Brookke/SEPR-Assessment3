@@ -13,83 +13,35 @@ import java.util.stream.Collectors;
 public class ScenarioBuilder
 {
 
-    public static CharacterData chooseCharacters(
-            ScenarioBuilderDatabase database,
-            int minSuspectCount ,
-            int maxSuspectCount,
-            DataCharacterMotiveLink selectedCharacterMotiveLink,
-            Random random
+    public static CharacterData generateCharacters(
+            HashMap<Integer, DataCharacter> characters,
+
     ) throws ScenarioBuilderException
     {
-        WeightedSelection selector = new WeightedSelection(random);
-        CharacterData characterData = new CharacterData();
-
-        // Extract the murderer, victim and motive.
-        characterData.murderer = selectedCharacterMotiveLink.murderer;
-        characterData.victim = selectedCharacterMotiveLink.victim;
-
-        // Create a list of suspect which we can choose from to construct our suspect list. This
-        // includes all of the suspects from our data minus the murderer and victim.
-        List<DataCharacter> potentialSuspects = new ArrayList<>(database.characters.values());
-        potentialSuspects.remove(characterData.murderer);
-        potentialSuspects.remove(characterData.victim);
-
-        int targetSuspectCount =
-                minSuspectCount + random.nextInt(maxSuspectCount - minSuspectCount + 1);
-
-        // Keep randomly adding suspects whilst we haven't reached our target and we still have
-        // some characters to consider.
-        while (
-                characterData.suspects.size() < targetSuspectCount && potentialSuspects.size() > 0
-                ) {
-            characterData.suspects.add(selector.selectWeightedObject(
-                    potentialSuspects,
-                    x -> x.selectionWeight,
-                    potentialSuspects::remove
-            ).get());
-        }
-
-        // If we haven't got more suspects than the minimum count, the data in the database was
-        // not sufficient to fulfil this requirement.
-        if (characterData.suspects.size() < minSuspectCount) {
-            throw new ScenarioBuilderException("Could not minimum suspect count");
-        }
-
-        // The murderer is a suspect as well.
-        characterData.suspects.add(characterData.murderer);
+        characters.forEach((x, y) -> );
+        List<Suspect> posKillers = new ArrayList<>();
+        List<Suspect> posVictims = new ArrayList<>();
+        characters.forEach((x, c) -> {
+            if (c.posKiller) {
+                posKillers.add(new Suspect(c.name, c.description, ));
+            } else {
+                posVictims.add(c);
+            }
+        });
 
         return characterData;
     }
 
-    public static Set<DataClue> getClues(
-            DataMeans selectedMeans,
-            DataMotive selectedMotive,
-            DataCharacter selectedMurderer,
-            DataCharacter selectedVictim
+    public static List<Clue> generateClues(
+            HashMap<Integer, DataClue> clues
     )
     {
-        Set<DataClue> selectedClues = new HashSet<>();
+        List<Clue> output = new ArrayList<>();
+        clues.forEach((x,c) -> output.add(new Clue(c.name, c.description, c.resource)));
 
-        // Get the clues. This is done by filtering out the clues of the selected motive/means
-        // which required the victim/murderer to be different.
-        List<DataClue> meansClues = selectedMeans
-                .clues
-                .stream()
-                .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
-                .filter(c -> selectedVictim.requiredAsVictim.contains(c))
-                .collect(Collectors.toList());
-        selectedClues.addAll(meansClues);
-
-        List<DataClue> motiveClues = selectedMotive
-                .clues
-                .stream()
-                .filter(c -> selectedMurderer.requiredAsMurderer.contains(c))
-                .filter(c -> selectedVictim.requiredAsVictim.contains(c))
-                .collect(Collectors.toList());
-        selectedClues.addAll(motiveClues);
-
-        return selectedClues;
+        return output;
     }
+
 
 
     public static CreateAdderResult createAdders(
@@ -167,8 +119,7 @@ public class ScenarioBuilder
 
     public static GameSnapshot generateGame(
             ScenarioBuilderDatabase database,
-            int minSuspectCount,
-            int maxSuspectCount,
+            int suspectCount,
             Set<DataQuestioningStyle> chosenStyles,
             Random random
     ) throws ScenarioBuilderException
@@ -196,7 +147,7 @@ public class ScenarioBuilder
         List<DataCharacter> selectedSuspects = characterData.suspects;
 
         // Get our means.
-        DataMeans selectedMeans = selector
+        DataMeansClue selectedMeans = selector
                 .selectWeightedObject(selectedMurderer.meansLink, x -> x.selectionWeight)
                 .get()
                 .means;
@@ -209,7 +160,7 @@ public class ScenarioBuilder
         List<Clue> constructedClues = new ArrayList<>();
 
         for (DataClue c : selectedClues) {
-            Clue tempClue = new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.resource);
+            Clue tempClue = new Clue(c.name, c.description, c.resource);
 
             Collections.shuffle(rooms);
             tempClue.setRoom(rooms.get(0));
