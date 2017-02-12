@@ -4,14 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.GameSnapshot;
+import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 import org.w3c.dom.Text;
 
@@ -29,8 +30,8 @@ public class NarratorScreen extends AbstractScreen {
     private String currentMessage = "";
     private String endMessage = "";
 
-    private TextArea speech;
-    private TextArea prompt;
+    private Label speech;
+    private Button prompt;
 
     final static int FRAMES_PER_LETTER = 2;
 
@@ -61,16 +62,21 @@ public class NarratorScreen extends AbstractScreen {
         TextField.TextFieldStyle textFieldStyle = uiSkin.get(TextField.TextFieldStyle.class);
         textFieldStyle.fontColor = Color.WHITE;
 
-        speech = new TextArea(currentMessage, uiSkin);
-        speech.setStyle(textFieldStyle);
+        speech = new Label(currentMessage, uiSkin);
+        speech.getStyle().fontColor = Color.WHITE;
         speech.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.6f);
         speech.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 0.25f);
 
-        prompt = new TextArea("Press ENTER to Continue", uiSkin);
-        prompt.setStyle(textFieldStyle);
+        prompt = new TextButton("Click to Continue", uiSkin);
         prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
         prompt.setPosition(Gdx.graphics.getWidth() * 0.55f, Gdx.graphics.getHeight() * 0.25f);
         prompt.setVisible(false);
+        prompt.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                gameSnapshot.setState(GameState.map);
+            }
+        });
 
         narratorStage.addActor(background);
         narratorStage.addActor(speech);
