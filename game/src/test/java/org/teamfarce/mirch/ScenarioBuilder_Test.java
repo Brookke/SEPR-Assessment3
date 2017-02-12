@@ -13,7 +13,7 @@ import static org.junit.Assert.fail;
  * @author jacobwunwin
  *
  */
-public class ScenarioBuilderTest extends GameTest {
+public class ScenarioBuilder_Test extends GameTest {
 
     @Test
     public void distributeCluesGiveRooms()
