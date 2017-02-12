@@ -3,6 +3,7 @@ package org.teamfarce.mirch;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 public class ScenarioBuilderDatabase
 {
@@ -54,7 +55,7 @@ public class ScenarioBuilderDatabase
             clue.id = rsClue.getInt("id");
             clue.name = rsClue.getString("name");
             clue.description = rsClue.getString("description");
-            clue.resource = "clock.png";
+            clue.sprite = "clock.png";
             clues.put(clue.id, clue);
         }
 
@@ -74,6 +75,8 @@ public class ScenarioBuilderDatabase
             motives.put(motive.id, motive);
         }
 
+        ResultSet rsClueLinks = sqlStmt.executeQuery("SELECT * FROM clue_links");
+
         ResultSet rsCharacter = sqlStmt.executeQuery("SELECT * FROM characters");
         while (rsCharacter.next()) {
             DataCharacter character = new DataCharacter();
@@ -81,9 +84,14 @@ public class ScenarioBuilderDatabase
             character.name = rsCharacter.getString("name");
             character.description = rsCharacter.getString("description");
             character.selectionWeight = rsCharacter.getInt("selection_weight");
-            character.resource = resources.get(rsCharacter.getInt("resource"));
+            character.spritesheet = resources.get(rsCharacter.getInt("resource_spritesheet"));
             character.posKiller = rsCharacter.getInt("posKiller") == 1;
-            character.resource.characters.add(character);
+            character.dialogue = resources.get(rsCharacter.getInt("resource_dialogue"));
+            while (rsClueLinks.next()) {
+                if (rsClue.getInt("character") == character.id) {
+                    character.relatedClues.put(clues.get(rsClue.getInt("clue")).id, clues.get(rsClue.getInt("clue")));
+                }
+            }
             characters.put(character.id, character);
         }
 
@@ -111,7 +119,7 @@ public class ScenarioBuilderDatabase
         public int id;
         public String name;
         public String description;
-        public String resource;
+        public String sprite;
     }
 
     public class DataQuestioningStyle
@@ -135,7 +143,9 @@ public class ScenarioBuilderDatabase
         public String description;
         public int selectionWeight;
         public boolean posKiller;
-        public DataResource resource;
+        public DataResource spritesheet;
+        public DataResource dialogue;
+        public HashMap<Integer, DataClue> relatedClues;
     }
 
 }

@@ -14,30 +14,48 @@ public class ScenarioBuilder
 {
 
     public static CharacterData generateCharacters(
-            HashMap<Integer, DataCharacter> characters,
+            HashMap<Integer, DataCharacter> characters
 
     ) throws ScenarioBuilderException
     {
-        characters.forEach((x, y) -> );
+
+        CharacterData data = new CharacterData();
+
         List<Suspect> posKillers = new ArrayList<>();
         List<Suspect> posVictims = new ArrayList<>();
         characters.forEach((x, c) -> {
             if (c.posKiller) {
-                posKillers.add(new Suspect(c.name, c.description, ));
+                Suspect tempSuspect = new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), null);
+                tempSuspect.relatedClues = (convertClues(c.relatedClues));
+                posKillers.add(tempSuspect);
+
             } else {
-                posVictims.add(c);
+                posVictims.add(new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), null));
             }
         });
 
-        return characterData;
+        Collections.shuffle(posKillers);
+        Collections.shuffle(posVictims);
+
+        posKillers.get(0).setKiller();
+        posVictims.get(0).setVictim();
+
+        data.murderer = posKillers.get(0);
+        data.victim = posVictims.get(0);
+
+        data.allCharacters.addAll(posKillers);
+        data.allCharacters.addAll(posVictims);
+
+        return data;
+
     }
 
-    public static List<Clue> generateClues(
+    private static List<Clue> convertClues(
             HashMap<Integer, DataClue> clues
     )
     {
         List<Clue> output = new ArrayList<>();
-        clues.forEach((x,c) -> output.add(new Clue(c.name, c.description, c.resource)));
+        clues.forEach((x,c) -> output.add(new Clue(c.name, c.description, c.sprite)));
 
         return output;
     }
@@ -94,7 +112,7 @@ public class ScenarioBuilder
                     qarData.responseText,
                     clueData
                             .stream()
-                            .map(c -> new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.resource))
+                            .map(c -> new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.sprite))
                             .collect(Collectors.toList())
             );
             qi.addQuestion(qar);
@@ -125,27 +143,14 @@ public class ScenarioBuilder
     ) throws ScenarioBuilderException
     {
 
+
+        List<Clue> constructedClues = new ArrayList<>();
         List<Room> rooms = Map.initialiseRooms();
-        WeightedSelection selector = new WeightedSelection(random);
 
+        CharacterData characterData = generateCharacters(database.characters);
+        constructedClues.addAll(characterData.murderer.relatedClues);
 
-        // Select a character motive link to use.
-        DataCharacterMotiveLink selectedCharacterMotiveLink = selector.selectWeightedObject(
-                database.characterMotiveLinks.values(), x -> x.selectionWeight
-        ).get();
-        DataMotive selectedMotive = selectedCharacterMotiveLink.motive;
-
-        CharacterData characterData = chooseCharacters(
-                database,
-                minSuspectCount,
-                maxSuspectCount,
-                selectedCharacterMotiveLink,
-                random
-        );
-        DataCharacter selectedMurderer = characterData.murderer;
-        DataCharacter selectedVictim = characterData.victim;
-        List<DataCharacter> selectedSuspects = characterData.suspects;
-
+        
         // Get our means.
         DataMeansClue selectedMeans = selector
                 .selectWeightedObject(selectedMurderer.meansLink, x -> x.selectionWeight)
@@ -160,7 +165,7 @@ public class ScenarioBuilder
         List<Clue> constructedClues = new ArrayList<>();
 
         for (DataClue c : selectedClues) {
-            Clue tempClue = new Clue(c.name, c.description, c.resource);
+            Clue tempClue = new Clue(c.name, c.description, c.sprite);
 
             Collections.shuffle(rooms);
             tempClue.setRoom(rooms.get(0));
@@ -219,7 +224,7 @@ public class ScenarioBuilder
             Suspect suspectObject = new Suspect(
                     suspect.name,
                     suspect.description,
-                    suspect.resource.filename,
+                    suspect.spritesheet.filename,
                     chosenPosition,
                     dialogueTree
             );
@@ -284,9 +289,9 @@ public class ScenarioBuilder
 
     private static class CharacterData
     {
-        public DataCharacter victim = null;
-        public DataCharacter murderer = null;
-        public List<DataCharacter> suspects = new ArrayList<>();
+        public Suspect victim = null;
+        public Suspect murderer = null;
+        public List<Suspect> allCharacters = new ArrayList<>();
     }
 
 
