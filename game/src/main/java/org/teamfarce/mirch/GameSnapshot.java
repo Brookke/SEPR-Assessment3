@@ -44,7 +44,6 @@ public class GameSnapshot
     )
     {
         this.suspects = suspects;
-        //THIS NEEDS CHANGING BACK TO GAME WHEN COMPLETE
         this.state = GameState.narrator;
         this.clues = clues;
         this.rooms = rooms;
