@@ -117,16 +117,16 @@ public class ScenarioBuilder
 
         Object[] motives = database.motives.values().toArray();
         DataMotive randomMotive = (DataMotive) motives[random.nextInt(motives.length)];
+        constructedClues.addAll(generateMotive(randomMotive));
+
 
         CharacterData characterData = generateCharacters(database.characters);
-
-        constructedClues.addAll(generateMotive(randomMotive));
         constructedClues.addAll(characterData.murderer.relatedClues);
 
 
         distributeClues(constructedClues, rooms);
         return new GameSnapshot(
-                null, constructedClues, rooms, 0, 0
+                characterData.allCharacters, constructedClues, rooms, 0, 0
         );
     }
 
