@@ -184,6 +184,11 @@ public class NarratorScreen extends AbstractScreen {
         narratorStage.draw();
     }
 
+    public String getSpeech()
+    {
+        return endMessage;
+    }
+
     @Override
     public void resize(int width, int height) {
 
