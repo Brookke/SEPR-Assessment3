@@ -2,8 +2,12 @@ package org.teamfarce.mirch.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
@@ -18,6 +22,11 @@ public class InterviewScreen extends AbstractScreen {
     public Stage interviewStage;
     private Skin uiSkin;
     private StatusBar statusBar;
+
+    final static float X_OFFSET = 10;
+    final static float Y_OFFSET = 20;
+    final static float WIDTH = Gdx.graphics.getWidth() - (2 * X_OFFSET);
+    final static float HEIGHT = Gdx.graphics.getHeight() - Y_OFFSET;
 
     public InterviewScreen(MIRCH game, Skin uiSkin)
     {
@@ -34,6 +43,15 @@ public class InterviewScreen extends AbstractScreen {
         //Initialise stage used to show interview contents
         interviewStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
+        //Create table to represent journal "book"
+        Table interviewContainer = new Table();
+        interviewContainer.setBounds(X_OFFSET, Y_OFFSET, WIDTH, HEIGHT);
+
+        //Set background image for stage
+        Texture background = new Texture(Gdx.files.internal("dialogue_b.png"));
+        TextureRegion tr = new TextureRegion(background);
+        TextureRegionDrawable trd = new TextureRegionDrawable(tr);
+        interviewContainer.setBackground(trd);
     }
 
     @Override
