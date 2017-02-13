@@ -1,6 +1,7 @@
 package org.teamfarce.mirch;
 
 import java.sql.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +11,7 @@ public class ScenarioBuilderDatabase
     public HashMap<Integer, DataClue> means;
     public HashMap<Integer, DataResource> resources;
     public HashMap<Integer, DataClue> clues;
+    public HashMap<Integer, List<DataClue>> characterClues;
     public HashMap<Integer, DataQuestioningStyle> questioningStyles;
     public HashMap<Integer, DataMotive> motives;
     public HashMap<Integer, DataCharacter> characters;
@@ -19,6 +21,7 @@ public class ScenarioBuilderDatabase
         means = new HashMap<>();
         resources = new HashMap<>();
         clues = new HashMap<>();
+        characterClues = new HashMap<>();
         questioningStyles = new HashMap<>();
         motives = new HashMap<>();
         characters = new HashMap<>();
@@ -76,7 +79,17 @@ public class ScenarioBuilderDatabase
             motives.put(motive.id, motive);
         }
 
-        ResultSet rsCharacterClues = sqlStmt.executeQuery("SELECT * FROM clue_links");
+        ResultSet rsCharacterClues = sqlStmt.executeQuery("SELECT * FROM character_clues");
+        while (rsCharacterClues.next()) {
+            int characterId = rsCharacterClues.getInt("character");
+            DataClue clue = clues.get(rsCharacterClues.getInt("clue"));
+            if (characterClues.containsKey(characterId)) {
+
+                characterClues.get(characterId).add(clue);
+            } else {
+                characterClues.put(characterId, Arrays.asList(clue));
+            }
+        }
 
         ResultSet rsCharacter = sqlStmt.executeQuery("SELECT * FROM characters");
         while (rsCharacter.next()) {
@@ -88,11 +101,7 @@ public class ScenarioBuilderDatabase
             character.spritesheet = resources.get(rsCharacter.getInt("resource_spritesheet"));
             character.posKiller = rsCharacter.getInt("posKiller") == 1;
             character.dialogue = resources.get(rsCharacter.getInt("resource_dialogue"));
-            while (rsCharacterClues.next()) {
-                if (rsClue.getInt("character") == character.id) {
-                    character.relatedClues.put(clues.get(rsClue.getInt("clue")).id, clues.get(rsClue.getInt("clue")));
-                }
-            }
+            character.relatedClues = characterClues.get(character.id);
             characters.put(character.id, character);
         }
 
@@ -127,6 +136,12 @@ public class ScenarioBuilderDatabase
         public String description;
     }
 
+    public static class DataCharacterClues
+    {
+        public int character;
+        public List<DataClue> clues;
+    }
+
 
     public class DataCharacter
     {
@@ -137,7 +152,7 @@ public class ScenarioBuilderDatabase
         public boolean posKiller;
         public DataResource spritesheet;
         public DataResource dialogue;
-        public HashMap<Integer, DataClue> relatedClues;
+        public List<DataClue> relatedClues;
     }
 
 }

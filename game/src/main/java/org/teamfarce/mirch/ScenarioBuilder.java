@@ -30,7 +30,7 @@ public class ScenarioBuilder
 
         List<Suspect> posKillers = new ArrayList<>();
         List<Suspect> posVictims = new ArrayList<>();
-        dataCharacters.forEach((x, c) -> {
+        dataCharacters.forEach((x,c) -> {
             if (c.posKiller) {
                 Suspect tempSuspect = new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), null);
                 tempSuspect.relatedClues = (convertClues(c.relatedClues));
@@ -91,10 +91,12 @@ public class ScenarioBuilder
      * @param clues
      * @return
      */
-    private static List<Clue> convertClues(HashMap<Integer, DataClue> clues)
+    private static List<Clue> convertClues(List<DataClue> clues)
     {
         List<Clue> output = new ArrayList<>();
-        clues.forEach((x,c) -> output.add(new Clue(c.name, c.description, c.sprite)));
+        for (DataClue c: clues) {
+            output.add(new Clue(c.name, c.description, c.sprite));
+        }
 
         return output;
     }
