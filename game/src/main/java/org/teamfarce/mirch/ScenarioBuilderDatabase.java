@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ScenarioBuilderDatabase
 {
-    public HashMap<Integer, DataMeansClue> means;
+    public HashMap<Integer, DataClue> means;
     public HashMap<Integer, DataResource> resources;
     public HashMap<Integer, DataClue> clues;
     public HashMap<Integer, DataQuestioningStyle> questioningStyles;
@@ -30,16 +30,6 @@ public class ScenarioBuilderDatabase
         Connection sqlConn = DriverManager.getConnection("jdbc:sqlite:" + databaseName);
         Statement sqlStmt = sqlConn.createStatement();
 
-        ResultSet rsMeans = sqlStmt.executeQuery("SELECT * FROM clues WHERE is_means == 1");
-        while (rsMeans.next()) {
-            DataMeansClue singleMeans = new DataMeansClue();
-            singleMeans.id = rsMeans.getInt("id");
-            singleMeans.name = rsMeans.getString("name");
-            singleMeans.description = rsMeans.getString("description");
-            singleMeans.resource = "clock.png";
-            means.put(singleMeans.id, singleMeans);
-        }
-
         ResultSet rsResource = sqlStmt.executeQuery("SELECT * FROM resources");
         while (rsResource.next()) {
             DataResource resource = new DataResource();
@@ -48,6 +38,17 @@ public class ScenarioBuilderDatabase
             resource.characters = new HashSet<>();
             resources.put(resource.id, resource);
         }
+
+        ResultSet rsMeans = sqlStmt.executeQuery("SELECT * FROM clues WHERE is_means == 1");
+        while (rsMeans.next()) {
+            DataClue singleMeans = new DataClue();
+            singleMeans.id = rsMeans.getInt("id");
+            singleMeans.name = rsMeans.getString("name");
+            singleMeans.description = rsMeans.getString("description");
+            singleMeans.sprite = "clock.png";
+            means.put(singleMeans.id, singleMeans);
+        }
+
 
         ResultSet rsClue = sqlStmt.executeQuery("SELECT * FROM clues WHERE is_means != 1");
         while (rsClue.next()) {
@@ -75,7 +76,7 @@ public class ScenarioBuilderDatabase
             motives.put(motive.id, motive);
         }
 
-        ResultSet rsClueLinks = sqlStmt.executeQuery("SELECT * FROM clue_links");
+        ResultSet rsCharacterClues = sqlStmt.executeQuery("SELECT * FROM clue_links");
 
         ResultSet rsCharacter = sqlStmt.executeQuery("SELECT * FROM characters");
         while (rsCharacter.next()) {
@@ -87,7 +88,7 @@ public class ScenarioBuilderDatabase
             character.spritesheet = resources.get(rsCharacter.getInt("resource_spritesheet"));
             character.posKiller = rsCharacter.getInt("posKiller") == 1;
             character.dialogue = resources.get(rsCharacter.getInt("resource_dialogue"));
-            while (rsClueLinks.next()) {
+            while (rsCharacterClues.next()) {
                 if (rsClue.getInt("character") == character.id) {
                     character.relatedClues.put(clues.get(rsClue.getInt("clue")).id, clues.get(rsClue.getInt("clue")));
                 }
@@ -98,14 +99,6 @@ public class ScenarioBuilderDatabase
 
     }
 
-    public class DataMeansClue
-    {
-        public int id;
-        public String name;
-        public String description;
-        public String resource;
-
-    }
 
     public class DataResource
     {
@@ -128,11 +121,10 @@ public class ScenarioBuilderDatabase
         public String description;
     }
 
-    public class DataMotive
+    public static class DataMotive
     {
         public int id;
         public String description;
-        public HashSet<DataClue> clues;
     }
 
 
