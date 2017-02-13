@@ -109,25 +109,22 @@ public class ScenarioBuilder
     ) throws ScenarioBuilderException
     {
 
-
         List<Clue> constructedClues = new ArrayList<>();
         List<Room> rooms = Map.initialiseRooms();
-
-        database.motives.values().toArray()
 
         Object[] motives = database.motives.values().toArray();
         DataMotive randomMotive = (DataMotive) motives[random.nextInt(motives.length)];
         constructedClues.addAll(generateMotive(randomMotive));
 
-
         CharacterData characterData = generateCharacters(database.characters);
         constructedClues.addAll(characterData.murderer.relatedClues);
 
+        Object[] means = database.means.values().toArray();
+        DataClue randomMean = (DataClue) means[random.nextInt(means.length)];
+        constructedClues.add(new Clue(randomMean.name, randomMean.description, randomMean.sprite));
 
         distributeClues(constructedClues, rooms);
-        return new GameSnapshot(
-                characterData.allCharacters, constructedClues, rooms, 0, 0
-        );
+        return new GameSnapshot(characterData.allCharacters, constructedClues, rooms, 0, 0);
     }
 
     public static class ScenarioBuilderException extends Exception
@@ -138,21 +135,6 @@ public class ScenarioBuilder
         }
     }
 
-    public static class CreateAdderResult
-    {
-        public Collection<IDialogueTreeAdder> adders;
-        public int sumProvesMotive;
-        public int sumProvesMeans;
-
-        public CreateAdderResult(
-                Collection<IDialogueTreeAdder> adders, int sumProvesMotive, int sumProvesMeans
-        )
-        {
-            this.adders = adders;
-            this.sumProvesMotive = sumProvesMotive;
-            this.sumProvesMeans = sumProvesMeans;
-        }
-    }
 
 
     private static class CharacterData
