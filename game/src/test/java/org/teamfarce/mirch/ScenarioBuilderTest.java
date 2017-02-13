@@ -4,9 +4,11 @@ import org.junit.Test;
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.map.Room;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 /**
  * Tests functions in the scenario builder class
@@ -19,10 +21,10 @@ public class ScenarioBuilderTest extends GameTest {
     public void distributeCluesGiveRooms()
     {
         List<Clue> clues = new ArrayList<>();
-        clues.add(new Clue("1", "1", 0,0, "Axe.png"));
-        clues.add(new Clue("2", "2", 0,0, "Axe.png"));
-        clues.add(new Clue("3", "3", 0,0, "Axe.png"));
-        clues.add(new Clue("4", "4", 0,0, "Axe.png"));
+        clues.add(new Clue("1", "1", "Axe.png"));
+        clues.add(new Clue("2", "2", "Axe.png"));
+        clues.add(new Clue("3", "3", "Axe.png"));
+        clues.add(new Clue("4", "4", "Axe.png"));
 
         List<Room> rooms = new ArrayList<>();
         rooms.add(new Room(0, "testMap.tmx", "Test Room1"));
@@ -45,10 +47,10 @@ public class ScenarioBuilderTest extends GameTest {
     public void distributeCluesDiffRooms() {
 
         List<Clue> clues = new ArrayList<>();
-        clues.add(new Clue("1", "1", 0,0, "Axe.png"));
-        clues.add(new Clue("2", "2", 0,0, "Axe.png"));
-        clues.add(new Clue("3", "3", 0,0, "Axe.png"));
-        clues.add(new Clue("4", "4", 0,0, "Axe.png"));
+        clues.add(new Clue("1", "1", "Axe.png"));
+        clues.add(new Clue("2", "2", "Axe.png"));
+        clues.add(new Clue("3", "3", "Axe.png"));
+        clues.add(new Clue("4", "4", "Axe.png"));
 
         List<Room> rooms = new ArrayList<>();
         rooms.add(new Room(0, "testMap.tmx", "Test Room1"));
@@ -69,6 +71,20 @@ public class ScenarioBuilderTest extends GameTest {
 
     }
 
+
+    @Test
+    public void testGenerateMotives() {
+        ScenarioBuilderDatabase.DataMotive dataMotive = new ScenarioBuilderDatabase.DataMotive();
+        dataMotive.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis tincidunt augue, eu dignissim massa maximus at. Praesent egestas, arcu vitae dignissim pharetra, sem lectus luctus metus, ac suscipit nibh massa non lacus. In tortor sem, blandit non odio sed";
+
+        List<Clue> clues = ScenarioBuilder.generateMotive(dataMotive);
+
+        assertEquals(clues.get(0), new Clue("Motive Part 1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis tincidunt augue", "Axe.png"));
+        assertEquals(clues.get(1), new Clue("Motive Part 2", ", eu dignissim massa maximus at. Praesent egestas, arcu vitae dignissim pharetra, sem le", "Axe.png"));
+        assertEquals(clues.get(2), new Clue("Motive Part 3", "ctus luctus metus, ac suscipit nibh massa non lacus. In tortor sem, blandit non odio sed", "Axe.png"));
+
+
+    }
     /**
      * Test a typical use case of the ScenarioBuilder.
      */
