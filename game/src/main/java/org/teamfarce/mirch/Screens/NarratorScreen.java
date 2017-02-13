@@ -125,7 +125,7 @@ public class NarratorScreen extends AbstractScreen {
      * This method is called once a render loop. It adds to the current message if it meets the necessary
      * requirements
      */
-    private void updateSpeech()
+    public void updateSpeech()
     {
         if (endMessage.equals(currentMessage))
         {
@@ -187,6 +187,11 @@ public class NarratorScreen extends AbstractScreen {
     public String getSpeech()
     {
         return endMessage;
+    }
+
+    public String getCurrentSpeech()
+    {
+        return currentMessage;
     }
 
     @Override

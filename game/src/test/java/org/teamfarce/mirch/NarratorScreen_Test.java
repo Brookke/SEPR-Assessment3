@@ -19,20 +19,27 @@ public class NarratorScreen_Test extends GameTest {
     @Before
     public void init_tests()
     {
+        Skin skin = new Skin();
         game = new MIRCH();
         game.gameSnapshot = new GameSnapshot(null, null, null, 0, 0);
+        screen = new NarratorScreen(game, skin);
     }
 
     @Test
     public void test_setSpeech()
     {
-        Skin skin = new Skin();
-
-        screen = new NarratorScreen(game, skin);
-
         screen.setSpeech("Test Speech");
 
         assertEquals("Test Speech", screen.getSpeech());
+    }
+
+    @Test
+    public void test_UpdateSpeech()
+    {
+        screen.setSpeech("Test Speech");
+        screen.updateSpeech();
+
+        assertEquals(screen.getCurrentSpeech(), "T");
     }
 
 }
