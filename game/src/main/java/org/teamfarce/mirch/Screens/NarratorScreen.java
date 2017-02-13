@@ -135,7 +135,10 @@ public class NarratorScreen extends AbstractScreen {
 
         currentMessage = currentMessage + endMessage.charAt(currentMessage.length());
 
-        speech.setText(currentMessage);
+        try
+        {
+            speech.setText(currentMessage);
+        } catch (Exception e){}
     }
 
     /**

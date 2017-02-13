@@ -39,6 +39,8 @@ public class NarratorScreen_Test extends GameTest {
         screen.setSpeech("Test Speech");
         screen.updateSpeech();
 
+        
+
         assertEquals(screen.getCurrentSpeech(), "T");
     }
 
