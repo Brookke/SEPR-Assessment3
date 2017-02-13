@@ -8,6 +8,8 @@ package org.teamfarce.mirch.Entities;
 public class Clue extends MapEntity
 {
 
+    private boolean motiveClue = false;
+
     /**
      * Creates a clue
      *
@@ -32,10 +34,17 @@ public class Clue extends MapEntity
     {
         if (obj instanceof Clue) {
             Clue c = (Clue) obj;
-            return c.getName().equals(this.getName());
+            return c.getName().equals(this.getName()) && c.getDescription().equals(this.description);
         }
 
         return false;
     }
 
+    public boolean isMotiveClue() {
+        return motiveClue;
+    }
+
+    public void setMotiveClue() {
+        this.motiveClue = true;
+    }
 }
