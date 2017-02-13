@@ -16,38 +16,40 @@ import org.teamfarce.mirch.map.Room;
  * @author jacobwunwin
  *
  */
-public class MapEntity_Test extends GameTest {
-	
+public class MapEntity_Test extends GameTest{
+	String demoFileName = "clues/Axe.png";
+    Texture demoTexture = new Texture(Gdx.files.internal(demoFileName));
+
 	@Test
 	public void test_setRoomGetRoom(){
-		MapEntity mapEntity = new MapEntity(null, null,  new Texture(Gdx.files.internal("clues/Axe.png")));
+		MapEntity mapEntity = new MapEntity(null, null, demoTexture);
 
-		Room theRoom = new Room(0, "testMap.tmx", "test");
+		Room theRoom = new Room(0, "testRoom0.tmx", "Test Room 0");
+
 		mapEntity.setRoom(theRoom);
+
 		assertEquals(theRoom, mapEntity.getRoom());
 	}
 
 	@Test
 	public void test_getName(){
 		String input = "Test";
-		MapEntity mapEntity = new MapEntity(input, null, new Texture(Gdx.files.internal("clues/Axe.png")));
+		MapEntity mapEntity = new MapEntity(input, null, demoTexture);
 		assertEquals(input, mapEntity.getName());
 		
 	}
 
 	@Test
 	public void test_genDescription(){
-		String input = "Test 1 2 4";
-		MapEntity mapEntity = new MapEntity(null, input, new Texture(Gdx.files.internal("clues/Axe.png")));
+		String input = "Test 1 2 3 4";
+		MapEntity mapEntity = new MapEntity(null, input, demoTexture);
 		assertEquals(input, mapEntity.getDescription());
 	}
 
-
 	@Test
-	public void test_getFileName(){
-        Texture input = new Texture(Gdx.files.internal("clues/Axe.png"));
-		MapEntity mapEntity = new MapEntity(null, null, input);
-		assertEquals(input, mapEntity.getTexture());
+	public void test_getTexture(){
+		MapEntity mapEntity = new MapEntity(null, null, demoTexture);
+		assertEquals(demoTexture, mapEntity.getTexture());
 	}
 	
 

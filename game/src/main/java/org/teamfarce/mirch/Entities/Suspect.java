@@ -1,7 +1,7 @@
 package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.math.Vector2;
-import org.teamfarce.mirch.Entities.MapEntity;
+import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.dialogue.DialogueTree;
 
@@ -65,6 +65,14 @@ public class Suspect extends AbstractPerson
     {
         this.beenAccused = true;
         //clear the dialogue tree here
+        if (this.isMurderer == false || hasEvidence == false)
+        {
+            MIRCH.me.gameSnapshot.modifyScore(-50);
+        }
+        else
+        {
+            MIRCH.me.gameSnapshot.modifyScore(100);
+        }
         return (this.isMurderer) && (hasEvidence);
     }
 
