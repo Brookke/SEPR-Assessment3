@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import org.teamfarce.mirch.WeightedSelection;
 
-public class WeightedSelectionTest {
+public class WeightedSelection_Test {
     @Test
     public void test1() {
         // Tests for selection of the middle element where everything has an equal weight.
