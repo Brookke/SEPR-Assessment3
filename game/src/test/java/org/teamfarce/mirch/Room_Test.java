@@ -1,30 +1,69 @@
-/**
- * 
- */
 package org.teamfarce.mirch;
 
-import static org.junit.Assert.*;
-
+import org.junit.Before;
 import org.junit.Test;
-
-import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Entities.AbstractPerson;
+import org.teamfarce.mirch.Entities.Direction;
 import org.teamfarce.mirch.map.Room;
 
+import static junit.framework.TestCase.assertEquals;
+
 /**
- * Tests functions in the room class
- * @author jacobwunwin
- *
+ * Created by joeshuff on 26/11/2016.
  */
-//public class Room_Test {
-//
-//	@Test
-//	public void test_init(){
-//		String file = "test";
-//		Vector2 position = new Vector2(1, 1);
-//		Room room = new Room(file, position);
-//
-//		assertEquals(room.filename, file);
-//		assertEquals(room.getX(), position.x, 0);
-//		assertEquals(room.getY(), position.y, 0);
-//	}
-//}
+public class Room_Test extends GameTest
+{
+
+    Room room0, room1;
+
+
+    @Before
+    public void before()
+    {
+
+        room0 = new Room(0, "testRoom0.tmx", "Test Room 0");
+        room1 = new Room(1, "testRoom1.tmx", "Test Room 1");
+
+        room0.addTransition(new Room.Transition().setFrom(0, 4).setTo(room1, 0,0, Direction.EAST));
+    }
+
+    @Test
+    public void testGetTransition()
+    {
+        assertEquals(room1, room0.getTransitionData(0, 4).getNewRoom());
+        assertEquals("Test Room 1", room0.getTransitionData(0, 4).getNewRoom().getName());
+        assertEquals(new Vector2Int(0, 0), room0.getTransitionData(0, 4).newTileCoordinates);
+        assertEquals(null, room0.getTransitionData(0, 0));
+        assertEquals(Direction.EAST, room0.getTransitionData(0, 4).newDirection);
+    }
+
+    @Test
+    public void testAddTransition()
+    {
+        room1.addTransition(new Room.Transition().setFrom(0, 0).setTo(room0, 0, 4, Direction.NORTH));
+        assertEquals(room0, room1.getTransitionData(0, 0).getNewRoom());
+    }
+
+    @Test
+    public void testWalkable()
+    {
+        assertEquals(true, room0.isWalkableTile(0, 0));
+        assertEquals(false, room0.isWalkableTile(0, 1));
+        assertEquals(false, room0.isWalkableTile(-10, -5));
+    }
+
+    @Test
+    public void testTrigger()
+    {
+        assertEquals(true, room0.isTriggerTile(0, 4));
+        assertEquals(false, room0.isTriggerTile(3, 3));
+    }
+
+    @Test
+    public void testMatRotation()
+    {
+        assertEquals("NORTH", room0.getMatRotation(0, 4));
+        assertEquals("SOUTH", room1.getMatRotation(0, 0));
+    }
+
+}
