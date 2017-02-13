@@ -82,7 +82,7 @@ public class NarratorScreen extends AbstractScreen {
                                 "You must go around each room trying to find the clues that have been hidden. You must also question the guests to see if they are know anything about the murder! Try to solve the case before any other detective!";
 
         //Set introduction speech
-        setSpeech(introSpeech).show();
+        setSpeech(introSpeech).makeVisible();
     }
 
     /**
