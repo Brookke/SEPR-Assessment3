@@ -15,28 +15,60 @@ import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 
 /**
- * Created by joeshuff on 09/02/2017.
+ * This is the screen which displays the narrator and a defined speech
+ *
+ * To show the screen with the defined speech you do the following
+ *
+ * Have access to the game object (MIRCH). then do
+ *
+ * game.guiController.narratorScreen.setSpeech("").makeVisible();
  */
 public class NarratorScreen extends AbstractScreen {
 
+    /**
+     * This is the referencing to the game and the games snapshot
+     */
     private MIRCH game;
     private GameSnapshot gameSnapshot;
 
+    /**
+     * These are the variables used to show and draw the scene
+     */
     public Stage narratorStage;
     private Skin uiSkin;
 
+    /**
+     * This is the current string that is being displayed on the screen.
+     */
     private String currentMessage = "";
+
+    /**
+     * This is the full message that is to be displayed. Will gradually be added to the above variable
+     */
     private String endMessage = "";
 
+    /**
+     * These are the 2 objects that are rendered onto the screen
+     */
     private Label speech;
     private Button prompt;
 
+    /**
+     * This is how many render frames that have to occur before the next letter is added to the currentMessage
+     */
     final static int FRAMES_PER_LETTER = 2;
 
+    /**
+     * The current amount of render frames since the last added letter. Reset to 0 once FRAMES_PER_LETTER is exceeded
+     */
     private int currentFrames = 0;
 
-    final static int SPEECH_MARGIN = Gdx.graphics.getWidth() / 10;
-
+    /**
+     * This is the main constructor for the screen
+     *
+     * @param game - Reference to the Game instance
+     * @param uiSkin - The game snapshot reference
+     */
     public NarratorScreen(MIRCH game, Skin uiSkin)
     {
         super(game);
@@ -53,6 +85,9 @@ public class NarratorScreen extends AbstractScreen {
         setSpeech(introSpeech).show();
     }
 
+    /**
+     * This method initiates the objects to the stage
+     */
     private void initStage()
     {
         narratorStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -86,6 +121,10 @@ public class NarratorScreen extends AbstractScreen {
         narratorStage.addActor(prompt);
     }
 
+    /**
+     * This method is called once a render loop. It adds to the current message if it meets the necessary
+     * requirements
+     */
     private void updateSpeech()
     {
         if (endMessage.equals(currentMessage))
@@ -99,6 +138,11 @@ public class NarratorScreen extends AbstractScreen {
         speech.setText(currentMessage);
     }
 
+    /**
+     * This method sets the endMessage to the defined string
+     * @param speech - The message to be displayed to the screen
+     * @return this
+     */
     public NarratorScreen setSpeech(String speech)
     {
         endMessage = speech;
@@ -107,6 +151,9 @@ public class NarratorScreen extends AbstractScreen {
         return this;
     }
 
+    /**
+     * This method is called to show the screen
+     */
     public void makeVisible()
     {
         gameSnapshot.setState(GameState.narrator);
