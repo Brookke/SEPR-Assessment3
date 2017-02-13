@@ -8,13 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
-import org.w3c.dom.Text;
 
 /**
  * Created by joeshuff on 09/02/2017.
@@ -46,9 +44,13 @@ public class NarratorScreen extends AbstractScreen {
         this.gameSnapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
 
+        String introSpeech = "You have been been invited to a lock-in costume party with some of the richest people around. There has been a murder, one of the guests has killed another.\n\n" +
+                                "The murderer instantly regretted their decision and has tried their hardest to cover up their tracks. All the clues have been hidden around the Ron Cooke Hub by the murderer so that they can avoid being discovered.\n\n" +
+                                "NOT SO FAST! You're not the only detective that got called to the scene, there will be other detectives trying to solve the case at the same time.\n\n" +
+                                "You must go around each room trying to find the clues that have been hidden. You must also question the guests to see if they are know anything about the murder! Try to solve the case before any other detective!";
+
         //Set introduction speech
-        setSpeech("Hello, my name is Sir Heslington.\n\n Last night, there was a murder in the Ron Cooke Hub! It is your job to try and find out who did it!" +
-                "\n\nWander around the Hub and try to find clues and talk to the suspsects to work out who the murderer is!");
+        setSpeech(introSpeech).show();
     }
 
     private void initStage()
@@ -66,10 +68,11 @@ public class NarratorScreen extends AbstractScreen {
         speech.getStyle().fontColor = Color.WHITE;
         speech.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.6f);
         speech.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 0.25f);
+        speech.setWrap(true);
 
         prompt = new TextButton("Click to Continue", uiSkin);
         prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
-        prompt.setPosition(Gdx.graphics.getWidth() * 0.55f, Gdx.graphics.getHeight() * 0.25f);
+        prompt.setPosition(Gdx.graphics.getWidth() * 0.45f, Gdx.graphics.getHeight() * 0.25f);
         prompt.setVisible(false);
         prompt.addListener(new ChangeListener() {
             @Override
@@ -96,14 +99,22 @@ public class NarratorScreen extends AbstractScreen {
         speech.setText(currentMessage);
     }
 
-    public void setSpeech(String speech)
+    public NarratorScreen setSpeech(String speech)
     {
         endMessage = speech;
         currentMessage = "";
+
+        return this;
+    }
+
+    public void makeVisible()
+    {
+        gameSnapshot.setState(GameState.narrator);
     }
 
     @Override
-    public void show() {
+    public void show()
+    {
         initStage();
 
         InputMultiplexer multiplexer = new InputMultiplexer();
