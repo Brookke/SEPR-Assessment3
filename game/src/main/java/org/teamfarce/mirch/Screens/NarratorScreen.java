@@ -105,7 +105,7 @@ public class NarratorScreen extends AbstractScreen {
         speech.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 0.25f);
         speech.setWrap(true);
 
-        prompt = new TextButton("Click to Continue", uiSkin);
+        prompt = new TextButton("Start Game", uiSkin);
         prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
         prompt.setPosition(Gdx.graphics.getWidth() * 0.45f, Gdx.graphics.getHeight() * 0.25f);
         prompt.setVisible(false);
