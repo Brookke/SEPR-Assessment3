@@ -7,6 +7,7 @@ import org.teamfarce.mirch.Screens.AbstractScreen;
 import org.teamfarce.mirch.Screens.InterviewScreen;
 import org.teamfarce.mirch.Screens.MapScreen;
 import org.teamfarce.mirch.Screens.JournalScreen;
+import org.teamfarce.mirch.Screens.NarratorScreen;
 
 /**
  * Generates and controls all GUI screens
@@ -47,6 +48,11 @@ public class GUIController {
     public AbstractScreen interviewScreen;
 
     /**
+     * Used to draw the narrator and his text
+     */
+    public NarratorScreen narratorScreen;
+
+    /**
      * Constructor for GUIController, initialises required variables
      * @param game Used to set current screen, and access GameState
      */
@@ -64,6 +70,7 @@ public class GUIController {
         mapScreen = new MapScreen(game, uiSkin);
         journalScreen = new JournalScreen(game, uiSkin);
         interviewScreen = new InterviewScreen(game, uiSkin);
+        narratorScreen = new NarratorScreen(game, uiSkin);
     }
 
 
@@ -87,6 +94,9 @@ public class GUIController {
             switch (newState) {
                 case map:
                     this.game.setScreen(mapScreen);
+                    break;
+                case narrator:
+                    this.game.setScreen(narratorScreen);
                     break;
                 case journalClues:
                     this.game.setScreen(journalScreen);
