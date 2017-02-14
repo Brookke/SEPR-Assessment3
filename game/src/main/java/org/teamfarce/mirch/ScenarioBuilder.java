@@ -92,7 +92,7 @@ public class ScenarioBuilder
     }
 
     /**
-     * Takes a hash map of DataClues and generates a list of clues to be used in the game.
+     * Takes list of DataClues and generates a list of clues to be used in the game.
      * @param clues
      * @return
      */
