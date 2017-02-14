@@ -149,7 +149,7 @@ public class PlayerController extends InputAdapter
         }
 
         if (player.getState() != AbstractPerson.PersonState.WALKING) {
-            //player.setDirection(goTo);
+            player.direction = goTo;
         }
     }
 }

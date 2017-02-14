@@ -3,9 +3,14 @@ package org.teamfarce.mirch.Entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.map.Room;
+
+import static org.teamfarce.mirch.Entities.AbstractPerson.SPRITE_HEIGHT;
+import static org.teamfarce.mirch.Entities.AbstractPerson.SPRITE_WIDTH;
 
 /**
  * Base class to represent different map entities.
@@ -30,13 +35,9 @@ public class MapEntity extends Sprite implements tileLocation
      * @param description The description of the entity.
      * @param filename    The filename of the image to display for the entity.
      */
-    public MapEntity(
-            String name,
-            String description,
-            String filename
-    )
+    public MapEntity(String name, String description, String filename)
     {
-        super(new Texture(Gdx.files.internal(filename)));
+        super(new TextureRegion(Assets.loadTexture(filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
         this.name = name;
         this.description = description;
         this.filename = filename;
