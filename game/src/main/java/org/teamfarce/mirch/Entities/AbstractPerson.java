@@ -1,7 +1,10 @@
 package org.teamfarce.mirch.Entities;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
 
@@ -12,9 +15,33 @@ import java.util.Comparator;
  */
 public abstract class AbstractPerson extends MapEntity
 {
+    /**
+     * The height of the texture region for each person
+     */
+    protected static int SPRITE_HEIGHT = 48;
 
+    /**
+     * The width of the texture region for each person
+     */
+    protected static int SPRITE_WIDTH = 32;
 
-    Direction direction;
+    /**
+     * This is whether the NPC can move or not. It is mainly used to not let them move during converstation
+     */
+    public boolean canMove = true;
+
+    /**
+     * This stores the current region of the above texture that is to be drawn
+     * to the map
+     */
+    protected TextureRegion currentRegion;
+
+    /**
+     * This stores the sprite sheet of the Player/NPC
+     */
+    protected Texture spriteSheet;
+
+    Direction direction = Direction.SOUTH;
     PersonState state;
     private Vector2Int startTile = new Vector2Int(0,0);
     private Vector2Int endTile = new Vector2Int(0,0);
@@ -31,6 +58,10 @@ public abstract class AbstractPerson extends MapEntity
     public AbstractPerson(String name, String description, String filename)
     {
         super(name, description, filename);
+        this.name = name;
+        this.spriteSheet = Assets.loadTexture(filename);
+        this.currentRegion = new TextureRegion(Assets.loadTexture(filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
+        this.state = PersonState.STANDING;
     }
 
     /**
@@ -85,6 +116,7 @@ public abstract class AbstractPerson extends MapEntity
             }
         }
 
+        updateTextureRegion();
     }
 
     /**
@@ -122,7 +154,44 @@ public abstract class AbstractPerson extends MapEntity
 
         getRoom().unlockCoordinate(tileCoordinates.x, tileCoordinates.y);
 
-        //updateTextureRegion();
+        updateTextureRegion();
+    }
+
+    /**
+     * Updates the texture region based upon how far though the animation time it is.
+     */
+    public void updateTextureRegion()
+    {
+        float quarter = animTime / 4;
+        float half = animTime / 2;
+        float threeQuarters = quarter * 3;
+
+        int row = 1;
+
+        switch (direction) {
+            case NORTH:
+                row = 3;
+                break;
+            case EAST:
+                row = 2;
+                break;
+            case SOUTH:
+                row = 0;
+                break;
+            case WEST:
+                row = 1;
+                break;
+        }
+
+        if (animTimer > threeQuarters) {
+            setRegion(new TextureRegion(spriteSheet, 96, row * SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT));
+        } else if (animTimer > half) {
+            setRegion(new TextureRegion(spriteSheet, 0, row * SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT));
+        } else if (animTimer > quarter) {
+            setRegion(new TextureRegion(spriteSheet, 32, row * SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT));
+        } else if (animTimer == 0) {
+            setRegion(new TextureRegion(spriteSheet, 0, row * SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT));
+        }
     }
 
     /**
