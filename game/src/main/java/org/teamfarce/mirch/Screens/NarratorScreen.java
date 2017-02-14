@@ -96,11 +96,7 @@ public class NarratorScreen extends AbstractScreen {
         background.setHeight(Gdx.graphics.getHeight());
         background.setWidth(Gdx.graphics.getWidth());
 
-        TextField.TextFieldStyle textFieldStyle = uiSkin.get(TextField.TextFieldStyle.class);
-        textFieldStyle.fontColor = Color.WHITE;
-
-        speech = new Label(currentMessage, uiSkin);
-        speech.getStyle().fontColor = Color.WHITE;
+        speech = new Label(currentMessage, uiSkin, "white");
         speech.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.6f);
         speech.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 0.25f);
         speech.setWrap(true);
