@@ -4,11 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import org.teamfarce.mirch.GameSnapshot;
+import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
 
@@ -18,6 +24,7 @@ import org.teamfarce.mirch.Screens.Elements.StatusBar;
 public class InterviewScreen extends AbstractScreen {
 
     private MIRCH game;
+    private GameSnapshot gameSnapshot;
 
     public Stage interviewStage;
     private Skin uiSkin;
@@ -32,14 +39,13 @@ public class InterviewScreen extends AbstractScreen {
     {
         super(game);
         this.game = game;
+        this.gameSnapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
 
         statusBar = new StatusBar(game.gameSnapshot, uiSkin);
-
-        initStage();
     }
 
-    private void initStage() {
+    private void initInterviewStage() {
         //Initialise stage used to show interview contents
         interviewStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
@@ -52,10 +58,57 @@ public class InterviewScreen extends AbstractScreen {
         TextureRegion tr = new TextureRegion(background);
         TextureRegionDrawable trd = new TextureRegionDrawable(tr);
         interviewContainer.setBackground(trd);
+
+        interviewStage.addActor(interviewContainer);
+
+        initCharacterBox();
+
+        GameState currentState = gameSnapshot.getState();
+        switch (currentState) {
+            case interviewStart:
+                //TODO: Show character with Question, Accuse, Ignore buttons
+                initStartInterview();
+                break;
+            case interviewQuestion:
+                //TODO: Show dialogue and possible responses
+                break;
+            case interviewAccuse:
+                //TODO: Show user whether accusation is correct
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void initCharacterBox() {
+        Label comment = new Label("Hi! I'm character name, how can I help?", uiSkin);
+        comment.setPosition(200, 550);
+        comment.setFontScale(1.2f);
+        this.interviewStage.addActor(comment);
+    }
+
+    private void initStartInterview() {
+        Label comment = new Label("What would you like to do?", uiSkin);
+        comment.setPosition(500, 280);
+        comment.setFontScale(1.2f);
+        this.interviewStage.addActor(comment);
+
+        TextButton question = new TextButton("Question the suspect", uiSkin);
+        question.setPosition(500, 220);
+        interviewStage.addActor(question);
+
+        TextButton accuse = new TextButton("Accuse the suspect", uiSkin);
+        accuse.setPosition(700, 220);
+        interviewStage.addActor(accuse);
+
+        TextButton ignore = new TextButton("Leave the interview", uiSkin);
+        ignore.setPosition(900, 220);
+        interviewStage.addActor(ignore);
     }
 
     @Override
     public void show() {
+        initInterviewStage();
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(interviewStage);
         multiplexer.addProcessor(statusBar.stage);
