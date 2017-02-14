@@ -8,13 +8,13 @@ import java.util.List;
 
 public class ScenarioBuilderDatabase
 {
-    public HashMap<Integer, DataClue> means;
-    public HashMap<Integer, DataResource> resources;
-    public HashMap<Integer, DataClue> clues;
-    public HashMap<Integer, List<DataClue>> characterClues;
-    public HashMap<Integer, DataQuestioningStyle> questioningStyles;
-    public HashMap<Integer, DataMotive> motives;
-    public HashMap<Integer, DataCharacter> characters;
+    HashMap<Integer, DataClue> means;
+    HashMap<Integer, DataResource> resources;
+    HashMap<Integer, DataClue> clues;
+    HashMap<Integer, List<DataClue>> characterClues;
+    HashMap<Integer, DataQuestioningStyle> questioningStyles;
+    HashMap<Integer, DataMotive> motives;
+    HashMap<Integer, DataCharacter> characters;
 
     public ScenarioBuilderDatabase()
     {
@@ -135,13 +135,6 @@ public class ScenarioBuilderDatabase
         public int id;
         public String description;
     }
-
-    public static class DataCharacterClues
-    {
-        public int character;
-        public List<DataClue> clues;
-    }
-
 
     public class DataCharacter
     {
