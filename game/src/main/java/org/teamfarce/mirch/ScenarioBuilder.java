@@ -23,9 +23,8 @@ public class ScenarioBuilder
      * @param dataCharacters
      * @return
      */
-    public static CharacterData generateCharacters(HashMap<Integer, DataCharacter> dataCharacters)
+    public static CharacterData generateCharacters(HashMap<Integer, DataCharacter> dataCharacters) throws ScenarioBuilderException
     {
-
         CharacterData data = new CharacterData();
 
         List<Suspect> posKillers = new ArrayList<>();
@@ -45,10 +44,16 @@ public class ScenarioBuilder
         Collections.shuffle(posVictims);
 
         posKillers.get(0).setKiller();
+
         posVictims.get(0).setVictim();
 
         data.murderer = posKillers.get(0);
         data.victim = posVictims.get(0);
+
+        if (data.murderer.relatedClues == null) {
+            ScenarioBuilderException e = new ScenarioBuilderException("no clues related to the murderer");
+            throw e;
+        }
 
         data.allCharacters.addAll(posKillers);
         data.allCharacters.addAll(posVictims);
@@ -93,6 +98,9 @@ public class ScenarioBuilder
      */
     private static List<Clue> convertClues(List<DataClue> clues)
     {
+        if (clues == null) {
+            return null;
+        }
         List<Clue> output = new ArrayList<>();
         for (DataClue c: clues) {
             output.add(new Clue(c.name, c.description, c.sprite));
@@ -118,7 +126,10 @@ public class ScenarioBuilder
         DataMotive randomMotive = (DataMotive) motives[random.nextInt(motives.length)];
         constructedClues.addAll(generateMotive(randomMotive));
 
-        CharacterData characterData = generateCharacters(database.characters);
+
+        CharacterData characterData;
+        characterData = generateCharacters(database.characters);
+
         constructedClues.addAll(characterData.murderer.relatedClues);
 
         Object[] means = database.means.values().toArray();
