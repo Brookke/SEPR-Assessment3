@@ -231,7 +231,10 @@ public abstract class AbstractPerson extends MapEntity
 
     public void clickedAt(int screenX, int screenY)
     {
-        toMoveTo = aStarPath(new Vector2Int(8, 8));
+        System.out.println("Click @ " + screenX + ", " + screenY);
+        System.out.println("Position " + getX() + ", " + getY());
+
+//        toMoveTo = aStarPath(new Vector2Int(8, 8));
     }
 
     public List<Vector2Int> aStarPath(Vector2Int destination)
