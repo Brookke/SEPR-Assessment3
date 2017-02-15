@@ -124,6 +124,9 @@ public abstract class AbstractPerson extends MapEntity
         }
         else
         {
+            /**
+             * If they have a list of tiles to move to, move to the next tile in the list.
+             */
             if (!toMoveTo.isEmpty())
             {
                 Vector2Int next = toMoveTo.get(0);
@@ -229,14 +232,13 @@ public abstract class AbstractPerson extends MapEntity
         }
     }
 
-    public void clickedAt(int screenX, int screenY)
-    {
-        System.out.println("Click @ " + screenX + ", " + screenY);
-        System.out.println("Position " + getX() + ", " + getY());
-
-//        toMoveTo = aStarPath(new Vector2Int(8, 8));
-    }
-
+    /**
+     * This is the a* Path finding algorithm. It finds the best possible path from the Persons current position to the
+     * defined destination position.
+     *
+     * @param destination - The goal location
+     * @return List<Vector2Int> the list of tiles to move to, from their current location to the goal destination.
+     */
     public List<Vector2Int> aStarPath(Vector2Int destination)
     {
         List<Vector2Int> closedSet = new ArrayList<Vector2Int>();
@@ -300,6 +302,13 @@ public abstract class AbstractPerson extends MapEntity
         return null;
     }
 
+    /**
+     * This method is used to get the cheapest next node from the open list
+     *
+     * @param openSet - The open list of locations
+     * @param fScore - The estimated scores of each node to the goal
+     * @return Vector2Int the next best node from openSet
+     */
     public Vector2Int getLowestFScore(List<Vector2Int> openSet, HashMap<Vector2Int, Integer> fScore)
     {
         if (openSet.isEmpty()) return null;
@@ -319,11 +328,25 @@ public abstract class AbstractPerson extends MapEntity
         return lowest;
     }
 
+    /**
+     * This method gets the distance from one node to another.
+     *
+     * @param current - One position
+     * @param neighbour - The second position
+     * @return - Integer, the distance between the 2 positions
+     */
     public int distFromNeighbour(Vector2Int current, Vector2Int neighbour)
     {
         return Math.abs(current.getX() - neighbour.getX()) + Math.abs(current.getY() - neighbour.getY());
     }
 
+    /**
+     * This method is called once the A* Pathfinding algorithm has been completed. It reconstructs the path from the goal to the start point
+     * @param cameFrom - A Map of a node(key) , and the value being the node that we came from to get to the key node.
+     * @param current - The final node. The goal destination
+     *
+     * @return List<Vector2Int> this is the list of tiles that are needed to be walked on to reach the goal
+     */
     public List<Vector2Int> reconstructPath(HashMap<Vector2Int, Vector2Int> cameFrom, Vector2Int current)
     {
         List<Vector2Int> path = new ArrayList<Vector2Int>();
