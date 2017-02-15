@@ -39,6 +39,11 @@ public class InterviewScreen extends AbstractScreen {
     final static float WIDTH = Gdx.graphics.getWidth() - (2 * X_OFFSET);
     final static float HEIGHT = Gdx.graphics.getHeight() - Y_OFFSET;
 
+    /**
+     * Constructor for Interview screen
+     * @param game Reference to current game
+     * @param uiSkin Skin reference for UI controls
+     */
     public InterviewScreen(MIRCH game, Skin uiSkin)
     {
         super(game);
@@ -49,38 +54,43 @@ public class InterviewScreen extends AbstractScreen {
         statusBar = new StatusBar(game.gameSnapshot, uiSkin);
     }
 
+
+    /**
+     * Prepares the stage ready to render on screen
+     * Adds GUI controls to the stage
+     */
     private void initInterviewStage() {
         //Initialise stage used to show interview contents
         interviewStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-        //Create table to contain background image
+        //Create table for a background image
         Table interviewContainer = new Table();
         interviewContainer.setBounds(X_OFFSET, Y_OFFSET, WIDTH, HEIGHT);
-
-        //Set background image for stage
         Texture background = new Texture(Gdx.files.internal("dialogue_b.png"));
         TextureRegion tr = new TextureRegion(background);
         TextureRegionDrawable trd = new TextureRegionDrawable(tr);
         interviewContainer.setBackground(trd);
-
         interviewStage.addActor(interviewContainer);
+
 
         //TODO: replace this with actual suspect
         Suspect suspect = new Suspect("Donald Trump", "POTUS", "Trumpo_sprite.png", new Vector2Int(1,1), null);
 
-        //Setup player's response box
-        String responseBoxContent = "";
+        //Setup vars needed to render dialogue & responses
+        String responseBoxInstructions = "";
+        String suspectDialogue = "";
         ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
         InterviewResponseButton.EventHandler switchStateHandler = (result) -> switchState(result);
 
+        //Check current GameState, and render appropriate GUI
         GameState currentState = gameSnapshot.getState();
         switch (currentState) {
             case interviewStart:
                 //Setup suspect's dialogue
-                initSuspectBox(suspect, "Hi, how can I help?");
+                suspectDialogue = "Hi, how can I help?";
 
                 //Set initial instructions for player
-                responseBoxContent = "What would you like to do?";
+                responseBoxInstructions = "What would you like to do?";
 
                 //Setup buttons to Question, Accuse and Ignore
                 buttonList.add(new InterviewResponseButton("Question the suspect", 0, switchStateHandler));
@@ -91,10 +101,10 @@ public class InterviewScreen extends AbstractScreen {
 
             case interviewQuestion:
                 //Setup suspect's dialogue
-                initSuspectBox(suspect, "Hmm, this is a reply");
+                suspectDialogue = "Hmm, this is a reply";
 
                 //Ask player how to respond
-                responseBoxContent = "How would you like to respond?";
+                responseBoxInstructions = "How would you like to respond?";
 
                 //Setup buttons to Question, Accuse and Ignore
                 buttonList.add(new InterviewResponseButton("Nicely", 0, switchStateHandler));
@@ -108,29 +118,30 @@ public class InterviewScreen extends AbstractScreen {
                 boolean hasEvidence = gameSnapshot.isMeansProven() && gameSnapshot.isMotiveProven();
                 if (!suspect.accuse(hasEvidence)) {
                     //Setup suspect's dialogue
-                    initSuspectBox(suspect, "Oh dear, you've caught me red handed. I confess to killing them.");
+                    suspectDialogue = "Oh dear, you've caught me red handed. I confess to killing them.";
 
                     //Inform user of result
-                    responseBoxContent = "How would you like to respond?";
+                    responseBoxInstructions = "How would you like to respond?";
                     buttonList.add(new InterviewResponseButton("Arrest " + suspect.getName(), 3, switchStateHandler));
 
                 } else {
                     //Setup suspect's dialogue
-                    initSuspectBox(suspect, "Ha! You don't have the evidence to accuse me!");
+                    suspectDialogue = "Ha! You don't have the evidence to accuse me!";
 
                     //Inform user of result
-                    responseBoxContent = "How would you like to respond?";
+                    responseBoxInstructions = "How would you like to respond?";
                     buttonList.add(new InterviewResponseButton("Apologise & leave the interview", 2, switchStateHandler));
                 }
                 break;
         }
 
+        //Render Suspect's dialogue to the screen
+        initSuspectBox(suspect, suspectDialogue);
 
-        InterviewResponseBox responseBox = new InterviewResponseBox(responseBoxContent, buttonList, uiSkin);
-
+        //Render Player's response options to the screen
+        InterviewResponseBox responseBox = new InterviewResponseBox(responseBoxInstructions, buttonList, uiSkin);
         Table responseBoxTable = responseBox.getContent();
         responseBoxTable.setPosition(450, 220);
-
         interviewStage.addActor(responseBoxTable);
     }
 
@@ -158,7 +169,7 @@ public class InterviewScreen extends AbstractScreen {
             case 1: //Accuse
                 gameSnapshot.setState(GameState.interviewAccuse);
                 break;
-            case 2: //Ignore
+            case 2: //Ignore or return to map
                 gameSnapshot.setState(GameState.map);
                 break;
             case 3: //Game has been won
