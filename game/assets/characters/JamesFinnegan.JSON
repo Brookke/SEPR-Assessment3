@@ -1,0 +1,17 @@
+{
+  "name": "James Finnegan",
+  "personality": "NICE",
+  "responses": {
+    "introduction": "Top o' the mornin t'you",
+    "Big Footprint": "",
+    "Small Footprint": "",
+    "Glasses": "",
+    "Bag": "",
+    "Lipstick": "",
+    "Right Handed": "",
+    "Dark Hair": ""
+  },
+  "noneResponses": [
+    ""
+  ]
+}
