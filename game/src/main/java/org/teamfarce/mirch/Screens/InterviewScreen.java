@@ -65,23 +65,73 @@ public class InterviewScreen extends AbstractScreen {
 
         interviewStage.addActor(interviewContainer);
 
+        //TODO: replace this with actual suspect
         Suspect suspect = new Suspect("Donald Trump", "POTUS", "Trumpo_sprite.png", new Vector2Int(1,1), null);
-        initSuspectBox(suspect, "Hi, how can I help?");
+
+        //Setup player's response box
+        String responseBoxContent = "";
+        ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
+        InterviewResponseButton.EventHandler switchStateHandler = (result) -> switchState(result);
 
         GameState currentState = gameSnapshot.getState();
         switch (currentState) {
             case interviewStart:
-                initStartInterview();
+                //Setup suspect's dialogue
+                initSuspectBox(suspect, "Hi, how can I help?");
+
+                //Set initial instructions for player
+                responseBoxContent = "What would you like to do?";
+
+                //Setup buttons to Question, Accuse and Ignore
+                buttonList.add(new InterviewResponseButton("Question the suspect", 0, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Leave the interview", 2, switchStateHandler));
+
                 break;
+
             case interviewQuestion:
-                //TODO: Show dialogue and possible responses
+                //Setup suspect's dialogue
+                initSuspectBox(suspect, "Hmm, this is a reply");
+
+                //Ask player how to respond
+                responseBoxContent = "How would you like to respond?";
+
+                //Setup buttons to Question, Accuse and Ignore
+                buttonList.add(new InterviewResponseButton("Nicely", 0, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Neutrally", 1, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Angrily", 2, switchStateHandler));
+
                 break;
+
             case interviewAccuse:
-                //TODO: Show user whether accusation is correct
-                break;
-            default:
+                //Check whether accusation is correct
+                boolean hasEvidence = gameSnapshot.isMeansProven() && gameSnapshot.isMotiveProven();
+                if (!suspect.accuse(hasEvidence)) {
+                    //Setup suspect's dialogue
+                    initSuspectBox(suspect, "Oh dear, you've caught me red handed. I confess to killing them.");
+
+                    //Inform user of result
+                    responseBoxContent = "How would you like to respond?";
+                    buttonList.add(new InterviewResponseButton("Arrest " + suspect.getName(), 3, switchStateHandler));
+
+                } else {
+                    //Setup suspect's dialogue
+                    initSuspectBox(suspect, "Ha! You don't have the evidence to accuse me!");
+
+                    //Inform user of result
+                    responseBoxContent = "How would you like to respond?";
+                    buttonList.add(new InterviewResponseButton("Apologise & leave the interview", 2, switchStateHandler));
+                }
                 break;
         }
+
+
+        InterviewResponseBox responseBox = new InterviewResponseBox(responseBoxContent, buttonList, uiSkin);
+
+        Table responseBoxTable = responseBox.getContent();
+        responseBoxTable.setPosition(450, 220);
+
+        interviewStage.addActor(responseBoxTable);
     }
 
     private void initSuspectBox(Suspect suspect, String suspectDialogue) {
@@ -100,34 +150,20 @@ public class InterviewScreen extends AbstractScreen {
         this.interviewStage.addActor(suspectImage);
     }
 
-
-
-    private void initStartInterview() {
-        ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
-
-        InterviewResponseButton.EventHandler eventHandler = (result) -> handleStartResponse(result);
-        buttonList.add(new InterviewResponseButton("Question the suspect", 0, eventHandler));
-        buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, eventHandler));
-        buttonList.add(new InterviewResponseButton("Leave the interview", 2, eventHandler));
-
-        InterviewResponseBox responseBox = new InterviewResponseBox("What would you like to do?", buttonList, uiSkin);
-
-        Table responseBoxTable = responseBox.getContent();
-        responseBoxTable.setPosition(450, 220);
-
-        interviewStage.addActor(responseBoxTable);
-    }
-
-    private void handleStartResponse(int result) {
+    private void switchState(int result) {
         switch (result) {
             case 0: //Question
                 gameSnapshot.setState(GameState.interviewQuestion);
                 break;
             case 1: //Accuse
-                gameSnapshot.setState(GameState.interviewQuestion);
+                gameSnapshot.setState(GameState.interviewAccuse);
                 break;
             case 2: //Ignore
                 gameSnapshot.setState(GameState.map);
+                break;
+            case 3: //Game has been won
+                gameSnapshot.gameWon = true;
+                gameSnapshot.setState(GameState.gameWon);
                 break;
         }
     }

@@ -156,7 +156,7 @@ public class GameSnapshot
      *
      * @return Whether we have "proven" the means.
      */
-    boolean isMeansProven()
+    public boolean isMeansProven()
     {
         return (this.meansProven >= this.sumProvesMean * 0.5);
     }
@@ -166,7 +166,7 @@ public class GameSnapshot
      *
      * @return Whether we have "proven" the motive.
      */
-    boolean isMotiveProven()
+    public boolean isMotiveProven()
     {
         return (this.motiveProven >= this.sumProvesMotive * 0.5);
     }
