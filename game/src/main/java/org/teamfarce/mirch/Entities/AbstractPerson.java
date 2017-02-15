@@ -70,7 +70,6 @@ public abstract class AbstractPerson extends MapEntity
         this.currentRegion = new TextureRegion(Assets.loadTexture(filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
         this.state = PersonState.STANDING;
     }
-
     /**
      * This controls the movement of a person
      */

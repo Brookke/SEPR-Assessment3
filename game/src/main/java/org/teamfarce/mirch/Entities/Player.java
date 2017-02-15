@@ -62,6 +62,11 @@ public class Player extends AbstractPerson
         initialiseMove(dir);
     }
 
+
+    public void interact(Vector2Int tileLocation) {
+
+    }
+
     /**
      * This method returns whether or not the player is standing on a tile that initiates a Transition to another room
      *
@@ -92,4 +97,5 @@ public class Player extends AbstractPerson
             this.setTileCoordinates(newRoomData.newTileCoordinates.x, newRoomData.newTileCoordinates.y);
         }
     }
+
 }

@@ -86,7 +86,7 @@ public class MapScreen extends AbstractScreen
         this.camera.update();
         this.tileRender = new OrthogonalTiledMapRendererWithPeople(game.player.getRoom().getTiledMap());
         this.tileRender.addPerson(game.player);
-        this.playerController = new PlayerController(game, game.player);
+        this.playerController = new PlayerController(game.player, game, camera);
 
         this.spriteBatch = new SpriteBatch();
 
