@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
@@ -64,10 +63,10 @@ public abstract class AbstractPerson extends MapEntity
      */
     public AbstractPerson(String name, String description, String filename)
     {
-        super(name, description, filename);
+        super(name, description, "characters/" + filename);
         this.name = name;
-        this.spriteSheet = Assets.loadTexture(filename);
-        this.currentRegion = new TextureRegion(Assets.loadTexture(filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
+        this.spriteSheet = Assets.loadTexture("characters/" + filename);
+        this.currentRegion = new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
         this.state = PersonState.STANDING;
     }
     /**

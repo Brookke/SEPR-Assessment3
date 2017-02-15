@@ -19,7 +19,7 @@ public class Clue extends MapEntity
      */
     public Clue(String name, String description, int impliesMotiveRating, int impliesMeansRating, String filename)
     {
-        super(name, description, new Texture(Gdx.files.internal("clues/" + filename)));
+        super(name, description, "clues/" + filename);
 
     }
 
