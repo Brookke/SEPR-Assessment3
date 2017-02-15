@@ -1,0 +1,18 @@
+{
+  "name": "Elizabeth Wright",
+  "personality": "DULL",
+  "responses": {
+    "introduction": "hello open your books at page... oh wait im not teaching now.",
+    "Big Footprint": "Yes that seems like my feet size.",
+    "Small Footprint": "My feet are bigger than that.",
+    "Glasses": "No, I dont wear glasses otherwise I would be able to see my students.",
+    "Bag": "Yes, I have to carry spare textbooks for the silly students that forget them.",
+    "Lipstick": "I'm not a savage, of course I wear lipstick.",
+    "Right Handed": "Yes I'm right handed.",
+    "Dark Hair": "I quite like my dark hair actually."
+  },
+  "noneResponses": [
+    "Sorry I have to get on with marking."
+    "Sorry I have to get on with lesson planning"
+  ]
+}
