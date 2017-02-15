@@ -73,6 +73,11 @@ public class Vector2Int
         return "(" + x + "," + y + ")";
     }
 
+    @Override
+    public int hashCode() {
+        return Integer.valueOf(x + "00" + y);
+    }
+
     public Vector2Int scl (int scalar) {
         x *= scalar;
         y *= scalar;

@@ -45,6 +45,18 @@ public class PlayerController extends InputAdapter
         this.game = game;
     }
 
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
+        if (button == Input.Buttons.LEFT)
+        {
+            game.player.clickedAt(screenX, screenY);
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * This method is called when a key press is read
      *

@@ -119,7 +119,7 @@ public class MapScreen extends AbstractScreen
         camera.position.x = game.player.getX();
         camera.position.y = game.player.getY();
         camera.update();
-        System.out.println(game.player.getTileCoordinates());
+        //System.out.println(game.player.getTileCoordinates());
         tileRender.setView(camera);
 
         tileRender.render();

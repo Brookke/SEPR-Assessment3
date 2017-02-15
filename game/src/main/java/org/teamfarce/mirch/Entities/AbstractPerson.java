@@ -2,13 +2,14 @@ package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
 
-import java.util.Comparator;
+import java.util.*;
 
 /**
  * Created by brookehatton on 01/02/2017.
@@ -40,6 +41,12 @@ public abstract class AbstractPerson extends MapEntity
      * This stores the sprite sheet of the Player/NPC
      */
     protected Texture spriteSheet;
+
+    /**
+     * This stores a list of tiles that have been found by the A* Search Algorithm. The NPC/Player needs
+     * to keep following these tiles until empty.
+     */
+    private List<Vector2Int> toMoveTo = new ArrayList<Vector2Int>();
 
     Direction direction = Direction.SOUTH;
     PersonState state;
@@ -113,6 +120,34 @@ public abstract class AbstractPerson extends MapEntity
             if (animTimer > animTime) {
                 this.setTileCoordinates(endTile.x, endTile.y);
                 this.finishMove();
+            }
+        }
+        else
+        {
+            if (!toMoveTo.isEmpty())
+            {
+                Vector2Int next = toMoveTo.get(0);
+                toMoveTo.remove(0);
+
+                int xDiff = next.getX() - getTileX();
+                int yDiff = next.getY() - getTileY();
+
+                if (xDiff == 1)
+                {
+                    move(Direction.EAST);
+                }
+                else if (xDiff == -1)
+                {
+                    move(Direction.WEST);
+                }
+                else if (yDiff == 1)
+                {
+                    move(Direction.NORTH);
+                }
+                else if (yDiff == -1)
+                {
+                    move(Direction.SOUTH);
+                }
             }
         }
 
@@ -192,6 +227,149 @@ public abstract class AbstractPerson extends MapEntity
         } else if (animTimer == 0) {
             setRegion(new TextureRegion(spriteSheet, 0, row * SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT));
         }
+    }
+
+    public void clickedAt(int screenX, int screenY)
+    {
+        toMoveTo = aStarPath(new Vector2Int(8, 8));
+    }
+
+    public List<Vector2Int> aStarPath(Vector2Int destination)
+    {
+        List<Vector2Int> closedSet = new ArrayList<Vector2Int>();
+
+        List<Vector2Int> openSet = new ArrayList<Vector2Int>();
+        openSet.add(new Vector2Int(getTileX(), getTileY()));
+
+        HashMap<Vector2Int, Integer> gScore = new HashMap<Vector2Int, Integer>();
+        gScore.put(openSet.get(0), 0);
+
+        HashMap<Vector2Int, Vector2Int> cameFrom = new HashMap<Vector2Int, Vector2Int>();
+
+        HashMap<Vector2Int, Integer> fScore = new HashMap<Vector2Int, Integer>();
+        fScore.put(openSet.get(0), heuristic(new Vector2Int(getTileX(), getTileY()), destination));
+
+        while (!openSet.isEmpty())
+        {
+            Vector2Int current = getLowestFScore(openSet, fScore);
+
+            if (current.equals(destination))
+            {
+                return reconstructPath(cameFrom, current);
+            }
+
+            openSet.remove(current);
+            closedSet.add(current);
+
+            List<Vector2Int> neighbours = getNeighbours(current);
+
+            for (Vector2Int neighbour : neighbours)
+            {
+                if (!getRoom().isWalkableTile(neighbour.getX(), neighbour.getY())) continue;
+
+                if (closedSet.contains(neighbour))
+                {
+                    continue;
+                }
+
+                int tentativeGScore = gScore.get(current) + distFromNeighbour(current, neighbour);
+
+                if (!openSet.contains(neighbour))
+                {
+                    openSet.add(neighbour);
+                }
+                else
+                {
+                    int prevScore = gScore.get(neighbour);
+
+                    if (tentativeGScore >= prevScore)
+                    {
+                        continue;
+                    }
+                }
+
+                cameFrom.put(neighbour, current);
+                gScore.put(neighbour, tentativeGScore);
+                fScore.put(neighbour, gScore.get(neighbour) + heuristic(neighbour, destination));
+            }
+        }
+
+        return null;
+    }
+
+    public Vector2Int getLowestFScore(List<Vector2Int> openSet, HashMap<Vector2Int, Integer> fScore)
+    {
+        if (openSet.isEmpty()) return null;
+
+        Vector2Int lowest = openSet.get(0);
+        int lowestInt = fScore.get(lowest);
+
+        for (Vector2Int v : openSet)
+        {
+            if (fScore.get(v) < lowestInt)
+            {
+                lowest = v;
+                lowestInt = fScore.get(v);
+            }
+        }
+
+        return lowest;
+    }
+
+    public int distFromNeighbour(Vector2Int current, Vector2Int neighbour)
+    {
+        return Math.abs(current.getX() - neighbour.getX()) + Math.abs(current.getY() - neighbour.getY());
+    }
+
+    public List<Vector2Int> reconstructPath(HashMap<Vector2Int, Vector2Int> cameFrom, Vector2Int current)
+    {
+        List<Vector2Int> path = new ArrayList<Vector2Int>();
+        path.add(current);
+
+        while (cameFrom.keySet().contains(current))
+        {
+            current = cameFrom.get(current);
+            path.add(current);
+        }
+
+        Collections.reverse(path);
+
+        return path;
+    }
+
+    public List<Vector2Int> getNeighbours(Vector2Int current)
+    {
+        int roomWidth = ((TiledMapTileLayer) getRoom().getTiledMap().getLayers().get(0)).getWidth();
+        int roomHeight = ((TiledMapTileLayer) getRoom().getTiledMap().getLayers().get(0)).getHeight();
+
+        List<Vector2Int> neighbours = new ArrayList<Vector2Int>();
+
+        if (current.getX() + 1 <= roomWidth)
+        {
+            neighbours.add(new Vector2Int(current.getX() + 1, current.getY()));
+        }
+
+        if (current.getY() + 1 <= roomHeight)
+        {
+            neighbours.add(new Vector2Int(current.getX(), current.getY() + 1));
+        }
+
+        if (current.getX() - 1 >= 0)
+        {
+            neighbours.add(new Vector2Int(current.getX() - 1, current.getY()));
+        }
+
+        if (current.getY() - 1 >= 0)
+        {
+            neighbours.add(new Vector2Int(current.getX(), current.getY() - 1));
+        }
+
+        return neighbours;
+    }
+
+    public int heuristic(Vector2Int start, Vector2Int end)
+    {
+        return Math.abs(start.getX() - end.getX()) + Math.abs(start.getY() - end.getY());
     }
 
     /**
