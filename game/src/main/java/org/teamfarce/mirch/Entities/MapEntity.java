@@ -1,6 +1,5 @@
 package org.teamfarce.mirch.Entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import org.teamfarce.mirch.Settings;
@@ -15,7 +14,6 @@ public class MapEntity extends Sprite implements tileLocation
     protected Room room;
     protected String name;
     protected String description;
-    protected Texture filename;
 
     /**
      * This is the location on the map in terms of tiles can be set using {@link #setTileCoordinates(int, int)}
@@ -39,7 +37,6 @@ public class MapEntity extends Sprite implements tileLocation
         super(texture);
         this.name = name;
         this.description = description;
-        this.filename = texture;
         this.tileCoordinates = new Vector2Int(0,0);
     }
 
