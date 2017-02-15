@@ -50,6 +50,12 @@ public class Player extends AbstractPerson
 
         if (!getRoom().isWalkableTile(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy())) {
             direction = dir;
+
+            if (!toMoveTo.isEmpty())
+            {
+                toMoveTo = aStarPath(toMoveTo.get(toMoveTo.size() - 1));
+            }
+
             return;
         }
 

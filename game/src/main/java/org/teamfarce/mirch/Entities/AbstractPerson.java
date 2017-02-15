@@ -46,7 +46,7 @@ public abstract class AbstractPerson extends MapEntity
      * This stores a list of tiles that have been found by the A* Search Algorithm. The NPC/Player needs
      * to keep following these tiles until empty.
      */
-    private List<Vector2Int> toMoveTo = new ArrayList<Vector2Int>();
+    protected List<Vector2Int> toMoveTo = new ArrayList<Vector2Int>();
 
     Direction direction = Direction.SOUTH;
     PersonState state;
