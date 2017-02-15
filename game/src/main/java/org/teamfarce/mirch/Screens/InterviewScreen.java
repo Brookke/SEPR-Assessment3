@@ -1,5 +1,6 @@
 package org.teamfarce.mirch.Screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
@@ -92,10 +93,11 @@ public class InterviewScreen extends AbstractScreen {
 
     private void initStartInterview() {
         ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
-        //TODO: Add event handlers
-        buttonList.add(new InterviewResponseButton("Question the suspect", 0, null));
-        buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null));
-        buttonList.add(new InterviewResponseButton("Leave the interview", 2, null));
+
+        InterviewResponseButton.EventHandler eventHandler = (result) -> handleStartResponse(result);
+        buttonList.add(new InterviewResponseButton("Question the suspect", 0, eventHandler));
+        buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, eventHandler));
+        buttonList.add(new InterviewResponseButton("Leave the interview", 2, eventHandler));
 
         InterviewResponseBox responseBox = new InterviewResponseBox("What would you like to do?", buttonList, uiSkin);
 
@@ -105,9 +107,24 @@ public class InterviewScreen extends AbstractScreen {
         interviewStage.addActor(responseBoxTable);
     }
 
+    private void handleStartResponse(int result) {
+        switch (result) {
+            case 0: //Question
+                gameSnapshot.setState(GameState.interviewQuestion);
+                break;
+            case 1: //Accuse
+                gameSnapshot.setState(GameState.interviewQuestion);
+                break;
+            case 2: //Ignore
+                gameSnapshot.setState(GameState.map);
+                break;
+        }
+    }
+
     @Override
     public void show() {
         initInterviewStage();
+
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(interviewStage);
         multiplexer.addProcessor(statusBar.stage);
@@ -128,19 +145,13 @@ public class InterviewScreen extends AbstractScreen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() { }
 
     @Override
     public void dispose() {
