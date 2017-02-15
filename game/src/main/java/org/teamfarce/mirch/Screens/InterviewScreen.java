@@ -7,19 +7,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.Elements.InterviewResponseBox;
 import org.teamfarce.mirch.Screens.Elements.InterviewResponseButton;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
+import org.teamfarce.mirch.Vector2Int;
 
 import java.util.ArrayList;
 
@@ -54,7 +53,7 @@ public class InterviewScreen extends AbstractScreen {
         //Initialise stage used to show interview contents
         interviewStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-        //Create table to represent journal "book"
+        //Create table to contain background image
         Table interviewContainer = new Table();
         interviewContainer.setBounds(X_OFFSET, Y_OFFSET, WIDTH, HEIGHT);
 
@@ -66,7 +65,8 @@ public class InterviewScreen extends AbstractScreen {
 
         interviewStage.addActor(interviewContainer);
 
-        initCharacterBox();
+        Suspect suspect = new Suspect("Donald Trump", "POTUS", "Trumpo_sprite.png", new Vector2Int(1,1), null);
+        initSuspectBox(suspect, "Hi, how can I help?");
 
         GameState currentState = gameSnapshot.getState();
         switch (currentState) {
@@ -84,12 +84,23 @@ public class InterviewScreen extends AbstractScreen {
         }
     }
 
-    private void initCharacterBox() {
-        Label comment = new Label("Hi! I'm character name, how can I help?", uiSkin);
-        comment.setPosition(200, 550);
-        comment.setFontScale(1.2f);
-        this.interviewStage.addActor(comment);
+    private void initSuspectBox(Suspect suspect, String suspectDialogue) {
+        Label suspectName = new Label(suspect.getName(), uiSkin);
+        suspectName.setPosition(280, 540);
+        suspectName.setFontScale(1.1f);
+        this.interviewStage.addActor(suspectName);
+
+
+        Label dialogue = new Label(suspectDialogue, uiSkin);
+        dialogue.setPosition(280, 510);
+        this.interviewStage.addActor(dialogue);
+
+        Image suspectImage = new Image(suspect.getTexture());
+        suspectImage.setPosition(200, 500);
+        this.interviewStage.addActor(suspectImage);
     }
+
+
 
     private void initStartInterview() {
         ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
@@ -120,6 +131,8 @@ public class InterviewScreen extends AbstractScreen {
                 break;
         }
     }
+
+
 
     @Override
     public void show() {
