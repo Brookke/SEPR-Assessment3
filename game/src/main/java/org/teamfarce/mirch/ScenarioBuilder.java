@@ -210,9 +210,6 @@ public class ScenarioBuilder
 
         for (DataClue c : selectedClues) {
             Clue tempClue = new Clue(c.name, c.description, c.impliesMotiveRating, c.impliesMeansRating, c.resource);
-
-            Collections.shuffle(rooms);
-            tempClue.setRoom(rooms.get(0));
             constructedClues.add(tempClue);
         }
 
@@ -356,7 +353,7 @@ public class ScenarioBuilder
             if (randHidingSpot != null) {
                 //Subtract 1 as java counts from 0
                 clues.get(amountOfClues - 1).setTileCoordinates(randHidingSpot);
-                clues.get(amountOfClues - 1).setRoom(room);
+                room.addClue(clues.get(amountOfClues - 1));
                 amountOfClues--;
             }
 
