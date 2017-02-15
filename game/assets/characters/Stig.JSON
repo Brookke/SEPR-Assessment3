@@ -1,0 +1,19 @@
+{
+  "name": "Stig",
+  "personality": "SILENT",
+  "responses": {
+    "introduction": "*Stig inclines his head*",
+    "Big Footprint": "*Stig gives off a negative attitude*",
+    "Small Footprint": "*Stig nods*",
+    "Glasses": "*Stig writes down entire poster written in size 10 font from 50 meters away*",
+    "Bag": "*Stig Shakes his head*",
+    "Lipstick": "*There is no lipstick on Stig's visor*",
+    "Right Handed": "*Stig writes with his left foot*",
+    "Dark Hair": "*Stig shakes his head*"
+  },
+  "noneResponses": [
+    "*Stig does nothing*"
+    "*Stig stands still*"
+    "*Stig is silent*"
+  ]
+}
