@@ -145,12 +145,17 @@ public class InterviewScreen extends AbstractScreen {
         interviewStage.addActor(responseBoxTable);
     }
 
+
+    /**
+     * Initialises GUI controls for Suspect's dialogue
+     * @param suspect Reference to instance of Suspect class
+     * @param suspectDialogue Speech for the suspect to say
+     */
     private void initSuspectBox(Suspect suspect, String suspectDialogue) {
         Label suspectName = new Label(suspect.getName(), uiSkin);
         suspectName.setPosition(280, 540);
         suspectName.setFontScale(1.1f);
         this.interviewStage.addActor(suspectName);
-
 
         Label dialogue = new Label(suspectDialogue, uiSkin);
         dialogue.setPosition(280, 510);
@@ -161,6 +166,11 @@ public class InterviewScreen extends AbstractScreen {
         this.interviewStage.addActor(suspectImage);
     }
 
+
+    /**
+     * Event handler that switches game state when player selects a response
+     * @param result Int associated with each state
+     */
     private void switchState(int result) {
         switch (result) {
             case 0: //Question
@@ -178,7 +188,6 @@ public class InterviewScreen extends AbstractScreen {
                 break;
         }
     }
-
 
 
     @Override
