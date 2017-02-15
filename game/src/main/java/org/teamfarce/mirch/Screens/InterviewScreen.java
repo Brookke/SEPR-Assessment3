@@ -116,7 +116,7 @@ public class InterviewScreen extends AbstractScreen {
             case interviewAccuse:
                 //Check whether accusation is correct
                 boolean hasEvidence = gameSnapshot.isMeansProven() && gameSnapshot.isMotiveProven();
-                if (!suspect.accuse(hasEvidence)) {
+                if (suspect.accuse(hasEvidence)) {
                     //Setup suspect's dialogue
                     suspectDialogue = "Oh dear, you've caught me red handed. I confess to killing them.";
 
