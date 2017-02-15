@@ -16,7 +16,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
+import org.teamfarce.mirch.Screens.Elements.InterviewResponseBox;
+import org.teamfarce.mirch.Screens.Elements.InterviewResponseButton;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
+
+import java.util.ArrayList;
 
 /**
  * Created by Jason on 13/02/2017.
@@ -66,7 +70,6 @@ public class InterviewScreen extends AbstractScreen {
         GameState currentState = gameSnapshot.getState();
         switch (currentState) {
             case interviewStart:
-                //TODO: Show character with Question, Accuse, Ignore buttons
                 initStartInterview();
                 break;
             case interviewQuestion:
@@ -88,22 +91,18 @@ public class InterviewScreen extends AbstractScreen {
     }
 
     private void initStartInterview() {
-        Label comment = new Label("What would you like to do?", uiSkin);
-        comment.setPosition(500, 280);
-        comment.setFontScale(1.2f);
-        this.interviewStage.addActor(comment);
+        ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
+        //TODO: Add event handlers
+        buttonList.add(new InterviewResponseButton("Question the suspect", 0, null));
+        buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null));
+        buttonList.add(new InterviewResponseButton("Leave the interview", 2, null));
 
-        TextButton question = new TextButton("Question the suspect", uiSkin);
-        question.setPosition(500, 220);
-        interviewStage.addActor(question);
+        InterviewResponseBox responseBox = new InterviewResponseBox("What would you like to do?", buttonList, uiSkin);
 
-        TextButton accuse = new TextButton("Accuse the suspect", uiSkin);
-        accuse.setPosition(700, 220);
-        interviewStage.addActor(accuse);
+        Table responseBoxTable = responseBox.getContent();
+        responseBoxTable.setPosition(450, 220);
 
-        TextButton ignore = new TextButton("Leave the interview", uiSkin);
-        ignore.setPosition(900, 220);
-        interviewStage.addActor(ignore);
+        interviewStage.addActor(responseBoxTable);
     }
 
     @Override
