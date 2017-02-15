@@ -73,6 +73,11 @@ public class Vector2Int
         return "(" + x + "," + y + ")";
     }
 
+    /**
+     * This method returns the hashCode for this object. It is used in hashmaps
+     *
+     * @return hashCode formatted as xCoordinate00ycoordinate
+     */
     @Override
     public int hashCode() {
         return Integer.valueOf(x + "00" + y);
