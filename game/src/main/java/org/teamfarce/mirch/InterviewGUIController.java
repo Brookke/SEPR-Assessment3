@@ -60,7 +60,8 @@ public class InterviewGUIController
     {
         //Create buttons and labels
         Label characterName = new Label(suspect.getName(), uiSkin);
-        Image theSuspect = new Image(new Texture(Gdx.files.internal("characters/" + suspect.getFilename())));
+        //TODO: sort this for when we have animation
+        Image theSuspect = new Image(suspect.getTexture());
         Image thePlayer = new Image(player.getTexture());
         Label playerName = new Label("You", uiSkin);
 

@@ -1,5 +1,7 @@
 package org.teamfarce.mirch.Entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.Settings;
@@ -30,7 +32,8 @@ public abstract class AbstractPerson extends MapEntity
      */
     public AbstractPerson(String name, String description, String filename)
     {
-        super(name, description, filename);
+        super(name, description, new Texture(Gdx.files.internal("characters/" + filename)));
+
     }
 
     /**

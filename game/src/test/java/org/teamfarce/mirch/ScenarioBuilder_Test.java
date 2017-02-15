@@ -32,9 +32,9 @@ public class ScenarioBuilder_Test extends GameTest {
 
         ScenarioBuilder.distributeClues(clues,rooms);
 
-        for (Clue c: clues) {
-            if (!rooms.contains(c.getRoom())) {
-                fail("Clues not being assigned a room");
+        for (Room r: rooms) {
+            if (!(r.getClues().size() > 0)) {
+                fail("Rooms not being given clues");
             }
         }
 
@@ -58,12 +58,9 @@ public class ScenarioBuilder_Test extends GameTest {
 
         ScenarioBuilder.distributeClues(clues,rooms);
 
-        List<Room> tempRooms = new ArrayList<>();
-        for (Clue c: clues) {
-            if (tempRooms.contains(c.getRoom())) {
+        for (Room r: rooms) {
+            if (r.getClues().size() != 1) {
                 fail("Clues being given the same room");
-            } else {
-                tempRooms.add(c.getRoom());
             }
         }
 
