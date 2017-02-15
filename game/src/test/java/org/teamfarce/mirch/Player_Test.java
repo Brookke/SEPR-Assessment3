@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.tests.dialogue;
+package org.teamfarce.mirch;
 
 import org.junit.Before;
 import org.junit.Test;
