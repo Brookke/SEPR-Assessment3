@@ -71,12 +71,10 @@ public class ScenarioBuilder
 
         final int third = dataMotive.description.length() / 3; //get the middle of the String
         String[] parts = {dataMotive.description.substring(0, third),dataMotive.description.substring(third, 2*third),dataMotive.description.substring(2*third)};
-
         System.out.println("Motive generated:");
         System.out.println(parts[0]);
         System.out.println(parts[1]);
         System.out.println(parts[2]);
-
 
         //TODO: update to the correct sprite if we are using them
         Clue part1 = new Clue("Motive Part 1", parts[0], "Axe.png");
@@ -175,7 +173,7 @@ public class ScenarioBuilder
             if (randHidingSpot != null) {
                 //Subtract 1 as java counts from 0
                 clues.get(amountOfClues - 1).setTileCoordinates(randHidingSpot);
-                clues.get(amountOfClues - 1).setRoom(room);
+                room.addClue(clues.get(amountOfClues - 1));
                 amountOfClues--;
             }
 

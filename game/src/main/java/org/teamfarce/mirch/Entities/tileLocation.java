@@ -21,6 +21,12 @@ public interface tileLocation
     int getTileY();
 
     /**
+     * Gets the tile coordinates in terms of a Vector int
+     * @return
+     */
+    Vector2Int getTileCoordinates();
+
+    /**
      * Sets the tile location of the object
      * @param x the x tile
      * @param y the y tile
