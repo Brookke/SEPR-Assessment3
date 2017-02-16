@@ -1,6 +1,5 @@
 package org.teamfarce.mirch.Entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -64,7 +63,7 @@ public abstract class AbstractPerson extends MapEntity
      */
     public AbstractPerson(String name, String description, String filename)
     {
-        super(name, description, new TextureRegion(new Texture(Gdx.files.internal("characters/" + filename)), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
+        super(name, description, new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
         this.name = name;
         this.spriteSheet = Assets.loadTexture("characters/" + filename);
         this.currentRegion = new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
