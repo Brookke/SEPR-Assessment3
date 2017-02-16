@@ -1,10 +1,7 @@
 package org.teamfarce.mirch;
 
 import java.sql.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class ScenarioBuilderDatabase
 {
@@ -81,13 +78,14 @@ public class ScenarioBuilderDatabase
 
         ResultSet rsCharacterClues = sqlStmt.executeQuery("SELECT * FROM character_clues");
         while (rsCharacterClues.next()) {
-            int characterId = rsCharacterClues.getInt("character");
-            DataClue clue = clues.get(rsCharacterClues.getInt("clue"));
+            int characterId = rsCharacterClues.getInt("characters");
+            DataClue clue = clues.get(rsCharacterClues.getInt("clues"));
             if (characterClues.containsKey(characterId)) {
 
                 characterClues.get(characterId).add(clue);
             } else {
-                characterClues.put(characterId, Arrays.asList(clue));
+                characterClues.put(characterId, new ArrayList<DataClue>());
+                characterClues.get(characterId).add(clue);
             }
         }
 
