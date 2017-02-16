@@ -372,6 +372,10 @@ public abstract class AbstractPerson extends MapEntity
         return Math.abs(start.getX() - end.getX()) + Math.abs(start.getY() - end.getY());
     }
 
+    public void setDirection(Direction dir)
+    {
+        this.direction = dir;
+    }
 
     /**
      * The state of the person explains what they are currently doing.

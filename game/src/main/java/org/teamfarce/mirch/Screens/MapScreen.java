@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import org.teamfarce.mirch.Entities.AbstractPerson;
 import org.teamfarce.mirch.Entities.Direction;
 import org.teamfarce.mirch.Entities.PlayerController;
 import org.teamfarce.mirch.Entities.Suspect;
@@ -18,6 +19,8 @@ import org.teamfarce.mirch.OrthogonalTiledMapRendererWithPeople;
 import org.teamfarce.mirch.Screens.Elements.RoomArrow;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -56,6 +59,11 @@ public class MapScreen extends AbstractScreen
      * The current room ID. This is used to catch when a player has moved rooms.
      */
     private int currentRoomID = 0;
+
+    /**
+     * This is the list of NPCs who are in the current room
+     */
+    List<Suspect> currentNPCs = new ArrayList<Suspect>();
 
     /**
      * The black sprite that is used to fade in/out
@@ -119,19 +127,9 @@ public class MapScreen extends AbstractScreen
         tileRender.setView(camera);
 
         tileRender.render();
-
-
-        //TODO: Fix this mess of collision handling and move it to the player...
-        //Room newRoom = game.getCurrentRoom(game.rooms, game.player); //find the new current room of the player
-
-        //if we are no longer in the previous room and haven't entered a door, we move the player back
-        //to the old position
-
         tileRender.getBatch().begin();
-
         arrow.update();
         arrow.draw(tileRender.getBatch());
-
         tileRender.getBatch().end();
 
         updateTransition(delta);
@@ -146,49 +144,11 @@ public class MapScreen extends AbstractScreen
         spriteBatch.end();
 
         Random random = new Random();
-        //System.out.println(random.nextInt(10));
 
         //loop through each suspect character, moving them randomly
-        for (Suspect character : game.characters) {
-            if ((game.step % moveStep) == 0) {
-                //System.out.println("Updating move step");
-                //Carries out a probability check to determine whether the character should move or stay stationary
-                //This gives the characters a 'meandering' look
-                if (random.nextInt(2) >= 1) {
-                    //calculate the new move vector for the character
-
-
-                    //System.out.println(randX);
-                    character.move(Direction.EAST); //store the characters current room
-                }
-            }
-
-
-            //find the characters new room
-            //Room thisNextRoom = game.getCurrentRoom(game.rooms, character);
-
-//            if (thisNextRoom == null || thisRoom == null) {
-//
-//                //check if the character has illegally left the rooms bounds, if it has move it back to its previous location
-//            } else if (!thisRoom.equals(thisNextRoom)) {
-//            }
-//
-//            suspect.setRoom(thisNextRoom); //update the current room the suspect is in in the back end
-
+        for (Suspect character : currentNPCs) {
+            character.update(delta);
         }
-
-
-//        } else if (inputController.isObjectClicked(game.objects, game.camera)){
-//            Clue clue = (Clue) inputController.getClickedObject(game.objects, game.camera);
-//            if (game.gameSnapshot.journal.getClues().indexOf(clue) == -1){
-//                game.displayController.drawItemDialogue(clue);
-//                game.gameSnapshot.journalAddClue(clue);
-//            } else {
-//                //otherwise we report to the user that the object is already in the journal
-//                game.displayController.drawItemAlreadyFoundDialogue(clue);
-//            }
-//        }
-
 
         statusBar.render();
     }
@@ -235,7 +195,11 @@ public class MapScreen extends AbstractScreen
 
                 if (animTimer >= ANIM_TIME) {
                     game.player.moveRoom();
+                    game.getNPCs(game.player.getRoom());
                     getTileRenderer().setMap(game.player.getRoom().getTiledMap());
+                    getTileRenderer().clearPeople();
+                    getTileRenderer().addPerson((List<AbstractPerson>) ((List<? extends AbstractPerson>) currentNPCs));
+                    getTileRenderer().addPerson(game.player);
                 }
 
                 if (animTimer > ANIM_TIME) {

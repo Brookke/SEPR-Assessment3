@@ -11,10 +11,7 @@ import org.teamfarce.mirch.map.Room;
 
 import javax.swing.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * MIRCH is used to generate all graphics in the program. It initialises the scenario generator and game state
@@ -304,6 +301,21 @@ w
         super.render();
 
         step++; //increment the step counter
+    }
+
+    public List<Suspect> getNPCs(Room room)
+    {
+        List<Suspect> npcsInRoom = new ArrayList<Suspect>();
+
+        for (Suspect s : gameSnapshot.getSuspects())
+        {
+            if (s.getRoom().getID() == room.getID())
+            {
+                npcsInRoom.add(s);
+            }
+        }
+
+        return npcsInRoom;
     }
 
     @Override

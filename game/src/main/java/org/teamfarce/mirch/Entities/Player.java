@@ -92,7 +92,6 @@ public class Player extends AbstractPerson
         return this.getRoom().isTriggerTile(this.tileCoordinates.x, this.tileCoordinates.y);
     }
 
-
     /**
      * This takes the player at its current position, and automatically gets the transition data for the next room and applies it to the player and game
      */
