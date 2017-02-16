@@ -59,7 +59,6 @@ public class ScenarioBuilder
         data.allCharacters.addAll(posVictims);
 
         return data;
-
     }
 
     /**
