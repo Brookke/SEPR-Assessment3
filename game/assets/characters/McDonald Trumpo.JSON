@@ -1,6 +1,6 @@
 {
   "name": "McDonald Trumpo",
-  "personality": "MEAN",
+  "personality": "Aggressive",
   "responses": {
     "introduction": "Hello",
     "Big Footprint": "Yes those shoes might fit me",
@@ -9,7 +9,9 @@
     "Bag": "Well I get my bodyguards to carry everything, so no.",
     "Lipstick": "My wife has a lot of lipstick - at home we have 3 draws of it. Now I hear you saying 'isn't 2 draws a lot? well my wife likes wearing lipstick so if she wants 4 draws she gets that many. Oh no I dont wear lipstick.",
     "Right Handed": "Well I am right about everything else so why would I not be right handed.",
-    "Dark Hair": "No, my hair is styled by the best hair stylists, I would never have dark hair - you know who has dark hair?..."
+    "Dark Hair": "No, my hair is styled by the best hair stylists, I would never have dark hair - you know who has dark hair?...",
+    "Light Hair": "Ooh yes I do have nice light hair.",
+    "Rubber Duck": "That is a nice little duck I must admit"
   },
   "noneResponses": [
     "gonna build a wall...,and get them to pay for it"
