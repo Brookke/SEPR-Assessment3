@@ -19,7 +19,7 @@ public class Player_Test extends GameTest {
     @Before
     public void start()
     {
-        p = new Player("Name", "Desc", "Detective_Sprite.png");
+        p = new Player("Name", "Desc", "Detective_sprite.png");
     }
 
     @Test
