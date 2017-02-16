@@ -1,7 +1,7 @@
 package org.teamfarce.mirch.Screens.Elements;
 
 /**
- * Created by Jason on 15/02/2017.
+ * Button to use with the interview response box
  */
 public class InterviewResponseButton
     {
@@ -21,7 +21,7 @@ public class InterviewResponseButton
     public EventHandler eventHandler;
 
     /**
-     * Constructor for SpeechBoxButton
+     * Constructor for InterviewResponseButton
      *
      * @param buttonText      String to display on button
      * @param eventHandlerVal On click event handler - use a Lambda function (Java8 only)

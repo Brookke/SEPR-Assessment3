@@ -13,7 +13,8 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * Created by Jason on 15/02/2017.
+ * The InterviewResponseBox is used within the InterviewScreen
+ * Used to present the player with options for responding to a Suspect
  */
 public class InterviewResponseBox {
     /**

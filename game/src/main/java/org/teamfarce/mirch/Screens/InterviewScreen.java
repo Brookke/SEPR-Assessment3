@@ -22,8 +22,10 @@ import org.teamfarce.mirch.Vector2Int;
 
 import java.util.ArrayList;
 
+
 /**
- * Created by Jason on 13/02/2017.
+ * The InterviewScreen contains GUI for these GameStates:
+ * interviewStart, interviewQuestion, interviewAccuse
  */
 public class InterviewScreen extends AbstractScreen {
 
