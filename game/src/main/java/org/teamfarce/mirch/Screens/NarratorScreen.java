@@ -77,7 +77,7 @@ public class NarratorScreen extends AbstractScreen
                 "You must go around each room trying to find the clues that have been hidden. You must also question the guests to see if they know anything about the murder! Try to solve the case before any other detective!";
 
         //Set introduction speech
-        setSpeech(introSpeech).makeVisible();
+        setSpeech(introSpeech);
     }
 
     /**
@@ -91,11 +91,7 @@ public class NarratorScreen extends AbstractScreen
         background.setHeight(Gdx.graphics.getHeight());
         background.setWidth(Gdx.graphics.getWidth());
 
-        TextField.TextFieldStyle textFieldStyle = uiSkin.get(TextField.TextFieldStyle.class);
-        textFieldStyle.fontColor = Color.WHITE;
-
-        speech = new Label(currentMessage, uiSkin);
-        speech.getStyle().fontColor = Color.WHITE;
+        speech = new Label(currentMessage, uiSkin, "white");
         speech.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.6f);
         speech.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 0.25f);
         speech.setWrap(true);
@@ -135,14 +131,6 @@ public class NarratorScreen extends AbstractScreen
             speech.setText(currentMessage);
         } catch (Exception e) {
         }
-    }
-
-    /**
-     * This method is called to show the screen
-     */
-    public void makeVisible()
-    {
-        gameSnapshot.setState(GameState.narrator);
     }
 
     @Override

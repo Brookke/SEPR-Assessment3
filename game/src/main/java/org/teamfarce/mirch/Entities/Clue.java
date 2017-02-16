@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.Texture;
 public class Clue extends MapEntity
 {
 
+    private boolean motiveClue = false;
+
     /**
      * Creates a clue
      *
@@ -17,7 +19,7 @@ public class Clue extends MapEntity
      * @param description describes what the clue is
      * @param filename    the texture region of the clue
      */
-    public Clue(String name, String description, int impliesMotiveRating, int impliesMeansRating, String filename)
+    public Clue(String name, String description, String filename)
     {
         super(name, description, new Texture(Gdx.files.internal("clues/" + filename)));
 
@@ -34,10 +36,17 @@ public class Clue extends MapEntity
     {
         if (obj instanceof Clue) {
             Clue c = (Clue) obj;
-            return c.getName().equals(this.getName());
+            return c.getName().equals(this.getName()) && c.getDescription().equals(this.description);
         }
 
         return false;
     }
 
+    public boolean isMotiveClue() {
+        return motiveClue;
+    }
+
+    public void setMotiveClue() {
+        this.motiveClue = true;
+    }
 }
