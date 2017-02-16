@@ -6,4 +6,4 @@ test:
   override:
     - cd game && ./gradlew test && ./gradlew check jacocoTestReport
   post:
-    - cp -R build/reports/* $CIRCLE_ARTIFACTS
+    - cp -R game/build/reports/* $CIRCLE_ARTIFACTS
