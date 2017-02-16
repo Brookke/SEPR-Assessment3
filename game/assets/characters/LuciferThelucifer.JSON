@@ -1,6 +1,6 @@
 {
   "name": "Lucifer Thelucifer",
-  "personality": "SNEAKY",
+  "personality": "Conversational",
   "responses": {
     "introduction": "Hello, may I interest you in a... business venture?",
     "Big Footprint": "With feet that size I wouldnt be able to get around so quietly...",
@@ -9,7 +9,9 @@
     "Bag": "Why yes, where else do I keep all of my... items",
     "Lipstick": "I find that this certain shade of rouge has an effect on humans that shocks them to their soul.",
     "Right Handed": "My left hand is more dextrous for... plucking humans souls...",
-    "Dark Hair": "Dark hair is most befitting to my devilishly handsome looks."
+    "Dark Hair": "Dark hair is most befitting to my devilishly handsome looks.",
+    "Light Hair": "No no light is disturbing",
+    "Rubber Duck": "Aww what a cute little ducky"
   },
   "noneResponses": [
     "infernum"
