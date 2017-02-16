@@ -31,12 +31,12 @@ public class ScenarioBuilder
         List<Suspect> posVictims = new ArrayList<>();
         dataCharacters.forEach((x,c) -> {
             if (c.posKiller) {
-                Suspect tempSuspect = new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), null);
+                Suspect tempSuspect = new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), c.dialogue.filename);
                 tempSuspect.relatedClues = (convertClues(c.relatedClues));
                 posKillers.add(tempSuspect);
 
             } else {
-                posVictims.add(new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), null));
+                posVictims.add(new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), c.dialogue.filename));
             }
         });
 
