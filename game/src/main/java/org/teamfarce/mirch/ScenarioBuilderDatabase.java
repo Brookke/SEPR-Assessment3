@@ -42,6 +42,7 @@ public class ScenarioBuilderDatabase
         protoprops = new HashMap<>();
         characterMeansLinks = new HashMap<>();
     }
+
     public ScenarioBuilderDatabase(String databaseName) throws SQLException
     {
         this();

@@ -15,7 +15,7 @@ public class ScenarioBuilder
 
     public static CharacterData chooseCharacters(
             ScenarioBuilderDatabase database,
-            int minSuspectCount ,
+            int minSuspectCount,
             int maxSuspectCount,
             DataCharacterMotiveLink selectedCharacterMotiveLink,
             Random random
@@ -214,7 +214,6 @@ public class ScenarioBuilder
         }
 
 
-
         // TODO: Misleading Clues
 
         // Build up our map of dialogue tree roots. This will be the question intentions which are
@@ -303,6 +302,33 @@ public class ScenarioBuilder
         );
     }
 
+    /**
+     * Takes a list of clues and rooms and gives each of the clues a random room and location
+     *
+     * @param clues
+     * @param rooms
+     */
+    public static void distributeClues(List<Clue> clues, List<Room> rooms)
+    {
+
+        Collections.shuffle(clues);
+        int amountOfClues = clues.size();
+        for (Room room : rooms) {
+            if (amountOfClues == 0) return;
+
+            Vector2Int randHidingSpot = room.getRandHidingSpot();
+
+            if (randHidingSpot != null) {
+                //Subtract 1 as java counts from 0
+                clues.get(amountOfClues - 1).setTileCoordinates(randHidingSpot);
+                room.addClue(clues.get(amountOfClues - 1));
+                amountOfClues--;
+            }
+
+        }
+
+    }
+
     public static class ScenarioBuilderException extends Exception
     {
         public ScenarioBuilderException(String message)
@@ -327,37 +353,10 @@ public class ScenarioBuilder
         }
     }
 
-
     private static class CharacterData
     {
         public DataCharacter victim = null;
         public DataCharacter murderer = null;
         public List<DataCharacter> suspects = new ArrayList<>();
-    }
-
-
-    /**
-     * Takes a list of clues and rooms and gives each of the clues a random room and location
-     * @param clues
-     * @param rooms
-     */
-    public static void distributeClues(List<Clue> clues, List<Room> rooms) {
-
-        Collections.shuffle(clues);
-        int amountOfClues = clues.size();
-        for (Room room : rooms) {
-            if (amountOfClues == 0) return;
-
-            Vector2Int randHidingSpot = room.getRandHidingSpot();
-
-            if (randHidingSpot != null) {
-                //Subtract 1 as java counts from 0
-                clues.get(amountOfClues - 1).setTileCoordinates(randHidingSpot);
-                room.addClue(clues.get(amountOfClues - 1));
-                amountOfClues--;
-            }
-
-        }
-
     }
 }

@@ -73,7 +73,8 @@ public class Vector2Int
         return "(" + x + "," + y + ")";
     }
 
-    public Vector2Int scl (int scalar) {
+    public Vector2Int scl(int scalar)
+    {
         x *= scalar;
         y *= scalar;
         return this;

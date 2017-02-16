@@ -25,14 +25,6 @@ import java.util.List;
  */
 public class JournalScreen extends AbstractScreen
 {
-    private MIRCH game;
-    private GameSnapshot gameSnapshot;
-
-    public Stage journalStage;
-    private Skin uiSkin;
-    private StatusBar statusBar;
-    private Table notepadPage;
-
     final static float JOURNAL_X_OFFSET = 10;
     final static float JOURNAL_Y_OFFSET = 20;
     final static float PAGE_X_OFFSET = 50;
@@ -46,10 +38,16 @@ public class JournalScreen extends AbstractScreen
     final static float PAGE_MARGIN = 50;
     final static float PAGE_CONTENT_SPACE = 170;
     final static float PAGE_CONTENT_WIDTH = PAGE_WIDTH - (2 * PAGE_MARGIN);
+    public Stage journalStage;
+    private MIRCH game;
+    private GameSnapshot gameSnapshot;
+    private Skin uiSkin;
+    private StatusBar statusBar;
+    private Table notepadPage;
 
 
     /**
-     * @param game Reference
+     * @param game   Reference
      * @param uiSkin
      */
     public JournalScreen(MIRCH game, Skin uiSkin)
@@ -69,7 +67,8 @@ public class JournalScreen extends AbstractScreen
      * Initialises the GUI controls for the JournalScreen
      * Is called within show() to ensure data is up to date
      */
-    private void initStage() {
+    private void initStage()
+    {
         //Initialise stage used to show journal contents
         journalStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
@@ -114,9 +113,11 @@ public class JournalScreen extends AbstractScreen
 
     /**
      * Creates a Table containing the journal navigation page
+     *
      * @return Table containing contents of page
      */
-    private Table initJournalNavControls() {
+    private Table initJournalNavControls()
+    {
         Table table = new Table();
         table.setBounds(PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
@@ -138,9 +139,11 @@ public class JournalScreen extends AbstractScreen
 
     /**
      * Creates a Table containing journal clue page content
+     *
      * @return Table containing contents of page
      */
-    private Table initJournalCluesPage() {
+    private Table initJournalCluesPage()
+    {
         //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
@@ -166,7 +169,7 @@ public class JournalScreen extends AbstractScreen
         ScrollPane contentScroll = new ScrollPane(content, uiSkin);
         contentScroll.layout();
         contentScroll.setScrollbarsOnTop(true);
-        contentScroll.setForceScroll(false,true);
+        contentScroll.setForceScroll(false, true);
 
         //Calculate content position
         float CONTENT_HEIGHT = 30 * clues.size();
@@ -177,7 +180,7 @@ public class JournalScreen extends AbstractScreen
         //Add clue content to container, then to page
         Table contentContainer = new Table();
         contentContainer.setSize(PAGE_CONTENT_WIDTH, CONTENT_HEIGHT);
-        contentContainer.setPosition(PAGE_MARGIN,  PAGE_HEIGHT - 120 - CONTENT_HEIGHT);
+        contentContainer.setPosition(PAGE_MARGIN, PAGE_HEIGHT - 120 - CONTENT_HEIGHT);
         contentContainer.add(contentScroll).width(PAGE_CONTENT_WIDTH).height(CONTENT_HEIGHT);
         page.addActor(contentContainer);
 
@@ -186,9 +189,11 @@ public class JournalScreen extends AbstractScreen
 
     /**
      * Creates a Table containing journal questions page content
+     *
      * @return Table containing contents of page
      */
-    private Table initJournalQuestionsPage() {
+    private Table initJournalQuestionsPage()
+    {
         //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
@@ -214,7 +219,7 @@ public class JournalScreen extends AbstractScreen
         ScrollPane contentScroll = new ScrollPane(content, uiSkin);
         contentScroll.layout();
         contentScroll.setScrollbarsOnTop(true);
-        contentScroll.setForceScroll(false,true);
+        contentScroll.setForceScroll(false, true);
 
         //Calculate content position
         float CONTENT_HEIGHT = 30 * conversations.size();
@@ -225,7 +230,7 @@ public class JournalScreen extends AbstractScreen
         //Add conversation content to container, then to page
         Table contentContainer = new Table();
         contentContainer.setSize(PAGE_CONTENT_WIDTH, CONTENT_HEIGHT);
-        contentContainer.setPosition(PAGE_MARGIN,  PAGE_HEIGHT - 100 - CONTENT_HEIGHT);
+        contentContainer.setPosition(PAGE_MARGIN, PAGE_HEIGHT - 100 - CONTENT_HEIGHT);
         contentContainer.add(contentScroll).width(PAGE_CONTENT_WIDTH).height(CONTENT_HEIGHT);
         page.addActor(contentContainer);
 
@@ -234,9 +239,11 @@ public class JournalScreen extends AbstractScreen
 
     /**
      * Creates a Table containing journal notepad page content
+     *
      * @return Table containing contents of page
      */
-    private Table initJournalNotepadPage() {
+    private Table initJournalNotepadPage()
+    {
         //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
@@ -248,7 +255,7 @@ public class JournalScreen extends AbstractScreen
 
         //Adds notepad to page
         TextArea notepad = new TextArea("Type here...", uiSkin);
-        notepad.setSize(PAGE_CONTENT_WIDTH,PAGE_HEIGHT - PAGE_CONTENT_SPACE);
+        notepad.setSize(PAGE_CONTENT_WIDTH, PAGE_HEIGHT - PAGE_CONTENT_SPACE);
         notepad.setPosition(PAGE_MARGIN, PAGE_MARGIN);
         page.addActor(notepad);
 
@@ -257,10 +264,12 @@ public class JournalScreen extends AbstractScreen
 
     /**
      * Creates a Label for a journal page title
+     *
      * @param pageTitle Title of journal page
      * @return Label to add to a journal page with appropriate position and style
      */
-    private Label getJournalPageTitle(String pageTitle) {
+    private Label getJournalPageTitle(String pageTitle)
+    {
         Label title = new Label(pageTitle, uiSkin);
         title.setColor(Color.BLACK);
         title.setFontScale(1.5f);
@@ -270,11 +279,13 @@ public class JournalScreen extends AbstractScreen
 
     /**
      * Creates a Label for a journal subtitle
-     * @param subtitle Subtitle of journal page
+     *
+     * @param subtitle   Subtitle of journal page
      * @param lineNumber Line number for subtitle
      * @return Label to add to a journal page with appropriate position and style
      */
-    private Label getJournalPageSubtitle(String subtitle, int lineNumber) {
+    private Label getJournalPageSubtitle(String subtitle, int lineNumber)
+    {
         Label title = new Label(subtitle, uiSkin);
         title.setColor(Color.GRAY);
         title.setFontScale(1f);
@@ -285,12 +296,14 @@ public class JournalScreen extends AbstractScreen
 
     /**
      * Creates a TextButton for journal page navigation
+     *
      * @param pageTitle Defines the button text
      * @param linkState Defines which GameState the button should navigate to
-     * @param position Defines the position of button, use the index of button in order
+     * @param position  Defines the position of button, use the index of button in order
      * @return TextButton with appropriate event handlers, position and style
      */
-    private TextButton getJournalNavButton(String pageTitle, GameState linkState, int position) {
+    private TextButton getJournalNavButton(String pageTitle, GameState linkState, int position)
+    {
         TextButton button = new TextButton(pageTitle, this.uiSkin);
         button.setSize(NAV_BUTTON_WIDTH, NAV_BUTTON_HEIGHT);
         button.setPosition(PAGE_WIDTH - PAGE_MARGIN - NAV_BUTTON_WIDTH, PAGE_HEIGHT - PAGE_CONTENT_SPACE - (1.5f * position * NAV_BUTTON_HEIGHT));
@@ -346,19 +359,25 @@ public class JournalScreen extends AbstractScreen
      * Pause method
      */
     @Override
-    public void pause() { }
+    public void pause()
+    {
+    }
 
     /**
      * Resume method
      */
     @Override
-    public void resume() { }
+    public void resume()
+    {
+    }
 
     /**
      * Hide method
      */
     @Override
-    public void hide() { }
+    public void hide()
+    {
+    }
 
     /**
      * Disposes of JournalScreen resources

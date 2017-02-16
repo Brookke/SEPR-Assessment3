@@ -15,7 +15,7 @@ public class Clue extends MapEntity
      *
      * @param name        the name of the clue i.e. what it is
      * @param description describes what the clue is
-     * @param filename     the texture region of the clue
+     * @param filename    the texture region of the clue
      */
     public Clue(String name, String description, int impliesMotiveRating, int impliesMeansRating, String filename)
     {

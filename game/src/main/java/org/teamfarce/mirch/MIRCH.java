@@ -1,51 +1,46 @@
 package org.teamfarce.mirch;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-import java.lang.*;
-
-
-import javax.swing.JOptionPane;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Player;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
 import org.teamfarce.mirch.map.Room;
 
+import javax.swing.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
 /**
  * MIRCH is used to generate all graphics in the program. It initialises the scenario generator and game state
  * and provides all interactions with the back end of the program.
- * @author jacobwunwin
  *
+ * @author jacobwunwin
  */
-public class MIRCH extends Game {
-	private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
-	public GameSnapshot gameSnapshot;
+public class MIRCH extends Game
+{
+    private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
     public static MIRCH me;
+    public GameSnapshot gameSnapshot;
+    public GUIController guiController;
 
-	public GUIController guiController;
-
-	public ArrayList<Room> rooms;
-	public ArrayList<Clue> objects;
-	public ArrayList<Suspect> characters;
+    public ArrayList<Room> rooms;
+    public ArrayList<Clue> objects;
+    public ArrayList<Suspect> characters;
 
 
-	public int step; //stores the current loop number
+    public int step; //stores the current loop number
 
-	public Player player;
+    public Player player;
 
-	private Music music_background;
+    private Music music_background;
 
-	private boolean testGame = false;
-
+    private boolean testGame = false;
 
 
     /**
@@ -56,53 +51,54 @@ public class MIRCH extends Game {
      *
      * @return An array of integers containing the trait selections.
      */
-    public int[] drawCharacterSelection() {
-        int[] values  = new int[3];
+    public int[] drawCharacterSelection()
+    {
+        int[] values = new int[3];
         String backstory = "Crash! \nA Murder has been committed in the Ron Cooke Hub \nYou are a detective, sent to solve the mystery.";
-        JOptionPane.showMessageDialog(null, backstory, "Character Creation",JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, backstory, "Character Creation", JOptionPane.PLAIN_MESSAGE);
         Object[] options1 = {
-            "Aggresive",
-            "Polite",
-            "Conversation",
-            "Direct",
-            "Caveman"
+                "Aggresive",
+                "Polite",
+                "Conversation",
+                "Direct",
+                "Caveman"
         };
 
         values[0] = JOptionPane.showOptionDialog(
-            null,
-            "Choose a style for your character.",
-            "Character Creation",
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            options1,
-            options1[2]
+                null,
+                "Choose a style for your character.",
+                "Character Creation",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options1,
+                options1[2]
         );
 
         values[0]++;
 
         values[1] = JOptionPane.showOptionDialog(
-            null,
-            "Choose another style for your character.",
-            "Character Creation",
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            options1,
-            options1[2]
+                null,
+                "Choose another style for your character.",
+                "Character Creation",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options1,
+                options1[2]
         );
 
         values[1]++;
 
         values[2] = JOptionPane.showOptionDialog(
-            null,
-            "Choose a final style for your character.",
-            "Character Creation",
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            options1,
-            options1[2]
+                null,
+                "Choose a final style for your character.",
+                "Character Creation",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options1,
+                options1[2]
         );
 
         values[2]++;
@@ -111,29 +107,31 @@ public class MIRCH extends Game {
     }
 
 
-	/**
-	 * Plays music in the background
-	 */
-	private void playMusic(){
-		music_background = Gdx.audio.newMusic(Gdx.files.internal("music/Minima.mp3"));
-		music_background.setLooping(true);
-		music_background.play();
-	}
+    /**
+     * Plays music in the background
+     */
+    private void playMusic()
+    {
+        music_background = Gdx.audio.newMusic(Gdx.files.internal("music/Minima.mp3"));
+        music_background.setLooping(true);
+        music_background.play();
+    }
 
 
-	/**
-	 * Initialises all variables in the game and sets up the game for play.
-	 */
-	@Override
-	public void create() {
+    /**
+     * Initialises all variables in the game and sets up the game for play.
+     */
+    @Override
+    public void create()
+    {
 
-		me = this;
+        me = this;
         Assets.load();
 
-		step = 0; //initialise the step variable
+        step = 0; //initialise the step variable
 
 	/*	if (testGame){
-			//create temporary required items, eventually ScenarioBuilder will generate these
+            //create temporary required items, eventually ScenarioBuilder will generate these
 			ArrayList<Suspect> tempSuspects = new ArrayList<Suspect>();
 
 			Suspect tempSuspect = new Suspect("Devil_sprite.png", new Vector2(400, 400));
@@ -232,84 +230,85 @@ w
 
 			gameSnapshot = new GameSnapshot(tempSuspects, tempProps, tempRooms, 100, 100); //generate the GameSnapshot object
 
-		} else*/ {
-			ScenarioBuilderDatabase database;
-			try {
-				database = new ScenarioBuilderDatabase("db.db");
+		} else*/
+        {
+            ScenarioBuilderDatabase database;
+            try {
+                database = new ScenarioBuilderDatabase("db.db");
 
 
-				try {
-					Set<ScenarioBuilderDatabase.DataQuestioningStyle> newSet = new HashSet<>();
+                try {
+                    Set<ScenarioBuilderDatabase.DataQuestioningStyle> newSet = new HashSet<>();
 
-					int[] output = drawCharacterSelection();
+                    int[] output = drawCharacterSelection();
 
-					for (int i : output){
-						newSet.add(database.questioningStyles.get(i));
-					}
+                    for (int i : output) {
+                        newSet.add(database.questioningStyles.get(i));
+                    }
 
-					gameSnapshot = ScenarioBuilder.generateGame(
-						database, 6, 10, newSet, new Random()
-					);
-				} catch (ScenarioBuilderException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                    gameSnapshot = ScenarioBuilder.generateGame(
+                            database, 6, 10, newSet, new Random()
+                    );
+                } catch (ScenarioBuilderException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
 
-		}
+        }
 
-		//generate RenderItems from each room
-		rooms = new ArrayList<>();
-		for (Room room : gameSnapshot.getRooms()){
-			rooms.add(room); //create a new renderItem for the room
-		}
+        //generate RenderItems from each room
+        rooms = new ArrayList<>();
+        for (Room room : gameSnapshot.getRooms()) {
+            rooms.add(room); //create a new renderItem for the room
+        }
 
-		//generate RenderItems for each prop
-
-		
-		//generate RenderItems for each suspect
-		characters = new ArrayList<>();
-		for (Suspect suspect : gameSnapshot.getSuspects()){
-			characters.add(suspect);
-		}
+        //generate RenderItems for each prop
 
 
+        //generate RenderItems for each suspect
+        characters = new ArrayList<>();
+        for (Suspect suspect : gameSnapshot.getSuspects()) {
+            characters.add(suspect);
+        }
 
 
-		//initialise the player sprite
-		player = new Player("Bob", "The player to beat all players", "Detective_sprite.png");
-		player.setTileCoordinates(7, 10);
+        //initialise the player sprite
+        player = new Player("Bob", "The player to beat all players", "Detective_sprite.png");
+        player.setTileCoordinates(7, 10);
         this.player.setRoom(rooms.get(0));
 
 
-		//starts music "Minima.mp3" - Kevin Macleod
-		if (playAnnoyingMusic){
-			playMusic();
-		}
+        //starts music "Minima.mp3" - Kevin Macleod
+        if (playAnnoyingMusic) {
+            playMusic();
+        }
 
-		//Setup screens
-		this.guiController = new GUIController(this);
-		this.guiController.initScreens();
-	}
+        //Setup screens
+        this.guiController = new GUIController(this);
+        this.guiController.initScreens();
+    }
 
-	/**
-	 * The render function deals with all game logic. It receives inputs from the input controller,
-	 * carries out logic and pushes outputs to the screen through the GUIController
-	 */
-	@Override
-	public void render() {
-		this.guiController.update();
-		super.render();
+    /**
+     * The render function deals with all game logic. It receives inputs from the input controller,
+     * carries out logic and pushes outputs to the screen through the GUIController
+     */
+    @Override
+    public void render()
+    {
+        this.guiController.update();
+        super.render();
 
-		step++; //increment the step counter
-	}
+        step++; //increment the step counter
+    }
 
-	@Override
-	public void dispose() {
+    @Override
+    public void dispose()
+    {
 
-	}
+    }
 }

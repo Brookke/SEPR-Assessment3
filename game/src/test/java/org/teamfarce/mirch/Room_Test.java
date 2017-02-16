@@ -2,7 +2,6 @@ package org.teamfarce.mirch;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.teamfarce.mirch.Entities.AbstractPerson;
 import org.teamfarce.mirch.Entities.Direction;
 import org.teamfarce.mirch.map.Room;
 
@@ -24,7 +23,7 @@ public class Room_Test extends GameTest
         room0 = new Room(0, "testRoom0.tmx", "Test Room 0");
         room1 = new Room(1, "testRoom1.tmx", "Test Room 1");
 
-        room0.addTransition(new Room.Transition().setFrom(0, 4).setTo(room1, 0,0, Direction.EAST));
+        room0.addTransition(new Room.Transition().setFrom(0, 4).setTo(room1, 0, 0, Direction.EAST));
     }
 
     @Test
