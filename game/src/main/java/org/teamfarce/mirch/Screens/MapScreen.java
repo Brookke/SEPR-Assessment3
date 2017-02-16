@@ -18,6 +18,7 @@ import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.OrthogonalTiledMapRendererWithPeople;
 import org.teamfarce.mirch.Screens.Elements.RoomArrow;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
+import org.teamfarce.mirch.map.Room;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,7 +196,7 @@ public class MapScreen extends AbstractScreen
 
                 if (animTimer >= ANIM_TIME) {
                     game.player.moveRoom();
-                    game.getNPCs(game.player.getRoom());
+                    getNPCs(game.player.getRoom());
                     getTileRenderer().setMap(game.player.getRoom().getTiledMap());
                     getTileRenderer().clearPeople();
                     getTileRenderer().addPerson((List<AbstractPerson>) ((List<? extends AbstractPerson>) currentNPCs));
@@ -218,6 +219,21 @@ public class MapScreen extends AbstractScreen
             initialiseRoomTransition();
             game.player.roomChange = false;
         }
+    }
+
+    public List<Suspect> getNPCs(Room room)
+    {
+        List<Suspect> npcsInRoom = new ArrayList<Suspect>();
+
+        for (Suspect s : game.gameSnapshot.getSuspects())
+        {
+            if (s.getRoom().getID() == room.getID())
+            {
+                npcsInRoom.add(s);
+            }
+        }
+
+        return npcsInRoom;
     }
 
     @Override

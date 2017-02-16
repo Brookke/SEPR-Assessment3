@@ -303,21 +303,6 @@ w
         step++; //increment the step counter
     }
 
-    public List<Suspect> getNPCs(Room room)
-    {
-        List<Suspect> npcsInRoom = new ArrayList<Suspect>();
-
-        for (Suspect s : gameSnapshot.getSuspects())
-        {
-            if (s.getRoom().getID() == room.getID())
-            {
-                npcsInRoom.add(s);
-            }
-        }
-
-        return npcsInRoom;
-    }
-
     @Override
     public void dispose()
     {
