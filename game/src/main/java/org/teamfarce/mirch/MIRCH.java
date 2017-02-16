@@ -248,7 +248,7 @@ w
 					}
 
 					gameSnapshot = ScenarioBuilder.generateGame(
-						database, 6, 10, newSet, new Random()
+						database, 10, newSet, new Random()
 					);
 				} catch (ScenarioBuilderException e) {
 					// TODO Auto-generated catch block
