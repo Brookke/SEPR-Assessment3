@@ -2,7 +2,10 @@ package org.teamfarce.mirch.map;
 
 
 import org.teamfarce.mirch.Entities.Direction;
+import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.MIRCH;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -12,12 +15,17 @@ import java.util.Random;
  */
 public class Map
 {
+    MIRCH game;
 
+    public Map(MIRCH game)
+    {
+        this.game = game;
+    }
 
     /**
      * This function initialises all the rooms of the Ron Cooke Hub and their transitions
      */
-    public static List<Room> initialiseRooms()
+    public List<Room> initialiseRooms()
     {
 
         Room mainRoom = new Room(0, "mainroom.tmx", "Main Foyer");
@@ -99,5 +107,18 @@ public class Map
         return rooms;
     }
 
+    public List<Suspect> getNPCs(Room room)
+    {
+        List<Suspect> npcsInRoom = new ArrayList<Suspect>();
 
+        for (Suspect s : game.gameSnapshot.getSuspects())
+        {
+            if (s.getRoom().getID() == room.getID())
+            {
+                npcsInRoom.add(s);
+            }
+        }
+
+        return npcsInRoom;
+    }
 }

@@ -2,6 +2,7 @@ package org.teamfarce.mirch;
 
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.map.Map;
 import org.teamfarce.mirch.map.Room;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
  */
 public class GameSnapshot
 {
+    MIRCH game;
+
     /**
      * Indicates whether the game has been won.
      */
@@ -21,6 +24,7 @@ public class GameSnapshot
     public Journal journal;
     List<Clue> clues;
     List<Room> rooms;
+    public Map map;
     int meansProven;
     int motiveProven;
     int sumProvesMotive;
@@ -36,17 +40,20 @@ public class GameSnapshot
      * Initialises function.
      */
     GameSnapshot(
+            MIRCH game,
+            Map map,
             List<Suspect> suspects,
             List<Clue> clues,
-            List<Room> rooms,
             int sumProvesMotive,
             int sumProvesMeans
     )
     {
+        this.game = game;
         this.suspects = suspects;
         this.state = GameState.narrator;
         this.clues = clues;
-        this.rooms = rooms;
+        this.map = map;
+        this.rooms = map.initialiseRooms();
         this.meansProven = 0;
         this.motiveProven = 0;
         this.journal = new Journal();

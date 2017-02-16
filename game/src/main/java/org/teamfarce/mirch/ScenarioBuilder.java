@@ -109,6 +109,7 @@ public class ScenarioBuilder
 
 
     public static GameSnapshot generateGame(
+            MIRCH game,
             ScenarioBuilderDatabase database,
             int suspectCount,
             Set<DataQuestioningStyle> chosenStyles,
@@ -117,12 +118,12 @@ public class ScenarioBuilder
     {
 
         List<Clue> constructedClues = new ArrayList<>();
-        List<Room> rooms = Map.initialiseRooms();
 
         Object[] motives = database.motives.values().toArray();
         DataMotive randomMotive = (DataMotive) motives[random.nextInt(motives.length)];
         constructedClues.addAll(generateMotive(randomMotive));
 
+        Map map = new Map(game);
 
         CharacterData characterData;
         characterData = generateCharacters(database.characters);
@@ -133,8 +134,8 @@ public class ScenarioBuilder
         DataClue randomMean = (DataClue) means[random.nextInt(means.length)];
         constructedClues.add(new Clue(randomMean.name, randomMean.description, randomMean.sprite));
 
-        distributeClues(constructedClues, rooms);
-        return new GameSnapshot(characterData.allCharacters, constructedClues, rooms, 0, 0);
+        distributeClues(constructedClues, map.initialiseRooms());
+        return new GameSnapshot(game, map, characterData.allCharacters, constructedClues, 0, 0);
     }
 
     /**
