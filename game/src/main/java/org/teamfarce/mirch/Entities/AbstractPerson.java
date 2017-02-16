@@ -1,21 +1,53 @@
 package org.teamfarce.mirch.Entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Interpolation;
+import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
 
-import java.util.Comparator;
+import java.util.*;
 
 /**
  * Created by brookehatton on 01/02/2017.
  */
 public abstract class AbstractPerson extends MapEntity
 {
+    /**
+     * The height of the texture region for each person
+     */
+    protected static int SPRITE_HEIGHT = 48;
 
+    /**
+     * The width of the texture region for each person
+     */
+    protected static int SPRITE_WIDTH = 32;
 
-    Direction direction;
+    /**
+     * This is whether the NPC can move or not. It is mainly used to not let them move during converstation
+     */
+    public boolean canMove = true;
+
+    /**
+     * This stores the current region of the above texture that is to be drawn
+     * to the map
+     */
+    protected TextureRegion currentRegion;
+
+    /**
+     * This stores the sprite sheet of the Player/NPC
+     */
+    protected Texture spriteSheet;
+
+    /**
+     * This stores a list of tiles that have been found by the A* Search Algorithm. The NPC/Player needs
+     * to keep following these tiles until empty.
+     */
+    protected List<Vector2Int> toMoveTo = new ArrayList<Vector2Int>();
+
+    Direction direction = Direction.SOUTH;
     PersonState state;
     private Vector2Int startTile = new Vector2Int(0, 0);
     private Vector2Int endTile = new Vector2Int(0, 0);
@@ -31,10 +63,12 @@ public abstract class AbstractPerson extends MapEntity
      */
     public AbstractPerson(String name, String description, String filename)
     {
-        super(name, description, new Texture(Gdx.files.internal("characters/" + filename)));
-
+        super(name, description, new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
+        this.name = name;
+        this.spriteSheet = Assets.loadTexture("characters/" + filename);
+        this.currentRegion = new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
+        this.state = PersonState.STANDING;
     }
-
     /**
      * This controls the movement of a person
      */
@@ -62,7 +96,39 @@ public abstract class AbstractPerson extends MapEntity
                 this.finishMove();
             }
         }
+        else
+        {
+            /**
+             * If they have a list of tiles to move to, move to the next tile in the list.
+             */
+            if (!toMoveTo.isEmpty())
+            {
+                Vector2Int next = toMoveTo.get(0);
+                toMoveTo.remove(0);
 
+                int xDiff = next.getX() - getTileX();
+                int yDiff = next.getY() - getTileY();
+
+                if (xDiff == 1)
+                {
+                    move(Direction.EAST);
+                }
+                else if (xDiff == -1)
+                {
+                    move(Direction.WEST);
+                }
+                else if (yDiff == 1)
+                {
+                    move(Direction.NORTH);
+                }
+                else if (yDiff == -1)
+                {
+                    move(Direction.SOUTH);
+                }
+            }
+        }
+
+        updateTextureRegion();
     }
 
     /**
@@ -99,7 +165,211 @@ public abstract class AbstractPerson extends MapEntity
 
         getRoom().unlockCoordinate(tileCoordinates.x, tileCoordinates.y);
 
-        //updateTextureRegion();
+        updateTextureRegion();
+    }
+
+    /**
+     * Updates the texture region based upon how far though the animation time it is.
+     */
+    public void updateTextureRegion()
+    {
+        float quarter = animTime / 4;
+        float half = animTime / 2;
+        float threeQuarters = quarter * 3;
+
+        int row = 1;
+
+        switch (direction) {
+            case NORTH:
+                row = 3;
+                break;
+            case EAST:
+                row = 2;
+                break;
+            case SOUTH:
+                row = 0;
+                break;
+            case WEST:
+                row = 1;
+                break;
+        }
+
+        if (animTimer > threeQuarters) {
+            setRegion(new TextureRegion(spriteSheet, 96, row * SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT));
+        } else if (animTimer > half) {
+            setRegion(new TextureRegion(spriteSheet, 0, row * SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT));
+        } else if (animTimer > quarter) {
+            setRegion(new TextureRegion(spriteSheet, 32, row * SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT));
+        } else if (animTimer == 0) {
+            setRegion(new TextureRegion(spriteSheet, 0, row * SPRITE_HEIGHT, SPRITE_WIDTH, SPRITE_HEIGHT));
+        }
+    }
+
+    /**
+     * This is the a* Path finding algorithm. It finds the best possible path from the Persons current position to the
+     * defined destination position.
+     *
+     * @param destination - The goal location
+     * @return List<Vector2Int> the list of tiles to move to, from their current location to the goal destination.
+     */
+    public List<Vector2Int> aStarPath(Vector2Int destination)
+    {
+        List<Vector2Int> closedSet = new ArrayList<Vector2Int>();
+
+        List<Vector2Int> openSet = new ArrayList<Vector2Int>();
+        openSet.add(new Vector2Int(getTileX(), getTileY()));
+
+        HashMap<Vector2Int, Integer> gScore = new HashMap<Vector2Int, Integer>();
+        gScore.put(openSet.get(0), 0);
+
+        HashMap<Vector2Int, Vector2Int> cameFrom = new HashMap<Vector2Int, Vector2Int>();
+
+        HashMap<Vector2Int, Integer> fScore = new HashMap<Vector2Int, Integer>();
+        fScore.put(openSet.get(0), heuristic(new Vector2Int(getTileX(), getTileY()), destination));
+
+        while (!openSet.isEmpty())
+        {
+            Vector2Int current = getLowestFScore(openSet, fScore);
+
+            if (current.equals(destination))
+            {
+                return reconstructPath(cameFrom, current);
+            }
+
+            openSet.remove(current);
+            closedSet.add(current);
+
+            List<Vector2Int> neighbours = getNeighbours(current);
+
+            for (Vector2Int neighbour : neighbours)
+            {
+                if (!getRoom().isWalkableTile(neighbour.getX(), neighbour.getY())) continue;
+
+                if (closedSet.contains(neighbour))
+                {
+                    continue;
+                }
+
+                int tentativeGScore = gScore.get(current) + distFromNeighbour(current, neighbour);
+
+                if (!openSet.contains(neighbour))
+                {
+                    openSet.add(neighbour);
+                }
+                else
+                {
+                    int prevScore = gScore.get(neighbour);
+
+                    if (tentativeGScore >= prevScore)
+                    {
+                        continue;
+                    }
+                }
+
+                cameFrom.put(neighbour, current);
+                gScore.put(neighbour, tentativeGScore);
+                fScore.put(neighbour, gScore.get(neighbour) + heuristic(neighbour, destination));
+            }
+        }
+
+        List<Vector2Int> emptyList = new ArrayList<Vector2Int>();
+        return emptyList;
+    }
+
+    /**
+     * This method is used to get the cheapest next node from the open list
+     *
+     * @param openSet - The open list of locations
+     * @param fScore - The estimated scores of each node to the goal
+     * @return Vector2Int the next best node from openSet
+     */
+    public Vector2Int getLowestFScore(List<Vector2Int> openSet, HashMap<Vector2Int, Integer> fScore)
+    {
+        if (openSet.isEmpty()) return null;
+
+        Vector2Int lowest = openSet.get(0);
+        int lowestInt = fScore.get(lowest);
+
+        for (Vector2Int v : openSet)
+        {
+            if (fScore.get(v) < lowestInt)
+            {
+                lowest = v;
+                lowestInt = fScore.get(v);
+            }
+        }
+
+        return lowest;
+    }
+
+    /**
+     * This method gets the distance from one node to another.
+     *
+     * @param current - One position
+     * @param neighbour - The second position
+     * @return - Integer, the distance between the 2 positions
+     */
+    public int distFromNeighbour(Vector2Int current, Vector2Int neighbour)
+    {
+        return Math.abs(current.getX() - neighbour.getX()) + Math.abs(current.getY() - neighbour.getY());
+    }
+
+    /**
+     * This method is called once the A* Pathfinding algorithm has been completed. It reconstructs the path from the goal to the start point
+     * @param cameFrom - A Map of a node(key) , and the value being the node that we came from to get to the key node.
+     * @param current - The final node. The goal destination
+     *
+     * @return List<Vector2Int> this is the list of tiles that are needed to be walked on to reach the goal
+     */
+    public List<Vector2Int> reconstructPath(HashMap<Vector2Int, Vector2Int> cameFrom, Vector2Int current)
+    {
+        List<Vector2Int> path = new ArrayList<Vector2Int>();
+        path.add(current);
+
+        while (cameFrom.keySet().contains(current))
+        {
+            current = cameFrom.get(current);
+            path.add(current);
+        }
+
+        Collections.reverse(path);
+
+        return path;
+    }
+
+    public List<Vector2Int> getNeighbours(Vector2Int current)
+    {
+        int roomWidth = ((TiledMapTileLayer) getRoom().getTiledMap().getLayers().get(0)).getWidth();
+        int roomHeight = ((TiledMapTileLayer) getRoom().getTiledMap().getLayers().get(0)).getHeight();
+
+        List<Vector2Int> neighbours = new ArrayList<Vector2Int>();
+
+        if (current.getX() + 1 <= roomWidth)
+        {
+            neighbours.add(new Vector2Int(current.getX() + 1, current.getY()));
+        }
+
+        if (current.getY() + 1 <= roomHeight)
+        {
+            neighbours.add(new Vector2Int(current.getX(), current.getY() + 1));
+        }
+
+        if (current.getX() - 1 >= 0)
+        {
+            neighbours.add(new Vector2Int(current.getX() - 1, current.getY()));
+        }
+
+        if (current.getY() - 1 >= 0)
+        {
+            neighbours.add(new Vector2Int(current.getX(), current.getY() - 1));
+        }
+
+        return neighbours;
+    }
+
+    public int heuristic(Vector2Int start, Vector2Int end)
+    {
+        return Math.abs(start.getX() - end.getX()) + Math.abs(start.getY() - end.getY());
     }
 
 
