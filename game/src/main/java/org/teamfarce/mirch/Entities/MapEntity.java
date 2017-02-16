@@ -34,9 +34,24 @@ public class MapEntity extends Sprite implements tileLocation
      * @param description The description of the entity.
      * @param texture     The the texture for the entity
      */
-    public MapEntity(String name, String description, String filename)
+    public MapEntity(String name, String description, Texture texture)
     {
-        super(new TextureRegion(Assets.loadTexture(filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
+        super(texture);
+        this.name = name;
+        this.description = description;
+        this.tileCoordinates = new Vector2Int(0, 0);
+    }
+
+    /**
+     * Initialise the entity.
+     *
+     * @param name        The name of the entity.
+     * @param description The description of the entity.
+     * @param texture     The the texture region for the entity
+     */
+    public MapEntity(String name, String description, TextureRegion texture)
+    {
+        super(texture);
         this.name = name;
         this.description = description;
         this.tileCoordinates = new Vector2Int(0, 0);

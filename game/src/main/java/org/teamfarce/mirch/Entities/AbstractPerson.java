@@ -63,7 +63,7 @@ public abstract class AbstractPerson extends MapEntity
      */
     public AbstractPerson(String name, String description, String filename)
     {
-        super(name, description, "characters/" + filename);
+        super(name, description, new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
         this.name = name;
         this.spriteSheet = Assets.loadTexture("characters/" + filename);
         this.currentRegion = new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
