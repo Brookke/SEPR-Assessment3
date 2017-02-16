@@ -150,8 +150,7 @@ public class Map
             /*
             Pick a random room and put that NPC in it
              */
-            System.out.println(roomsLeft.size() - 1 );
-            int toTake = new Random().nextInt(roomsLeft.size() - 1);
+            int toTake = new Random().nextInt(roomsLeft.size());
             int selectedRoom = roomsLeft.get(toTake);
             roomsLeft.remove(toTake);
 

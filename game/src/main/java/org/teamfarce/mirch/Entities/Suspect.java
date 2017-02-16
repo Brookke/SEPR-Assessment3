@@ -107,6 +107,16 @@ public class Suspect extends AbstractPerson
     }
 
     /**
+     * This method is called once a game tick to randomise movement.
+     */
+    @Override
+    public void update(float delta)
+    {
+        super.update(delta);
+        this.randomMove();
+    }
+
+    /**
      * This method attempts to move the NPC in a random direction
      */
     private void randomMove()

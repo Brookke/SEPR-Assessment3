@@ -93,6 +93,8 @@ public class MapScreen extends AbstractScreen
         this.camera.update();
         this.tileRender = new OrthogonalTiledMapRendererWithPeople(game.player.getRoom().getTiledMap());
         this.tileRender.addPerson(game.player);
+        currentNPCs = game.gameSnapshot.map.getNPCs(game.player.getRoom());
+        tileRender.addPerson((List<AbstractPerson>) ((List<? extends AbstractPerson>) currentNPCs));
         this.playerController = new PlayerController(game.player, game, camera);
 
         this.spriteBatch = new SpriteBatch();
@@ -122,6 +124,12 @@ public class MapScreen extends AbstractScreen
         game.gameSnapshot.updateScore(delta);
         playerController.update(delta);
         game.player.update(delta);
+
+        //loop through each suspect character, moving them randomly
+        for (Suspect character : currentNPCs) {
+            character.update(delta);
+        }
+
         camera.position.x = game.player.getX();
         camera.position.y = game.player.getY();
         camera.update();
@@ -145,11 +153,6 @@ public class MapScreen extends AbstractScreen
         spriteBatch.end();
 
         Random random = new Random();
-
-        //loop through each suspect character, moving them randomly
-        for (Suspect character : currentNPCs) {
-            character.update(delta);
-        }
 
         statusBar.render();
     }
@@ -196,7 +199,7 @@ public class MapScreen extends AbstractScreen
 
                 if (animTimer >= ANIM_TIME) {
                     game.player.moveRoom();
-                    game.gameSnapshot.map.getNPCs(game.player.getRoom());
+                    currentNPCs = game.gameSnapshot.map.getNPCs(game.player.getRoom());
                     getTileRenderer().setMap(game.player.getRoom().getTiledMap());
                     getTileRenderer().clearPeople();
                     getTileRenderer().addPerson((List<AbstractPerson>) ((List<? extends AbstractPerson>) currentNPCs));
