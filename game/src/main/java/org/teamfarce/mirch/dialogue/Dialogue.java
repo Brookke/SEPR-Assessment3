@@ -24,7 +24,7 @@ public class Dialogue
      *
      * @param fileName - The filename to read from
      */
-    public void importDialogue(String fileName)
+    private void importDialogue(String fileName)
     {
         jsonData = new JsonReader().parse(Gdx.files.internal(fileName));
     }
@@ -32,7 +32,7 @@ public class Dialogue
     public boolean validateJsonAgainstClues(List<Clue> clues) throws InvalidDialogueException {
         for (Clue c: clues) {
             if (this.jsonData.get("responses").has(c.getName())) {
-                if (!(this.jsonData.get("responses").get(c.getName()).toString().length() > 0)) {
+                if (!(this.jsonData.get("responses").getString(c.getName()).length() > 0)) {
                     throw new InvalidDialogueException("No response value for clue: " + c.getName());
                 }
             } else {
@@ -40,13 +40,20 @@ public class Dialogue
             }
         }
 
+        //TODO: add verification of noneResponses too
+
         return true;
 
     }
 
     public String get(Clue clue)
     {
-        return this.jsonData.get(clue.getName()).toString();
+        if (this.jsonData.get("responses").has(clue.getName())) {
+            return this.jsonData.get("responses").getString(clue.getName());
+        } else {
+            //TODO: randomise
+            return this.jsonData.get("noneResponse").getString(0);
+        }
     }
 
 

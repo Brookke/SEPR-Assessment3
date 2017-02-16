@@ -28,16 +28,11 @@ public class DialogueTest extends GameTest
 
         testDialogue = new Dialogue("template.JSON", clues);
     }
-    @Test
-    public void importDialogue() throws Exception
-    {
-
-    }
 
     @Test
-    public void get() throws Exception
+    public void get()
     {
-        assertEquals("test 1", testDialogue.get(clues.get(0)));
+        assertEquals("test 2", testDialogue.get(clues.get(0)));
     }
 
     @Test
