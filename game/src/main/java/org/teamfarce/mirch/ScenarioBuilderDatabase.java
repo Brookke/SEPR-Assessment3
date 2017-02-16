@@ -23,6 +23,7 @@ public class ScenarioBuilderDatabase
         motives = new HashMap<>();
         characters = new HashMap<>();
     }
+
     public ScenarioBuilderDatabase(String databaseName) throws SQLException
     {
         this();

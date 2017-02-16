@@ -1,9 +1,5 @@
 package org.teamfarce.mirch.Entities;
 
-import com.badlogic.gdx.math.Vector2;
-import org.teamfarce.mirch.MIRCH;
-import org.teamfarce.mirch.Screens.MapScreen;
-import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.map.Room;
 
@@ -57,7 +53,8 @@ public class Player extends AbstractPerson
     }
 
 
-    public void interact(Vector2Int tileLocation) {
+    public void interact(Vector2Int tileLocation)
+    {
 
     }
 

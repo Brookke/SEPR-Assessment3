@@ -138,30 +138,14 @@ public class ScenarioBuilder
         return new GameSnapshot(characterData.allCharacters, constructedClues, rooms, 0, 0);
     }
 
-    public static class ScenarioBuilderException extends Exception
-    {
-        public ScenarioBuilderException(String message)
-        {
-            super(message);
-        }
-    }
-
-
-
-    private static class CharacterData
-    {
-        public Suspect victim = null;
-        public Suspect murderer = null;
-        public List<Suspect> allCharacters = new ArrayList<>();
-    }
-
-
     /**
      * Takes a list of clues and rooms and gives each of the clues a random room and location
+     *
      * @param clues
      * @param rooms
      */
-    public static void distributeClues(List<Clue> clues, List<Room> rooms) {
+    public static void distributeClues(List<Clue> clues, List<Room> rooms)
+    {
 
         Collections.shuffle(clues);
         int amountOfClues = clues.size();
@@ -179,5 +163,21 @@ public class ScenarioBuilder
 
         }
 
+    }
+
+    public static class ScenarioBuilderException extends Exception
+    {
+        public ScenarioBuilderException(String message)
+        {
+            super(message);
+        }
+    }
+
+
+    private static class CharacterData
+    {
+        public Suspect victim = null;
+        public Suspect murderer = null;
+        public List<Suspect> allCharacters = new ArrayList<>();
     }
 }

@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
-import org.teamfarce.mirch.MIRCH;
 
 
 /**
@@ -63,7 +62,7 @@ public class StatusBar
         statusBar.defaults().width(WIDTH);
 
 
-        scoreLabel = new TextButton("Score: "+ gameSnapshot.getScore(), uiSkin);
+        scoreLabel = new TextButton("Score: " + gameSnapshot.getScore(), uiSkin);
         //scoreLabel.setAlignment(Align.center, Align.center);
         statusBar.add(scoreLabel).uniform();
 
@@ -78,8 +77,8 @@ public class StatusBar
         {
             public void changed(ChangeEvent event, Actor actor)
             {
-            System.out.println("Map button was pressed");
-            gameSnapshot.setState(GameState.map);
+                System.out.println("Map button was pressed");
+                gameSnapshot.setState(GameState.map);
             }
         });
 
@@ -88,8 +87,8 @@ public class StatusBar
         {
             public void changed(ChangeEvent event, Actor actor)
             {
-            System.out.println("Journal button was pressed");
-            gameSnapshot.setState(GameState.journalClues);
+                System.out.println("Journal button was pressed");
+                gameSnapshot.setState(GameState.journalClues);
             }
         });
 
@@ -102,7 +101,7 @@ public class StatusBar
      */
     public void render()
     {
-        scoreLabel.setText("Score: "+ gameSnapshot.getScore());
+        scoreLabel.setText("Score: " + gameSnapshot.getScore());
         stage.act();
 
         stage.draw();

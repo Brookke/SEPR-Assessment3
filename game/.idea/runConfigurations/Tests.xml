@@ -12,6 +12,7 @@
         <list>
           <option value=":cleanTest" />
           <option value=":test" />
+          <option value=":jacocoTestReport" />
         </list>
       </option>
       <option name="vmOptions" value="" />

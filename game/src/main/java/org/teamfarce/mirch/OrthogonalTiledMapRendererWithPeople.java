@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import org.teamfarce.mirch.Entities.AbstractPerson;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

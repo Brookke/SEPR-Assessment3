@@ -40,7 +40,8 @@ public class Journal
         this.foundClues.add(clue);
     }
 
-    public List<Clue> getClues() {
+    public List<Clue> getClues()
+    {
         return this.foundClues;
     }
 
@@ -55,7 +56,8 @@ public class Journal
         this.conversations.add(String.format("%1$s: %2$s", characterName, text));
     }
 
-    public List<String> getConversations() {
+    public List<String> getConversations()
+    {
         return this.conversations;
     }
 

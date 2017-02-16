@@ -71,12 +71,9 @@ public class Suspect extends AbstractPerson
     {
         this.beenAccused = true;
         //clear the dialogue tree here
-        if (this.isMurderer == false || hasEvidence == false)
-        {
+        if (this.isMurderer == false || hasEvidence == false) {
             MIRCH.me.gameSnapshot.modifyScore(-50);
-        }
-        else
-        {
+        } else {
             MIRCH.me.gameSnapshot.modifyScore(100);
         }
         return (this.isMurderer) && (hasEvidence);

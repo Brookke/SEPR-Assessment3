@@ -3,71 +3,72 @@
  */
 package org.teamfarce.mirch;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
-
-import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.Entities.Clue;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests the journal class
- * @author jacobwunwin
  *
+ * @author jacobwunwin
  */
-public class Journal_Test extends GameTest {
-	@Test
-	public void test_addClue(){
-		Journal journal = new Journal();
+public class Journal_Test extends GameTest
+{
+    @Test
+    public void test_addClue()
+    {
+        Journal journal = new Journal();
+		    Clue clue = new Clue("Clue name", "Description","Axe.png");
+        journal.addClue(clue);
 
-		Clue clue = new Clue("Clue name", "Description","Axe.png");
+        assertEquals(clue, journal.foundClues.get(0));
 
-		journal.addClue(clue);
+    }
 
-		assertEquals(clue, journal.foundClues.get(0));
+    @Test
+    public void test_getClues()
+    {
+        Journal journal = new Journal();
+        ArrayList<Clue> cluesList = new ArrayList<>();
 
-	}
+		    Clue clue = new Clue("Clue name", "Description","Axe.png");
+		    Clue clue2 = new Clue("Clue name 2", "Description","Axe.png");
 
-	@Test
-	public void test_getClues(){
-		Journal journal = new Journal();
-		ArrayList<Clue> cluesList = new ArrayList<>();
+        journal.addClue(clue);
+        journal.addClue(clue2);
 
-		Clue clue = new Clue("Clue name", "Description","Axe.png");
-		Clue clue2 = new Clue("Clue name 2", "Description","Axe.png");
+        cluesList.add(clue);
+        cluesList.add(clue2);
 
-		journal.addClue(clue);
-		journal.addClue(clue2);
+        assertEquals(cluesList, journal.foundClues);
+    }
 
-		cluesList.add(clue);
-		cluesList.add(clue2);
+    @Test
+    public void test_addConversation()
+    {
+        Journal journal = new Journal();
 
-		assertEquals(cluesList, journal.foundClues);
-	}
+        String dialogue = "Convo text";
+        String character = "Character name";
+        journal.addConversation(dialogue, character);
 
-	@Test
-	public void test_addConversation(){
-		Journal journal = new Journal();
+        String result = character + ": " + dialogue;
 
-		String dialogue = "Convo text";
-		String character = "Character name";
-		journal.addConversation(dialogue, character);
+        assertEquals(result, journal.getConversations().get(0));
+    }
 
-		String result = character + ": " + dialogue;
+    @Test
+    public void test_getConversations()
+    {
+        Journal journal = new Journal();
 
-		assertEquals(result, journal.getConversations().get(0));
-	}
+        journal.addConversation("Dialogue", "Character 1");
+        journal.addConversation("Dialogue", "Character 2");
+        journal.addConversation("Dialogue", "Character 3");
 
-	@Test
-	public void test_getConversations(){
-		Journal journal = new Journal();
-
-		journal.addConversation("Dialogue", "Character 1");
-		journal.addConversation("Dialogue", "Character 2");
-		journal.addConversation("Dialogue", "Character 3");
-
-		assertEquals(3, journal.getConversations().size());
-	}
+        assertEquals(3, journal.getConversations().size());
+    }
 }
