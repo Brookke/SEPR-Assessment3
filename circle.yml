@@ -6,6 +6,9 @@ test:
   override:
     - cd game && ./gradlew test && ./gradlew check jacocoTestReport
   post:
-    - cp -R game/build/reports/* $CIRCLE_ARTIFACTS
+    - mkdir -p $CIRCLE_TEST_REPORTS/html/
+    - mkdir -p $CIRCLE_ARTIFACTS/coverage/
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - if test -d game/build/reports/tests; then cp -r game/build/reports/tests/* $CIRCLE_TEST_REPORTS/html/; 
+    - cp game/build/reports/jacoco/test/* $CIRCLE_ARTIFACTS/coverage/
     - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
