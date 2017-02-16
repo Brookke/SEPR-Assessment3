@@ -243,7 +243,7 @@ w
                         newSet.add(database.questioningStyles.get(i));
                     }
 
-                    gameSnapshot = ScenarioBuilder.generateGame(
+                    gameSnapshot = ScenarioBuilder.generateGame(this,
                             database, 10, newSet, new Random()
                     );
                 } catch (ScenarioBuilderException e) {
