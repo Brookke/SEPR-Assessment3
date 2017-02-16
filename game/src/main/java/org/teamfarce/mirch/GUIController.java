@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.teamfarce.mirch.Screens.AbstractScreen;
+import org.teamfarce.mirch.Screens.InterviewScreen;
 import org.teamfarce.mirch.Screens.MapScreen;
 import org.teamfarce.mirch.Screens.JournalScreen;
 import org.teamfarce.mirch.Screens.NarratorScreen;
@@ -42,6 +43,11 @@ public class GUIController {
     public AbstractScreen journalScreen;
 
     /**
+     * Used to present the interview screen when game state changes
+     */
+    public AbstractScreen interviewScreen;
+
+    /**
      * Used to draw the narrator and his text
      */
     public NarratorScreen narratorScreen;
@@ -63,6 +69,7 @@ public class GUIController {
     public void initScreens() {
         mapScreen = new MapScreen(game, uiSkin);
         journalScreen = new JournalScreen(game, uiSkin);
+        interviewScreen = new InterviewScreen(game, uiSkin);
         narratorScreen = new NarratorScreen(game, uiSkin);
     }
 
@@ -99,6 +106,15 @@ public class GUIController {
                     break;
                 case journalQuestions:
                     this.game.setScreen(journalScreen);
+                    break;
+                case interviewStart:
+                    this.game.setScreen(interviewScreen);
+                    break;
+                case interviewQuestion:
+                    this.game.setScreen(interviewScreen);
+                    break;
+                case interviewAccuse:
+                    this.game.setScreen(interviewScreen);
                     break;
                 default:
                     break;
