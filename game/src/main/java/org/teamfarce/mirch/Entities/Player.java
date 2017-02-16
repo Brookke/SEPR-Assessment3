@@ -61,7 +61,25 @@ public class Player extends AbstractPerson
 
     public void interact(Vector2Int tileLocation)
     {
+        //Check to see if a person is standing at that location
+        //Then we'll want to walk towards them (or next to them)
 
+        //if (NPC is standing at location)
+        //{
+        //   move there
+        //}
+
+        //if (clue is at location)
+        //{
+        //   move next to it
+        //}
+
+        if (!getRoom().isWalkableTile(tileLocation.getX(), tileLocation.getY()))
+        {
+            return;
+        }
+
+        toMoveTo = aStarPath(tileLocation);
     }
 
     /**

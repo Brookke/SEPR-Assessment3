@@ -272,7 +272,8 @@ public abstract class AbstractPerson extends MapEntity
             }
         }
 
-        return null;
+        List<Vector2Int> emptyList = new ArrayList<Vector2Int>();
+        return emptyList;
     }
 
     /**
