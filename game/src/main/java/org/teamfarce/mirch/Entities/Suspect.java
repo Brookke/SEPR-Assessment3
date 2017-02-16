@@ -18,7 +18,7 @@ public class Suspect extends AbstractPerson
     /**
      * The dialogue tree of this suspect.
      */
-    public DialogueTree dialogueTree;
+    public String dialogueFile;
     /**
      * The position of the suspect on the map.
      */
@@ -37,14 +37,14 @@ public class Suspect extends AbstractPerson
      * @param description      A string description
      * @param filename         The filename of the image for this suspect.
      * @param startingPosition The position to start at.
-     * @param dialogueTree     The dialogue tree for this suspect.
+     * @param dialogueFile     The json file containing the suspects dialogue.
      */
     public Suspect(
             String name,
             String description,
             String filename,
             Vector2Int startingPosition,
-            DialogueTree dialogueTree
+            String dialogueFile
     )
     {
         super(name, description, filename);
@@ -53,7 +53,7 @@ public class Suspect extends AbstractPerson
         this.isMurderer = false;
         this.setTileCoordinates(startingPosition.x, startingPosition.y);
         this.moveStep = new Vector2(0, 0);
-        this.dialogueTree = dialogueTree;
+        this.dialogueFile = dialogueFile;
     }
 
 
