@@ -82,7 +82,7 @@ public class NarratorScreen extends AbstractScreen {
                                 "You must go around each room trying to find the clues that have been hidden. You must also question the guests to see if they know anything about the murder! Try to solve the case before any other detective!";
 
         //Set introduction speech
-        setSpeech(introSpeech).makeVisible();
+        setSpeech(introSpeech);
     }
 
     /**
@@ -148,14 +148,6 @@ public class NarratorScreen extends AbstractScreen {
         currentMessage = "";
 
         return this;
-    }
-
-    /**
-     * This method is called to show the screen
-     */
-    public void makeVisible()
-    {
-        gameSnapshot.setState(GameState.narrator);
     }
 
     @Override
