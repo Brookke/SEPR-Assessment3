@@ -1,6 +1,6 @@
 {
   "name": "Octarin",
-  "personality": "NICE",
+  "personality": "Polite",
   "responses": {
     "introduction": "Greetings earthling. I am really getting 'down' and also 'jiggy with it' at this 'shindig'.",
     "Big Footprint": "I am sorry, my 'fooot' is smaller than that shape.",
@@ -9,7 +9,9 @@
     "Bag": "As it happens, I left my only container on my shuttle",
     "Lipstick": "Apologies, I am not sure that I know what that is - no I don't.",
     "Right Handed": "Yes I have a slight preference when accomplishing tasks to use my right appendage",
-    "Dark Hair": "I am sorry to dissapoint you, but I have no hair."
+    "Dark Hair": "I am sorry to dissapoint you, but no.",
+    "Light Hair": "Ah yes, this is the kind of hair I have",
+    "Rubber Duck": "Ah hello there little friend, how is my favourite duck today ... silence..."
   },
   "noneResponses": [
     "Flurble"
