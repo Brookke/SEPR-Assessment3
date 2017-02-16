@@ -97,7 +97,7 @@ public class GUIController_Test extends GameTest
     public void init_tests()
     {
         game = new MIRCH();
-        game.gameSnapshot = new GameSnapshot(null, null, null, null, 100, 100);
+        game.gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
     }
 
     @Test

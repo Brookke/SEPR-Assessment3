@@ -4,6 +4,7 @@ package org.teamfarce.mirch.map;
 import org.teamfarce.mirch.Entities.Direction;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.MIRCH;
+import org.teamfarce.mirch.Vector2Int;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,8 @@ import java.util.Random;
 public class Map
 {
     MIRCH game;
+
+    List<Room> rooms = new ArrayList<Room>();
 
     public Map(MIRCH game)
     {
@@ -104,6 +107,8 @@ public class Map
          */
         rooms.get(new Random().nextInt(rooms.size())).setMurderRoom();
 
+        this.rooms = rooms;
+
         return rooms;
     }
 
@@ -120,5 +125,41 @@ public class Map
         }
 
         return npcsInRoom;
+    }
+
+    public void placeNPCsInRooms(List<Suspect> NPCs)
+    {
+        int amountOfRooms = rooms.size();
+
+        List<Integer> roomsLeft = new ArrayList<>();
+
+        for (int i = 0; i < amountOfRooms; i++) {
+            roomsLeft.add(i);
+        }
+
+        for (Suspect loopNpc : NPCs) {
+            /*
+            Refill the rooms left list if there are more NPCs than Rooms. This will put AT LEAST one NPC per room if so.
+             */
+            if (roomsLeft.isEmpty()) {
+                for (int i = 0; i < amountOfRooms; i++) {
+                    roomsLeft.add(i);
+                }
+            }
+
+            /*
+            Pick a random room and put that NPC in it
+             */
+            System.out.println(roomsLeft.size() - 1 );
+            int toTake = new Random().nextInt(roomsLeft.size() - 1);
+            int selectedRoom = roomsLeft.get(toTake);
+            roomsLeft.remove(toTake);
+
+            loopNpc.setRoom(rooms.get(selectedRoom));
+            Vector2Int position = loopNpc.getRoom().getRandomLocation();
+            loopNpc.setTileCoordinates(position.x, position.y);
+
+            System.out.println(loopNpc.getName() + " has been placed in room " + selectedRoom + " at " + position);
+        }
     }
 }

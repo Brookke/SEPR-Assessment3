@@ -42,6 +42,7 @@ public class GameSnapshot
     GameSnapshot(
             MIRCH game,
             Map map,
+            List<Room> rooms,
             List<Suspect> suspects,
             List<Clue> clues,
             int sumProvesMotive,
@@ -53,7 +54,7 @@ public class GameSnapshot
         this.state = GameState.narrator;
         this.clues = clues;
         this.map = map;
-        this.rooms = map.initialiseRooms();
+        this.rooms = rooms;
         this.meansProven = 0;
         this.motiveProven = 0;
         this.journal = new Journal();

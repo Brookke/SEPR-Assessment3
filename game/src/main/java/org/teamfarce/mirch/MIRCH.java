@@ -273,6 +273,7 @@ w
             characters.add(suspect);
         }
 
+        gameSnapshot.map.placeNPCsInRooms(characters);
 
         //initialise the player sprite
         player = new Player("Bob", "The player to beat all players", "Detective_sprite.png");

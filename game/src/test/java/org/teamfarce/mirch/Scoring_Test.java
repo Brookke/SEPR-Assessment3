@@ -17,7 +17,7 @@ public class Scoring_Test extends GameTest
     public void init_tests()
     {
 
-        gameSnapshot = new GameSnapshot(null, null, null, null, 100, 100);
+        gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
 
     }
 

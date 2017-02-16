@@ -22,7 +22,7 @@ public class NarratorScreen_Test extends GameTest
     {
         Skin skin = new Skin();
         game = new MIRCH();
-        game.gameSnapshot = new GameSnapshot(null, null, null, null, 100, 100);
+        game.gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
         screen = new NarratorScreen(game, skin);
     }
 
