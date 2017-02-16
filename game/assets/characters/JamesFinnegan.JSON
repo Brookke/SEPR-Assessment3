@@ -2,14 +2,16 @@
   "name": "James Finnegan",
   "personality": "NICE",
   "responses": {
-    "introduction": "Top o' the mornin t'you",
-    "Big Footprint": "",
-    "Small Footprint": "",
-    "Glasses": "",
-    "Bag": "",
-    "Lipstick": "",
-    "Right Handed": "",
-    "Dark Hair": ""
+    "introduction": "Top av de mornin' ter yer.",
+    "Big Footprint": "Naw oi don't av feet dat big.",
+    "Small Footprint": "Aye mate I do have feet dat size",
+    "Glasses": "Naw no oi don't 'av glassies.",
+    "Bag": "Naw oi don't 'av a bag wi' me.",
+    "Lipstick": "Naw oi don't wear lipsteck mucker.",
+    "Right Handed": "Aye I am roi 'anded.",
+    "Dark Hair": "Naw me 'air is not dark."
+    "Light Hair": "Aye I 'av quite light 'air."
+    "Rubber Duck": "That's a nice duk."
   },
   "noneResponses": [
     ""
