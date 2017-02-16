@@ -14,8 +14,8 @@
     "Rubber Duck": "*Stig flaps his arms like a duck*"
   },
   "noneResponses": [
-    "*Stig does nothing*"
-    "*Stig stands still*"
+    "*Stig does nothing*",
+    "*Stig stands still*",
     "*Stig is silent*"
   ]
 }
