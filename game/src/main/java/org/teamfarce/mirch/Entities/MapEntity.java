@@ -26,6 +26,7 @@ public class MapEntity extends Sprite implements tileLocation
      * whereas this is in terms of map tiles relative to the bottom left of the map.
      */
     protected Vector2Int tileCoordinates;
+
     /**
      * Initialise the entity.
      *
@@ -38,32 +39,25 @@ public class MapEntity extends Sprite implements tileLocation
         super(new TextureRegion(Assets.loadTexture(filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
         this.name = name;
         this.description = description;
-        this.tileCoordinates = new Vector2Int(0,0);
+        this.tileCoordinates = new Vector2Int(0, 0);
     }
 
     /**
      * Sets the tile location of the object
+     *
      * @param x the x tile
      * @param y the y tile
      */
     @Override
-    public void setTileCoordinates(int x, int y) {
-        this.tileCoordinates = new Vector2Int(x,y);
+    public void setTileCoordinates(int x, int y)
+    {
+        this.tileCoordinates = new Vector2Int(x, y);
         this.setPosition(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE);
     }
 
     /**
-     * Sets the tile location of the object
-     * @param vector the vector location to set it to
-     */
-    @Override
-    public void setTileCoordinates(Vector2Int vector) {
-        this.tileCoordinates = vector;
-        this.setPosition(vector.x * Settings.TILE_SIZE, vector.y * Settings.TILE_SIZE);
-    }
-
-    /**
      * Gets the x location of the object in terms of tiles
+     *
      * @return x tiles
      */
     @Override
@@ -74,6 +68,7 @@ public class MapEntity extends Sprite implements tileLocation
 
     /**
      * Gets the y location of the object in terms of tiles
+     *
      * @return y tile
      */
     @Override
@@ -82,9 +77,21 @@ public class MapEntity extends Sprite implements tileLocation
         return tileCoordinates.y;
     }
 
-
-    public Vector2Int getTileCoordinates() {
+    public Vector2Int getTileCoordinates()
+    {
         return this.tileCoordinates;
+    }
+
+    /**
+     * Sets the tile location of the object
+     *
+     * @param vector the vector location to set it to
+     */
+    @Override
+    public void setTileCoordinates(Vector2Int vector)
+    {
+        this.tileCoordinates = vector;
+        this.setPosition(vector.x * Settings.TILE_SIZE, vector.y * Settings.TILE_SIZE);
     }
 
     /**

@@ -83,7 +83,8 @@ public class Vector2Int
         return Integer.valueOf(x + "00" + y);
     }
 
-    public Vector2Int scl (int scalar) {
+    public Vector2Int scl(int scalar)
+    {
         x *= scalar;
         y *= scalar;
         return this;

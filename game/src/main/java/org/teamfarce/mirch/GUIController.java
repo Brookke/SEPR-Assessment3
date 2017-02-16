@@ -4,8 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.teamfarce.mirch.Screens.AbstractScreen;
-import org.teamfarce.mirch.Screens.MapScreen;
+import org.teamfarce.mirch.Screens.InterviewScreen;
 import org.teamfarce.mirch.Screens.JournalScreen;
+import org.teamfarce.mirch.Screens.MapScreen;
 import org.teamfarce.mirch.Screens.NarratorScreen;
 
 /**
@@ -14,7 +15,8 @@ import org.teamfarce.mirch.Screens.NarratorScreen;
  *
  * @author jasonmash
  */
-public class GUIController {
+public class GUIController
+{
     /**
      * Reference to main game, used to set current screen and access GameState
      */
@@ -42,15 +44,22 @@ public class GUIController {
     public AbstractScreen journalScreen;
 
     /**
+     * Used to present the interview screen when game state changes
+     */
+    public AbstractScreen interviewScreen;
+
+    /**
      * Used to draw the narrator and his text
      */
     public NarratorScreen narratorScreen;
 
     /**
      * Constructor for GUIController, initialises required variables
+     *
      * @param game Used to set current screen, and access GameState
      */
-    GUIController(MIRCH game) {
+    GUIController(MIRCH game)
+    {
         this.game = game;
 
         uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json")); //load ui skin from assets
@@ -60,9 +69,11 @@ public class GUIController {
     /**
      * Initialises AbstractScreens ready to display later
      */
-    public void initScreens() {
+    public void initScreens()
+    {
         mapScreen = new MapScreen(game, uiSkin);
         journalScreen = new JournalScreen(game, uiSkin);
+        interviewScreen = new InterviewScreen(game, uiSkin);
         narratorScreen = new NarratorScreen(game, uiSkin);
     }
 
@@ -71,7 +82,8 @@ public class GUIController {
      * Updates current GUI screen
      * Usage: use within render() methods
      */
-    public void update() {
+    public void update()
+    {
 
         //Clear background
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
@@ -99,6 +111,15 @@ public class GUIController {
                     break;
                 case journalQuestions:
                     this.game.setScreen(journalScreen);
+                    break;
+                case interviewStart:
+                    this.game.setScreen(interviewScreen);
+                    break;
+                case interviewQuestion:
+                    this.game.setScreen(interviewScreen);
+                    break;
+                case interviewAccuse:
+                    this.game.setScreen(interviewScreen);
                     break;
                 default:
                     break;

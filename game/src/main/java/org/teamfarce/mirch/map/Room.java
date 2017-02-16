@@ -1,18 +1,12 @@
 package org.teamfarce.mirch.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Direction;
-import org.teamfarce.mirch.Entities.Suspect;
-import org.teamfarce.mirch.MIRCH;
-import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
 
 import java.util.ArrayList;
@@ -167,9 +161,11 @@ public class Room
 
     /**
      * Returns a list of clues in the room
+     *
      * @return list of clues in the room
      */
-    public List<Clue> getClues() {
+    public List<Clue> getClues()
+    {
         return this.cluesInRoom;
     }
 

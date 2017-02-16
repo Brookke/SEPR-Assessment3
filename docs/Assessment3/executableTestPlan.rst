@@ -8,10 +8,14 @@ This project is unit tested with JUnit. Tests are located in the
 ``/game/tests`` directory in the GitHub repository. For documentation on writing
 these tests, please see https://github.com/junit-team/junit4/wiki
 
+Coverage
+~~~~~~~~~~~~~~~~~~~~~~~~~
+The project includes Jacoco coverage, which checks to see how well tested our classes are, the higher the coverage the better. This is ran automatically by CircleCI and availible under the "Artifacts" tab.
+
 Running Unit Tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For every commit CircleCI runs all the included tests, however, we
+For every commit CircleCI runs all the included tests as well as the coverage of these tests, however, we
 recommend that you run tests locally too before committing.
 
 We have included a handy test configuration inside the repository that can be run from
@@ -51,6 +55,7 @@ Also, CircleCI collects test "artifacts", which are located in the
 
 - HTML output: A website that provides a visual testing report with more details
 - JUnit XML output: XML files for each class that provide raw data about each run test
+- Jacoco Coverage Results: These contain a breakdown of the coverage for each of our classes.
 
 
 Configuration

@@ -10,17 +10,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import org.teamfarce.mirch.*;
-
 import org.teamfarce.mirch.Entities.Direction;
 import org.teamfarce.mirch.Entities.PlayerController;
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.MIRCH;
+import org.teamfarce.mirch.OrthogonalTiledMapRendererWithPeople;
 import org.teamfarce.mirch.Screens.Elements.RoomArrow;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
 
-
 import java.util.Random;
-
 
 
 /**
@@ -151,12 +149,12 @@ public class MapScreen extends AbstractScreen
         //System.out.println(random.nextInt(10));
 
         //loop through each suspect character, moving them randomly
-        for (Suspect character: game.characters){
-            if ((game.step % moveStep) == 0){
+        for (Suspect character : game.characters) {
+            if ((game.step % moveStep) == 0) {
                 //System.out.println("Updating move step");
                 //Carries out a probability check to determine whether the character should move or stay stationary
                 //This gives the characters a 'meandering' look
-                if (random.nextInt(2) >= 1){
+                if (random.nextInt(2) >= 1) {
                     //calculate the new move vector for the character
 
 
@@ -164,8 +162,6 @@ public class MapScreen extends AbstractScreen
                     character.move(Direction.EAST); //store the characters current room
                 }
             }
-
-
 
 
             //find the characters new room
@@ -180,7 +176,6 @@ public class MapScreen extends AbstractScreen
 //            suspect.setRoom(thisNextRoom); //update the current room the suspect is in in the back end
 
         }
-
 
 
 //        } else if (inputController.isObjectClicked(game.objects, game.camera)){
@@ -236,7 +231,7 @@ public class MapScreen extends AbstractScreen
             BLACK_BACKGROUND.setAlpha(Interpolation.pow4.apply(0, 1, animTimer / ANIM_TIME));
 
             if (fadeToBlack) {
-                animTimer+= delta;
+                animTimer += delta;
 
                 if (animTimer >= ANIM_TIME) {
                     game.player.moveRoom();
@@ -247,7 +242,7 @@ public class MapScreen extends AbstractScreen
                     fadeToBlack = false;
                 }
             } else {
-                animTimer-= delta;
+                animTimer -= delta;
 
                 if (animTimer <= 0f) {
                     finishRoomTransition();
@@ -255,8 +250,7 @@ public class MapScreen extends AbstractScreen
             }
         }
 
-        if (game.player.roomChange)
-        {
+        if (game.player.roomChange) {
             initialiseRoomTransition();
             game.player.roomChange = false;
         }

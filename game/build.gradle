@@ -18,6 +18,8 @@ apply plugin: 'eclipse'
 
 apply plugin: 'application'
 
+apply plugin: 'jacoco'
+
 mainClassName =  "org.teamfarce.mirch.Application"
 
 // In this section you declare where to find the dependencies of your project
@@ -37,6 +39,16 @@ jar {
         )
     }
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
+
 
 processResources {
     from 'assets'

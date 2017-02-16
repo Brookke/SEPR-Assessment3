@@ -49,8 +49,8 @@ public abstract class AbstractPerson extends MapEntity
 
     Direction direction = Direction.SOUTH;
     PersonState state;
-    private Vector2Int startTile = new Vector2Int(0,0);
-    private Vector2Int endTile = new Vector2Int(0,0);
+    private Vector2Int startTile = new Vector2Int(0, 0);
+    private Vector2Int endTile = new Vector2Int(0, 0);
     private float animTimer;
     private float animTime = 0.35f;
 
@@ -78,30 +78,6 @@ public abstract class AbstractPerson extends MapEntity
     {
         return state;
     }
-    
-
-    /**
-     * This class is to sort a list of AbstractPerson in highest Y coordinate to lowest Y coordinate
-     * <p>
-     * It is used to render NPCs and the Player in the correct order to avoid it appearing as though someone
-     * is standing on top of someone else
-     */
-    public static class PersonPositionComparator implements Comparator<AbstractPerson>
-    {
-        /**
-         * This method compares the 2 objects.
-         *
-         * @param o1 - The first object to compare
-         * @param o2 - The second object to compare
-         * @return (int) if <0 o1 is considered to be first in the list
-         */
-        @Override
-        public int compare(AbstractPerson o1, AbstractPerson o2)
-        {
-            return o2.getTileCoordinates().y - o1.getTileCoordinates().y;
-        }
-    }
-
 
     /**
      * This is called to update the players position.
@@ -176,7 +152,6 @@ public abstract class AbstractPerson extends MapEntity
 
         this.state = PersonState.WALKING;
     }
-
 
     /**
      * Finalises the move by resetting the animation timer and setting the state back to standing.
@@ -396,6 +371,7 @@ public abstract class AbstractPerson extends MapEntity
         return Math.abs(start.getX() - end.getX()) + Math.abs(start.getY() - end.getY());
     }
 
+
     /**
      * The state of the person explains what they are currently doing.
      * <li>{@link #WALKING}</li>
@@ -414,6 +390,27 @@ public abstract class AbstractPerson extends MapEntity
         STANDING;
     }
 
+    /**
+     * This class is to sort a list of AbstractPerson in highest Y coordinate to lowest Y coordinate
+     * <p>
+     * It is used to render NPCs and the Player in the correct order to avoid it appearing as though someone
+     * is standing on top of someone else
+     */
+    public static class PersonPositionComparator implements Comparator<AbstractPerson>
+    {
+        /**
+         * This method compares the 2 objects.
+         *
+         * @param o1 - The first object to compare
+         * @param o2 - The second object to compare
+         * @return (int) if <0 o1 is considered to be first in the list
+         */
+        @Override
+        public int compare(AbstractPerson o1, AbstractPerson o2)
+        {
+            return o2.getTileCoordinates().y - o1.getTileCoordinates().y;
+        }
+    }
 
 
 }
