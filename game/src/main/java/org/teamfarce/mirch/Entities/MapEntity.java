@@ -2,9 +2,14 @@ package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.map.Room;
+
+import static org.teamfarce.mirch.Entities.AbstractPerson.SPRITE_HEIGHT;
+import static org.teamfarce.mirch.Entities.AbstractPerson.SPRITE_WIDTH;
 
 /**
  * Base class to represent different map entities.
@@ -29,11 +34,22 @@ public class MapEntity extends Sprite implements tileLocation
      * @param description The description of the entity.
      * @param texture     The the texture for the entity
      */
-    public MapEntity(
-            String name,
-            String description,
-            Texture texture
-    )
+    public MapEntity(String name, String description, Texture texture)
+    {
+        super(texture);
+        this.name = name;
+        this.description = description;
+        this.tileCoordinates = new Vector2Int(0, 0);
+    }
+
+    /**
+     * Initialise the entity.
+     *
+     * @param name        The name of the entity.
+     * @param description The description of the entity.
+     * @param texture     The the texture region for the entity
+     */
+    public MapEntity(String name, String description, TextureRegion texture)
     {
         super(texture);
         this.name = name;

@@ -5,6 +5,7 @@ package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.junit.Test;
 import org.teamfarce.mirch.Entities.MapEntity;
 import org.teamfarce.mirch.map.Room;
@@ -56,6 +57,5 @@ public class MapEntity_Test extends GameTest
         MapEntity mapEntity = new MapEntity(null, null, demoTexture);
         assertEquals(demoTexture, mapEntity.getTexture());
     }
-
 
 }
