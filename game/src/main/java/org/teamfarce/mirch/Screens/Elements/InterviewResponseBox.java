@@ -40,6 +40,9 @@ public class InterviewResponseBox {
 
     /**
      * The constructor for the InterviewResponseBox
+     * @param content Text to display above buttons
+     * @param buttonList List of InterviewResponseButtons for presenting the player with options
+     * @param uiSkin Skin used to style UI
      */
     public InterviewResponseBox(String content, ArrayList<InterviewResponseButton> buttonList, Skin uiSkin) {
         textContent = content;
