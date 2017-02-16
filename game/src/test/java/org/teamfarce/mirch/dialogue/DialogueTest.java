@@ -26,12 +26,18 @@ public class DialogueTest extends GameTest
         clues.add(new Clue("Glasses", "3", "Axe.png"));
         clues.add(new Clue("Bag", "4", "Axe.png"));
 
-        testDialogue = new Dialogue("template.json", clues);
+        testDialogue = new Dialogue("template.JSON", clues);
     }
     @Test
     public void importDialogue() throws Exception
     {
 
+    }
+
+    @Test
+    public void get() throws Exception
+    {
+        assertEquals("test 1", testDialogue.get(clues.get(0)));
     }
 
     @Test

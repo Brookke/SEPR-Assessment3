@@ -44,6 +44,10 @@ public class Dialogue
 
     }
 
+    public String get(Clue clue)
+    {
+        return this.jsonData.get(clue.getName()).toString();
+    }
 
 
     class InvalidDialogueException extends Exception
