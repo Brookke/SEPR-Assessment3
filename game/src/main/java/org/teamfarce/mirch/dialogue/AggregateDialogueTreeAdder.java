@@ -1,7 +1,7 @@
 package org.teamfarce.mirch.dialogue;
 
-import java.util.Collection;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * This represents multiple IDialogueTreeAdders aggregated together into one object.
@@ -10,13 +10,15 @@ import java.util.ArrayList;
  * single IDialogueTreeAdder.
  * </p>
  */
-public class AggregateDialogueTreeAdder implements IDialogueTreeAdder {
+public class AggregateDialogueTreeAdder implements IDialogueTreeAdder
+{
     private Collection<IDialogueTreeAdder> dialogueTreeAdders;
 
     /**
      * Initialise the AggregateDialogueTreeAdder in an empty state.
      */
-    public AggregateDialogueTreeAdder() {
+    public AggregateDialogueTreeAdder()
+    {
         this.dialogueTreeAdders = new ArrayList<>();
     }
 
@@ -25,19 +27,22 @@ public class AggregateDialogueTreeAdder implements IDialogueTreeAdder {
      *
      * @param dialogueTreeAdders The collection of IDialogueTreeAdders to add.
      */
-    public AggregateDialogueTreeAdder(Collection<IDialogueTreeAdder> dialogueTreeAdders) {
+    public AggregateDialogueTreeAdder(Collection<IDialogueTreeAdder> dialogueTreeAdders)
+    {
         this.dialogueTreeAdders = dialogueTreeAdders;
     }
 
     @Override
-    public void addToTrees() {
-        for (IDialogueTreeAdder dta: this.dialogueTreeAdders) {
+    public void addToTrees()
+    {
+        for (IDialogueTreeAdder dta : this.dialogueTreeAdders) {
             dta.addToTrees();
         }
     }
 
     @Override
-    public IDialogueTreeAdder addDialogueTreeAdder(IDialogueTreeAdder other) {
+    public IDialogueTreeAdder addDialogueTreeAdder(IDialogueTreeAdder other)
+    {
         this.dialogueTreeAdders.add(other);
         return this;
     }

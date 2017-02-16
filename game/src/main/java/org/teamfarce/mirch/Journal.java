@@ -1,6 +1,9 @@
 package org.teamfarce.mirch;
 
+import org.teamfarce.mirch.Entities.Clue;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Journal stores relevant information to the players progress through the game.
@@ -8,31 +11,23 @@ import java.util.ArrayList;
  * This includes a list of all props discovered, and a log of all conversations.
  * </p>
  */
-public class Journal {
-    public ArrayList<Prop> foundProps;
+public class Journal
+{
+
     public ArrayList<Clue> foundClues;
 
     /**
      * The conversation buffer.
      */
-    public String conversations;
+    public ArrayList<String> conversations;
 
     /**
      * Initialise the Journal in an empty state.
      */
-    public Journal() {
-        this.foundProps = new ArrayList<Prop>();
-        this.conversations = "";
-        this.foundClues = new ArrayList<Clue>();
-    }
-
-    /**
-     * Add a prop to the journal.
-     *
-     * @param prop The prop to add.
-     */
-    public void addProp(Prop prop) {
-        this.foundProps.add(prop);
+    public Journal()
+    {
+        this.conversations = new ArrayList<>();
+        this.foundClues = new ArrayList<>();
     }
 
     /**
@@ -40,28 +35,30 @@ public class Journal {
      *
      * @param clue The clue to add.
      */
-    public void addClue(Clue clue) {
+    public void addClue(Clue clue)
+    {
         this.foundClues.add(clue);
+    }
+
+    public List<Clue> getClues()
+    {
+        return this.foundClues;
     }
 
     /**
      * Add a conversation with a given character to the journal.
      *
-     * @param text The text to add the journal.
+     * @param text          The text to add the journal.
      * @param characterName The character name to associate with the journal.
      */
-    public void addConversation(String text, String characterName) {
-        this.conversations = String.format(
-            "%1$s: %2$s\n%3$s", characterName, text, this.conversations
-        );
+    public void addConversation(String text, String characterName)
+    {
+        this.conversations.add(String.format("%1$s: %2$s", characterName, text));
     }
 
-    /**
-     * Returns a list of all props clicked by the player.
-     *
-     * @return The props.
-     */
-    ArrayList<Prop> getProps() {
-        return this.foundProps;
+    public List<String> getConversations()
+    {
+        return this.conversations;
     }
+
 }

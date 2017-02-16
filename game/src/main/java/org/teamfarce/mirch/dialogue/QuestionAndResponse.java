@@ -1,9 +1,8 @@
 package org.teamfarce.mirch.dialogue;
 
-import java.lang.Runnable;
+import org.teamfarce.mirch.Entities.Clue;
+
 import java.util.Collection;
-import java.util.ArrayList;
-import org.teamfarce.mirch.Clue;
 
 /**
  * Holds a question and the response.
@@ -18,7 +17,8 @@ import org.teamfarce.mirch.Clue;
  * into this single class.
  * </p>
  */
-public class QuestionAndResponse {
+public class QuestionAndResponse
+{
     private String question;
     private String style;
     private String response;
@@ -28,19 +28,20 @@ public class QuestionAndResponse {
     /**
      * Construct a QuestionAndResponse object.
      *
-     * @param question The text of the question.
-     * @param style A description of the style of the question.
-     * @param response The text of the response.
-     * @param clues The clue provided by this response.
+     * @param question          The text of the question.
+     * @param style             A description of the style of the question.
+     * @param response          The text of the response.
+     * @param clues             The clue provided by this response.
      * @param dialogueTreeAdder A dialgoue tree adder for the next question intention.
      */
     public QuestionAndResponse(
-        String question,
-        String style,
-        String response,
-        Collection<Clue> clues,
-        IDialogueTreeAdder dialogueTreeAdder
-    ) {
+            String question,
+            String style,
+            String response,
+            Collection<Clue> clues,
+            IDialogueTreeAdder dialogueTreeAdder
+    )
+    {
         this.question = question;
         this.style = style;
         this.response = response;
@@ -52,16 +53,17 @@ public class QuestionAndResponse {
      * Construct a QuestionAndResponse object without any dialogue adder.
      *
      * @param question The text of the question.
-     * @param style A description of the style of the question.
+     * @param style    A description of the style of the question.
      * @param response The text of the response.
-     * @param clues The clue provided by this response.
+     * @param clues    The clue provided by this response.
      */
     public QuestionAndResponse(
-        String question,
-        String style,
-        String response,
-        Collection<Clue> clues
-    ) {
+            String question,
+            String style,
+            String response,
+            Collection<Clue> clues
+    )
+    {
         this(question, style, response, clues, new NullDialogueTreeAdder());
     }
 
@@ -74,7 +76,8 @@ public class QuestionAndResponse {
      *
      * @return A description of this question.
      */
-    public String getDescription() {
+    public String getDescription()
+    {
         return String.format("%1$s: %2$s", style, question);
     }
 
@@ -86,7 +89,8 @@ public class QuestionAndResponse {
      *
      * @return The result of asking the question.
      */
-    public QuestionResult ask() {
+    public QuestionResult ask()
+    {
         dialogueTreeAdder.addToTrees();
         return new QuestionResult(response, clues);
     }
@@ -96,7 +100,8 @@ public class QuestionAndResponse {
      *
      * @param dialogueTreeAdder The IDialogueTreeAdder to set.
      */
-    public void assignDialogueTreeAdder(IDialogueTreeAdder dialogueTreeAdder) {
+    public void assignDialogueTreeAdder(IDialogueTreeAdder dialogueTreeAdder)
+    {
         this.dialogueTreeAdder = dialogueTreeAdder;
     }
 
@@ -105,7 +110,8 @@ public class QuestionAndResponse {
      *
      * @param dialogueTreeAdder The IDialogueTreeAdder to add.
      */
-    public void addDialogueTreeAdder(IDialogueTreeAdder dialogueTreeAdder) {
+    public void addDialogueTreeAdder(IDialogueTreeAdder dialogueTreeAdder)
+    {
         this.dialogueTreeAdder = this.dialogueTreeAdder.addDialogueTreeAdder(dialogueTreeAdder);
     }
 }

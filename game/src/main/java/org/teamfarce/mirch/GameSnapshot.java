@@ -1,45 +1,51 @@
 package org.teamfarce.mirch;
 
+import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.map.Room;
+
 import java.util.List;
-import java.util.Collection;
 
 /**
  * Stores a snapshot of the game state.
  */
-public class GameSnapshot {
-    private List<Suspect> suspects;
-    private GameState state;
-    List<Prop> props;
+public class GameSnapshot
+{
+    /**
+     * Indicates whether the game has been won.
+     */
+    public boolean gameWon;
+    /**
+     * Holds the journal associated with this state.
+     */
+    public Journal journal;
+    List<Clue> clues;
     List<Room> rooms;
     int meansProven;
     int motiveProven;
     int sumProvesMotive;
     int sumProvesMean;
+    int score;
     int time;
+    private List<Suspect> suspects;
+    private GameState state;
+    private float counter = 0f;
 
-    /**
-     * Indicates whether the game has been won.
-     */
-    public boolean gameWon;
-
-    /**
-     * Holds the journal associated with this state.
-     */
-    public Journal journal;
 
     /**
      * Initialises function.
      */
     GameSnapshot(
-        List<Suspect> suspects,
-        List<Prop> props,
-        List<Room> rooms,
-        int sumProvesMotive,
-        int sumProvesMeans
-    ) {
+            List<Suspect> suspects,
+            List<Clue> clues,
+            List<Room> rooms,
+            int sumProvesMotive,
+            int sumProvesMeans
+    )
+    {
         this.suspects = suspects;
-        this.state = GameState.map;
-        this.props = props;
+        this.state = GameState.narrator;
+        this.clues = clues;
         this.rooms = rooms;
         this.meansProven = 0;
         this.motiveProven = 0;
@@ -48,13 +54,40 @@ public class GameSnapshot {
         this.gameWon = false;
         this.sumProvesMean = sumProvesMeans;
         this.sumProvesMotive = sumProvesMotive;
+        this.score = 500;
+
+    }
+
+
+    /**
+     * Takes an integer and adds it on to the current score.
+     *
+     * @param amount - the integer to add to the score.
+     */
+    public void modifyScore(int amount)
+    {
+        score += amount;
     }
 
     /**
-     * Increments the pseudo-time counter.
+     * Getter for current score
+     *
+     * @return Returns current score.
      */
-    public void incrementTime() {
-        ++this.time;
+
+    public int getScore()
+    {
+        return this.score;
+    }
+
+    public void updateScore(float delta)
+    {
+        counter += delta;
+        if (counter >= 5) {
+            counter = 0;
+            score--;
+        }
+
     }
 
     /**
@@ -62,7 +95,8 @@ public class GameSnapshot {
      *
      * @return The current time.
      */
-    public int getTime() {
+    public int getTime()
+    {
         return this.time;
     }
 
@@ -71,7 +105,8 @@ public class GameSnapshot {
      *
      * @return The rooms.
      */
-    List<Room> getRooms() {
+    List<Room> getRooms()
+    {
         return this.rooms;
     }
 
@@ -80,48 +115,52 @@ public class GameSnapshot {
      *
      * @return The props.
      */
-    List<Prop> getProps() {
-        return this.props;
+    List<Clue> getClues()
+    {
+        return this.clues;
     }
 
     // The following two functions should be merged at some point.
 
-    /**
-     * Increment the "means proof" value by the given value in the clues.
-     * <p>
-     * This effectively indicates that the means of the murder was proven by the given arbitrary
-     * value in the clues.
-     * </p>
-     *
-     * @param clues The clues which provide the means proven value.
-     */
-    void proveMeans(Collection<Clue> clues) {
-        for (Clue clue: clues){
+ /*   *//**
+ * Increment the "means proof" value by the given value in the clues.
+ * <p>
+ * This effectively indicates that the means of the murder was proven by the given arbitrary
+ * value in the clues.
+ * </p>
+ *
+ * @param clues The clues which provide the means proven value.
+ *//*
+    void proveMeans(Collection<Clue> clues)
+    {
+        for (Clue clue : clues) {
             this.meansProven += clue.provesMean;
         }
     }
 
-    /**
-     * Increment the "motive proof" value by the given value.
-     * <p>
-     * This effectively indicates that the motive of the murder was proven by the given arbitrary
-     * value in the clues.
-     * </p>
-     *
-     * @param clues The clues which provide the motive proven value.
-     */
-    void proveMotive(Collection<Clue> clues) {
-        for (Clue clue: clues){
+    *//**
+ * Increment the "motive proof" value by the given value.
+ * <p>
+ * This effectively indicates that the motive of the murder was proven by the given arbitrary
+ * value in the clues.
+ * </p>
+ *
+ * @param clues The clues which provide the motive proven value.
+ *//*
+    void proveMotive(Collection<Clue> clues)
+    {
+        for (Clue clue : clues) {
             this.motiveProven += clue.provesMotive;
         }
-    }
+    }*/
 
     /**
      * Returns true if the means of the murder has been proven.
      *
      * @return Whether we have "proven" the means.
      */
-    boolean isMeansProven() {
+    public boolean isMeansProven()
+    {
         return (this.meansProven >= this.sumProvesMean * 0.5);
     }
 
@@ -130,18 +169,9 @@ public class GameSnapshot {
      *
      * @return Whether we have "proven" the motive.
      */
-    boolean isMotiveProven() {
+    public boolean isMotiveProven()
+    {
         return (this.motiveProven >= this.sumProvesMotive * 0.5);
-    }
-
-    /**
-     * Allows the setting of the game state.
-     *
-     * @param state The state to set.
-     */
-    void setState(GameState state) {
-        this.state = state;
-        this.incrementTime();
     }
 
     /**
@@ -149,8 +179,19 @@ public class GameSnapshot {
      *
      * @return The game state.
      */
-    GameState getState() {
+    public GameState getState()
+    {
         return this.state;
+    }
+
+    /**
+     * Allows the setting of the game state.
+     *
+     * @param state The state to set.
+     */
+    public void setState(GameState state)
+    {
+        this.state = state;
     }
 
     /**
@@ -158,7 +199,8 @@ public class GameSnapshot {
      *
      * @return The suspects.
      */
-    public List<Suspect> getSuspects() {
+    public List<Suspect> getSuspects()
+    {
         return this.suspects;
     }
 
@@ -168,13 +210,11 @@ public class GameSnapshot {
      * This tells the journal to keep a log of this prop.
      * </p>
      *
-     * @param prop The prop to add.
+     * @param //Clue The clue to add.
      */
-    void journalAddProp(Prop prop) {
-        this.journal.addProp(prop);
-        if (prop.takeClues()  != null){
-            proveMeans(prop.takeClues());
-            proveMotive(prop.takeClues());
-        }
+    public void journalAddClue(Clue clue)
+    {
+        this.journal.foundClues.add(clue);
+
     }
 }
