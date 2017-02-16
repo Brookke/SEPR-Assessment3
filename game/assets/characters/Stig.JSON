@@ -1,6 +1,6 @@
 {
   "name": "Stig",
-  "personality": "SILENT",
+  "personality": "Conversational",
   "responses": {
     "introduction": "*Stig inclines his head*",
     "Big Footprint": "*Stig gives off a negative attitude*",
@@ -10,6 +10,8 @@
     "Lipstick": "*There is no lipstick on Stig's visor*",
     "Right Handed": "*Stig writes with his left foot*",
     "Dark Hair": "*Stig shakes his head*"
+    "Light hair": "*Stig nods*",
+    "Rubber Duck": "*Stig flaps his arms like a duck*"
   },
   "noneResponses": [
     "*Stig does nothing*"
