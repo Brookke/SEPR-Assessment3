@@ -1,0 +1,20 @@
+{
+  "name": "Lucy Patel",
+  "personality": "Polite",
+  "responses": {
+    "introduction": "Why hello! Do you know if the marks are out yet?",
+    "Big Footprint": "No, my feet are more petite than that.",
+    "Small Footprint": "Oh yes, they look like they could be my footprints",
+    "Glasses": "Yes I do, I guess staring at screens for a long time isn't good for your eyes!",
+    "Bag": "No I don't - I normally just use the library computers.",
+    "Lipstick": "I couldn't go to a party without my lipstick!",
+    "Right Handed": "Actually I'm left handed and proud of it!",
+    "Dark Hair": "Erm, yes I do.",
+    "Light Hair": "No, my hair isn't particularly light",
+    "Rubber Duck": "Hmm, I wonder if this duck could be a revision aid."
+  },
+  "noneResponses": [
+    "Sorry, I need to revise now.",
+    "Revision time! If I have 2 apples and you have 3 oranges, how heavy is the average AA battery?"
+  ]
+}
