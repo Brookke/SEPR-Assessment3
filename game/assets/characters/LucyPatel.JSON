@@ -1,6 +1,6 @@
 {
   "name": "Lucy Patel",
-  "personality": "NICE",
+  "personality": "Polite",
   "responses": {
     "introduction": "why hello, do you know if the marks are out yet?",
     "Big Footprint": "No, my feet are more petite than that.",
@@ -9,7 +9,9 @@
     "Bag": "No I don't - I normally just use the universities computers.",
     "Lipstick": "I couldn't go to a party without my lipstick!",
     "Right Handed": "Actually I'm left handed and proud of it!",
-    "Dark Hair": "Erm yes I do."
+    "Dark Hair": "Erm yes I do.",
+    "Light Hair": "No, my hair isn't particularly light",
+    "Rubber Duck": "Hm I wonder if this duck could be a revision aid."
   },
   "noneResponses": [
     "Sorry, I need to revise now."
