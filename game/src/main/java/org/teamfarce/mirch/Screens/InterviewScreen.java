@@ -172,6 +172,10 @@ public class InterviewScreen extends AbstractScreen {
         this.interviewStage.addActor(suspectImage);
     }
 
+    /**
+     * This sets the suspect that is being spoken to then shows the interview screen
+     * @param s - The suspect to talk to
+     */
     public void setSuspect(Suspect s)
     {
         suspect = s;

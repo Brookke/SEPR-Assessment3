@@ -177,6 +177,18 @@ public class Player extends AbstractPerson
         return null;
     }
 
+    /**
+     * This method checks the coordinate and places the directions as a priority in a list. This is used by the `getClosestNeighbour` method
+     *
+     * @param check - The number to check is less than 0
+     * @param priority - The priority list
+     * @param priorityListFirst - The first position to place a direction in
+     * @param priorityListSecond - The second position to place a direction in
+     * @param first - The first priority direction
+     * @param second - The second priority direction
+     *
+     * @return Vector2Int the priority list back after being modified
+     */
     private Vector2Int[] lessThanPriorityDecision(int check, Vector2Int[] priority, int priorityListFirst, int priorityListSecond, Vector2Int first, Vector2Int second)
     {
         if (check <= 0)
