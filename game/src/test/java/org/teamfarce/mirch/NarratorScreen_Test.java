@@ -35,7 +35,7 @@ public class NarratorScreen_Test extends GameTest
     }
 
     @Test
-    public void UpdateSpeech()
+    public void updateSpeech()
     {
         screen.setSpeech("Test Speech");
         screen.updateSpeech();
