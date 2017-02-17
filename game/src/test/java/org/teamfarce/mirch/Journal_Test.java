@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 public class Journal_Test extends GameTest
 {
     @Test
-    public void test_addClue()
+    public void addClue()
     {
         Journal journal = new Journal();
 		    Clue clue = new Clue("Clue name", "Description","Axe.png");
@@ -29,7 +29,7 @@ public class Journal_Test extends GameTest
     }
 
     @Test
-    public void test_getClues()
+    public void getClues()
     {
         Journal journal = new Journal();
         ArrayList<Clue> cluesList = new ArrayList<>();
@@ -47,7 +47,7 @@ public class Journal_Test extends GameTest
     }
 
     @Test
-    public void test_addConversation()
+    public void addConversation()
     {
         Journal journal = new Journal();
 
@@ -61,7 +61,7 @@ public class Journal_Test extends GameTest
     }
 
     @Test
-    public void test_getConversations()
+    public void getConversations()
     {
         Journal journal = new Journal();
 
