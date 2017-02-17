@@ -101,7 +101,7 @@ public class GUIController_Test extends GameTest
     }
 
     @Test
-    public void testConstructor()
+    public void constructor()
     {
 
         //Init GUIController
@@ -113,7 +113,7 @@ public class GUIController_Test extends GameTest
     }
 
     @Test
-    public void testScreenCanBeSet()
+    public void screenCanBeSet()
     {
 
         //Init GUIController
@@ -135,7 +135,7 @@ public class GUIController_Test extends GameTest
     }
 
     @Test
-    public void testScreenCanBeChanged()
+    public void screenCanBeChanged()
     {
 
         //Init GUIController with active MapScreen

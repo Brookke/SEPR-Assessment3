@@ -12,21 +12,21 @@ public class GameSnapshot_Test
 {
 
     @Test
-    public void test_getTime()
+    public void getTime()
     {
         GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
         assertSame(gameSnapshot.getTime(), gameSnapshot.time);
     }
 
     @Test
-    public void test_getRooms()
+    public void getRooms()
     {
         GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
         assertSame(gameSnapshot.getRooms(), gameSnapshot.rooms);
     }
 
     @Test
-    public void test_getClues()
+    public void getClues()
     {
         GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
         assertSame(gameSnapshot.getClues(), gameSnapshot.clues);
