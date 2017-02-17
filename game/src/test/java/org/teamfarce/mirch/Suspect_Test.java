@@ -16,7 +16,7 @@ public class Suspect_Test {
     private Suspect suspect;
 
     @Before
-    public void init()
+    public void initTests()
     {
         String name = "ji";
         Vector2Int position = new Vector2Int(0, 1);
@@ -28,7 +28,7 @@ public class Suspect_Test {
     }
 
 	@Test
-	public void test_init(){
+	public void init(){
 		String name = "ji";
 		Vector2Int position = new Vector2Int(0, 1);
 
@@ -38,7 +38,7 @@ public class Suspect_Test {
 	}
 
 	@Test
-	public void test_hasBeenAccused()
+	public void hasBeenAccused()
     {
 		suspect.isMurderer = false;
 		assertFalse(suspect.accuse(false));
@@ -47,7 +47,7 @@ public class Suspect_Test {
 	}
 
 	@Test
-	public void test_setPosition()
+	public void setPosition()
     {
 		Vector2Int position = new Vector2Int(0, 1);
 
@@ -56,7 +56,7 @@ public class Suspect_Test {
 	}
 
 	@Test
-    public void test_setKiller()
+    public void setKiller()
     {
         assertFalse(suspect.isKiller());
         suspect.setKiller();
@@ -64,7 +64,7 @@ public class Suspect_Test {
     }
 
     @Test
-    public void test_setVictim()
+    public void setVictim()
     {
         assertFalse(suspect.isVictim());
         suspect.setVictim();
