@@ -27,6 +27,7 @@ public class GameSnapshot
     int sumProvesMean;
     int score;
     int time;
+    int currentPersonality;
     private List<Suspect> suspects;
     private GameState state;
     private float counter = 0f;
@@ -55,6 +56,7 @@ public class GameSnapshot
         this.sumProvesMean = sumProvesMeans;
         this.sumProvesMotive = sumProvesMotive;
         this.score = 500;
+        this.currentPersonality = 0;
 
     }
 
@@ -216,5 +218,26 @@ public class GameSnapshot
     {
         this.journal.foundClues.add(clue);
 
+    }
+
+
+    /**
+     * Getter for current personality
+     *
+     * @return Returns current personality score.
+     */
+
+    public int getPersonality()
+    {
+        return this.currentPersonality;
+    }
+    /**
+     * Updates current personality of player in game
+     * @param amount Amount to modify personality score by
+     */
+    public void modifyPersonality(int amount) {
+        if (this.currentPersonality > -2 && this.currentPersonality < 2) {
+            this.currentPersonality += amount;
+        }
     }
 }
