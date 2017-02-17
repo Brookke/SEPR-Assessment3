@@ -112,6 +112,12 @@ public class Map
         return rooms;
     }
 
+    /**
+     * This method returns a list of NPCs that are in the defined Room parameter
+     *
+     * @param room - The room to check
+     * @return List<Suspect> The suspects that are in the room
+     */
     public List<Suspect> getNPCs(Room room)
     {
         List<Suspect> npcsInRoom = new ArrayList<Suspect>();
@@ -127,6 +133,11 @@ public class Map
         return npcsInRoom;
     }
 
+    /**
+     * This method takes a list of NPCs and then randomly distibutes them around the rooms of the map
+     *
+     * @param NPCs - The NPCs to distribute
+     */
     public void placeNPCsInRooms(List<Suspect> NPCs)
     {
         int amountOfRooms = rooms.size();

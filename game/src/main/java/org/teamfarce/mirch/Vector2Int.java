@@ -85,6 +85,12 @@ public class Vector2Int
         return Integer.valueOf(x + "00" + y);
     }
 
+    /**
+     * This method returns the direction of the `other` position from the `self` position
+     *
+     * @param other - The Vector2Int to compare
+     * @return Direction - The direction the other position is in
+     */
     public Direction dirBetween(Vector2Int other)
     {
         if (x - other.getX() == 1) return Direction.EAST;
