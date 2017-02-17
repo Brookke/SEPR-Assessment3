@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class MapEntity_Test extends GameTest
 {
-    String demoFileName = "clues/Axe.png";
+    String demoFileName = "clues/clueSheet.png";
     Texture demoTexture = new Texture(Gdx.files.internal(demoFileName));
 
     @Test
