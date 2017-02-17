@@ -208,6 +208,7 @@ public class Room
 
         for (Clue c : cluesInRoom) {
             TextureRegion currentFrame = (TextureRegion) Assets.CLUE_GLINT.getKeyFrame(animationStateTime, true);
+            //c.draw(batch);
             batch.draw(currentFrame, c.getTileX() * Settings.TILE_SIZE, c.getTileY() * Settings.TILE_SIZE);
         }
     }
