@@ -69,10 +69,13 @@ public class Player extends AbstractPerson
         //   move there
         //}
 
-        //if (clue is at location)
-        //{
-        //   move next to it
-        //}
+        for (Clue c : getRoom().getClues())
+        {
+            if (c.getTileCoordinates().equals(tileLocation))
+            {
+                //Do same as in NPC branch
+            }
+        }
 
         if (!getRoom().isWalkableTile(tileLocation.getX(), tileLocation.getY()))
         {
