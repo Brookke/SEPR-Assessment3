@@ -174,16 +174,6 @@ public class InterviewScreen extends AbstractScreen {
     }
 
     /**
-     * This sets the suspect that is being spoken to then shows the interview screen
-     * @param s - The suspect to talk to
-     */
-    public void setSuspect(Suspect s)
-    {
-        suspect = s;
-        show();
-    }
-
-    /**
      * Event handler that switches game state when player selects a response
      * @param result Int associated with each state
      */
@@ -199,6 +189,7 @@ public class InterviewScreen extends AbstractScreen {
                 gameSnapshot.setState(GameState.map);
                 suspect.canMove = true;
                 suspect = null;
+                gameSnapshot.setSuspectForInterview(null);
                 game.player.clearTalkTo();
                 break;
             case 3: //Game has been won
