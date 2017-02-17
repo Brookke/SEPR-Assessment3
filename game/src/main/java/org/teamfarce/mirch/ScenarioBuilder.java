@@ -125,6 +125,8 @@ public class ScenarioBuilder
 
         Map map = new Map(game);
 
+        List<Room> rooms = map.initialiseRooms();
+
         CharacterData characterData;
         characterData = generateCharacters(game, database.characters);
 
@@ -134,8 +136,8 @@ public class ScenarioBuilder
         DataClue randomMean = (DataClue) means[random.nextInt(means.length)];
         constructedClues.add(new Clue(randomMean.name, randomMean.description, randomMean.sprite, randomMean.assetX, randomMean.assetY));
 
-        distributeClues(constructedClues, map.initialiseRooms());
-        return new GameSnapshot(game, map, map.initialiseRooms(), characterData.allCharacters, constructedClues, 0, 0);
+        distributeClues(constructedClues, rooms);
+        return new GameSnapshot(game, map, rooms, characterData.allCharacters, constructedClues, 0, 0);
     }
 
     /**
