@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Interpolation;
 import org.teamfarce.mirch.Assets;
+import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
 
@@ -16,14 +17,19 @@ import java.util.*;
 public abstract class AbstractPerson extends MapEntity
 {
     /**
+     * Reference to the game
+     */
+    MIRCH game;
+
+    /**
      * The height of the texture region for each person
      */
-    protected static int SPRITE_HEIGHT = 48;
+    public static final int SPRITE_HEIGHT = 48;
 
     /**
      * The width of the texture region for each person
      */
-    protected static int SPRITE_WIDTH = 32;
+    public static final int SPRITE_WIDTH = 32;
 
     /**
      * This is whether the NPC can move or not. It is mainly used to not let them move during converstation
@@ -61,9 +67,10 @@ public abstract class AbstractPerson extends MapEntity
      * @param description The description of the entity.
      * @param filename    The filename of the image to display for the entity.
      */
-    public AbstractPerson(String name, String description, String filename)
+    public AbstractPerson(MIRCH game, String name, String description, String filename)
     {
         super(name, description, new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
+        this.game = game;
         this.name = name;
         this.spriteSheet = Assets.loadTexture("characters/" + filename);
         this.currentRegion = new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
@@ -214,6 +221,12 @@ public abstract class AbstractPerson extends MapEntity
      */
     public List<Vector2Int> aStarPath(Vector2Int destination)
     {
+        List<Vector2Int> emptyList = new ArrayList<Vector2Int>();
+        if (destination == null)
+        {
+            return emptyList;
+        }
+
         List<Vector2Int> closedSet = new ArrayList<Vector2Int>();
 
         List<Vector2Int> openSet = new ArrayList<Vector2Int>();
@@ -272,7 +285,6 @@ public abstract class AbstractPerson extends MapEntity
             }
         }
 
-        List<Vector2Int> emptyList = new ArrayList<Vector2Int>();
         return emptyList;
     }
 
@@ -372,6 +384,10 @@ public abstract class AbstractPerson extends MapEntity
         return Math.abs(start.getX() - end.getX()) + Math.abs(start.getY() - end.getY());
     }
 
+    public void setDirection(Direction dir)
+    {
+        this.direction = dir;
+    }
 
     /**
      * The state of the person explains what they are currently doing.

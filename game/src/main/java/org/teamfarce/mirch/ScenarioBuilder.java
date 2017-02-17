@@ -23,7 +23,7 @@ public class ScenarioBuilder
      * @param dataCharacters
      * @return
      */
-    public static CharacterData generateCharacters(HashMap<Integer, DataCharacter> dataCharacters) throws ScenarioBuilderException
+    public static CharacterData generateCharacters(MIRCH game, HashMap<Integer, DataCharacter> dataCharacters) throws ScenarioBuilderException
     {
         CharacterData data = new CharacterData();
 
@@ -31,12 +31,12 @@ public class ScenarioBuilder
         List<Suspect> posVictims = new ArrayList<>();
         dataCharacters.forEach((x,c) -> {
             if (c.posKiller) {
-                Suspect tempSuspect = new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), c.dialogue.filename);
+                Suspect tempSuspect = new Suspect(game, c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), c.dialogue.filename);
                 tempSuspect.relatedClues = (convertClues(c.relatedClues));
                 posKillers.add(tempSuspect);
 
             } else {
-                posVictims.add(new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), c.dialogue.filename));
+                posVictims.add(new Suspect(game, c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), c.dialogue.filename));
             }
         });
 
@@ -59,7 +59,6 @@ public class ScenarioBuilder
         data.allCharacters.addAll(posVictims);
 
         return data;
-
     }
 
     /**
@@ -110,6 +109,7 @@ public class ScenarioBuilder
 
 
     public static GameSnapshot generateGame(
+            MIRCH game,
             ScenarioBuilderDatabase database,
             int suspectCount,
             Set<DataQuestioningStyle> chosenStyles,
@@ -118,15 +118,15 @@ public class ScenarioBuilder
     {
 
         List<Clue> constructedClues = new ArrayList<>();
-        List<Room> rooms = Map.initialiseRooms();
 
         Object[] motives = database.motives.values().toArray();
         DataMotive randomMotive = (DataMotive) motives[random.nextInt(motives.length)];
         constructedClues.addAll(generateMotive(randomMotive));
 
+        Map map = new Map(game);
 
         CharacterData characterData;
-        characterData = generateCharacters(database.characters);
+        characterData = generateCharacters(game, database.characters);
 
         constructedClues.addAll(characterData.murderer.relatedClues);
 
@@ -134,8 +134,8 @@ public class ScenarioBuilder
         DataClue randomMean = (DataClue) means[random.nextInt(means.length)];
         constructedClues.add(new Clue(randomMean.name, randomMean.description, randomMean.sprite));
 
-        distributeClues(constructedClues, rooms);
-        return new GameSnapshot(characterData.allCharacters, constructedClues, rooms, 0, 0);
+        distributeClues(constructedClues, map.initialiseRooms());
+        return new GameSnapshot(game, map, map.initialiseRooms(), characterData.allCharacters, constructedClues, 0, 0);
     }
 
     /**

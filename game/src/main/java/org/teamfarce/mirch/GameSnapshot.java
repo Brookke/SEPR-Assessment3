@@ -2,6 +2,8 @@ package org.teamfarce.mirch;
 
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.Screens.InterviewScreen;
+import org.teamfarce.mirch.map.Map;
 import org.teamfarce.mirch.map.Room;
 
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.List;
  */
 public class GameSnapshot
 {
+    MIRCH game;
+
     /**
      * Indicates whether the game has been won.
      */
@@ -21,32 +25,39 @@ public class GameSnapshot
     public Journal journal;
     List<Clue> clues;
     List<Room> rooms;
+    public Map map;
     int meansProven;
     int motiveProven;
     int sumProvesMotive;
     int sumProvesMean;
-    int score;
+    int score = 0;
     int time;
     int currentPersonality;
     private List<Suspect> suspects;
     private GameState state;
     private float counter = 0f;
 
+    private Suspect interviewSuspect = null;
+
 
     /**
      * Initialises function.
      */
     GameSnapshot(
+            MIRCH game,
+            Map map,
+            List<Room> rooms,
             List<Suspect> suspects,
             List<Clue> clues,
-            List<Room> rooms,
             int sumProvesMotive,
             int sumProvesMeans
     )
     {
+        this.game = game;
         this.suspects = suspects;
         this.state = GameState.narrator;
         this.clues = clues;
+        this.map = map;
         this.rooms = rooms;
         this.meansProven = 0;
         this.motiveProven = 0;
@@ -204,6 +215,16 @@ public class GameSnapshot
     public List<Suspect> getSuspects()
     {
         return this.suspects;
+    }
+
+    public void setSuspectForInterview(Suspect s)
+    {
+        interviewSuspect = s;
+    }
+
+    public Suspect getSuspectForInterview()
+    {
+        return interviewSuspect;
     }
 
     /**

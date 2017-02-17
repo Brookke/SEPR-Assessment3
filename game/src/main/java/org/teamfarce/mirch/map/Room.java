@@ -7,6 +7,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Direction;
+import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
 
 import java.util.ArrayList;
@@ -246,6 +248,17 @@ public class Room
     }
 
     /**
+     * This is the same method as below. Called using the Vector2Int as a parameter instead
+     *
+     * @param v - The position to check, represented as a Vector2Int
+     * @return Boolean - Whether the defined position is walkable or not
+     */
+    public boolean isWalkableTile(Vector2Int v)
+    {
+        return isWalkableTile(v.getX(), v.getY());
+    }
+
+    /**
      * This method takes a current X and Y coordinate and checks through all the layers on the map to see if any tile IS NOT
      * movable. If any tile IS NOT movable, it returns false.
      *
@@ -292,36 +305,36 @@ public class Room
             return false;
         }
 
-//        try {
-//             /*
-//            Check to see if the player is standing in the target destination
-//            */
-//            if (MIRCH.me.player.getTileCoordinates().x == x && MIRCH.me.player.getTileCoordinates().y == y) {
-//                return false;
-//            }
-//
-//             /*
-//             Check to see if any NPCs are standing in the target destination
-//             */
-//            for (Suspect suspect : MIRCH.me.characters) {
-//
-//                if (suspect.getRoom() == this && suspect.getTileCoordinates().x == x && suspect.getTileCoordinates().y == y) {
-//                    return false;
-//                }
-//            }
-//        } catch (Exception e) {
-//
-//        }
+        try {
+             /*
+            Check to see if the player is standing in the target destination
+            */
+            if (MIRCH.me.player.getTileCoordinates().x == x && MIRCH.me.player.getTileCoordinates().y == y) {
+                return false;
+            }
+
+             /*
+             Check to see if any NPCs are standing in the target destination
+             */
+            for (Suspect suspect : MIRCH.me.characters) {
+
+                if (suspect.getRoom() == this && suspect.getTileCoordinates().x == x && suspect.getTileCoordinates().y == y) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+
+        }
 
         /*
         Check to see if any people object has locked the target destination for them to move to
          */
-//        try {
-//            if (this.lockedTiles[x][y]) {
-//                return false;
-//            }
-//        } catch (Exception e) {
-//        }
+        try {
+            if (this.lockedTiles[x][y]) {
+                return false;
+            }
+        } catch (Exception e) {
+        }
 
         return true;
     }
