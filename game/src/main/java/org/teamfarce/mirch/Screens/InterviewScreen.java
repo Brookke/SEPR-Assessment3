@@ -11,16 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import org.teamfarce.mirch.*;
+import org.teamfarce.mirch.Entities.AbstractPerson;
 import org.teamfarce.mirch.Entities.Suspect;
-import org.teamfarce.mirch.GameSnapshot;
-import org.teamfarce.mirch.GameState;
-import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.Elements.InterviewResponseBox;
 import org.teamfarce.mirch.Screens.Elements.InterviewResponseButton;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
-import org.teamfarce.mirch.Vector2Int;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 
 /**
@@ -167,7 +166,7 @@ public class InterviewScreen extends AbstractScreen {
         dialogue.setPosition(280, 510);
         this.interviewStage.addActor(dialogue);
 
-        Image suspectImage = new Image(suspect.getTexture());
+        Image suspectImage = new Image(new TextureRegion(suspect.getTexture(), 0, 0, AbstractPerson.SPRITE_WIDTH, AbstractPerson.SPRITE_HEIGHT));
         suspectImage.setPosition(200, 500);
         this.interviewStage.addActor(suspectImage);
     }

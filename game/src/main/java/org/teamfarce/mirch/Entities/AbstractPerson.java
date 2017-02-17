@@ -24,12 +24,12 @@ public abstract class AbstractPerson extends MapEntity
     /**
      * The height of the texture region for each person
      */
-    protected static int SPRITE_HEIGHT = 48;
+    public static final int SPRITE_HEIGHT = 48;
 
     /**
      * The width of the texture region for each person
      */
-    protected static int SPRITE_WIDTH = 32;
+    public static final int SPRITE_WIDTH = 32;
 
     /**
      * This is whether the NPC can move or not. It is mainly used to not let them move during converstation
