@@ -46,7 +46,7 @@ public class ScenarioBuilderDatabase
             singleMeans.id = rsMeans.getInt("id");
             singleMeans.name = rsMeans.getString("name");
             singleMeans.description = rsMeans.getString("description");
-            singleMeans.sprite = "clock.png";
+            singleMeans.sprite = "clueSheet.png";
             means.put(singleMeans.id, singleMeans);
         }
 
@@ -57,7 +57,7 @@ public class ScenarioBuilderDatabase
             clue.id = rsClue.getInt("id");
             clue.name = rsClue.getString("name");
             clue.description = rsClue.getString("description");
-            clue.sprite = "/clues/clueSheet.png";
+            clue.sprite = "clueSheet.png";
             clue.assetX = rsClue.getInt("resourceX");
             clue.assetY = rsClue.getInt("resourceY");
             clues.put(clue.id, clue);

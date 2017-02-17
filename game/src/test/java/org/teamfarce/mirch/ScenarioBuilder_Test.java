@@ -23,10 +23,10 @@ public class ScenarioBuilder_Test extends GameTest
     {
         List<Clue> clues = new ArrayList<>();
 
-        clues.add(new Clue("1", "1", "clueSheet.png"));
-        clues.add(new Clue("2", "2", "clueSheet.png"));
-        clues.add(new Clue("3", "3", "clueSheet.png"));
-        clues.add(new Clue("4", "4", "clueSheet.png"));
+        clues.add(new Clue("1", "1", "clueSheet.png", 0, 0));
+        clues.add(new Clue("2", "2", "clueSheet.png", 0, 0));
+        clues.add(new Clue("3", "3", "clueSheet.png", 0, 0));
+        clues.add(new Clue("4", "4", "clueSheet.png", 0, 0));
 
         List<Room> rooms = new ArrayList<>();
         rooms.add(new Room(0, "testMap.tmx", "Test Room1"));
@@ -50,10 +50,10 @@ public class ScenarioBuilder_Test extends GameTest
     {
 
         List<Clue> clues = new ArrayList<>();
-        clues.add(new Clue("1", "1", "clueSheet.png"));
-        clues.add(new Clue("2", "2", "clueSheet.png"));
-        clues.add(new Clue("3", "3", "clueSheet.png"));
-        clues.add(new Clue("4", "4", "clueSheet.png"));
+        clues.add(new Clue("1", "1", "clueSheet.png", 0, 0));
+        clues.add(new Clue("2", "2", "clueSheet.png", 0, 0));
+        clues.add(new Clue("3", "3", "clueSheet.png", 0, 0));
+        clues.add(new Clue("4", "4", "clueSheet.png", 0, 0));
 
         List<Room> rooms = new ArrayList<>();
         rooms.add(new Room(0, "testMap.tmx", "Test Room1"));
@@ -79,9 +79,9 @@ public class ScenarioBuilder_Test extends GameTest
 
         List<Clue> clues = ScenarioBuilder.generateMotive(dataMotive);
 
-        assertEquals(clues.get(0), new Clue("Motive Part 1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis tincidunt augue", "clueSheet.png"));
-        assertEquals(clues.get(1), new Clue("Motive Part 2", ", eu dignissim massa maximus at. Praesent egestas, arcu vitae dignissim pharetra, sem le", "clueSheet.png"));
-        assertEquals(clues.get(2), new Clue("Motive Part 3", "ctus luctus metus, ac suscipit nibh massa non lacus. In tortor sem, blandit non odio sed", "clueSheet.png"));
+        assertEquals(clues.get(0), new Clue("Motive Part 1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis tincidunt augue", "clueSheet.png", 0, 0));
+        assertEquals(clues.get(1), new Clue("Motive Part 2", ", eu dignissim massa maximus at. Praesent egestas, arcu vitae dignissim pharetra, sem le", "clueSheet.png", 0, 0));
+        assertEquals(clues.get(2), new Clue("Motive Part 3", "ctus luctus metus, ac suscipit nibh massa non lacus. In tortor sem, blandit non odio sed", "clueSheet.png", 0, 0));
 
 
     }

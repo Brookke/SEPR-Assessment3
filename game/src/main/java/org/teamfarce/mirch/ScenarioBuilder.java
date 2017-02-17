@@ -77,11 +77,11 @@ public class ScenarioBuilder
         System.out.println(parts[2]);
 
         //TODO: update to the correct sprite if we are using them
-        Clue part1 = new Clue("Motive Part 1", parts[0], "clueSheet.png");
+        Clue part1 = new Clue("Motive Part 1", parts[0], "clueSheet.png", 1, 2);
         part1.setMotiveClue();
-        Clue part2 = new Clue("Motive Part 2", parts[1], "clueSheet.png");
+        Clue part2 = new Clue("Motive Part 2", parts[1], "clueSheet.png",1 , 2);
         part2.setMotiveClue();
-        Clue part3 = new Clue("Motive Part 3", parts[2], "clueSheet.png");
+        Clue part3 = new Clue("Motive Part 3", parts[2], "clueSheet.png", 1, 2);
         part3.setMotiveClue();
 
         List<Clue> out = Arrays.asList(part1, part2, part3);
@@ -101,7 +101,7 @@ public class ScenarioBuilder
         }
         List<Clue> output = new ArrayList<>();
         for (DataClue c: clues) {
-            output.add(new Clue(c.name, c.description, c.sprite));
+            output.add(new Clue(c.name, c.description, c.sprite, c.assetX, c.assetY));
         }
 
         return output;
@@ -131,7 +131,7 @@ public class ScenarioBuilder
 
         Object[] means = database.means.values().toArray();
         DataClue randomMean = (DataClue) means[random.nextInt(means.length)];
-        constructedClues.add(new Clue(randomMean.name, randomMean.description, randomMean.sprite));
+        constructedClues.add(new Clue(randomMean.name, randomMean.description, randomMean.sprite, randomMean.assetX, randomMean.assetY));
 
         distributeClues(constructedClues, rooms);
         return new GameSnapshot(characterData.allCharacters, constructedClues, rooms, 0, 0);

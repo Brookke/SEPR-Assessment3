@@ -74,6 +74,9 @@ public class Player extends AbstractPerson
             if (c.getTileCoordinates().equals(tileLocation))
             {
                 //Do same as in NPC branch
+
+                //Found clue
+                //Do clue animation screen
             }
         }
 

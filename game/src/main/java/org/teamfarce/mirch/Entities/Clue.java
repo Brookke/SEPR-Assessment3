@@ -1,9 +1,8 @@
 package org.teamfarce.mirch.Entities;
 
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.teamfarce.mirch.Assets;
+import org.teamfarce.mirch.Settings;
 
 /**
  * This class defines the clues that the player needs to find in order to solve the murder.
@@ -13,6 +12,9 @@ public class Clue extends MapEntity
 
     private boolean motiveClue = false;
 
+    private int resourceX = 0;
+    private int resourceY = 0;
+
     /**
      * Creates a clue
      *
@@ -20,10 +22,12 @@ public class Clue extends MapEntity
      * @param description describes what the clue is
      * @param filename    the texture region of the clue
      */
-    public Clue(String name, String description, String filename)
+    public Clue(String name, String description, String filename, int resourceX, int resourceY)
     {
-        super(name, description, Assets.loadTexture("clues/" + filename));
-
+        super(name, description, new TextureRegion(Assets.loadTexture("clues/" + filename), resourceX * 128, resourceY * 128, 128, 128));
+        this.resourceX = resourceX;
+        this.resourceY = resourceY;
+        setSize(Settings.TILE_SIZE, Settings.TILE_SIZE);
     }
 
     /**
