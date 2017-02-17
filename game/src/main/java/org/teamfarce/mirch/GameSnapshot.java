@@ -30,7 +30,7 @@ public class GameSnapshot
     int motiveProven;
     int sumProvesMotive;
     int sumProvesMean;
-    int score;
+    int score = 0;
     int time;
     private List<Suspect> suspects;
     private GameState state;
