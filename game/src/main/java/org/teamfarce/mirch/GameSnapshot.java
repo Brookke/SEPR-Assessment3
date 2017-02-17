@@ -2,6 +2,7 @@ package org.teamfarce.mirch;
 
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.Screens.InterviewScreen;
 import org.teamfarce.mirch.map.Map;
 import org.teamfarce.mirch.map.Room;
 
@@ -210,6 +211,11 @@ public class GameSnapshot
     public List<Suspect> getSuspects()
     {
         return this.suspects;
+    }
+
+    public void setSuspect(Suspect s)
+    {
+        ((InterviewScreen) game.guiController.interviewScreen).setSuspect(s);
     }
 
     /**

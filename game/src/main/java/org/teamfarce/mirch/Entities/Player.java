@@ -225,7 +225,8 @@ public class Player extends AbstractPerson
             setDirection(talkToOnEnd.direction.getOpposite());
 
             game.gameSnapshot.setState(GameState.interviewStart);
-            ((InterviewScreen) game.guiController.interviewScreen).setSuspect(talkToOnEnd);
+            game.gameSnapshot.setSuspect(talkToOnEnd);
+            //((InterviewScreen) game.guiController.interviewScreen).setSuspect(talkToOnEnd);
         }
     }
 
