@@ -111,8 +111,6 @@ public class ScenarioBuilder
     public static GameSnapshot generateGame(
             MIRCH game,
             ScenarioBuilderDatabase database,
-            int suspectCount,
-            Set<DataQuestioningStyle> chosenStyles,
             Random random
     ) throws ScenarioBuilderException
     {
