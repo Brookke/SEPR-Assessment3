@@ -124,7 +124,6 @@ public class ScenarioBuilder
         DataMotive randomMotive = (DataMotive) motives[random.nextInt(motives.length)];
         constructedClues.addAll(generateMotive(randomMotive));
 
-
         CharacterData characterData;
         characterData = generateCharacters(database.characters);
 

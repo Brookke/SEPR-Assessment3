@@ -57,7 +57,9 @@ public class ScenarioBuilderDatabase
             clue.id = rsClue.getInt("id");
             clue.name = rsClue.getString("name");
             clue.description = rsClue.getString("description");
-            clue.sprite = "clock.png";
+            clue.sprite = "/clues/clueSheet.png";
+            clue.assetX = rsClue.getInt("resourceX");
+            clue.assetY = rsClue.getInt("resourceY");
             clues.put(clue.id, clue);
         }
 
@@ -121,6 +123,8 @@ public class ScenarioBuilderDatabase
         public String name;
         public String description;
         public String sprite;
+        public int assetX;
+        public int assetY;
     }
 
     public class DataQuestioningStyle
