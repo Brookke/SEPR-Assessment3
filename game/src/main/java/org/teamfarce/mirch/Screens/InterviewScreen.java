@@ -41,6 +41,8 @@ public class InterviewScreen extends AbstractScreen {
     final static float WIDTH = Gdx.graphics.getWidth() - (2 * X_OFFSET);
     final static float HEIGHT = Gdx.graphics.getHeight() - Y_OFFSET;
 
+    private Suspect suspect = null;
+
     /**
      * Constructor for Interview screen
      * @param game Reference to current game
@@ -75,8 +77,10 @@ public class InterviewScreen extends AbstractScreen {
         interviewStage.addActor(interviewContainer);
 
 
-        //TODO: replace this with actual suspect
-        Suspect suspect = new Suspect(game, "Donald Trump", "POTUS", "Trumpo_sprite.png", new Vector2Int(1,1), null);
+        if (suspect == null)
+        {
+            suspect = new Suspect(game, "Donald Trump", "POTUS", "Trumpo_sprite.png", new Vector2Int(1,1), null);
+        }
 
         //Setup vars needed to render dialogue & responses
         String responseBoxInstructions = "";
@@ -168,6 +172,11 @@ public class InterviewScreen extends AbstractScreen {
         this.interviewStage.addActor(suspectImage);
     }
 
+    public void setSuspect(Suspect s)
+    {
+        suspect = s;
+        show();
+    }
 
     /**
      * Event handler that switches game state when player selects a response
@@ -183,6 +192,9 @@ public class InterviewScreen extends AbstractScreen {
                 break;
             case 2: //Ignore or return to map
                 gameSnapshot.setState(GameState.map);
+                suspect.canMove = true;
+                suspect = null;
+                game.player.clearTalkTo();
                 break;
             case 3: //Game has been won
                 gameSnapshot.gameWon = true;

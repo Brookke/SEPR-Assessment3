@@ -248,6 +248,17 @@ public class Room
     }
 
     /**
+     * This is the same method as below. Called using the Vector2Int as a parameter instead
+     *
+     * @param v - The position to check, represented as a Vector2Int
+     * @return Boolean - Whether the defined position is walkable or not
+     */
+    public boolean isWalkableTile(Vector2Int v)
+    {
+        return isWalkableTile(v.getX(), v.getY());
+    }
+
+    /**
      * This method takes a current X and Y coordinate and checks through all the layers on the map to see if any tile IS NOT
      * movable. If any tile IS NOT movable, it returns false.
      *

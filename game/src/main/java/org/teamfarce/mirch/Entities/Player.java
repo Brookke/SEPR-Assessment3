@@ -1,6 +1,8 @@
 package org.teamfarce.mirch.Entities;
 
+import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
+import org.teamfarce.mirch.Screens.InterviewScreen;
 import org.teamfarce.mirch.Screens.MapScreen;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.map.Room;
@@ -56,6 +58,9 @@ public class Player extends AbstractPerson
         if (!getRoom().isWalkableTile(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy())) {
             direction = dir;
 
+            /**
+             * If they are currently tracking to somewhere and they get interrupted, rerun the path finding algorithm
+             */
             if (!toMoveTo.isEmpty())
             {
                 toMoveTo = aStarPath(toMoveTo.get(toMoveTo.size() - 1));
@@ -78,9 +83,13 @@ public class Player extends AbstractPerson
             if (s.getTileCoordinates().equals(tileLocation) && s.getState() != PersonState.WALKING)
             {
                 toMoveTo = aStarPath(getClosestNeighbour(s.getTileCoordinates()));
-                s.canMove = false;
-                talkToOnEnd = s;
-                return;
+
+                if (!toMoveTo.isEmpty())
+                {
+                    s.canMove = false;
+                    talkToOnEnd = s;
+                    return;
+                }
             }
         }
 
@@ -109,27 +118,27 @@ public class Player extends AbstractPerson
     {
         Vector2Int result = null;
 
-        Vector2Int north = new Vector2Int(goal.getX() + 1, goal.getY() + 1);
+        Vector2Int north = new Vector2Int(goal.getX(), goal.getY() + 1);
         Vector2Int east = new Vector2Int(goal.getX() + 1, goal.getY());
         Vector2Int south = new Vector2Int(goal.getX(), goal.getY() - 1);
         Vector2Int west = new Vector2Int(goal.getX() - 1, goal.getY());
 
-        if (!getRoom().isWalkableTile(north.getX(), north.getY()))
+        if (!getRoom().isWalkableTile(north))
         {
             north = null;
         }
 
-        if (!getRoom().isWalkableTile(east.getX(), east.getY()))
+        if (!getRoom().isWalkableTile(east))
         {
             east = null;
         }
 
-        if (!getRoom().isWalkableTile(south.getX(), south.getY()))
+        if (!getRoom().isWalkableTile(south))
         {
             south = null;
         }
 
-        if (!getRoom().isWalkableTile(west.getX(), west.getY()))
+        if (!getRoom().isWalkableTile(west))
         {
             west = null;
         }
@@ -148,73 +157,13 @@ public class Player extends AbstractPerson
 
         if (absX >= absY)
         {
-            if (xDist < 0)
-            {
-                priority[0] = west;
-                priority[3] = east;
-
-                if (yDist <= 0)
-                {
-                    priority[1] = south;
-                    priority[2] = north;
-                }
-                else
-                {
-                    priority[1] = north;
-                    priority[2] = south;
-                }
-            }
-            else
-            {
-                priority[0] = east;
-                priority[3] = west;
-
-                if (yDist <= 0)
-                {
-                    priority[1] = south;
-                    priority[2] = north;
-                }
-                else
-                {
-                    priority[1] = north;
-                    priority[2] = south;
-                }
-            }
+            priority = lessThanPriorityDecision(xDist, priority, 0, 3, west, east);
+            priority = lessThanPriorityDecision(yDist, priority, 1, 2, south, north);
         }
         else if (absY > absX)
         {
-            if (yDist < 0)
-            {
-                priority[0] = south;
-                priority[3] = north;
-
-                if (xDist <= 0)
-                {
-                    priority[1] = west;
-                    priority[2] = east;
-                }
-                else
-                {
-                    priority[1] = west;
-                    priority[2] = east;
-                }
-            }
-            else
-            {
-                priority[0] = north;
-                priority[3] = south;
-
-                if (xDist <= 0)
-                {
-                    priority[1] = west;
-                    priority[2] = east;
-                }
-                else
-                {
-                    priority[1] = west;
-                    priority[2] = east;
-                }
-            }
+            priority = lessThanPriorityDecision(yDist, priority, 0, 3, south, north);
+            priority = lessThanPriorityDecision(xDist, priority, 1, 2, west, east);
         }
 
         for (Vector2Int v : priority)
@@ -226,6 +175,22 @@ public class Player extends AbstractPerson
         }
 
         return null;
+    }
+
+    private Vector2Int[] lessThanPriorityDecision(int check, Vector2Int[] priority, int priorityListFirst, int priorityListSecond, Vector2Int first, Vector2Int second)
+    {
+        if (check <= 0)
+        {
+            priority[priorityListFirst] = first;
+            priority[priorityListSecond] = second;
+        }
+        else
+        {
+            priority[priorityListFirst] = second;
+            priority[priorityListSecond] = first;
+        }
+
+        return priority;
     }
 
     /**
@@ -247,10 +212,11 @@ public class Player extends AbstractPerson
             talkToOnEnd.setDirection(getTileCoordinates().dirBetween(talkToOnEnd.getTileCoordinates()));
             setDirection(talkToOnEnd.direction.getOpposite());
 
-            //THIS IS WHERE YOU WILL BEGIN A CHAT WITH THE NPC
+            game.gameSnapshot.setState(GameState.interviewStart);
+            ((InterviewScreen) game.guiController.interviewScreen).setSuspect(talkToOnEnd);
 
-            talkToOnEnd.canMove = true;
-            talkToOnEnd = null;
+//            talkToOnEnd.canMove = true;
+//            talkToOnEnd = null;
         }
     }
 
@@ -272,6 +238,14 @@ public class Player extends AbstractPerson
 
             this.setTileCoordinates(newRoomData.newTileCoordinates.x, newRoomData.newTileCoordinates.y);
         }
+    }
+
+    /**
+     * This method clears the NPC that is to be spoken to when movement ends
+     */
+    public void clearTalkTo()
+    {
+        talkToOnEnd = null;
     }
 
 }
