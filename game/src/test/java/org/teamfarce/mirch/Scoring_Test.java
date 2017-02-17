@@ -23,7 +23,7 @@ public class Scoring_Test extends GameTest
 
 
     @Test
-    public void modifyScore_Addition()
+    public void modifyScoreAddition()
     {
         int currentScore;
         int inc = 20;
