@@ -23,7 +23,7 @@ public class Scoring_Test extends GameTest
 
 
     @Test
-    public void test_modifyScore_Addition()
+    public void modifyScore_Addition()
     {
         int currentScore;
         int inc = 20;
@@ -35,7 +35,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void test_modifyScore_Subtraction()
+    public void modifyScore_Subtraction()
     {
         int currentScore;
         int inc = -20;
@@ -47,7 +47,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void test_updateScore_no_decrease()
+    public void updateScore_no_decrease()
     {
         int currentScore;
         float delta = 0.25f;
@@ -59,7 +59,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void test_updateScore_has_decrease()
+    public void updateScore_has_decrease()
     {
         int currentScore;
         float delta = 5.00f;
