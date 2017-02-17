@@ -166,7 +166,7 @@ public class PlayerController extends InputAdapter
 
         timer += delta;
 
-        if (timer > movementTime && !((MapScreen) game.guiController.mapScreen).isTransitioning()) {
+        if (timer > movementTime && !((MapScreen) game.guiController.mapScreen).isTransitioning() && player.toMoveTo.isEmpty()) {
             player.move(goTo);
             return;
         }
