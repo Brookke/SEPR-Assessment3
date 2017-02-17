@@ -26,19 +26,63 @@ public class DialogueTest extends GameTest
         clues.add(new Clue("Glasses", "3", "Axe.png"));
         clues.add(new Clue("Bag", "4", "Axe.png"));
 
-        testDialogue = new Dialogue("template.JSON", clues);
+        try {
+            testDialogue = new Dialogue("template.JSON", clues);
+        } catch (Dialogue.InvalidDialogueException e) {
+            fail(e.getMessage());
+        }
+
     }
 
     @Test
-    public void get()
+    public void constructor1() throws Exception
+    {
+        List<Clue> failClues = new ArrayList<>();
+        failClues.add(new Clue("Hand", "1", "Axe.png"));
+        failClues.add(new Clue("Leg", "2", "Axe.png"));
+        failClues.add(new Clue("Glasses", "3", "Axe.png"));
+        failClues.add(new Clue("Bag", "4", "Axe.png"));
+
+        Dialogue testConstructor;
+
+        try {
+            testConstructor = new Dialogue("template.JSON", failClues);
+            fail("JSON not being verified");
+        } catch (Dialogue.InvalidDialogueException e) {
+
+        }
+    }
+
+    @Test
+    public void constructor2() {
+        Dialogue testConstructor;
+        try {
+            testConstructor = new Dialogue("template.JSON", clues);
+        } catch (Dialogue.InvalidDialogueException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void get1() throws Exception
     {
         assertEquals("test 2", testDialogue.get(clues.get(0)));
     }
 
     @Test
-    public void validateJsonAgainstClues() throws Exception
+    public void get2() throws Exception
     {
-        testDialogue.validateJsonAgainstClues(clues);
+        assertEquals("test 2", testDialogue.get(clues.get(0).getName()));
     }
+
+
+
+    @Test
+    public void get()
+    {
+
+
+    }
+
 
 }

@@ -14,9 +14,9 @@ public class Dialogue
 {
     private JsonValue jsonData;
 
-    public Dialogue(String jsonFile, List<Clue> clues) {
+    public Dialogue(String jsonFile, List<Clue> clues) throws InvalidDialogueException {
         importDialogue(jsonFile);
-
+        validateJsonAgainstClues(clues);
     }
 
     /**
@@ -29,7 +29,13 @@ public class Dialogue
         jsonData = new JsonReader().parse(Gdx.files.internal(fileName));
     }
 
-    public boolean validateJsonAgainstClues(List<Clue> clues) throws InvalidDialogueException {
+    /**
+     * This takes a list of clues and validates that there exists a valid response to each of the clues.
+     * @param clues Clues to validate against
+     * @return Boolean true if it passes
+     * @throws InvalidDialogueException if the JSON is invalid
+     */
+    private boolean validateJsonAgainstClues(List<Clue> clues) throws InvalidDialogueException {
         for (Clue c: clues) {
             if (this.jsonData.get("responses").has(c.getName())) {
                 if (!(this.jsonData.get("responses").getString(c.getName()).length() > 0)) {
@@ -48,8 +54,13 @@ public class Dialogue
 
     public String get(Clue clue)
     {
-        if (this.jsonData.get("responses").has(clue.getName())) {
-            return this.jsonData.get("responses").getString(clue.getName());
+        return get(clue.getName());
+    }
+
+    public String get(String speechKey)
+    {
+        if (this.jsonData.get("responses").has(speechKey)) {
+            return this.jsonData.get("responses").getString(speechKey);
         } else {
             //TODO: randomise
             return this.jsonData.get("noneResponse").getString(0);
