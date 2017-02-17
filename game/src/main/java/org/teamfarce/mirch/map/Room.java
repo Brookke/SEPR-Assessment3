@@ -1,12 +1,15 @@
 package org.teamfarce.mirch.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Direction;
+import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
 
 import java.util.ArrayList;
@@ -204,9 +207,8 @@ public class Room
         animationStateTime += delta;
 
         for (Clue c : cluesInRoom) {
-            //TODO: add glint back
-            //TextureRegion currentFrame = Assets.CLUE_GLINT.getKeyFrame(animationStateTime, true);
-            //batch.draw(currentFrame, c.getTileX() * Settings.TILE_SIZE, c.getTileY() * Settings.TILE_SIZE);
+            TextureRegion currentFrame = (TextureRegion) Assets.CLUE_GLINT.getKeyFrame(animationStateTime, true);
+            batch.draw(currentFrame, c.getTileX() * Settings.TILE_SIZE, c.getTileY() * Settings.TILE_SIZE);
         }
     }
 

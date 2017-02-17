@@ -131,6 +131,7 @@ public class MapScreen extends AbstractScreen
 
         arrow.update();
         arrow.draw(tileRender.getBatch());
+        game.player.getRoom().drawClues(delta, getTileRenderer().getBatch());
 
         tileRender.getBatch().end();
 

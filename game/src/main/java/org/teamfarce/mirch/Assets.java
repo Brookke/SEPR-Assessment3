@@ -2,6 +2,7 @@ package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
@@ -16,6 +17,11 @@ public class Assets
     public static TextureRegion DOWN_ARROW;
     public static TextureRegion LEFT_ARROW;
     public static TextureRegion RIGHT_ARROW;
+
+    /**
+     * This it the animation for the clue glint to be drawn where a clue is hidden
+     */
+    public static Animation CLUE_GLINT;
 
     /**
      * @param file - The file that contains the textures.
@@ -36,6 +42,12 @@ public class Assets
         RIGHT_ARROW = new TextureRegion(arrows, 32, 0, 32, 32);
         DOWN_ARROW = new TextureRegion(arrows, 0, 32, 32, 32);
         UP_ARROW = new TextureRegion(arrows, 32, 32, 32, 32);
+
+        Texture glintFile = loadTexture("clues/glintSheet.png");
+        TextureRegion[][] splitFrames = TextureRegion.split(glintFile, 32, 32);
+        TextureRegion[] frames = splitFrames[0];
+
+        CLUE_GLINT = new Animation(0.1f, frames);
     }
 
     /**
