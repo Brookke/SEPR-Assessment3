@@ -1,5 +1,6 @@
 package org.teamfarce.mirch.Entities;
 
+import org.lwjgl.opencl.CL;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.InterviewScreen;
@@ -19,6 +20,11 @@ public class Player extends AbstractPerson
      * This variable stores the NPC that the person will talk to when they finish walking. It is null if nothing should happen
      */
     Suspect talkToOnEnd = null;
+
+    /**
+     * This variable stores a clue that has been clicked on. It is to be collected when the player arrives at the clue
+     */
+    Clue findOnEnd = null;
 
     /**
      * This variable is detected by the mapScreen and initialises the room change
@@ -97,10 +103,9 @@ public class Player extends AbstractPerson
         {
             if (c.getTileCoordinates().equals(tileLocation))
             {
-                //Do same as in NPC branch
+                toMoveTo = aStarPath(getClosestNeighbour(c.getTileCoordinates()));
 
-                //Found clue
-                //Do clue animation screen
+                findOnEnd = c;
             }
         }
 
