@@ -87,8 +87,10 @@ public class Vector2Int
 
     public Direction dirBetween(Vector2Int other)
     {
-        if (y - other.getY() == 1) return Direction.SOUTH;
-        if (y - other.getY() == -1) return Direction.NORTH;
+        if (x - other.getX() == 1) return Direction.EAST;
+        if (x - other.getX() == -1) return Direction.WEST;
+        if (y - other.getY() == 1) return Direction.NORTH;
+        if (y - other.getY() == -1) return Direction.SOUTH;
 
         return Direction.NORTH;
     }
