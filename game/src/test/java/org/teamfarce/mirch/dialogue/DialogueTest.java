@@ -75,14 +75,4 @@ public class DialogueTest extends GameTest
         assertEquals("test 2", testDialogue.get(clues.get(0).getName()));
     }
 
-
-
-    @Test
-    public void get()
-    {
-
-
-    }
-
-
 }

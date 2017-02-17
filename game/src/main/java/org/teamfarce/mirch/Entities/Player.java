@@ -1,6 +1,7 @@
 package org.teamfarce.mirch.Entities;
 
 import org.teamfarce.mirch.Vector2Int;
+import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.map.Room;
 
 /**
@@ -19,11 +20,11 @@ public class Player extends AbstractPerson
      *
      * @param name        The name of the entity.
      * @param description The description of the entity.
-     * @param filename    The filename of the image to display for the entity.
+     * @param spriteSheetFile    The spriteSheetFile of the image to display for the entity.
      */
-    public Player(String name, String description, String filename)
+    public Player(String name, String description, String spriteSheetFile, Dialogue dialogue)
     {
-        super(name, description, filename);
+        super(name, description, spriteSheetFile, dialogue);
 
         this.state = PersonState.STANDING;
     }

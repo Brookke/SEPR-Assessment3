@@ -13,10 +13,14 @@ import java.util.List;
 public class Dialogue
 {
     private JsonValue jsonData;
+    private static String templatePath;
 
-    public Dialogue(String jsonFile, List<Clue> clues) throws InvalidDialogueException {
+    public Dialogue(String jsonFile) throws InvalidDialogueException {
         importDialogue(jsonFile);
-        validateJsonAgainstClues(clues);
+
+
+        //TODO: validate against template
+        //validateJsonAgainst(cluesNames);
     }
 
     /**
@@ -35,8 +39,9 @@ public class Dialogue
      * @return Boolean true if it passes
      * @throws InvalidDialogueException if the JSON is invalid
      */
-    private boolean validateJsonAgainstClues(List<Clue> clues) throws InvalidDialogueException {
-        for (Clue c: clues) {
+    private boolean validateJsonAgainstTemplate() throws InvalidDialogueException {
+
+       /* for (: clues) {
             if (this.jsonData.get("responses").has(c.getName())) {
                 if (!(this.jsonData.get("responses").getString(c.getName()).length() > 0)) {
                     throw new InvalidDialogueException("No response value for clue: " + c.getName());
@@ -44,7 +49,7 @@ public class Dialogue
             } else {
                 throw new InvalidDialogueException("No response key for clue: " + c.getName());
             }
-        }
+        }*/
 
         //TODO: add verification of noneResponses too
 
@@ -68,7 +73,7 @@ public class Dialogue
     }
 
 
-    class InvalidDialogueException extends Exception
+    public class InvalidDialogueException extends Exception
     {
         //Parameterless Constructor
         public InvalidDialogueException() {}

@@ -3,6 +3,7 @@ package org.teamfarce.mirch.Entities;
 import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
+import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.dialogue.DialogueTree;
 
 import java.util.ArrayList;
@@ -37,17 +38,17 @@ public class Suspect extends AbstractPerson
      * @param description      A string description
      * @param filename         The filename of the image for this suspect.
      * @param startingPosition The position to start at.
-     * @param dialogueFile     The json file containing the suspects dialogue.
+     * @param dialogue    The json file containing the suspects dialogue.
      */
     public Suspect(
             String name,
             String description,
             String filename,
             Vector2Int startingPosition,
-            String dialogueFile
+            Dialogue dialogue
     )
     {
-        super(name, description, filename);
+        super(name, description, filename, dialogue);
 
         this.beenAccused = false;
         this.isMurderer = false;

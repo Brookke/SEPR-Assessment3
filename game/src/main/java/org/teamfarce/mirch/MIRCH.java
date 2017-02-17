@@ -7,6 +7,7 @@ import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Player;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
+import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.map.Room;
 
 import javax.swing.*;
@@ -278,7 +279,13 @@ w
 
 
         //initialise the player sprite
-        player = new Player("Bob", "The player to beat all players", "Detective_sprite.png");
+        Dialogue playerDialogue = null;
+        try {
+            playerDialogue = new Dialogue("template.JSON", gameSnapshot.getClues());
+        } catch (Dialogue.InvalidDialogueException e) {
+            System.exit(0);
+        }
+        player = new Player("Bob", "The player to beat all players", "Detective_sprite.png", playerDialogue);
         player.setTileCoordinates(7, 10);
         this.player.setRoom(rooms.get(0));
 

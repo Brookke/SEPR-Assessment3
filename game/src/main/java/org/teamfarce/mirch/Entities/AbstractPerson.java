@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Interpolation;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
+import org.teamfarce.mirch.dialogue.Dialogue;
 
 import java.util.*;
 
@@ -53,21 +54,23 @@ public abstract class AbstractPerson extends MapEntity
     private Vector2Int endTile = new Vector2Int(0, 0);
     private float animTimer;
     private float animTime = 0.35f;
+    private Dialogue dialogue;
 
     /**
      * Initialise the entity.
      *
      * @param name        The name of the entity.
      * @param description The description of the entity.
-     * @param filename    The filename of the image to display for the entity.
+     * @param spriteSheetFile    The spriteSheetFile of the image to display for the entity.
      */
-    public AbstractPerson(String name, String description, String filename)
+    public AbstractPerson(String name, String description, String spriteSheetFile, Dialogue dialogue)
     {
-        super(name, description, new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
+        super(name, description, new TextureRegion(Assets.loadTexture("characters/" + spriteSheetFile), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
         this.name = name;
-        this.spriteSheet = Assets.loadTexture("characters/" + filename);
-        this.currentRegion = new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
+        this.spriteSheet = Assets.loadTexture("characters/" + spriteSheetFile);
+        this.currentRegion = new TextureRegion(Assets.loadTexture("characters/" + spriteSheetFile), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
         this.state = PersonState.STANDING;
+
     }
     /**
      * This controls the movement of a person
