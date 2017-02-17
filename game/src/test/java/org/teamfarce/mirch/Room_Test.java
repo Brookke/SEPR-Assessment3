@@ -27,7 +27,7 @@ public class Room_Test extends GameTest
     }
 
     @Test
-    public void testGetTransition()
+    public void getTransition()
     {
         assertEquals(room1, room0.getTransitionData(0, 4).getNewRoom());
         assertEquals("Test Room 1", room0.getTransitionData(0, 4).getNewRoom().getName());
@@ -37,14 +37,14 @@ public class Room_Test extends GameTest
     }
 
     @Test
-    public void testAddTransition()
+    public void addTransition()
     {
         room1.addTransition(new Room.Transition().setFrom(0, 0).setTo(room0, 0, 4, Direction.NORTH));
         assertEquals(room0, room1.getTransitionData(0, 0).getNewRoom());
     }
 
     @Test
-    public void testWalkable()
+    public void walkable()
     {
         assertEquals(true, room0.isWalkableTile(0, 0));
         assertEquals(false, room0.isWalkableTile(0, 1));
@@ -52,14 +52,14 @@ public class Room_Test extends GameTest
     }
 
     @Test
-    public void testTrigger()
+    public void trigger()
     {
         assertEquals(true, room0.isTriggerTile(0, 4));
         assertEquals(false, room0.isTriggerTile(3, 3));
     }
 
     @Test
-    public void testMatRotation()
+    public void matRotation()
     {
         assertEquals("NORTH", room0.getMatRotation(0, 4));
         assertEquals("SOUTH", room1.getMatRotation(0, 0));
