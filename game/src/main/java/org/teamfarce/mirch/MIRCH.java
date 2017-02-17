@@ -276,7 +276,7 @@ w
         gameSnapshot.map.placeNPCsInRooms(characters);
 
         //initialise the player sprite
-        player = new Player("Bob", "The player to beat all players", "Detective_sprite.png");
+        player = new Player(this, "Bob", "The player to beat all players", "Detective_sprite.png");
         player.setTileCoordinates(7, 10);
         this.player.setRoom(rooms.get(0));
 

@@ -76,7 +76,7 @@ public class InterviewScreen extends AbstractScreen {
 
 
         //TODO: replace this with actual suspect
-        Suspect suspect = new Suspect("Donald Trump", "POTUS", "Trumpo_sprite.png", new Vector2Int(1,1), null);
+        Suspect suspect = new Suspect(game, "Donald Trump", "POTUS", "Trumpo_sprite.png", new Vector2Int(1,1), null);
 
         //Setup vars needed to render dialogue & responses
         String responseBoxInstructions = "";

@@ -40,6 +40,7 @@ public class Suspect extends AbstractPerson
      * @param dialogueFile     The json file containing the suspects dialogue.
      */
     public Suspect(
+            MIRCH game,
             String name,
             String description,
             String filename,
@@ -47,7 +48,7 @@ public class Suspect extends AbstractPerson
             String dialogueFile
     )
     {
-        super(name, description, filename);
+        super(game, name, description, filename);
 
         this.beenAccused = false;
         this.isMurderer = false;

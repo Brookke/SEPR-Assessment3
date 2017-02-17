@@ -224,6 +224,11 @@ public class MapScreen extends AbstractScreen
         }
     }
 
+    public List<Suspect> getNPCs()
+    {
+        return currentNPCs;
+    }
+
     @Override
     public void resize(int width, int height)
     {
