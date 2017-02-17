@@ -167,7 +167,8 @@ public class InterviewScreen extends AbstractScreen {
         this.interviewStage.addActor(dialogue);
 
         Image suspectImage = new Image(new TextureRegion(suspect.getTexture(), 0, 0, AbstractPerson.SPRITE_WIDTH, AbstractPerson.SPRITE_HEIGHT));
-        suspectImage.setPosition(200, 500);
+        suspectImage.setSize(AbstractPerson.SPRITE_WIDTH * 2f, AbstractPerson.SPRITE_HEIGHT * 2f);
+        suspectImage.setPosition(200, 475);
         this.interviewStage.addActor(suspectImage);
     }
 

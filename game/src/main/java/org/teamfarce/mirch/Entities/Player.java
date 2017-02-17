@@ -214,9 +214,6 @@ public class Player extends AbstractPerson
 
             game.gameSnapshot.setState(GameState.interviewStart);
             ((InterviewScreen) game.guiController.interviewScreen).setSuspect(talkToOnEnd);
-
-//            talkToOnEnd.canMove = true;
-//            talkToOnEnd = null;
         }
     }
 
