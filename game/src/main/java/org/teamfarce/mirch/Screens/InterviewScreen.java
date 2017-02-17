@@ -78,7 +78,7 @@ public class InterviewScreen extends AbstractScreen {
 
         if (suspect == null)
         {
-            suspect = new Suspect(game, "Donald Trump", "POTUS", "Trumpo_sprite.png", new Vector2Int(1,1), null);
+            throw new NullPointerException("No Suspect Defined for Interview Screen");
         }
 
         //Setup vars needed to render dialogue & responses
