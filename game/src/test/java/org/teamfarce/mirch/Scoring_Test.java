@@ -35,7 +35,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void modifyScore_Subtraction()
+    public void modifyScoreSubtraction()
     {
         int currentScore;
         int inc = -20;
@@ -47,7 +47,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void updateScore_no_decrease()
+    public void updateScoreNoDecrease()
     {
         int currentScore;
         float delta = 0.25f;
@@ -59,7 +59,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void updateScore_has_decrease()
+    public void updateScoreHasDecrease()
     {
         int currentScore;
         float delta = 5.00f;
