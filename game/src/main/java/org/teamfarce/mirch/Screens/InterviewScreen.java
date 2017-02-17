@@ -75,6 +75,7 @@ public class InterviewScreen extends AbstractScreen {
         interviewContainer.setBackground(trd);
         interviewStage.addActor(interviewContainer);
 
+        suspect = gameSnapshot.getSuspectForInterview();
 
         if (suspect == null)
         {

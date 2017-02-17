@@ -36,6 +36,8 @@ public class GameSnapshot
     private GameState state;
     private float counter = 0f;
 
+    private Suspect interviewSuspect = null;
+
 
     /**
      * Initialises function.
@@ -213,9 +215,14 @@ public class GameSnapshot
         return this.suspects;
     }
 
-    public void setSuspect(Suspect s)
+    public void setSuspectForInterview(Suspect s)
     {
-        ((InterviewScreen) game.guiController.interviewScreen).setSuspect(s);
+        interviewSuspect = s;
+    }
+
+    public Suspect getSuspectForInterview()
+    {
+        return interviewSuspect;
     }
 
     /**
