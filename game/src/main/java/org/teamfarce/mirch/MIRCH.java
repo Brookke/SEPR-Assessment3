@@ -20,32 +20,17 @@ import java.util.*;
  * @author jacobwunwin
  */
 public class MIRCH extends Game {
-    private static final boolean playAnnoyingMusic = false; //set to true to play incredibly annoying background music that ruins your songs
     public static MIRCH me;
     public GameSnapshot gameSnapshot;
     public GUIController guiController;
 
     public ArrayList<Room> rooms;
-    public ArrayList<Clue> objects;
     public ArrayList<Suspect> characters;
 
 
     public int step; //stores the current loop number
 
     public Player player;
-
-    private Music music_background;
-
-
-    /**
-     * Plays music in the background
-     */
-    private void playMusic() {
-        music_background = Gdx.audio.newMusic(Gdx.files.internal("music/Minima.mp3"));
-        music_background.setLooping(true);
-        music_background.play();
-    }
-
 
     /**
      * Initialises all variables in the game and sets up the game for play.
@@ -95,12 +80,6 @@ public class MIRCH extends Game {
         player = new Player(this, "Bob", "The player to beat all players", "Detective_sprite.png");
         player.setTileCoordinates(7, 10);
         this.player.setRoom(rooms.get(0));
-
-
-        //starts music "Minima.mp3" - Kevin Macleod
-        if (playAnnoyingMusic) {
-            playMusic();
-        }
 
         //Setup screens
         this.guiController = new GUIController(this);
