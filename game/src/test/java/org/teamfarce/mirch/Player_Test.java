@@ -23,7 +23,7 @@ public class Player_Test extends GameTest {
     }
 
     @Test
-    public void test_aStar()
+    public void aStar()
     {
         Vector2Int start = new Vector2Int(0, 0);
 
