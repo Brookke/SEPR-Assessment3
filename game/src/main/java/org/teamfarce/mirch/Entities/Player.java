@@ -1,9 +1,5 @@
 package org.teamfarce.mirch.Entities;
 
-import com.badlogic.gdx.math.Vector2;
-import org.teamfarce.mirch.MIRCH;
-import org.teamfarce.mirch.Screens.MapScreen;
-import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.map.Room;
 
@@ -49,7 +45,13 @@ public class Player extends AbstractPerson
         }
 
         if (!getRoom().isWalkableTile(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy())) {
-            //setDirection(dir);
+            direction = dir;
+
+            if (!toMoveTo.isEmpty())
+            {
+                toMoveTo = aStarPath(toMoveTo.get(toMoveTo.size() - 1));
+            }
+
             return;
         }
 
@@ -57,8 +59,27 @@ public class Player extends AbstractPerson
     }
 
 
-    public void interact(Vector2Int tileLocation) {
+    public void interact(Vector2Int tileLocation)
+    {
+        //Check to see if a person is standing at that location
+        //Then we'll want to walk towards them (or next to them)
 
+        //if (NPC is standing at location)
+        //{
+        //   move there
+        //}
+
+        //if (clue is at location)
+        //{
+        //   move next to it
+        //}
+
+        if (!getRoom().isWalkableTile(tileLocation.getX(), tileLocation.getY()))
+        {
+            return;
+        }
+
+        toMoveTo = aStarPath(tileLocation);
     }
 
     /**
@@ -84,8 +105,8 @@ public class Player extends AbstractPerson
 
 
             if (newRoomData.newDirection != null) {
-                //this.setDirection(newRoomData.newDirection);
-                //this.updateTextureRegion();
+                direction = newRoomData.newDirection;
+                this.updateTextureRegion();
             }
 
             this.setTileCoordinates(newRoomData.newTileCoordinates.x, newRoomData.newTileCoordinates.y);

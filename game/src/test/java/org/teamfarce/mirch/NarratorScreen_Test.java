@@ -5,12 +5,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.teamfarce.mirch.Screens.NarratorScreen;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by joeshuff on 13/02/2017.
  */
-public class NarratorScreen_Test extends GameTest {
+public class NarratorScreen_Test extends GameTest
+{
 
     private NarratorScreen screen;
 
@@ -26,7 +27,7 @@ public class NarratorScreen_Test extends GameTest {
     }
 
     @Test
-    public void test_setSpeech()
+    public void setSpeech()
     {
         screen.setSpeech("Test Speech");
 
@@ -34,12 +35,11 @@ public class NarratorScreen_Test extends GameTest {
     }
 
     @Test
-    public void test_UpdateSpeech()
+    public void updateSpeech()
     {
         screen.setSpeech("Test Speech");
         screen.updateSpeech();
 
-        
 
         assertEquals(screen.getCurrentSpeech(), "T");
     }

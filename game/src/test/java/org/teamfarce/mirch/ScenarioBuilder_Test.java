@@ -9,17 +9,20 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+
 /**
  * Tests functions in the scenario builder class
- * @author jacobwunwin
  *
+ * @author jacobwunwin
  */
-public class ScenarioBuilder_Test extends GameTest {
+public class ScenarioBuilder_Test extends GameTest
+{
 
     @Test
     public void distributeCluesGiveRooms()
     {
         List<Clue> clues = new ArrayList<>();
+
         clues.add(new Clue("1", "1", "Axe.png"));
         clues.add(new Clue("2", "2", "Axe.png"));
         clues.add(new Clue("3", "3", "Axe.png"));
@@ -31,9 +34,9 @@ public class ScenarioBuilder_Test extends GameTest {
         rooms.add(new Room(2, "testMap.tmx", "Test Room3"));
         rooms.add(new Room(3, "testMap.tmx", "Test Room4"));
 
-        ScenarioBuilder.distributeClues(clues,rooms);
+        ScenarioBuilder.distributeClues(clues, rooms);
 
-        for (Room r: rooms) {
+        for (Room r : rooms) {
             if (!(r.getClues().size() > 0)) {
                 fail("Rooms not being given clues");
             }
@@ -43,7 +46,8 @@ public class ScenarioBuilder_Test extends GameTest {
     }
 
     @Test
-    public void distributeCluesDiffRooms() {
+    public void distributeCluesDiffRooms()
+    {
 
         List<Clue> clues = new ArrayList<>();
         clues.add(new Clue("1", "1", "Axe.png"));
@@ -57,9 +61,9 @@ public class ScenarioBuilder_Test extends GameTest {
         rooms.add(new Room(2, "testMap.tmx", "Test Room3"));
         rooms.add(new Room(3, "testMap.tmx", "Test Room4"));
 
-        ScenarioBuilder.distributeClues(clues,rooms);
+        ScenarioBuilder.distributeClues(clues, rooms);
 
-        for (Room r: rooms) {
+        for (Room r : rooms) {
             if (r.getClues().size() != 1) {
                 fail("Clues being given the same room");
             }
@@ -69,7 +73,7 @@ public class ScenarioBuilder_Test extends GameTest {
 
 
     @Test
-    public void testGenerateMotives() {
+    public void generateMotives() {
         ScenarioBuilderDatabase.DataMotive dataMotive = new ScenarioBuilderDatabase.DataMotive();
         dataMotive.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis tincidunt augue, eu dignissim massa maximus at. Praesent egestas, arcu vitae dignissim pharetra, sem lectus luctus metus, ac suscipit nibh massa non lacus. In tortor sem, blandit non odio sed";
 
@@ -84,8 +88,9 @@ public class ScenarioBuilder_Test extends GameTest {
     /**
      * Test a typical use case of the ScenarioBuilder.
      */
-	@Test
-    public void testGenerateGame() {
+    @Test
+    public void generateGame()
+    {
         //ScenarioBuilder sb = new ScenarioBuilder();
         //sb.generateGame(10);
         //temporary output until test is fully built

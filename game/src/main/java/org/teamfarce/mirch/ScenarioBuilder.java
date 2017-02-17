@@ -31,12 +31,12 @@ public class ScenarioBuilder
         List<Suspect> posVictims = new ArrayList<>();
         dataCharacters.forEach((x,c) -> {
             if (c.posKiller) {
-                Suspect tempSuspect = new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), null);
+                Suspect tempSuspect = new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), c.dialogue.filename);
                 tempSuspect.relatedClues = (convertClues(c.relatedClues));
                 posKillers.add(tempSuspect);
 
             } else {
-                posVictims.add(new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), null));
+                posVictims.add(new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), c.dialogue.filename));
             }
         });
 
@@ -138,30 +138,14 @@ public class ScenarioBuilder
         return new GameSnapshot(characterData.allCharacters, constructedClues, rooms, 0, 0);
     }
 
-    public static class ScenarioBuilderException extends Exception
-    {
-        public ScenarioBuilderException(String message)
-        {
-            super(message);
-        }
-    }
-
-
-
-    private static class CharacterData
-    {
-        public Suspect victim = null;
-        public Suspect murderer = null;
-        public List<Suspect> allCharacters = new ArrayList<>();
-    }
-
-
     /**
      * Takes a list of clues and rooms and gives each of the clues a random room and location
+     *
      * @param clues
      * @param rooms
      */
-    public static void distributeClues(List<Clue> clues, List<Room> rooms) {
+    public static void distributeClues(List<Clue> clues, List<Room> rooms)
+    {
 
         Collections.shuffle(clues);
         int amountOfClues = clues.size();
@@ -179,5 +163,21 @@ public class ScenarioBuilder
 
         }
 
+    }
+
+    public static class ScenarioBuilderException extends Exception
+    {
+        public ScenarioBuilderException(String message)
+        {
+            super(message);
+        }
+    }
+
+
+    private static class CharacterData
+    {
+        public Suspect victim = null;
+        public Suspect murderer = null;
+        public List<Suspect> allCharacters = new ArrayList<>();
     }
 }

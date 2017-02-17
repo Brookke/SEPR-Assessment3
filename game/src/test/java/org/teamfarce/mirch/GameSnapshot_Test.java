@@ -1,37 +1,37 @@
 package org.teamfarce.mirch;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertSame;
+
 
 /**
- * 
  * @author jacobwunwin
- *
  */
-public class GameSnapshot_Test {
-	
-	@Test
-	public void test_getTime(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
-		assertSame(gameSnapshot.getTime(), gameSnapshot.time);
-	}
-	
-	@Test
-	public void test_getRooms(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
-		assertSame(gameSnapshot.getRooms(), gameSnapshot.rooms);
-	}
+public class GameSnapshot_Test
+{
 
-	@Test
-	public void test_getClues(){
-		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
-		assertSame(gameSnapshot.getClues(), gameSnapshot.clues);
-	}
-	
+    @Test
+    public void getTime()
+    {
+        GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
+        assertSame(gameSnapshot.getTime(), gameSnapshot.time);
+    }
+
+    @Test
+    public void getRooms()
+    {
+        GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
+        assertSame(gameSnapshot.getRooms(), gameSnapshot.rooms);
+    }
+
+    @Test
+    public void getClues()
+    {
+        GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
+        assertSame(gameSnapshot.getClues(), gameSnapshot.clues);
+    }
+
 //	@Test
 //	public void test_proveMeans(){
 //		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
@@ -65,7 +65,7 @@ public class GameSnapshot_Test {
 //	}
 
 	/*
-	@Test
+    @Test
 	public void test_isMeansProven(){
 		GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, 100, 100);
 		

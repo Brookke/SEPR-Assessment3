@@ -3,6 +3,7 @@ package org.teamfarce.mirch.Entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import org.teamfarce.mirch.Assets;
 
 /**
  * This class defines the clues that the player needs to find in order to solve the murder.
@@ -17,11 +18,11 @@ public class Clue extends MapEntity
      *
      * @param name        the name of the clue i.e. what it is
      * @param description describes what the clue is
-     * @param filename     the texture region of the clue
+     * @param filename    the texture region of the clue
      */
     public Clue(String name, String description, String filename)
     {
-        super(name, description, new Texture(Gdx.files.internal("clues/" + filename)));
+        super(name, description, Assets.loadTexture("clues/" + filename));
 
     }
 
