@@ -248,6 +248,9 @@ public class Player extends AbstractPerson
             setDirection(talkToOnEnd.direction.getOpposite());
 
             //THIS IS WHERE YOU WILL BEGIN A CHAT WITH THE NPC
+
+            talkToOnEnd.canMove = true;
+            talkToOnEnd = null;
         }
     }
 
