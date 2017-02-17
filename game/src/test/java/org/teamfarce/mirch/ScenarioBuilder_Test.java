@@ -73,7 +73,7 @@ public class ScenarioBuilder_Test extends GameTest
 
 
     @Test
-    public void testGenerateMotives() {
+    public void generateMotives() {
         ScenarioBuilderDatabase.DataMotive dataMotive = new ScenarioBuilderDatabase.DataMotive();
         dataMotive.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sagittis tincidunt augue, eu dignissim massa maximus at. Praesent egestas, arcu vitae dignissim pharetra, sem lectus luctus metus, ac suscipit nibh massa non lacus. In tortor sem, blandit non odio sed";
 
@@ -89,7 +89,7 @@ public class ScenarioBuilder_Test extends GameTest
      * Test a typical use case of the ScenarioBuilder.
      */
     @Test
-    public void testGenerateGame()
+    public void generateGame()
     {
         //ScenarioBuilder sb = new ScenarioBuilder();
         //sb.generateGame(10);

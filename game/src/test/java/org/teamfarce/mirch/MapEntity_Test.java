@@ -23,7 +23,7 @@ public class MapEntity_Test extends GameTest
     Texture demoTexture = new Texture(Gdx.files.internal(demoFileName));
 
     @Test
-    public void test_setRoomGetRoom()
+    public void setRoomGetRoom()
     {
         MapEntity mapEntity = new MapEntity(null, null, demoTexture);
 
@@ -35,7 +35,7 @@ public class MapEntity_Test extends GameTest
     }
 
     @Test
-    public void test_getName()
+    public void getName()
     {
         String input = "Test";
         MapEntity mapEntity = new MapEntity(input, null, demoTexture);
@@ -44,7 +44,7 @@ public class MapEntity_Test extends GameTest
     }
 
     @Test
-    public void test_genDescription()
+    public void genDescription()
     {
         String input = "Test 1 2 3 4";
         MapEntity mapEntity = new MapEntity(null, input, demoTexture);
@@ -52,7 +52,7 @@ public class MapEntity_Test extends GameTest
     }
 
     @Test
-    public void test_getTexture()
+    public void getTexture()
     {
         MapEntity mapEntity = new MapEntity(null, null, demoTexture);
         assertEquals(demoTexture, mapEntity.getTexture());
