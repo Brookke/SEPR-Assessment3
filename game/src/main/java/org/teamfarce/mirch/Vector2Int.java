@@ -1,6 +1,8 @@
 package org.teamfarce.mirch;
 
 
+import org.teamfarce.mirch.Entities.Direction;
+
 /**
  * This class defines a 2D vector to represent coordinates within the game.
  */
@@ -81,6 +83,22 @@ public class Vector2Int
     @Override
     public int hashCode() {
         return Integer.valueOf(x + "00" + y);
+    }
+
+    /**
+     * This method returns the direction of the `other` position from the `self` position
+     *
+     * @param other - The Vector2Int to compare
+     * @return Direction - The direction the other position is in
+     */
+    public Direction dirBetween(Vector2Int other)
+    {
+        if (x - other.getX() == 1) return Direction.EAST;
+        if (x - other.getX() == -1) return Direction.WEST;
+        if (y - other.getY() == 1) return Direction.NORTH;
+        if (y - other.getY() == -1) return Direction.SOUTH;
+
+        return Direction.NORTH;
     }
 
     public Vector2Int scl(int scalar)
