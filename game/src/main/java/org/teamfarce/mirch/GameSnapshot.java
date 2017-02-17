@@ -44,7 +44,7 @@ public class GameSnapshot
     )
     {
         this.suspects = suspects;
-        this.state = GameState.narrator;
+        this.state = GameState.menu;
         this.clues = clues;
         this.rooms = rooms;
         this.meansProven = 0;

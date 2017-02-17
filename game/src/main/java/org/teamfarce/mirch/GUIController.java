@@ -7,6 +7,7 @@ import org.teamfarce.mirch.Screens.AbstractScreen;
 import org.teamfarce.mirch.Screens.MapScreen;
 import org.teamfarce.mirch.Screens.JournalScreen;
 import org.teamfarce.mirch.Screens.NarratorScreen;
+import org.teamfarce.mirch.Screens.MainMenuScreen;
 
 /**
  * Generates and controls all GUI screens
@@ -30,6 +31,10 @@ public class GUIController {
      */
     public GameState currentState;
 
+    /**
+     * This creates an instance of the game music class
+     */
+    private GameMusic music;
 
     /**
      * Used to present the map screen when game state changes
@@ -46,12 +51,15 @@ public class GUIController {
      */
     public NarratorScreen narratorScreen;
 
+    public MainMenuScreen menuScreen;
+
     /**
      * Constructor for GUIController, initialises required variables
      * @param game Used to set current screen, and access GameState
      */
     GUIController(MIRCH game) {
         this.game = game;
+        music= new GameMusic(game);
 
         uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json")); //load ui skin from assets
     }
@@ -64,6 +72,7 @@ public class GUIController {
         mapScreen = new MapScreen(game, uiSkin);
         journalScreen = new JournalScreen(game, uiSkin);
         narratorScreen = new NarratorScreen(game, uiSkin);
+        menuScreen= new MainMenuScreen(game, uiSkin);
     }
 
 
@@ -87,9 +96,15 @@ public class GUIController {
             switch (newState) {
                 case map:
                     this.game.setScreen(mapScreen);
+                    music.update();
+                    break;
+                case menu:
+                    this.game.setScreen(menuScreen);
+                    music.update();
                     break;
                 case narrator:
                     this.game.setScreen(narratorScreen);
+                    music.update();
                     break;
                 case journalClues:
                     this.game.setScreen(journalScreen);

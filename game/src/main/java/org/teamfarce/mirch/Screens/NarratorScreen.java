@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
+import org.teamfarce.mirch.GameMusic;
 import org.teamfarce.mirch.MIRCH;
 
 /**
@@ -82,7 +83,7 @@ public class NarratorScreen extends AbstractScreen {
                                 "You must go around each room trying to find the clues that have been hidden. You must also question the guests to see if they know anything about the murder! Try to solve the case before any other detective!";
 
         //Set introduction speech
-        setSpeech(introSpeech).makeVisible();
+        setSpeech(introSpeech);
     }
 
     /**
