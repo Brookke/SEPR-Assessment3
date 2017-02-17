@@ -1,15 +1,11 @@
 package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Player;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
-import org.teamfarce.mirch.map.Room;
+import org.teamfarce.mirch.Map.Room;
 
-import javax.swing.*;
 import java.sql.SQLException;
 import java.util.*;
 

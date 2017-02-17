@@ -11,14 +11,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.teamfarce.mirch.Entities.AbstractPerson;
-import org.teamfarce.mirch.Entities.Direction;
 import org.teamfarce.mirch.Entities.PlayerController;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.OrthogonalTiledMapRendererWithPeople;
 import org.teamfarce.mirch.Screens.Elements.RoomArrow;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
-import org.teamfarce.mirch.map.Room;
 
 import java.util.ArrayList;
 import java.util.List;
