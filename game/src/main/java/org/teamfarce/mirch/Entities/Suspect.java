@@ -5,16 +5,20 @@ import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.dialogue.DialogueTree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Stores information about a single suspect character.
  */
 public class Suspect extends AbstractPerson
 {
+    public List<Clue> relatedClues;
     public boolean isMurderer;
     /**
      * The dialogue tree of this suspect.
      */
-    public DialogueTree dialogueTree;
+    public String dialogueFile;
     /**
      * The position of the suspect on the map.
      */
@@ -24,6 +28,8 @@ public class Suspect extends AbstractPerson
     public Vector2 moveStep;
     private boolean beenAccused;
 
+    private boolean killer = false;
+    private boolean victim = false;
     /**
      * Initialiser function.
      *
@@ -31,14 +37,14 @@ public class Suspect extends AbstractPerson
      * @param description      A string description
      * @param filename         The filename of the image for this suspect.
      * @param startingPosition The position to start at.
-     * @param dialogueTree     The dialogue tree for this suspect.
+     * @param dialogueFile     The json file containing the suspects dialogue.
      */
     public Suspect(
             String name,
             String description,
             String filename,
             Vector2Int startingPosition,
-            DialogueTree dialogueTree
+            String dialogueFile
     )
     {
         super(name, description, filename);
@@ -47,7 +53,7 @@ public class Suspect extends AbstractPerson
         this.isMurderer = false;
         this.setTileCoordinates(startingPosition.x, startingPosition.y);
         this.moveStep = new Vector2(0, 0);
-        this.dialogueTree = dialogueTree;
+        this.dialogueFile = dialogueFile;
     }
 
 
@@ -65,12 +71,9 @@ public class Suspect extends AbstractPerson
     {
         this.beenAccused = true;
         //clear the dialogue tree here
-        if (this.isMurderer == false || hasEvidence == false)
-        {
+        if (this.isMurderer == false || hasEvidence == false) {
             MIRCH.me.gameSnapshot.modifyScore(-50);
-        }
-        else
-        {
+        } else {
             MIRCH.me.gameSnapshot.modifyScore(100);
         }
         return (this.isMurderer) && (hasEvidence);
@@ -91,5 +94,23 @@ public class Suspect extends AbstractPerson
     public void move(Direction dir)
     {
 
+    }
+
+    public boolean isKiller() {
+        return killer;
+    }
+
+    public void setKiller() {
+        this.killer = true;
+        this.victim = false;
+    }
+
+    public boolean isVictim() {
+        return victim;
+    }
+
+    public void setVictim() {
+        this.victim = true;
+        this.killer = false;
     }
 }

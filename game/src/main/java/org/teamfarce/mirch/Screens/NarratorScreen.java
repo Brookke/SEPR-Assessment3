@@ -17,48 +17,43 @@ import org.teamfarce.mirch.MIRCH;
 
 /**
  * This is the screen which displays the narrator and a defined speech
- *
+ * <p>
  * To show the screen with the defined speech you do the following
- *
+ * <p>
  * Have access to the game object (MIRCH). then do
- *
+ * <p>
  * game.guiController.narratorScreen.setSpeech("").makeVisible();
  */
-public class NarratorScreen extends AbstractScreen {
-
-    /**
-     * This is the referencing to the game and the games snapshot
-     */
-    private MIRCH game;
-    private GameSnapshot gameSnapshot;
-
-    /**
-     * These are the variables used to show and draw the scene
-     */
-    public Stage narratorStage;
-    private Skin uiSkin;
-
-    /**
-     * This is the current string that is being displayed on the screen.
-     */
-    private String currentMessage = "";
-
-    /**
-     * This is the full message that is to be displayed. Will gradually be added to the above variable
-     */
-    private String endMessage = "";
-
-    /**
-     * These are the 2 objects that are rendered onto the screen
-     */
-    private Label speech;
-    private Button prompt;
+public class NarratorScreen extends AbstractScreen
+{
 
     /**
      * This is how many render frames that have to occur before the next letter is added to the currentMessage
      */
     final static int FRAMES_PER_LETTER = 2;
-
+    /**
+     * These are the variables used to show and draw the scene
+     */
+    public Stage narratorStage;
+    /**
+     * This is the referencing to the game and the games snapshot
+     */
+    private MIRCH game;
+    private GameSnapshot gameSnapshot;
+    private Skin uiSkin;
+    /**
+     * This is the current string that is being displayed on the screen.
+     */
+    private String currentMessage = "";
+    /**
+     * This is the full message that is to be displayed. Will gradually be added to the above variable
+     */
+    private String endMessage = "";
+    /**
+     * These are the 2 objects that are rendered onto the screen
+     */
+    private Label speech;
+    private Button prompt;
     /**
      * The current amount of render frames since the last added letter. Reset to 0 once FRAMES_PER_LETTER is exceeded
      */
@@ -67,7 +62,7 @@ public class NarratorScreen extends AbstractScreen {
     /**
      * This is the main constructor for the screen
      *
-     * @param game - Reference to the Game instance
+     * @param game   - Reference to the Game instance
      * @param uiSkin - The game snapshot reference
      */
     public NarratorScreen(MIRCH game, Skin uiSkin)
@@ -78,9 +73,9 @@ public class NarratorScreen extends AbstractScreen {
         this.uiSkin = uiSkin;
 
         String introSpeech = "You have been invited to a lock-in costume party with some of the richest people around. There has been a murder, one of the guests has killed another.\n\n" +
-                                "The murderer instantly regretted their decision and has tried their hardest to cover up their tracks. All the clues have been hidden around the Ron Cooke Hub by the murderer so that they can avoid being discovered.\n\n" +
-                                "NOT SO FAST! You're not the only detective that got called to the scene, there will be other detectives trying to solve the case at the same time.\n\n" +
-                                "You must go around each room trying to find the clues that have been hidden. You must also question the guests to see if they know anything about the murder! Try to solve the case before any other detective!";
+                "The murderer instantly regretted their decision and has tried their hardest to cover up their tracks. All the clues have been hidden around the Ron Cooke Hub by the murderer so that they can avoid being discovered.\n\n" +
+                "NOT SO FAST! You're not the only detective that got called to the scene, there will be other detectives trying to solve the case at the same time.\n\n" +
+                "You must go around each room trying to find the clues that have been hidden. You must also question the guests to see if they know anything about the murder! Try to solve the case before any other detective!";
 
         //Set introduction speech
         setSpeech(introSpeech);
@@ -97,11 +92,7 @@ public class NarratorScreen extends AbstractScreen {
         background.setHeight(Gdx.graphics.getHeight());
         background.setWidth(Gdx.graphics.getWidth());
 
-        TextField.TextFieldStyle textFieldStyle = uiSkin.get(TextField.TextFieldStyle.class);
-        textFieldStyle.fontColor = Color.WHITE;
-
-        speech = new Label(currentMessage, uiSkin);
-        speech.getStyle().fontColor = Color.WHITE;
+        speech = new Label(currentMessage, uiSkin, "white");
         speech.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.6f);
         speech.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 0.25f);
         speech.setWrap(true);
@@ -110,9 +101,11 @@ public class NarratorScreen extends AbstractScreen {
         prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
         prompt.setPosition(Gdx.graphics.getWidth() * 0.45f, Gdx.graphics.getHeight() * 0.25f);
         prompt.setVisible(false);
-        prompt.addListener(new ChangeListener() {
+        prompt.addListener(new ChangeListener()
+        {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void changed(ChangeEvent event, Actor actor)
+            {
                 gameSnapshot.setState(GameState.map);
             }
         });
@@ -128,39 +121,17 @@ public class NarratorScreen extends AbstractScreen {
      */
     public void updateSpeech()
     {
-        if (endMessage.equals(currentMessage))
-        {
+        if (endMessage.equals(currentMessage)) {
             prompt.setVisible(true);
             return;
         }
 
         currentMessage = currentMessage + endMessage.charAt(currentMessage.length());
 
-        try
-        {
+        try {
             speech.setText(currentMessage);
-        } catch (Exception e){}
-    }
-
-    /**
-     * This method sets the endMessage to the defined string
-     * @param speech - The message to be displayed to the screen
-     * @return this
-     */
-    public NarratorScreen setSpeech(String speech)
-    {
-        endMessage = speech;
-        currentMessage = "";
-
-        return this;
-    }
-
-    /**
-     * This method is called to show the screen
-     */
-    public void makeVisible()
-    {
-        gameSnapshot.setState(GameState.narrator);
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -174,12 +145,12 @@ public class NarratorScreen extends AbstractScreen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta)
+    {
 
-        currentFrames ++;
+        currentFrames++;
 
-        if (currentFrames >= FRAMES_PER_LETTER)
-        {
+        if (currentFrames >= FRAMES_PER_LETTER) {
             currentFrames = 0;
             updateSpeech();
         }
@@ -193,33 +164,52 @@ public class NarratorScreen extends AbstractScreen {
         return endMessage;
     }
 
+    /**
+     * This method sets the endMessage to the defined string
+     *
+     * @param speech - The message to be displayed to the screen
+     * @return this
+     */
+    public NarratorScreen setSpeech(String speech)
+    {
+        endMessage = speech;
+        currentMessage = "";
+
+        return this;
+    }
+
     public String getCurrentSpeech()
     {
         return currentMessage;
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int width, int height)
+    {
 
     }
 
     @Override
-    public void pause() {
+    public void pause()
+    {
 
     }
 
     @Override
-    public void resume() {
+    public void resume()
+    {
 
     }
 
     @Override
-    public void hide() {
+    public void hide()
+    {
 
     }
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
 
     }
 }

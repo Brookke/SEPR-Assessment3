@@ -4,10 +4,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import org.teamfarce.mirch.Settings;
-import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.MapScreen;
+import org.teamfarce.mirch.Settings;
+import org.teamfarce.mirch.Vector2Int;
 
 /**
  * This class allows the player to be moved and controlled.
@@ -125,19 +125,22 @@ public class PlayerController extends InputAdapter
     }
 
     @Override
-    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button)
+    {
         // ignore if its not left mouse button or first touch pointer
         if (button != Input.Buttons.LEFT || pointer > 0) return false;
         player.interact(screenPosToTile(screenX, screenY));
         return true;
     }
 
-    private Vector2Int screenPosToTile(int screenX, int screenY) {
-        Vector3 screenPosition = new Vector3(0,0,0);
+    private Vector2Int screenPosToTile(int screenX, int screenY)
+    {
+        Vector3 screenPosition = new Vector3(0, 0, 0);
         camera.unproject(screenPosition.set(screenX, screenY, 0));
         Vector2Int tileLocation = new Vector2Int((int) screenPosition.x / Settings.TILE_SIZE, (int) screenPosition.y / Settings.TILE_SIZE);
         return tileLocation;
     }
+
     /**
      * This method is called once a game tick to transfer the key reads to the live game data in the logic Thread.
      */
@@ -169,7 +172,7 @@ public class PlayerController extends InputAdapter
         }
 
         if (player.getState() != AbstractPerson.PersonState.WALKING) {
-            //player.setDirection(goTo);
+            player.direction = goTo;
         }
     }
 }

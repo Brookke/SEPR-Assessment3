@@ -1,16 +1,18 @@
 package org.teamfarce.mirch;
 
-import java.lang.Math;
-import java.util.Optional;
-import java.util.ArrayList;
-import java.util.Random;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import org.teamfarce.mirch.WeightedSelection;
 
-public class WeightedSelection_Test {
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Random;
+
+import static org.junit.Assert.assertEquals;
+
+public class WeightedSelection_Test
+{
     @Test
-    public void test1() {
+    public void test1()
+    {
         // Tests for selection of the middle element where everything has an equal weight.
         WeightedSelection ws = new WeightedSelection(x -> Math.floorDiv(x, 2));
         ArrayList<Integer> objects = new ArrayList<>();
@@ -18,11 +20,12 @@ public class WeightedSelection_Test {
             objects.add(i);
         }
         Optional<Integer> result = ws.selectWeightedObject(objects, x -> 1);
-        assertEquals((int)result.get(), 5);
+        assertEquals((int) result.get(), 5);
     }
 
     @Test
-    public void test2() {
+    public void test2()
+    {
         // Test for where all of the elements are weighted to zero except for one.
         WeightedSelection ws = new WeightedSelection(x -> Math.floorDiv(x, 2));
         ArrayList<Integer> objects = new ArrayList<>();
@@ -36,11 +39,12 @@ public class WeightedSelection_Test {
                 return 0;
             }
         });
-        assertEquals((int)result.get(), 2);
+        assertEquals((int) result.get(), 2);
     }
 
     @Test
-    public void test3() {
+    public void test3()
+    {
         // For the array [0, 1, 2, 3] we should get an array of [1, 2, 2, 3, 3, 3] where each
         // element appears "weight" number of times; the weight being themselves.
         ArrayList<Integer> objects = new ArrayList<>();
@@ -62,25 +66,27 @@ public class WeightedSelection_Test {
 
             // Check this subresult.
             Optional<Integer> result = ws.selectWeightedObject(objects, x -> x);
-            assertEquals((int)result.get(), (int)resultModel.get(i));
+            assertEquals((int) result.get(), (int) resultModel.get(i));
         }
     }
 
     @Test
-    public void test4() {
+    public void test4()
+    {
         // Test that a zero element array returns empty.
         ArrayList<Integer> objects = new ArrayList<>();
         WeightedSelection ws = new WeightedSelection(new Random());
         Optional<Integer> result = ws.selectWeightedObject(objects, x -> x);
-        assert(!result.isPresent());
+        assert (!result.isPresent());
     }
 
     @Test
-    public void test5() {
+    public void test5()
+    {
         // Test that a total weight of 0 returns empty.
         ArrayList<Integer> objects = new ArrayList<>();
         WeightedSelection ws = new WeightedSelection(new Random());
         Optional<Integer> result = ws.selectWeightedObject(objects, x -> 0);
-        assert(!result.isPresent());
+        assert (!result.isPresent());
     }
 }

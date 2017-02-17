@@ -1,0 +1,20 @@
+{
+  "name": "Nijel Fa Raaj",
+  "personality": "Aggressive",
+  "responses": {
+    "introduction": "Good day, what are you views on the terrible affliction of the geese?",
+    "Big Footprint": "This seems similar to my boot.",
+    "Small Footprint": "If my feet were that small the geese wouldn't hear me coming! But alas, I must rely on overwhelming power instead.",
+    "Glasses": "No, if I needed glasses I would be at a tactical disadvantage to the geese",
+    "Bag": "Yes - I need somewhere to put the severed heads of our oppressors",
+    "Lipstick": "No, only women and geese should wear lipstick!",
+    "Right Handed": "I am perfectly good at dispaching geese with either of my hands.",
+    "Dark Hair": "My once luscious hair has turned grey due to the constant oppression of the geese.",
+    "Light Hair": "Hmm, yes, certainly my hair is light, not sure why you care though",
+    "Rubber Duck": "Duck is fine, just don't show me any geese"
+  },
+  "noneResponses": [
+    "I shall bring justice to York and rid us of the terrible geese",
+    "Just because I wrote a fact about geese on a bus doesn't mean it is true"
+  ]
+}

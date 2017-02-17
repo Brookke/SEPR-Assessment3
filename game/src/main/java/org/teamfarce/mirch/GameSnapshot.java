@@ -61,6 +61,7 @@ public class GameSnapshot
 
     /**
      * Takes an integer and adds it on to the current score.
+     *
      * @param amount - the integer to add to the score.
      */
     public void modifyScore(int amount)
@@ -70,6 +71,7 @@ public class GameSnapshot
 
     /**
      * Getter for current score
+     *
      * @return Returns current score.
      */
 
@@ -78,7 +80,8 @@ public class GameSnapshot
         return this.score;
     }
 
-    public void updateScore(float delta) {
+    public void updateScore(float delta)
+    {
         counter += delta;
         if (counter >= 5) {
             counter = 0;
@@ -120,14 +123,14 @@ public class GameSnapshot
     // The following two functions should be merged at some point.
 
  /*   *//**
-     * Increment the "means proof" value by the given value in the clues.
-     * <p>
-     * This effectively indicates that the means of the murder was proven by the given arbitrary
-     * value in the clues.
-     * </p>
-     *
-     * @param clues The clues which provide the means proven value.
-     *//*
+ * Increment the "means proof" value by the given value in the clues.
+ * <p>
+ * This effectively indicates that the means of the murder was proven by the given arbitrary
+ * value in the clues.
+ * </p>
+ *
+ * @param clues The clues which provide the means proven value.
+ *//*
     void proveMeans(Collection<Clue> clues)
     {
         for (Clue clue : clues) {
@@ -136,14 +139,14 @@ public class GameSnapshot
     }
 
     *//**
-     * Increment the "motive proof" value by the given value.
-     * <p>
-     * This effectively indicates that the motive of the murder was proven by the given arbitrary
-     * value in the clues.
-     * </p>
-     *
-     * @param clues The clues which provide the motive proven value.
-     *//*
+ * Increment the "motive proof" value by the given value.
+ * <p>
+ * This effectively indicates that the motive of the murder was proven by the given arbitrary
+ * value in the clues.
+ * </p>
+ *
+ * @param clues The clues which provide the motive proven value.
+ *//*
     void proveMotive(Collection<Clue> clues)
     {
         for (Clue clue : clues) {
@@ -156,7 +159,7 @@ public class GameSnapshot
      *
      * @return Whether we have "proven" the means.
      */
-    boolean isMeansProven()
+    public boolean isMeansProven()
     {
         return (this.meansProven >= this.sumProvesMean * 0.5);
     }
@@ -166,7 +169,7 @@ public class GameSnapshot
      *
      * @return Whether we have "proven" the motive.
      */
-    boolean isMotiveProven()
+    public boolean isMotiveProven()
     {
         return (this.motiveProven >= this.sumProvesMotive * 0.5);
     }

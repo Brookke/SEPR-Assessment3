@@ -1,0 +1,17 @@
+{
+  "name": "name",
+  "personality": "NICE",
+  "responses": {
+    "introduction": "",
+    "Big Footprint": "",
+    "Small Footprint": "",
+    "Glasses": "",
+    "Bag": "",
+    "Lipstick": "",
+    "Right Handed": "",
+    "Dark Hair": ""
+  },
+  "noneResponses": [
+    ""
+  ]
+}
