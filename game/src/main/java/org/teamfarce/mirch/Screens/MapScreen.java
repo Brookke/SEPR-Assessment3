@@ -43,10 +43,6 @@ public class MapScreen extends AbstractScreen
     private SpriteBatch spriteBatch;
 
     /**
-     * This creates an instance of the game music class
-     */
-    //private GameMusic music;
-    /**
      * This stores whether the room is currently in transition or not
      */
     private boolean roomTransition = false;
@@ -89,7 +85,6 @@ public class MapScreen extends AbstractScreen
         this.tileRender = new OrthogonalTiledMapRendererWithPeople(game.player.getRoom().getTiledMap());
         this.tileRender.addPerson(game.player);
         this.playerController = new PlayerController(game.player, game, camera);
-        //music.update();
 
         this.spriteBatch = new SpriteBatch();
 

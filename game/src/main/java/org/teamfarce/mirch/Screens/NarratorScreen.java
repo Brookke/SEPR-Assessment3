@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
-import org.teamfarce.mirch.GameMusic;
 import org.teamfarce.mirch.MIRCH;
 
 /**
