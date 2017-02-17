@@ -41,19 +41,9 @@ public class MainMenuScreen extends AbstractScreen {
     private GameSnapshot gameSnapshot;
 
     /**
-     * This creates an instance of the game music class
-     */
-    //private GameMusic music;
-
-    /**
      * the stage to render the menu to
      */
     public Stage stage;
-
-    /**
-     * The default button skins
-     */
-    private Skin buttonSkin;
 
     /**
      * This is the camera for the menu
@@ -74,41 +64,36 @@ public class MainMenuScreen extends AbstractScreen {
 
         super(game);
         this.gameSnapshot = game.gameSnapshot;
-        //music.update();
 
         //Initialising new stage
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         Gdx.input.setInputProcessor(stage);
 
-        //Initialising the skin made for the buttons
-        initButtonSkin();
-
-        //Loading the menu or pause screen
+        //Loading the menu
         initMenu(game);
     }
 
     private void initMenu(final MIRCH game) {
-        //Creating the buttons using the button skin
+        //Initialising the skin used for the buttons and the label
         Skin glassySkin;
         glassySkin = new Skin(Gdx.files.internal("skins/skin_glassy/glassy-ui.json"));
-        BitmapFont font = new BitmapFont();
 
-        Image background = new Image(new TextureRegion(Assets.loadTexture("rch2.jpg")));
-
-        LabelStyle textStyle = new LabelStyle(font, Color.RED);
+        //Setting the background
+        Image background = new Image(new TextureRegion(Assets.loadTexture("rch3.jpg")));
 
         //Creating the label containing text and determining  its size and location on screen
         Label text;
 
-        text = new Label("Welcome To the Lorem Ipsum Murder Mystery Game!", glassySkin);
+        text = new Label("Welcome to the Lorem Ipsum Murder Mystery Game!", glassySkin);
         TextButton newGameButton = new TextButton("New Game", glassySkin);
 
         text.setFontScale(2, 2);
 
         text.setBounds(Gdx.graphics.getWidth() / 2 - text.getWidth(), Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight() / 3 + Gdx.graphics.getHeight() / 16, text.getWidth(), text.getHeight());
 
+        //Creating the buttons and setting their positions
         newGameButton.setPosition(WIDTH, (float) (Gdx.graphics.getHeight()-(Gdx.graphics.getHeight() / 4)-120));
-        TextButton settings = new TextButton("Settings",glassySkin );
+        TextButton settings = new TextButton("Settings", glassySkin );
         settings.setPosition(WIDTH+30, (Gdx.graphics.getHeight() / 2)-90);
         TextButton quit = new TextButton("Quit", glassySkin);
         quit.setPosition(WIDTH+32, (Gdx.graphics.getHeight() / 4)-60 );
@@ -149,34 +134,6 @@ public class MainMenuScreen extends AbstractScreen {
                 //Change to settings screen once its been made
             }
         });
-    }
-
-
-    /**
-     * This method creates the skins for the buttons
-     */
-    private void initButtonSkin()
-    {
-        //Create a font
-        BitmapFont font = new BitmapFont();
-        buttonSkin = new Skin();
-        buttonSkin.add("default", font);
-
-        //Create a texture
-        Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth() / 4, (int) Gdx.graphics.getHeight() / 10, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.ORANGE);
-        pixmap.fill();
-        buttonSkin.add("background", new Texture(pixmap));
-
-        //Create a button style
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        //textButtonStyle.up = buttonSkin.newDrawable("background", BACKGROUND_COLOR);
-        textButtonStyle.down = buttonSkin.newDrawable("background", Color.DARK_GRAY);
-        //textButtonStyle.checked = buttonSkin.newDrawable("background", BACKGROUND_COLOR);
-        textButtonStyle.over = buttonSkin.newDrawable("background", Color.LIGHT_GRAY);
-        textButtonStyle.font = buttonSkin.getFont("default");
-        buttonSkin.add("default", textButtonStyle);
-
     }
 
     public void makeVisible()
