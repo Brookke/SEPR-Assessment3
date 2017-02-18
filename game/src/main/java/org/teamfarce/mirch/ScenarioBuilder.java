@@ -129,8 +129,8 @@ public class ScenarioBuilder
 
         CharacterData characterData;
         characterData = generateCharacters(game, database.characters);
-        ArrayList<Suspect> aliveSuspects;
-        aliveSuspects = new ArrayList<>();
+
+        List<Suspect> aliveSuspects = new ArrayList<Suspect>();
         for (Suspect suspect : characterData.allCharacters)
         {
             if (suspect.isVictim() == false)
