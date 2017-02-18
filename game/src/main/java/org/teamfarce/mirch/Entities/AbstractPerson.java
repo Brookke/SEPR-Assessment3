@@ -54,7 +54,7 @@ public abstract class AbstractPerson extends MapEntity
     private Vector2Int endTile = new Vector2Int(0, 0);
     private float animTimer;
     private float animTime = 0.35f;
-    private Dialogue dialogue;
+    public Dialogue dialogue;
 
     /**
      * Initialise the entity.
@@ -70,6 +70,7 @@ public abstract class AbstractPerson extends MapEntity
         this.spriteSheet = Assets.loadTexture("characters/" + spriteSheetFile);
         this.currentRegion = new TextureRegion(Assets.loadTexture("characters/" + spriteSheetFile), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
         this.state = PersonState.STANDING;
+        this.dialogue = dialogue;
 
     }
     /**
