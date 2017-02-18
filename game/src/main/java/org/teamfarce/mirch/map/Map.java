@@ -172,4 +172,13 @@ public class Map
             System.out.println(loopNpc.getName() + " has been placed in room " + selectedRoom + " at " + position);
         }
     }
+
+    /**
+     * This method returns all the rooms in the map
+     * @return the rooms
+     */
+    public List<Room> getRooms()
+    {
+        return rooms;
+    }
 }

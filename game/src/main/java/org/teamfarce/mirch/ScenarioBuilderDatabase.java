@@ -63,7 +63,7 @@ public class ScenarioBuilderDatabase
             clue.sprite = "clueSheet.png";
             clue.assetX = rsClue.getInt("resourceX");
             clue.assetY = rsClue.getInt("resourceY");
-            clue.isMeans = true;
+            clue.isMeans = false;
             clues.put(clue.id, clue);
         }
 

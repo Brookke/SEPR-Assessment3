@@ -7,6 +7,7 @@ import org.teamfarce.mirch.map.Map;
 import org.teamfarce.mirch.map.Room;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Stores a snapshot of the game state.
@@ -65,7 +66,7 @@ public class GameSnapshot
         this.gameWon = false;
         this.sumProvesMean = sumProvesMeans;
         this.sumProvesMotive = sumProvesMotive;
-        this.score = 500;
+        this.score = 1;
 
     }
 
@@ -78,6 +79,56 @@ public class GameSnapshot
     public void modifyScore(int amount)
     {
         score += amount;
+
+        if (score <= 0)
+        {
+            String murderer = "";
+            String victim = "";
+            String room = "";
+            String weapon = "";
+
+            for (Suspect s : game.gameSnapshot.getSuspects())
+            {
+                if (s.isKiller())
+                {
+                    murderer = s.getName();
+                }
+
+                if (s.isVictim())
+                {
+                    victim = s.getName();
+                }
+            }
+
+            for (Room r : game.gameSnapshot.map.getRooms())
+            {
+                if (r.isMurderRoom())
+                {
+                    room = r.getName();
+                }
+
+                for (Clue c : r.getClues())
+                {
+                    if (c.isMeansClue())
+                    {
+                        weapon = c.getName();
+                    }
+                }
+            }
+
+            String[] detectives = new String[]{"Richie Paper", "Princess Fiona", "Lilly Blort", "Michael Dodders"};
+
+            game.guiController.narratorScreen.setSpeech("Oh No!\n \nDetective " + detectives[new Random().nextInt(detectives.length)] + " has solved the crime before you! They discovered that all along it was " + murderer + " who killed " + victim + " in the " + room + " with " + weapon + "\n \n" +
+                    "It's a real shame, I really thought you'd have gotten there first!\n \nOh well! Better luck next time!")
+                    .setButton("End Game", new Runnable() {
+                        @Override
+                        public void run() {
+                            System.exit(0);
+                        }
+                    });
+
+            game.gameSnapshot.setState(GameState.narrator);
+        }
     }
 
     /**
@@ -96,7 +147,7 @@ public class GameSnapshot
         counter += delta;
         if (counter >= 5) {
             counter = 0;
-            score--;
+            modifyScore(-1);
         }
 
     }
