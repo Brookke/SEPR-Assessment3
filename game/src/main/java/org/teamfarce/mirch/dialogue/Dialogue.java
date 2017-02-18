@@ -7,6 +7,7 @@ import org.teamfarce.mirch.Entities.Clue;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by brookehatton on 16/02/2017.
@@ -74,21 +75,20 @@ public class Dialogue
             return this.jsonData.get("responses").getString(speechKey);
         } else {
             //TODO: randomise
-            return this.jsonData.get("noneResponse").getString(0);
+            return this.jsonData.get("noneResponses").getString(0);
         }
     }
 
-    public String get(String speechKey, String personality)
+    public String get(Clue clue, String personality)
     {
         if (isForPlayer) {
-            return this.jsonData.get("responses").get(speechKey).getString(personality);
+            return this.jsonData.get("responses").get(clue.getName()).getString(personality);
         }
 
-        if (this.jsonData.get("responses").has(speechKey)) {
-            return this.jsonData.get("responses").getString(speechKey);
+        if (personality.toLowerCase().equals(jsonData.getString("personality").toLowerCase())) {
+            return get(clue.getName());
         } else {
-            //TODO: randomise
-            return this.jsonData.get("noneResponse").getString(0);
+            return "";
         }
     }
 

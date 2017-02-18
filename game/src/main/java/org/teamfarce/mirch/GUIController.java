@@ -118,6 +118,9 @@ public class GUIController
                 case interviewQuestionClue:
                     this.game.setScreen(interviewScreen);
                     break;
+                case interviewQuestionStyle:
+                    this.game.setScreen(interviewScreen);
+                    break;
                 case interviewQuestion:
                     this.game.setScreen(interviewScreen);
                     break;
