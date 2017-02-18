@@ -16,10 +16,11 @@ import static org.junit.Assert.*;
 public class DialogueTest extends GameTest
 {
     private Dialogue testDialogue;
-    private List<Clue> clues;
+    private Clue testClue;
 
     @Before
     public void setup() {
+        testClue = new Clue("Big Footprint", "1", "Axe.png");
         try {
             testDialogue = new Dialogue("template.JSON");
         } catch (Dialogue.InvalidDialogueException e) {
@@ -54,13 +55,14 @@ public class DialogueTest extends GameTest
     @Test
     public void get1() throws Exception
     {
-        assertEquals("test 2", testDialogue.get(clues.get(0)));
+
+        assertEquals("test 2", testDialogue.get(testClue));
     }
 
     @Test
     public void get2() throws Exception
     {
-        assertEquals("test 2", testDialogue.get(clues.get(0).getName()));
+        assertEquals("test 2", testDialogue.get(testClue.getName()));
     }
 
 }
