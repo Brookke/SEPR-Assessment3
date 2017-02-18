@@ -19,7 +19,7 @@ import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
 
 /**
- * Created by joeshuff on 18/02/2017.
+ * This class displays a clue with its information when it has just been found
  */
 public class FindClueScreen extends AbstractScreen {
 
