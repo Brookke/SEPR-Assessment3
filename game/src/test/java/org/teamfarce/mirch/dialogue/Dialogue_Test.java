@@ -35,7 +35,7 @@ public class Dialogue_Test extends GameTest
         Dialogue testConstructor;
 
         try {
-            testConstructor = new Dialogue("DoNotUse.JSON", false);
+            testConstructor = new Dialogue("ForDialogueTestingOnly.JSON", false);
             fail("JSON not being verified");
         } catch (Dialogue.InvalidDialogueException e) {
 
