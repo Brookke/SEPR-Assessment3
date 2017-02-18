@@ -41,7 +41,7 @@ public class Dialogue
      * @throws InvalidDialogueException if the JSON is invalid
      */
     private boolean validateJsonAgainstTemplate() throws InvalidDialogueException {
-        JsonValue jsonTemp =  new JsonReader().parse(Gdx.files.internal("template.JSON"));
+        JsonValue jsonTemp =  new JsonReader().parse(Gdx.files.internal("characters/template.JSON"));
 
             Iterator itr = jsonTemp.get("responses").iterator();
             while (itr.hasNext()) {
