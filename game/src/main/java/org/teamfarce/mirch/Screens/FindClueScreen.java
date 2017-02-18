@@ -2,8 +2,6 @@ package org.teamfarce.mirch.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
@@ -15,14 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.*;
 import org.teamfarce.mirch.Entities.Clue;
-import org.w3c.dom.Text;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by joeshuff on 18/02/2017.
@@ -43,7 +36,7 @@ public class FindClueScreen extends AbstractScreen {
     private Vector2Int goalPos = new Vector2Int(0, 0);
     private Vector2Int goalSize = new Vector2Int(15 * Settings.TILE_SIZE, 15 * Settings.TILE_SIZE);
 
-    private float ANIM_TIME = 2f;
+    private float ANIM_TIME = 1f;
     private float soFarAnim = 0f;
 
     public FindClueScreen(MIRCH game, Skin uiSkin)
@@ -156,6 +149,8 @@ public class FindClueScreen extends AbstractScreen {
 
             clueStage.addActor(motiveLabel);
         }
+
+
 
         clueStage.addActor(button);
     }

@@ -166,7 +166,10 @@ public class MapScreen extends AbstractScreen
 
         Random random = new Random();
 
-        statusBar.render();
+        if (!grabScreenshot)
+        {
+            statusBar.render();
+        }
 
         if (grabScreenshot)
         {
