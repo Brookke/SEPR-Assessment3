@@ -24,6 +24,11 @@ public class InterviewResponseButton
     public EventHandler eventHandler;
 
     /**
+     * The event handler that listens for the click event
+     */
+    public ClueEventHandler clueEventHandler;
+
+    /**
      * Constructor for InterviewResponseButton
      *
      * @param buttonText      String to display on button
@@ -36,12 +41,12 @@ public class InterviewResponseButton
         eventHandler = eventHandlerVal;
     }
 
-    public InterviewResponseButton(String buttonText, int buttonresult, Clue clue, EventHandler eventHandlerVal)
+    public InterviewResponseButton(String buttonText, int buttonresult, Clue clue, ClueEventHandler eventHandlerVal)
     {
         text = buttonText;
         result = buttonresult;
         this.clue = clue;
-        eventHandler = eventHandlerVal;
+        clueEventHandler = eventHandlerVal;
     }
 
     /**
@@ -60,7 +65,26 @@ public class InterviewResponseButton
     public interface EventHandler
     {
         void trigger(int result);
+
+    }
+
+    /**
+     * Event handler interface
+     * Used for defining the click event handler on a InterviewResponseButton
+     * <p>
+     * Initialising an event handler:
+     * InterviewResponseButton.EventHandler eventHandler = (String name) -> {
+     * System.out.println(name + " was pressed");
+     * };
+     * <p>
+     * Usage:
+     * Used in InterviewResponseBox class on button click
+     * InterviewResponseButton.eventHandler.trigger();
+     */
+    public interface ClueEventHandler
+    {
         void trigger(int result, Clue clue);
+
     }
 
 }

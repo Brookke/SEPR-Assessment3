@@ -88,7 +88,7 @@ public class InterviewScreen extends AbstractScreen {
         String suspectDialogue = "";
         ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
         InterviewResponseButton.EventHandler switchStateHandler = (result) -> switchState(result);
-        InterviewResponseButton.EventHandler clueHandler = (result, clue) -> questionClue(result, clue);
+        InterviewResponseButton.ClueEventHandler clueHandler = (result, clue) -> questionClue(result, clue);
 
         //Check current GameState, and render appropriate GUI
         GameState currentState = gameSnapshot.getState();
@@ -221,8 +221,7 @@ public class InterviewScreen extends AbstractScreen {
     }
 
     private void questionClue(int result, Clue clue) {
-        switch (result) {
-            case 0: //Question
+        System.out.println(clue.getName());
     }
 
 
