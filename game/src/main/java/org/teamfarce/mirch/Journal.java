@@ -45,6 +45,22 @@ public class Journal
         return this.foundClues;
     }
 
+
+    /**
+     * This gets the clues that can be used in the interview process
+     * @return
+     */
+    public List<Clue> getQuestionableClues()
+    {
+        List<Clue> clues = new ArrayList<>();
+        for (Clue c : this.foundClues) {
+            if (!c.isMotiveClue() /*&& !c.isMeanClue()*/) {
+                clues.add(c);
+            }
+        }
+        return clues;
+    }
+
     /**
      * Add a conversation with a given character to the journal.
      *
