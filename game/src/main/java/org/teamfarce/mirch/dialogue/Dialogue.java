@@ -45,18 +45,27 @@ public class Dialogue
         JsonValue jsonTemp =  new JsonReader().parse(Gdx.files.internal("characters/template.JSON"));
         Iterator itr = jsonTemp.get("responses").iterator();
 
+
+
+        if (isForPlayer) {
             while (itr.hasNext()) {
                 String key = itr.next().toString().split(":")[0];
-                if (this.jsonData.get("responses").has(key)) {
-                    if (this.isForPlayer && this.jsonData.get("responses").get(key).size != 3 ) {
+                if (this.isForPlayer && this.jsonData.get("responses").get(key).size != 3) {
+                    if (!key.equals("introduction")) {
                         throw new InvalidDialogueException("No question values for the key: " + key + ", in the player json");
-                    } else if (this.jsonData.get("responses").getString(key).length() < 1) {
-                        throw new InvalidDialogueException("No response value for key: " + key);
                     }
-                } else {
+                }
+            }
+
+        } else {
+            while (itr.hasNext()) {
+                String key = itr.next().toString().split(":")[0];
+                if (!this.jsonData.get("responses").has(key)) {
                     throw new InvalidDialogueException("No response key for key: " + key);
                 }
             }
+        }
+
 
         //TODO: add verification of noneResponses too
 

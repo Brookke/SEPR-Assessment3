@@ -78,6 +78,7 @@ public class MIRCH extends Game {
         try {
             playerDialogue = new Dialogue("Player.JSON", true);
         } catch (Dialogue.InvalidDialogueException e) {
+            System.out.print(e.getMessage());
             System.exit(0);
         }
         player = new Player(this, "Bob", "The player to beat all players", "Detective_sprite.png", playerDialogue);
