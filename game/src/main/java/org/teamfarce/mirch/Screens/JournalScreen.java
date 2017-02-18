@@ -3,7 +3,9 @@ package org.teamfarce.mirch.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -47,6 +49,12 @@ public class JournalScreen extends AbstractScreen
     private StatusBar statusBar;
     private Table notepadPage;
 
+    private Clue currentClue = new Clue("Go and find some clues!", "The information about clues that you find will be shown here!", "clueSheet.png", 4, 4, false);
+    private Table clueContainer;
+    private Label clueName;
+    private Label clueDesc;
+    private Image clueImage;
+
 
     /**
      * @param game   Reference
@@ -84,6 +92,38 @@ public class JournalScreen extends AbstractScreen
         TextureRegionDrawable trd = new TextureRegionDrawable(tr);
         journalContainer.setBackground(trd);
 
+        Pixmap pixMap = new Pixmap((int) (PAGE_CONTENT_WIDTH) , (int)(PAGE_HEIGHT / 3), Pixmap.Format.RGBA8888);
+        pixMap.setColor(Color.GRAY);
+        pixMap.fill();
+
+        clueContainer = new Table();
+        clueContainer.setPosition(PAGE_WIDTH + PAGE_X_OFFSET + PAGE_MARGIN, PAGE_Y_OFFSET);
+        clueContainer.setSize(PAGE_CONTENT_WIDTH, PAGE_HEIGHT / 3);
+
+        Image clueBackground = new Image(new Texture(pixMap));
+        clueBackground.setPosition(0, 20);
+
+        clueName = new Label(currentClue.getName(), uiSkin);
+        clueName.setFontScale(1.2f);
+        clueName.setPosition( 10, clueBackground.getY() + clueBackground.getHeight() - 30);
+
+        clueDesc = new Label(currentClue.getDescription(), uiSkin);
+        clueDesc.setPosition(10, clueBackground.getY() + clueBackground.getHeight() - 70);
+        clueDesc.setWidth(PAGE_CONTENT_WIDTH / 2);
+        clueDesc.setWrap(true);
+
+        clueImage = new Image(new TextureRegion(currentClue.getTexture(), currentClue.getResourceX() * 128, currentClue.getResourceY() * 128, 128, 128));
+        clueImage.setSize(PAGE_CONTENT_WIDTH / 3, PAGE_CONTENT_WIDTH / 3);
+        clueImage.setPosition((2 * PAGE_CONTENT_WIDTH / 3) - 20, clueBackground.getY() + clueBackground.getHeight() - clueImage.getHeight() - 20);
+
+        clueContainer.addActor(clueBackground);
+        clueContainer.addActor(clueName);
+        clueContainer.addActor(clueDesc);
+        clueContainer.addActor(clueImage);
+
+        if (game.gameSnapshot.journal.getClues().size() == 0) {
+            clueContainer.setVisible(false);
+        }
 
         //Load journal navigation controls to journal
         journalContainer.addActor(initJournalNavControls());
@@ -95,13 +135,21 @@ public class JournalScreen extends AbstractScreen
         switch (currentState) {
             case journalClues:
                 detailsPage = initJournalCluesPage();
+
+                if (game.gameSnapshot.journal.getClues().size() != 0)
+                {
+                    clueContainer.setVisible(true);
+                }
+
                 break;
             case journalQuestions:
                 detailsPage = initJournalQuestionsPage();
+                clueContainer.setVisible(false);
                 break;
             case journalNotepad:
                 //Initialised in constructor to preserve page contents
                 detailsPage = notepadPage;
+                clueContainer.setVisible(false);
                 break;
             default:
                 detailsPage = new Table();
@@ -111,6 +159,7 @@ public class JournalScreen extends AbstractScreen
 
 
         journalStage.addActor(journalContainer);
+        journalStage.addActor(clueContainer);
     }
 
     /**
@@ -127,7 +176,6 @@ public class JournalScreen extends AbstractScreen
         table.addActor(getJournalNavButton("Clues", GameState.journalClues, 0));
         table.addActor(getJournalNavButton("Interview Log", GameState.journalQuestions, 1));
         table.addActor(getJournalNavButton("Notepad", GameState.journalNotepad, 2));
-
 
         //Initiate journal title label
         Label journalLabel = getJournalPageTitle("Journal");
@@ -169,11 +217,18 @@ public class JournalScreen extends AbstractScreen
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
 
+                    for (Clue c: game.gameSnapshot.journal.getClues()) {
+                        if (c.getName().equals(clueLabel.getText().toString())) {
+                            currentClue = c;
+                            updateClue();
+                            return;
+                        }
+                    }
                 }
 
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    clueLabel.setStyle(uiSkin.get("white", Label.LabelStyle.class));
+                    clueLabel.setStyle(new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
                 }
 
                 @Override
@@ -183,6 +238,12 @@ public class JournalScreen extends AbstractScreen
             });
 
             content.row();
+        }
+
+        if (!game.gameSnapshot.journal.getClues().isEmpty())
+        {
+            currentClue = game.gameSnapshot.journal.getClues().get(game.gameSnapshot.journal.getClues().size() - 1);
+            updateClue();
         }
 
         //Put clue content table into a scroll pane
@@ -206,6 +267,18 @@ public class JournalScreen extends AbstractScreen
         page.addActor(contentContainer);
 
         return page;
+    }
+
+    /**
+     * This method updates the displayed clue information to the values of
+     * `currentClue`
+     */
+    private void updateClue()
+    {
+        clueName.setText(currentClue.getName());
+        clueDesc.setText(currentClue.getDescription());
+
+        clueImage.setDrawable(new TextureRegionDrawable(new TextureRegion(currentClue.getTexture(), currentClue.getResourceX() * 128, currentClue.getResourceY() * 128, 128, 128)));
     }
 
     /**
