@@ -281,7 +281,7 @@ w
         //initialise the player sprite
         Dialogue playerDialogue = null;
         try {
-            playerDialogue = new Dialogue("template.JSON", gameSnapshot.getClues());
+            playerDialogue = new Dialogue("template.JSON");
         } catch (Dialogue.InvalidDialogueException e) {
             System.exit(0);
         }
