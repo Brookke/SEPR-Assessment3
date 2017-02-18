@@ -20,10 +20,6 @@ public class Suspect extends AbstractPerson
     public List<Clue> relatedClues;
     public boolean isMurderer;
     /**
-     * The dialogue tree of this suspect.
-     */
-    public String dialogueFile;
-    /**
      * The position of the suspect on the map.
      */
     /**
@@ -58,7 +54,6 @@ public class Suspect extends AbstractPerson
         this.isMurderer = false;
         this.setTileCoordinates(startingPosition.x, startingPosition.y);
         this.moveStep = new Vector2(0, 0);
-        this.dialogueFile = dialogueFile;
     }
 
 
