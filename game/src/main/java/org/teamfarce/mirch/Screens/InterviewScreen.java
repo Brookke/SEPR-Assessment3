@@ -147,7 +147,7 @@ public class InterviewScreen extends AbstractScreen {
                 if (suspectDialogue.length() == 0) {
                     suspectDialogue = suspect.dialogue.get("none");
                 } else {
-                    //TODO: Add convo to the log
+                    gameSnapshot.journal.addConversation(suspectDialogue, suspect.getName());
                 }
 
                 //Ask player how to respond

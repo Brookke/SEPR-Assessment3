@@ -53,7 +53,11 @@ public class Journal
      */
     public void addConversation(String text, String characterName)
     {
-        this.conversations.add(String.format("%1$s: %2$s", characterName, text));
+        String convo = String.format("%1$s: %2$s", characterName, text);
+        if (!this.conversations.contains(convo)) {
+            this.conversations.add(convo);
+        }
+
     }
 
     public List<String> getConversations()
