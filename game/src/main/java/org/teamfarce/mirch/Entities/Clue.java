@@ -51,6 +51,14 @@ public class Clue extends MapEntity
         return motiveClue;
     }
 
+    public int getResourceX(){
+        return resourceX;
+    }
+
+    public int getResourceY(){
+        return resourceY;
+    }
+
     public void setMotiveClue() {
         this.motiveClue = true;
     }

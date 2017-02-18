@@ -3,11 +3,7 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import org.teamfarce.mirch.Screens.AbstractScreen;
-import org.teamfarce.mirch.Screens.InterviewScreen;
-import org.teamfarce.mirch.Screens.JournalScreen;
-import org.teamfarce.mirch.Screens.MapScreen;
-import org.teamfarce.mirch.Screens.NarratorScreen;
+import org.teamfarce.mirch.Screens.*;
 
 /**
  * Generates and controls all GUI screens
@@ -54,6 +50,11 @@ public class GUIController
     public NarratorScreen narratorScreen;
 
     /**
+     * Used to draw the screen for finding a clue
+     */
+    public FindClueScreen findClueScreen;
+
+    /**
      * Constructor for GUIController, initialises required variables
      *
      * @param game Used to set current screen, and access GameState
@@ -75,6 +76,7 @@ public class GUIController
         journalScreen = new JournalScreen(game, uiSkin);
         interviewScreen = new InterviewScreen(game, uiSkin);
         narratorScreen = new NarratorScreen(game, uiSkin);
+        findClueScreen = new FindClueScreen(game, uiSkin);
     }
 
 
@@ -120,6 +122,9 @@ public class GUIController
                     break;
                 case interviewAccuse:
                     this.game.setScreen(interviewScreen);
+                    break;
+                case findClue:
+                    this.game.setScreen(findClueScreen);
                     break;
                 default:
                     break;

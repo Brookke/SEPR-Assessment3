@@ -34,10 +34,6 @@ public class NarratorScreen extends AbstractScreen
      * These are the variables used to show and draw the scene
      */
     public Stage narratorStage;
-    /**
-     * This is the referencing to the game and the games snapshot
-     */
-    private MIRCH game;
     private GameSnapshot gameSnapshot;
     private Skin uiSkin;
     /**
@@ -67,7 +63,6 @@ public class NarratorScreen extends AbstractScreen
     public NarratorScreen(MIRCH game, Skin uiSkin)
     {
         super(game);
-        this.game = game;
         this.gameSnapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
 
@@ -146,7 +141,6 @@ public class NarratorScreen extends AbstractScreen
     @Override
     public void render(float delta)
     {
-
         currentFrames++;
 
         if (currentFrames >= FRAMES_PER_LETTER) {

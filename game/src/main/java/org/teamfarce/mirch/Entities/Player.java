@@ -245,8 +245,8 @@ public class Player extends AbstractPerson
         if (toMoveTo.isEmpty() && findOnEnd != null)
         {
             setDirection(findOnEnd.getTileCoordinates().dirBetween(getTileCoordinates()));
-
-            //game.gameSnapshot.setState(GameState.findClue);
+            MapScreen.grabScreenshot = true;
+            game.gameSnapshot.setState(GameState.findClue);
         }
     }
 
@@ -268,6 +268,16 @@ public class Player extends AbstractPerson
 
             this.setTileCoordinates(newRoomData.newTileCoordinates.x, newRoomData.newTileCoordinates.y);
         }
+    }
+
+    /**
+     * This method gets the clue that has just been found by the player
+     *
+     * @return Clue - The found clue
+     */
+    public Clue getClueFound()
+    {
+        return findOnEnd;
     }
 
     /**

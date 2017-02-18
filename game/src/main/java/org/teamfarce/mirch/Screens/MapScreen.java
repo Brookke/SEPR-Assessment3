@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.ScreenUtils;
 import org.teamfarce.mirch.Entities.AbstractPerson;
 import org.teamfarce.mirch.Entities.Direction;
 import org.teamfarce.mirch.Entities.PlayerController;
@@ -80,6 +82,12 @@ public class MapScreen extends AbstractScreen
      * This boolean determines whether the black is fading in or out
      */
     private boolean fadeToBlack = true;
+
+    /**
+     * This stores the most recent frame as an image
+     */
+    public static Image recentFrame;
+    public static boolean grabScreenshot = false;
 
     private StatusBar statusBar;
 
@@ -157,6 +165,11 @@ public class MapScreen extends AbstractScreen
         Random random = new Random();
 
         statusBar.render();
+
+        if (grabScreenshot)
+        {
+            recentFrame = new Image(ScreenUtils.getFrameBufferTexture());
+        }
     }
 
     /**
