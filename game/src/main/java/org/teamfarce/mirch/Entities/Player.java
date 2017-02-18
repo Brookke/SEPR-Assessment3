@@ -87,6 +87,7 @@ public class Player extends AbstractPerson
         if (getState() == PersonState.WALKING)
         {
             trackToNext = tileLocation;
+            return;
         }
 
         for (Suspect s : ((MapScreen) game.guiController.mapScreen).getNPCs())
