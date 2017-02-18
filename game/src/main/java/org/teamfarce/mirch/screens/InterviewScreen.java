@@ -119,9 +119,8 @@ public class InterviewScreen extends AbstractScreen {
                     responseBoxInstructions = "What would you like to ask about";
 
                     //Setup buttons to Question, Accuse and Ignore
-
-                    //TODO: update to journal
-                    for (Clue c : gameSnapshot.getClues()) {
+                    
+                    for (Clue c : gameSnapshot.journal.getQuestionableClues()) {
                         buttonList.add(new InterviewResponseButton(c.getName(), 0, c, clueHandler));
                     }
                 } else {
