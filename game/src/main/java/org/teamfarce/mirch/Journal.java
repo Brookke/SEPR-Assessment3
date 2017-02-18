@@ -76,6 +76,11 @@ public class Journal
 
     }
 
+
+    /**
+     * Returns a list of conversations that are recorded in the journal.
+     * @return
+     */
     public List<String> getConversations()
     {
         return this.conversations;
