@@ -76,7 +76,7 @@ public class MIRCH extends Game {
         //initialise the player sprite
         Dialogue playerDialogue = null;
         try {
-            playerDialogue = new Dialogue("template.JSON", false);
+            playerDialogue = new Dialogue("template.JSON", true);
         } catch (Dialogue.InvalidDialogueException e) {
             System.exit(0);
         }

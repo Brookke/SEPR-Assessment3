@@ -133,9 +133,9 @@ public class InterviewScreen extends AbstractScreen {
                 responseBoxInstructions = "How do you want to ask the question?";
 
                 //Setup buttons to Question, Accuse and Ignore
-                buttonList.add(new InterviewResponseButton("Aggressively" + game.player.dialogue.get(tempClue, tempStyle), 0,null, styleHandler));
-                buttonList.add(new InterviewResponseButton("Conversational" + game.player.dialogue.get(tempClue, tempStyle), 1,null, styleHandler));
-                buttonList.add(new InterviewResponseButton("Politely" + game.player.dialogue.get(tempClue, tempStyle), 2,null, styleHandler));
+                buttonList.add(new InterviewResponseButton("Aggressively" + game.player.dialogue.get(tempClue, "AGGRESSIVE"), 0,null, styleHandler));
+                buttonList.add(new InterviewResponseButton("Conversational" + game.player.dialogue.get(tempClue, "CONVERSATIONAL"), 1,null, styleHandler));
+                buttonList.add(new InterviewResponseButton("Politely" + game.player.dialogue.get(tempClue, "POLITE"), 2,null, styleHandler));
 
                 break;
 
