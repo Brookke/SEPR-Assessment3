@@ -30,13 +30,22 @@ public class ScenarioBuilder
         List<Suspect> posKillers = new ArrayList<>();
         List<Suspect> posVictims = new ArrayList<>();
         dataCharacters.forEach((x,c) -> {
+            Dialogue dialogue = null;
+            try {
+                dialogue = new Dialogue(c.dialogue.filename);
+            } catch (Dialogue.InvalidDialogueException e) {
+                e.printStackTrace();
+                System.exit(0);
+            }
             if (c.posKiller) {
-                Suspect tempSuspect = new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), c.dialogue.filename);
+
+
+                Suspect tempSuspect = new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), dialogue);
                 tempSuspect.relatedClues = (convertClues(c.relatedClues));
                 posKillers.add(tempSuspect);
 
             } else {
-                posVictims.add(new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), c.dialogue.filename));
+                posVictims.add(new Suspect(c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), dialogue));
             }
         });
 
