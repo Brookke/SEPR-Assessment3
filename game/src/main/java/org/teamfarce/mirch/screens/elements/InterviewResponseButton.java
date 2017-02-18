@@ -1,10 +1,13 @@
-package org.teamfarce.mirch.Screens.Elements;
+package org.teamfarce.mirch.screens.elements;
+
+import org.teamfarce.mirch.entities.Clue;
 
 /**
  * Button to use with the interview response box
  */
 public class InterviewResponseButton
-    {
+{
+
     /**
      * The text to display on the button
      */
@@ -14,6 +17,11 @@ public class InterviewResponseButton
      * The int to return as a result of the button being pressed
      */
     public int result;
+
+    /**
+     * The clue associated with the response, can be null
+     */
+    public Clue clue = null;
 
     /**
      * The event handler that listens for the click event
@@ -26,12 +34,13 @@ public class InterviewResponseButton
      * @param buttonText      String to display on button
      * @param eventHandlerVal On click event handler - use a Lambda function (Java8 only)
      */
-    public InterviewResponseButton(String buttonText, int buttonresult, EventHandler eventHandlerVal)
-            {
-            text = buttonText;
-            result = buttonresult;
-            eventHandler = eventHandlerVal;
-            }
+    public InterviewResponseButton(String buttonText, int buttonResult, Clue clue, EventHandler eventHandlerVal)
+    {
+        this.text = buttonText;
+        this.result = buttonResult;
+        this.eventHandler = eventHandlerVal;
+        this.clue = clue;
+    }
 
     /**
      * Event handler interface
@@ -48,6 +57,8 @@ public class InterviewResponseButton
      */
     public interface EventHandler
     {
-        void trigger(int result);
+        void trigger(int result, Clue clue);
+
     }
+
 }

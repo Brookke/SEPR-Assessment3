@@ -4,7 +4,7 @@
 package org.teamfarce.mirch;
 
 import org.junit.Test;
-import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.entities.Clue;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.Screens;
+package org.teamfarce.mirch.screens;
 
 import com.badlogic.gdx.Screen;
 import org.teamfarce.mirch.MIRCH;

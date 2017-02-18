@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.Entities;
+package org.teamfarce.mirch.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,6 +8,7 @@ import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
+import org.teamfarce.mirch.dialogue.Dialogue;
 
 import java.util.*;
 
@@ -60,21 +61,29 @@ public abstract class AbstractPerson extends MapEntity
     private float animTimer;
     private float animTime = 0.35f;
 
+
+    /**
+     * This is the persons dialogue, it contains all their responses to any questions given to them.
+     */
+    public Dialogue dialogue;
+
     /**
      * Initialise the entity.
      *
      * @param name        The name of the entity.
      * @param description The description of the entity.
-     * @param filename    The filename of the image to display for the entity.
+     * @param spriteSheetFile    The spriteSheetFile of the image to display for the entity.
      */
-    public AbstractPerson(MIRCH game, String name, String description, String filename)
+    public AbstractPerson(MIRCH game, String name, String description, String spriteSheetFile, Dialogue dialogue)
     {
-        super(name, description, new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
+        super(name, description, new TextureRegion(Assets.loadTexture("characters/" + spriteSheetFile), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
         this.game = game;
         this.name = name;
-        this.spriteSheet = Assets.loadTexture("characters/" + filename);
-        this.currentRegion = new TextureRegion(Assets.loadTexture("characters/" + filename), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
+        this.spriteSheet = Assets.loadTexture("characters/" + spriteSheetFile);
+        this.currentRegion = new TextureRegion(Assets.loadTexture("characters/" + spriteSheetFile), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT);
         this.state = PersonState.STANDING;
+        this.dialogue = dialogue;
+
     }
     /**
      * This controls the movement of a person

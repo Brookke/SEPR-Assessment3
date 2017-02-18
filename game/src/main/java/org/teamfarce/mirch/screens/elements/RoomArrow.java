@@ -1,11 +1,11 @@
-package org.teamfarce.mirch.Screens.Elements;
+package org.teamfarce.mirch.screens.elements;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import org.teamfarce.mirch.Assets;
-import org.teamfarce.mirch.Entities.AbstractPerson;
-import org.teamfarce.mirch.Entities.Direction;
-import org.teamfarce.mirch.Entities.Player;
+import org.teamfarce.mirch.entities.AbstractPerson;
+import org.teamfarce.mirch.entities.Direction;
+import org.teamfarce.mirch.entities.Player;
 
 /**
  * This is the arrow the indicates the movement to a new room when the player is on a floor mat.

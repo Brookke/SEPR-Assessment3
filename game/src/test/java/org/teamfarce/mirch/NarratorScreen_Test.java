@@ -3,7 +3,7 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.junit.Before;
 import org.junit.Test;
-import org.teamfarce.mirch.Screens.NarratorScreen;
+import org.teamfarce.mirch.screens.NarratorScreen;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,6 +1,6 @@
 package org.teamfarce.mirch;
 
-import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.entities.Clue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +45,22 @@ public class Journal
         return this.foundClues;
     }
 
+
+    /**
+     * This gets the clues that can be used in the interview process
+     * @return
+     */
+    public List<Clue> getQuestionableClues()
+    {
+        List<Clue> clues = new ArrayList<>();
+        for (Clue c : this.foundClues) {
+            if (!c.isMotiveClue() /*&& !c.isMeanClue()*/) {
+                clues.add(c);
+            }
+        }
+        return clues;
+    }
+
     /**
      * Add a conversation with a given character to the journal.
      *
@@ -53,9 +69,18 @@ public class Journal
      */
     public void addConversation(String text, String characterName)
     {
-        this.conversations.add(String.format("%1$s: %2$s", characterName, text));
+        String convo = String.format("%1$s: %2$s", characterName, text);
+        if (!this.conversations.contains(convo)) {
+            this.conversations.add(convo);
+        }
+
     }
 
+
+    /**
+     * Returns a list of conversations that are recorded in the journal.
+     * @return
+     */
     public List<String> getConversations()
     {
         return this.conversations;
