@@ -17,7 +17,7 @@ public class Dialogue_Test extends GameTest
 
     @Before
     public void setup() {
-        testClue = new Clue("Big Footprint", "1", "Axe.png");
+        testClue = new Clue("Big Footprint", "1", "Axe.png", 1, 2, false);
         try {
             testDialogue = new Dialogue("template.JSON", false);
         } catch (Dialogue.InvalidDialogueException e) {
