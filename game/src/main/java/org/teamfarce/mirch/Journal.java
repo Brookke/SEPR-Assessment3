@@ -73,6 +73,8 @@ public class Journal
     {
         String[] motives = new String[]{"","",""};
 
+        Clue[] remove = new Clue[3];
+
         for (Clue c : foundClues)
         {
             if (c.getName().contains("Motive"))
@@ -80,17 +82,26 @@ public class Journal
                 if (c.getName().contains("1"))
                 {
                     motives[0] = c.getDescription();
+                    remove[0] = c;
                 }
                 else if (c.getName().contains("2"))
                 {
                     motives[1] = c.getDescription();
+                    remove[1] = c;
                 }
                 else if (c.getName().contains("3"))
                 {
                     motives[2] = c.getDescription();
+                    remove[2] = c;
                 }
             }
         }
+
+        foundClues.remove(remove[0]);
+        foundClues.remove(remove[1]);
+        foundClues.remove(remove[2]);
+
+        addClue(new Clue("Motive Clue", "After peicing it together, this is the motive\n " + motives[0] + motives[1] + motives[2], "clueSheet.png", 2, 2, false));
 
         return motives[0] + motives[1] + motives[2];
     }
