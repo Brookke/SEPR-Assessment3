@@ -2,6 +2,7 @@ package org.teamfarce.mirch.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
@@ -9,9 +10,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.*;
@@ -35,10 +38,12 @@ public class FindClueScreen extends AbstractScreen {
     private Image clueImage;
     private Image clueBox;
 
+    private Label motiveLabel = null;
+
     private Vector2Int goalPos = new Vector2Int(0, 0);
     private Vector2Int goalSize = new Vector2Int(15 * Settings.TILE_SIZE, 15 * Settings.TILE_SIZE);
 
-    private float ANIM_TIME = 1f;
+    private float ANIM_TIME = 2f;
     private float soFarAnim = 0f;
 
     public FindClueScreen(MIRCH game, Skin uiSkin)
@@ -112,30 +117,47 @@ public class FindClueScreen extends AbstractScreen {
 
             if (soFarAnim >= ANIM_TIME)
             {
-                TextButton button = new TextButton("Continue", uiSkin);
-                button.setSize(Gdx.graphics.getWidth() / 4, 50);
-                button.setPosition((Gdx.graphics.getWidth() / 2) - (button.getWidth() / 2), clueBox.getY() - (2 * button.getHeight()));
-                button.addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        game.gameSnapshot.setState(GameState.map);
-
-                        game.gameSnapshot.journal.addClue(displayingClue);
-
-                        /**
-                         * Note down if we found the means clue/ all motive clue
-                         */
-
-                        game.player.getRoom().removeClue(displayingClue);
-                        game.player.clearFound();
-                    }
-                });
-                clueStage.addActor(button);
+                addAllToStage();
             }
         }
 
         clueStage.act();
         clueStage.draw();
+    }
+
+    public void addAllToStage()
+    {
+        TextButton button = new TextButton("Continue", uiSkin);
+        button.setSize(Gdx.graphics.getWidth() / 4, 50);
+        button.setPosition((Gdx.graphics.getWidth() / 2) - (button.getWidth() / 2), clueBox.getY() - (2 * button.getHeight()));
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.gameSnapshot.setState(GameState.map);
+
+                game.gameSnapshot.journal.addClue(displayingClue);
+
+                /**
+                 * Note down if we found the means clue/ all motive clue
+                 */
+
+                game.player.getRoom().removeClue(displayingClue);
+                game.player.clearFound();
+            }
+        });
+
+        if (displayingClue.getName().contains("Motive"))
+        {
+            motiveLabel = new Label(displayingClue.getDescription(), uiSkin);
+            motiveLabel.setSize(clueImage.getWidth() * 0.8f, clueImage.getHeight());
+            motiveLabel.setAlignment(Align.center);
+            motiveLabel.setPosition((Gdx.graphics.getWidth() / 2) - (motiveLabel.getWidth() / 2), clueImage.getY());
+            motiveLabel.setWrap(true);
+
+            clueStage.addActor(motiveLabel);
+        }
+
+        clueStage.addActor(button);
     }
 
     @Override
