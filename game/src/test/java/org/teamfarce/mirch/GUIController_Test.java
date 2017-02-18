@@ -2,7 +2,7 @@ package org.teamfarce.mirch;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.teamfarce.mirch.Screens.AbstractScreen;
+import org.teamfarce.mirch.screens.AbstractScreen;
 
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;

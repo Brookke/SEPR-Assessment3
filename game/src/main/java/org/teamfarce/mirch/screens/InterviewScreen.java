@@ -1,30 +1,28 @@
-package org.teamfarce.mirch.Screens;
+package org.teamfarce.mirch.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.*;
-import org.teamfarce.mirch.Entities.AbstractPerson;
-import org.teamfarce.mirch.Entities.Suspect;
-import org.teamfarce.mirch.Screens.Elements.InterviewResponseBox;
-import org.teamfarce.mirch.Screens.Elements.InterviewResponseButton;
-import org.teamfarce.mirch.Screens.Elements.StatusBar;
+import org.teamfarce.mirch.entities.AbstractPerson;
+import org.teamfarce.mirch.entities.Clue;
+import org.teamfarce.mirch.entities.Suspect;
+import org.teamfarce.mirch.screens.elements.InterviewResponseBox;
+import org.teamfarce.mirch.screens.elements.InterviewResponseButton;
+import org.teamfarce.mirch.screens.elements.StatusBar;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 
 /**
  * The InterviewScreen contains GUI for these GameStates:
- * interviewStart, interviewQuestion, interviewAccuse
+ * interviewStart, interviewQuestionStyle, interviewAccuse, interviewQuestion,
+ * interviewQuestionClue
  */
 public class InterviewScreen extends AbstractScreen {
 
@@ -41,6 +39,8 @@ public class InterviewScreen extends AbstractScreen {
     final static float HEIGHT = Gdx.graphics.getHeight() - Y_OFFSET;
 
     private Suspect suspect = null;
+    private Clue tempClue;
+    private String tempStyle;
 
     /**
      * Constructor for Interview screen
@@ -86,37 +86,81 @@ public class InterviewScreen extends AbstractScreen {
         String responseBoxInstructions = "";
         String suspectDialogue = "";
         ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
-        InterviewResponseButton.EventHandler switchStateHandler = (result) -> switchState(result);
+        InterviewResponseButton.EventHandler switchStateHandler = (result, clue) -> switchState(result);
+        InterviewResponseButton.EventHandler clueHandler = (result, clue) -> questionClue(result, clue);
+        InterviewResponseButton.EventHandler styleHandler = (result, clue) -> questionStyle(result);
 
         //Check current GameState, and render appropriate GUI
         GameState currentState = gameSnapshot.getState();
         switch (currentState) {
             case interviewStart:
                 //Setup suspect's dialogue
-                suspectDialogue = "Hi, how can I help?";
+                suspectDialogue = suspect.dialogue.get("introduction");
 
                 //Set initial instructions for player
                 responseBoxInstructions = "What would you like to do?";
 
                 //Setup buttons to Question, Accuse and Ignore
-                buttonList.add(new InterviewResponseButton("Question the suspect", 0, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Leave the interview", 2, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Question the suspect", 0, null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1,null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Leave the interview", 2,null, switchStateHandler));
+
+                break;
+
+
+            case interviewQuestionClue:
+                //Setup suspect's dialogue
+                suspectDialogue = "";
+
+                if (gameSnapshot.journal.getQuestionableClues().size() == 0) {
+
+
+                    //Ask player how to respond
+                    responseBoxInstructions = "What would you like to ask about";
+
+                    //Setup buttons to Question, Accuse and Ignore
+
+                    //TODO: update to journal
+                    for (Clue c : gameSnapshot.getClues()) {
+                        buttonList.add(new InterviewResponseButton(c.getName(), 0, c, clueHandler));
+                    }
+                } else {
+                    responseBoxInstructions = "You haven't found any clues yet to ask about";
+                    buttonList.add(new InterviewResponseButton("Leave the interview", 2,null, switchStateHandler));
+                }
+
+                break;
+
+            case interviewQuestionStyle:
+                //Setup suspect's dialogue
+                suspectDialogue = "";
+
+                //Ask player how to respond
+                responseBoxInstructions = "How do you want to ask the question?";
+
+                //Setup buttons to Question, Accuse and Ignore
+                buttonList.add(new InterviewResponseButton("Aggressively" + game.player.dialogue.get(tempClue, "AGGRESSIVE"), 0,null, styleHandler));
+                buttonList.add(new InterviewResponseButton("Conversational" + game.player.dialogue.get(tempClue, "CONVERSATIONAL"), 1,null, styleHandler));
+                buttonList.add(new InterviewResponseButton("Politely" + game.player.dialogue.get(tempClue, "POLITE"), 2,null, styleHandler));
 
                 break;
 
             case interviewQuestion:
                 //Setup suspect's dialogue
-                suspectDialogue = "Hmm, this is a reply";
+                suspectDialogue = suspect.dialogue.get(tempClue, tempStyle);
+
+                //Checks to see if a valid response has been provided
+                if (suspectDialogue.length() == 0) {
+                    suspectDialogue = suspect.dialogue.get("none");
+                } else {
+                    gameSnapshot.journal.addConversation(suspectDialogue, suspect.getName());
+                }
 
                 //Ask player how to respond
                 responseBoxInstructions = "How would you like to respond?";
-
-                //Setup buttons to Question, Accuse and Ignore
-                buttonList.add(new InterviewResponseButton("Nicely", 0, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Neutrally", 1, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Angrily", 2, switchStateHandler));
-
+                buttonList.add(new InterviewResponseButton("Question the suspect again", 0, null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1,null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Leave the interview", 2,null, switchStateHandler));
                 break;
 
             case interviewAccuse:
@@ -128,7 +172,7 @@ public class InterviewScreen extends AbstractScreen {
 
                     //Inform user of result
                     responseBoxInstructions = "How would you like to respond?";
-                    buttonList.add(new InterviewResponseButton("Arrest " + suspect.getName(), 3, switchStateHandler));
+                    buttonList.add(new InterviewResponseButton("Arrest " + suspect.getName(), 3,null, switchStateHandler));
 
                 } else {
                     //Setup suspect's dialogue
@@ -136,7 +180,7 @@ public class InterviewScreen extends AbstractScreen {
 
                     //Inform user of result
                     responseBoxInstructions = "How would you like to respond?";
-                    buttonList.add(new InterviewResponseButton("Apologise & leave the interview", 2, switchStateHandler));
+                    buttonList.add(new InterviewResponseButton("Apologise & leave the interview", 2,null, switchStateHandler));
                 }
                 break;
         }
@@ -180,7 +224,8 @@ public class InterviewScreen extends AbstractScreen {
     private void switchState(int result) {
         switch (result) {
             case 0: //Question
-                gameSnapshot.setState(GameState.interviewQuestion);
+                gameSnapshot.setState(GameState.interviewQuestionClue);
+                tempClue = null;
                 break;
             case 1: //Accuse
                 gameSnapshot.setState(GameState.interviewAccuse);
@@ -198,6 +243,32 @@ public class InterviewScreen extends AbstractScreen {
                 break;
         }
     }
+
+    private void questionClue(int result, Clue clue) {
+        System.out.println(clue.getName());
+        switch (result) {
+            case 0:
+                tempClue = clue;
+                gameSnapshot.setState(GameState.interviewQuestionStyle);
+                break;
+        }
+    }
+
+    private void questionStyle(int result) {
+        switch (result) {
+            case 0:
+                tempStyle = "AGGRESSIVE";
+                break;
+            case 1:
+                tempStyle = "CONVERSATIONAL";
+                break;
+            case 2:
+                tempStyle = "POLITE";
+                break;
+        }
+        gameSnapshot.setState(GameState.interviewQuestion);
+    }
+
 
 
     @Override

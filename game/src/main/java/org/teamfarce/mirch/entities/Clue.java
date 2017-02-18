@@ -1,8 +1,6 @@
-package org.teamfarce.mirch.Entities;
+package org.teamfarce.mirch.entities;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import org.teamfarce.mirch.Assets;
 
 /**

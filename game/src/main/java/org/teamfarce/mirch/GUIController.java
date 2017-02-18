@@ -3,11 +3,11 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import org.teamfarce.mirch.Screens.AbstractScreen;
-import org.teamfarce.mirch.Screens.InterviewScreen;
-import org.teamfarce.mirch.Screens.JournalScreen;
-import org.teamfarce.mirch.Screens.MapScreen;
-import org.teamfarce.mirch.Screens.NarratorScreen;
+import org.teamfarce.mirch.screens.AbstractScreen;
+import org.teamfarce.mirch.screens.InterviewScreen;
+import org.teamfarce.mirch.screens.JournalScreen;
+import org.teamfarce.mirch.screens.MapScreen;
+import org.teamfarce.mirch.screens.NarratorScreen;
 
 /**
  * Generates and controls all GUI screens
@@ -113,6 +113,12 @@ public class GUIController
                     this.game.setScreen(journalScreen);
                     break;
                 case interviewStart:
+                    this.game.setScreen(interviewScreen);
+                    break;
+                case interviewQuestionClue:
+                    this.game.setScreen(interviewScreen);
+                    break;
+                case interviewQuestionStyle:
                     this.game.setScreen(interviewScreen);
                     break;
                 case interviewQuestion:

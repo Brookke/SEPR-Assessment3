@@ -1,8 +1,10 @@
-package org.teamfarce.mirch.Entities;
+package org.teamfarce.mirch.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
+import org.teamfarce.mirch.dialogue.Dialogue;
+
 import java.util.List;
 import java.util.Random;
 
@@ -15,10 +17,6 @@ public class Suspect extends AbstractPerson
 
     public List<Clue> relatedClues;
     public boolean isMurderer;
-    /**
-     * The dialogue tree of this suspect.
-     */
-    public String dialogueFile;
     /**
      * The position of the suspect on the map.
      */
@@ -37,7 +35,7 @@ public class Suspect extends AbstractPerson
      * @param description      A string description
      * @param filename         The filename of the image for this suspect.
      * @param startingPosition The position to start at.
-     * @param dialogueFile     The json file containing the suspects dialogue.
+     * @param dialogue    The json file containing the suspects dialogue.
      */
     public Suspect(
             MIRCH game,
@@ -45,16 +43,15 @@ public class Suspect extends AbstractPerson
             String description,
             String filename,
             Vector2Int startingPosition,
-            String dialogueFile
+            Dialogue dialogue
     )
     {
-        super(game, name, description, filename);
+        super(game, name, description, filename, dialogue);
 
         this.beenAccused = false;
         this.isMurderer = false;
         this.setTileCoordinates(startingPosition.x, startingPosition.y);
         this.moveStep = new Vector2(0, 0);
-        this.dialogueFile = dialogueFile;
     }
 
 

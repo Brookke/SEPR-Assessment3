@@ -1,10 +1,11 @@
 package org.teamfarce.mirch;
 
-import org.teamfarce.mirch.Entities.Clue;
-import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.entities.Clue;
+import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.*;
 import org.teamfarce.mirch.Map.Map;
 import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.dialogue.Dialogue;
 
 import java.util.*;
 
@@ -26,13 +27,20 @@ public class ScenarioBuilder
         List<Suspect> posKillers = new ArrayList<>();
         List<Suspect> posVictims = new ArrayList<>();
         dataCharacters.forEach((x,c) -> {
+            Dialogue dialogue = null;
+            try {
+                dialogue = new Dialogue(c.dialogue.filename, false);
+            } catch (Dialogue.InvalidDialogueException e) {
+                e.printStackTrace();
+                System.exit(0);
+            }
             if (c.posKiller) {
-                Suspect tempSuspect = new Suspect(game, c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), c.dialogue.filename);
+                Suspect tempSuspect = new Suspect(game, c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), dialogue);
                 tempSuspect.relatedClues = (convertClues(c.relatedClues));
                 posKillers.add(tempSuspect);
 
             } else {
-                posVictims.add(new Suspect(game, c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), c.dialogue.filename));
+                posVictims.add(new Suspect(game, c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), dialogue));
             }
         });
 

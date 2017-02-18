@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.Entities;
+package org.teamfarce.mirch.entities;
 
 import org.teamfarce.mirch.Vector2Int;
 
