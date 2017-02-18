@@ -199,6 +199,16 @@ public class Room
     }
 
     /**
+     * This method removes a clue from the room
+     *
+     * @param c - The clue to remove
+     */
+    public void removeClue(Clue c)
+    {
+       cluesInRoom.remove(c);
+    }
+
+    /**
      * This method draws the clues that are in the clue with the asset CLUE_GLINT
      *
      * @param delta - The time passed since the last draw. Used for the animation

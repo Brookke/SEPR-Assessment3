@@ -288,4 +288,11 @@ public class Player extends AbstractPerson
         talkToOnEnd = null;
     }
 
+    /**
+     * This method clears the clue that has just been found
+     */
+    public void clearFound()
+    {
+        findOnEnd = null;
+    }
 }
