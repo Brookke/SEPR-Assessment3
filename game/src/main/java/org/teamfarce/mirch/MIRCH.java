@@ -3,6 +3,7 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Player;
 import org.teamfarce.mirch.Entities.Suspect;
@@ -39,6 +40,7 @@ public class MIRCH extends Game
 
     private boolean testGame = false;
 
+    public OrthographicCamera orthoCam;
 
     /**
      * Controls the initial character traits selection at the start of the game.
