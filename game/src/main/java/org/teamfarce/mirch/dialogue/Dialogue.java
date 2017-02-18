@@ -71,11 +71,21 @@ public class Dialogue
 
     }
 
+    /**
+     * This gets the speech related to a clue
+     * @param clue
+     * @return
+     */
     public String get(Clue clue)
     {
         return get(clue.getName());
     }
 
+    /**
+     * This gets the speech via its key in the JSON
+     * @param speechKey
+     * @return
+     */
     public String get(String speechKey)
     {
         if (this.jsonData.get("responses").has(speechKey)) {
@@ -86,6 +96,12 @@ public class Dialogue
         }
     }
 
+    /**
+     * This handles the getting of personality based speech
+     * @param clue
+     * @param personality
+     * @return
+     */
     public String get(Clue clue, String personality)
     {
         if (isForPlayer) {
