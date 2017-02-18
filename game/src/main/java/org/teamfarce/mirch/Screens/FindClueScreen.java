@@ -120,8 +120,9 @@ public class FindClueScreen extends AbstractScreen {
                     public void changed(ChangeEvent event, Actor actor) {
                         game.gameSnapshot.setState(GameState.map);
 
+                        game.gameSnapshot.journal.addClue(displayingClue);
+
                         /**
-                         * Add clue to some list for the journal.
                          * Note down if we found the means clue/ all motive clue
                          */
 
