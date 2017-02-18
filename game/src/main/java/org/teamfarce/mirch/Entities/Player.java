@@ -1,5 +1,6 @@
 package org.teamfarce.mirch.Entities;
 
+import com.sun.media.jfxmedia.events.PlayerStateEvent;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.MapScreen;
@@ -25,6 +26,11 @@ public class Player extends AbstractPerson
      * This variable is detected by the mapScreen and initialises the room change
      */
     public boolean roomChange = false;
+
+    /**
+     * This variable stores a goal location to be tracked to the next time the player completes a move
+     */
+    private Vector2Int trackToNext = null;
 
     /**
      * Initialise the entity.
@@ -76,11 +82,13 @@ public class Player extends AbstractPerson
 
     public void interact(Vector2Int tileLocation)
     {
-        //Check to see if a person is standing at that location
-        //Then we'll want to walk towards them (or next to them)
-
         talkToOnEnd = null;
         findOnEnd = null;
+
+        if (getState() == PersonState.WALKING)
+        {
+            trackToNext = tileLocation;
+        }
 
         for (Suspect s : ((MapScreen) game.guiController.mapScreen).getNPCs())
         {
@@ -242,6 +250,12 @@ public class Player extends AbstractPerson
             setDirection(findOnEnd.getTileCoordinates().dirBetween(getTileCoordinates()));
             MapScreen.grabScreenshot = true;
             game.gameSnapshot.setState(GameState.findClue);
+        }
+
+        if (trackToNext != null)
+        {
+            interact(trackToNext);
+            trackToNext = null;
         }
     }
 
