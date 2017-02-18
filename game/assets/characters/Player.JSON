@@ -35,16 +35,18 @@
     "Dark Hair": {
       "AGGRESSIVE": "DO YOU HAVE DARK HAIR!?... YOU BETTER NOT ANSWER SARCASTICALLY!",
       "CONVERSATIONAL": "Do you have dark hair?",
-      "POLITE": "I can't tell if that hair is part of your costume, can you tell me what colour your actual hair is? "
+      "POLITE": "I can't tell if that hair is part of your costume, can you tell me what colour your actual hair is?"
     },
     "Light Hair": {
       "AGGRESSIVE": "IS THAT YOUR REAL HAIR!?... WELL DO YOU HAVE LIGHT HAIR OR NOT?!",
       "CONVERSATIONAL": "Do you have light hair?",
-      "POLITE": "I can't tell if that hair is part of your costume, can you tell me what colour your actual hair is? "
+      "POLITE": "I can't tell if that hair is part of your costume, can you tell me what colour your actual hair is?"
+    },
     "Rubber Duck": {
       "AGGRESSIVE": "WHAT DO YOU KNOW ABOUT THIS SILLY DUCK?",
       "CONVERSATIONAL": "Do you know anything about this rubber duck?",
       "POLITE": "I just found this sweet little rubber duck, is there anything you could tell me about it?"
+    },
   },
   "noneResponses": [
     "Sorry I am a little busy for questions right now.",
