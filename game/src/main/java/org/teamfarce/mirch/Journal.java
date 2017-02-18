@@ -134,7 +134,7 @@ public class Journal
     {
         List<Clue> clues = new ArrayList<>();
         for (Clue c : this.foundClues) {
-            if (!c.isMotiveClue() /*&& !c.isMeanClue()*/) {
+            if (!c.isMotiveClue() && !c.isMeansClue()) {
                 clues.add(c);
             }
         }

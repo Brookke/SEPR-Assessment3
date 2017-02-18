@@ -112,16 +112,13 @@ public class InterviewScreen extends AbstractScreen {
                 //Setup suspect's dialogue
                 suspectDialogue = "";
 
-                if (gameSnapshot.journal.getQuestionableClues().size() == 0) {
-
-
+                if (gameSnapshot.journal.getQuestionableClues().size() != 0) {
                     //Ask player how to respond
                     responseBoxInstructions = "What would you like to ask about";
 
                     //Setup buttons to Question, Accuse and Ignore
 
-                    //TODO: update to journal
-                    for (Clue c : gameSnapshot.getClues()) {
+                    for (Clue c : game.gameSnapshot.journal.getClues()) {
                         buttonList.add(new InterviewResponseButton(c.getName(), 0, c, clueHandler));
                     }
                 } else {
