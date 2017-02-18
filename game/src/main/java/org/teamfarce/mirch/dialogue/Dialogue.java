@@ -20,8 +20,6 @@ public class Dialogue
     public Dialogue(String jsonFile, boolean player) throws InvalidDialogueException {
         importDialogue(jsonFile);
         isForPlayer = player;
-
-        //TODO: validate against template
         validateJsonAgainstTemplate();
     }
 
