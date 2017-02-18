@@ -16,6 +16,9 @@ public class Journal
 
     public ArrayList<Clue> foundClues;
 
+    public int motivesFound = 0;
+    public boolean foundWeapon = false;
+
     /**
      * The conversation buffer.
      */
@@ -38,6 +41,18 @@ public class Journal
     public void addClue(Clue clue)
     {
         this.foundClues.add(clue);
+
+        if (clue.isMotiveClue()) motivesFound ++;
+
+        if (motivesFound == 3)
+        {
+            //Completed motive clue
+        }
+
+        if (clue.isMeansClue())
+        {
+            foundWeapon = true;
+        }
     }
 
     public List<Clue> getClues()

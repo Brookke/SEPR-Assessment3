@@ -10,15 +10,13 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.*;
 import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.Screens.Elements.StatusBar;
 
 /**
  * Created by joeshuff on 18/02/2017.
@@ -34,28 +32,47 @@ public class FindClueScreen extends AbstractScreen {
     private Image clueImage;
     private Image clueBox;
 
+    private Label motiveLabel = null;
+    private Image nameBackground;
+    private Label name;
+
+    private Image descBackground = null;
+    private Label description = null;
+
+    private Button continueButton = null;
+
     private Vector2Int goalPos = new Vector2Int(0, 0);
     private Vector2Int goalSize = new Vector2Int(15 * Settings.TILE_SIZE, 15 * Settings.TILE_SIZE);
 
+    private boolean rotate = false;
+
     private float ANIM_TIME = 1f;
     private float soFarAnim = 0f;
+
+    private StatusBar statusBar;
 
     public FindClueScreen(MIRCH game, Skin uiSkin)
     {
         super(game);
         this.snapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
+
+        statusBar = new StatusBar(game.gameSnapshot, uiSkin);
     }
 
     private void initScreen()
     {
         soFarAnim = 0f;
+        ANIM_TIME = 1f;
+        rotate = false;
+        continueButton = null;
         clueStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         Image screenShot = MapScreen.recentFrame;
         screenShot.setHeight(Gdx.graphics.getHeight());
         screenShot.setWidth(Gdx.graphics.getWidth());
 
+        goalSize = new Vector2Int(15 * Settings.TILE_SIZE, 15 * Settings.TILE_SIZE);
         goalPos = new Vector2Int((Gdx.graphics.getWidth() / 2) - (goalSize.getX() / 2), (Gdx.graphics.getHeight() / 2) - (goalSize.getY() / 2));
 
         clueBox = new Image(Assets.loadTexture("clues/clueBox.png"));
@@ -94,7 +111,7 @@ public class FindClueScreen extends AbstractScreen {
     @Override
     public void render(float delta)
     {
-        if (soFarAnim < ANIM_TIME)
+        if (soFarAnim < ANIM_TIME * 0.5f)
         {
             soFarAnim += delta;
 
@@ -104,36 +121,58 @@ public class FindClueScreen extends AbstractScreen {
             float nextXPos = Interpolation.linear.apply(clueImage.getX(), goalPos.getX(), soFarAnim / ANIM_TIME);
             float nextYPos = Interpolation.linear.apply(clueImage.getY(), goalPos.getY(), soFarAnim / ANIM_TIME);
 
-            clueBox.setSize(nextWidth * 1.1f, nextHeight * 1.1f);
-            clueBox.setPosition(nextXPos * 0.95f, nextYPos * 0.95f);
+            clueBox.setSize(nextWidth, nextHeight);
+            clueBox.setPosition(nextXPos, nextYPos);
             clueImage.setSize(nextWidth, nextHeight);
             clueImage.setPosition(nextXPos, nextYPos);
 
-            if (soFarAnim >= ANIM_TIME)
+            if (rotate)
             {
-                addAllToStage();
+                clueBox.rotateBy(15);
+                clueImage.rotateBy(15);
+            }
+
+            if (soFarAnim >= ANIM_TIME * 0.5f)
+            {
+                if (continueButton != null)
+                {
+                    game.gameSnapshot.setState(GameState.map);
+                }
+                else
+                {
+                    addAllToStage();
+                }
             }
         }
 
         clueStage.act();
         clueStage.draw();
+
+        if (rotate)
+        {
+            statusBar.render();
+        }
     }
 
     public void addAllToStage()
     {
-        TextButton button = new TextButton("Continue", uiSkin);
-        button.setSize(Gdx.graphics.getWidth() / 4, 50);
-        button.setPosition((Gdx.graphics.getWidth() / 2) - (button.getWidth() / 2), clueBox.getY() - (2 * button.getHeight()));
-        button.addListener(new ChangeListener() {
+        continueButton = new TextButton("Continue", uiSkin);
+        continueButton.setSize(Gdx.graphics.getWidth() / 4, 50);
+        continueButton.setPosition((Gdx.graphics.getWidth() / 2) - (continueButton.getWidth() / 2), clueBox.getY() - (2 * continueButton.getHeight()));
+        continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.gameSnapshot.setState(GameState.map);
-
                 game.gameSnapshot.journal.addClue(displayingClue);
 
-                /**
-                 * Note down if we found the means clue/ all motive clue
-                 */
+                hideAll();
+
+                rotate = true;
+
+                goalPos = new Vector2Int((int) (Gdx.graphics.getWidth() * 0.75), Gdx.graphics.getHeight());
+                goalSize = new Vector2Int(0, 0);
+
+                soFarAnim = 0f;
+                ANIM_TIME = 2f;
 
                 game.player.getRoom().removeClue(displayingClue);
                 game.player.clearFound();
@@ -142,8 +181,8 @@ public class FindClueScreen extends AbstractScreen {
 
         if (displayingClue.getName().contains("Motive"))
         {
-            Label motiveLabel = new Label(displayingClue.getDescription(), uiSkin);
-            motiveLabel.setSize(clueImage.getWidth() * 0.8f, clueImage.getHeight());
+            motiveLabel = new Label(displayingClue.getDescription(), uiSkin);
+            motiveLabel.setSize(clueImage.getWidth() * 0.6f, clueImage.getHeight());
             motiveLabel.setAlignment(Align.center);
             motiveLabel.setPosition((Gdx.graphics.getWidth() / 2) - (motiveLabel.getWidth() / 2), clueImage.getY());
             motiveLabel.setWrap(true);
@@ -156,17 +195,17 @@ public class FindClueScreen extends AbstractScreen {
             pixMap.setColor(0, 0, 0, 0.9f);
             pixMap.fill();
 
-            Image descWindow = new Image(new Texture(pixMap));
+            descBackground = new Image(new Texture(pixMap));
 
             float posX = clueBox.getX() + clueBox.getWidth() + (Gdx.graphics.getWidth() - clueBox.getWidth()) / 8;
 
-            descWindow.setPosition(posX, clueBox.getY());
-            clueStage.addActor(descWindow);
+            descBackground.setPosition(posX, clueBox.getY());
+            clueStage.addActor(descBackground);
 
-            Label description = new Label(displayingClue.getDescription(), uiSkin, "white");
-            description.setSize(descWindow.getWidth() * 0.9f, descWindow.getHeight() * 0.9f);
+            description = new Label(displayingClue.getDescription(), uiSkin, "white");
+            description.setSize(descBackground.getWidth() * 0.9f, descBackground.getHeight() * 0.9f);
             description.setAlignment(Align.top);
-            description.setPosition(descWindow.getX() + descWindow.getWidth() * 0.05f, descWindow.getY() + descWindow.getHeight() * 0.05f);
+            description.setPosition(descBackground.getX() + descBackground.getWidth() * 0.05f, descBackground.getY() + descBackground.getHeight() * 0.05f);
             description.setWrap(true);
 
             clueStage.addActor(description);
@@ -176,18 +215,31 @@ public class FindClueScreen extends AbstractScreen {
         pixMap.setColor(0, 0, 0, 0.9f);
         pixMap.fill();
 
-        Image nameWindow = new Image(new Texture(pixMap));
-        nameWindow.setPosition(0, Gdx.graphics.getHeight() * 0.88f);
+        nameBackground = new Image(new Texture(pixMap));
+        nameBackground.setPosition(0, Gdx.graphics.getHeight() * 0.88f);
 
-        Label name = new Label(displayingClue.getName(), uiSkin, "white");
+        name = new Label(displayingClue.getName(), uiSkin, "white");
         name.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 10);
         name.setAlignment(Align.center);
-        name.setPosition(nameWindow.getX(), nameWindow.getY());
+        name.setPosition(nameBackground.getX(), nameBackground.getY());
         name.setWrap(true);
 
-        clueStage.addActor(nameWindow);
+        clueStage.addActor(nameBackground);
         clueStage.addActor(name);
-        clueStage.addActor(button);
+        clueStage.addActor(continueButton);
+    }
+
+    private void hideAll()
+    {
+        name.setVisible(false);
+        nameBackground.setVisible(false);
+        continueButton.setVisible(false);
+
+        if (motiveLabel != null) motiveLabel.setVisible(false);
+
+        if (descBackground != null) descBackground.setVisible(false);
+
+        if (description != null) description.setVisible(false);
     }
 
     @Override

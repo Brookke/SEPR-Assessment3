@@ -21,7 +21,7 @@ public class Journal_Test extends GameTest
     public void addClue()
     {
         Journal journal = new Journal();
-		    Clue clue = new Clue("Clue name", "Description","clueSheet.png", 0, 0);
+		    Clue clue = new Clue("Clue name", "Description","clueSheet.png", 0, 0, false);
         journal.addClue(clue);
 
         assertEquals(clue, journal.foundClues.get(0));
@@ -34,8 +34,8 @@ public class Journal_Test extends GameTest
         Journal journal = new Journal();
         ArrayList<Clue> cluesList = new ArrayList<>();
 
-		    Clue clue = new Clue("Clue name", "Description","clueSheet.png", 0, 0);
-		    Clue clue2 = new Clue("Clue name 2", "Description","clueSheet.png", 0, 0);
+		    Clue clue = new Clue("Clue name", "Description","clueSheet.png", 0, 0, false);
+		    Clue clue2 = new Clue("Clue name 2", "Description","clueSheet.png", 0, 0, false);
 
         journal.addClue(clue);
         journal.addClue(clue2);

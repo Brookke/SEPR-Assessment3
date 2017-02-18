@@ -47,6 +47,9 @@ public class ScenarioBuilderDatabase
             singleMeans.name = rsMeans.getString("name");
             singleMeans.description = rsMeans.getString("description");
             singleMeans.sprite = "clueSheet.png";
+            singleMeans.assetX = rsMeans.getInt("resourceX");
+            singleMeans.assetY = rsMeans.getInt("resourceY");
+            singleMeans.isMeans = true;
             means.put(singleMeans.id, singleMeans);
         }
 
@@ -60,6 +63,7 @@ public class ScenarioBuilderDatabase
             clue.sprite = "clueSheet.png";
             clue.assetX = rsClue.getInt("resourceX");
             clue.assetY = rsClue.getInt("resourceY");
+            clue.isMeans = true;
             clues.put(clue.id, clue);
         }
 
@@ -125,6 +129,7 @@ public class ScenarioBuilderDatabase
         public String sprite;
         public int assetX;
         public int assetY;
+        public boolean isMeans;
     }
 
     public class DataQuestioningStyle

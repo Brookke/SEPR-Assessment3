@@ -12,6 +12,8 @@ public class Clue extends MapEntity
 
     private boolean motiveClue = false;
 
+    private boolean meansClue = false;
+
     private int resourceX = 0;
     private int resourceY = 0;
 
@@ -22,12 +24,16 @@ public class Clue extends MapEntity
      * @param description describes what the clue is
      * @param filename    the texture region of the clue
      */
-    public Clue(String name, String description, String filename, int resourceX, int resourceY)
+    public Clue(String name, String description, String filename, int resourceX, int resourceY, boolean meansClue)
     {
         super(name, description, new TextureRegion(Assets.loadTexture("clues/" + filename), resourceX * 128, resourceY * 128, 128, 128));
         this.resourceX = resourceX;
         this.resourceY = resourceY;
         setSize(Settings.TILE_SIZE, Settings.TILE_SIZE);
+
+        if (name.contains("Motive")) motiveClue = true;
+
+        this.meansClue = meansClue;
     }
 
     /**
@@ -49,6 +55,11 @@ public class Clue extends MapEntity
 
     public boolean isMotiveClue() {
         return motiveClue;
+    }
+
+    public boolean isMeansClue()
+    {
+        return meansClue;
     }
 
     public int getResourceX(){
