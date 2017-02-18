@@ -1,16 +1,12 @@
 package org.teamfarce.mirch;
 
-import org.lwjgl.Sys;
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.*;
-import org.teamfarce.mirch.dialogue.*;
-import org.teamfarce.mirch.map.Map;
-import org.teamfarce.mirch.map.Room;
+import org.teamfarce.mirch.Map.Map;
+import org.teamfarce.mirch.Map.Room;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ScenarioBuilder
 {
@@ -111,8 +107,6 @@ public class ScenarioBuilder
     public static GameSnapshot generateGame(
             MIRCH game,
             ScenarioBuilderDatabase database,
-            int suspectCount,
-            Set<DataQuestioningStyle> chosenStyles,
             Random random
     ) throws ScenarioBuilderException
     {
