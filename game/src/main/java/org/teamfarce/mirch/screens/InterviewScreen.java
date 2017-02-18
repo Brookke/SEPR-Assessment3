@@ -138,10 +138,19 @@ public class InterviewScreen extends AbstractScreen {
                 //Ask player how to respond
                 responseBoxInstructions = "How do you want to ask the question?";
 
-                //Setup buttons to Question, Accuse and Ignore
-                buttonList.add(new InterviewResponseButton("Aggressively" + game.player.dialogue.get(tempClue, "AGGRESSIVE"), 0,null, styleHandler));
+                //Check personality level
+                int personality = gameSnapshot.getPersonality();
+
+                //Setup buttons to Question, Accuse and Ignore, dependant on personality
+                if (personality <= 5) {
+                    buttonList.add(new InterviewResponseButton("Aggressively" + game.player.dialogue.get(tempClue, "AGGRESSIVE"), 0, null, styleHandler));
+                }
+
                 buttonList.add(new InterviewResponseButton("Conversational" + game.player.dialogue.get(tempClue, "CONVERSATIONAL"), 1,null, styleHandler));
-                buttonList.add(new InterviewResponseButton("Politely" + game.player.dialogue.get(tempClue, "POLITE"), 2,null, styleHandler));
+
+                if (personality >= -5) {
+                    buttonList.add(new InterviewResponseButton("Politely" + game.player.dialogue.get(tempClue, "POLITE"), 2, null, styleHandler));
+                }
 
                 break;
 
@@ -245,7 +254,6 @@ public class InterviewScreen extends AbstractScreen {
     }
 
     private void questionClue(int result, Clue clue) {
-        System.out.println(clue.getName());
         switch (result) {
             case 0:
                 tempClue = clue;
@@ -258,12 +266,23 @@ public class InterviewScreen extends AbstractScreen {
         switch (result) {
             case 0:
                 tempStyle = "AGGRESSIVE";
+                gameSnapshot.modifyPersonality(-1);
                 break;
             case 1:
                 tempStyle = "CONVERSATIONAL";
+
+                //When user chooses conversational dialogue, personality tends towards 0
+                int personality = gameSnapshot.getPersonality();
+                if (personality > 0) {
+                    gameSnapshot.modifyPersonality(-1);
+                } else if (personality < 0) {
+                    gameSnapshot.modifyPersonality(1);
+                }
+
                 break;
             case 2:
                 tempStyle = "POLITE";
+                gameSnapshot.modifyPersonality(1);
                 break;
         }
         gameSnapshot.setState(GameState.interviewQuestion);

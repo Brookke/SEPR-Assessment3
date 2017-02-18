@@ -256,7 +256,7 @@ public class GameSnapshot
      * @param amount Amount to modify personality score by
      */
     public void modifyPersonality(int amount) {
-        if (this.currentPersonality > -2 && this.currentPersonality < 2) {
+        if (this.currentPersonality > -10 && this.currentPersonality < 10) {
             this.currentPersonality += amount;
         }
     }

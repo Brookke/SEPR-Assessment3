@@ -102,22 +102,17 @@ public class StatusBar
     private String getPersonalityMeterValue() {
         int personalityScore = gameSnapshot.getPersonality();
         String result = "";
-        switch (personalityScore) {
-            case -2:
-                result = "Very aggressive";
-                break;
-            case -1:
-                result = "Quite aggressive";
-                break;
-            case 0:
-                result = "Conversational";
-                break;
-            case 1:
-                result = "Quite polite";
-                break;
-            case 2:
-                result = "Very polite";
-                break;
+
+        if (personalityScore > 5) {
+            result = "Very polite";
+        } else if (personalityScore <= 5 && personalityScore >= 2) {
+            result = "Quite polite";
+        } else if (personalityScore <= 1 && personalityScore >= -1) {
+            result = "Conversational";
+        } else if (personalityScore <= -2 && personalityScore >= -5) {
+            result = "Quite aggressive";
+        } else if (personalityScore < -5) {
+            result = "Very aggressive";
         }
         return "Your Personality: " + result;
     }
