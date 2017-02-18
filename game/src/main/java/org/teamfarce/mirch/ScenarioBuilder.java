@@ -130,12 +130,24 @@ public class ScenarioBuilder
         CharacterData characterData;
         characterData = generateCharacters(game, database.characters);
 
+        Suspect victim = null;
+        Suspect murderer = null;
+
         List<Suspect> aliveSuspects = new ArrayList<Suspect>();
         for (Suspect suspect : characterData.allCharacters)
         {
-            if (suspect.isVictim() == false)
+            if (suspect.isVictim())
+            {
+                victim = suspect;
+            }
+            else
             {
                 aliveSuspects.add(suspect);
+            }
+
+            if (suspect.isKiller())
+            {
+                murderer = suspect;
             }
         }
 
@@ -146,7 +158,10 @@ public class ScenarioBuilder
         constructedClues.add(new Clue(randomMean.name, randomMean.description, randomMean.sprite));
 
         distributeClues(constructedClues, map.initialiseRooms());
-        return new GameSnapshot(game, map, map.initialiseRooms(), aliveSuspects, constructedClues, 0, 0);
+        GameSnapshot snapshot = new GameSnapshot(game, map, map.initialiseRooms(), aliveSuspects, constructedClues, 0, 0);
+        snapshot.victim = victim;
+        snapshot.murderer = murderer;
+        return snapshot;
     }
 
     /**
