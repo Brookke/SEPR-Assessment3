@@ -110,13 +110,13 @@ public class StatusBar
                 result = "Quite aggressive";
                 break;
             case 0:
-                result = "Neutral";
+                result = "Conversational";
                 break;
             case 1:
-                result = "Quite nice";
+                result = "Quite polite";
                 break;
             case 2:
-                result = "Very nice";
+                result = "Very polite";
                 break;
         }
         return "Your Personality: " + result;
