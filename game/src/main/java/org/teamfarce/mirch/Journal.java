@@ -46,6 +46,8 @@ public class Journal
     {
         this.foundClues.add(clue);
 
+        game.gameSnapshot.modifyScore(5);
+
         if (clue.isMotiveClue()) motivesFound ++;
 
         if (motivesFound == 3)
@@ -61,6 +63,8 @@ public class Journal
                                             });
 
             game.gameSnapshot.setState(GameState.narrator);
+
+            game.gameSnapshot.modifyScore(10);
         }
 
         if (clue.isMeansClue())
