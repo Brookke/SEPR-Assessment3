@@ -2,7 +2,7 @@ package org.teamfarce.mirch;
 
 import org.junit.Test;
 import org.teamfarce.mirch.Entities.Clue;
-import org.teamfarce.mirch.map.Room;
+import org.teamfarce.mirch.Map.Room;
 
 import java.util.ArrayList;
 import java.util.List;

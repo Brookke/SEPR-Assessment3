@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.map;
+package org.teamfarce.mirch.Map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
