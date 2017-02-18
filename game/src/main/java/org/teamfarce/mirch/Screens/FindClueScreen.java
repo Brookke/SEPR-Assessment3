@@ -34,8 +34,6 @@ public class FindClueScreen extends AbstractScreen {
     private Image clueImage;
     private Image clueBox;
 
-    private Label motiveLabel = null;
-
     private Vector2Int goalPos = new Vector2Int(0, 0);
     private Vector2Int goalSize = new Vector2Int(15 * Settings.TILE_SIZE, 15 * Settings.TILE_SIZE);
 
@@ -144,13 +142,34 @@ public class FindClueScreen extends AbstractScreen {
 
         if (displayingClue.getName().contains("Motive"))
         {
-            motiveLabel = new Label(displayingClue.getDescription(), uiSkin);
+            Label motiveLabel = new Label(displayingClue.getDescription(), uiSkin);
             motiveLabel.setSize(clueImage.getWidth() * 0.8f, clueImage.getHeight());
             motiveLabel.setAlignment(Align.center);
             motiveLabel.setPosition((Gdx.graphics.getWidth() / 2) - (motiveLabel.getWidth() / 2), clueImage.getY());
             motiveLabel.setWrap(true);
 
             clueStage.addActor(motiveLabel);
+        }
+        else
+        {
+            Pixmap pixMap = new Pixmap((int) (clueBox.getWidth() / 2), (int) clueBox.getHeight(), Pixmap.Format.RGBA8888);
+            pixMap.setColor(0, 0, 0, 0.9f);
+            pixMap.fill();
+
+            Image descWindow = new Image(new Texture(pixMap));
+
+            float posX = clueBox.getX() + clueBox.getWidth() + (Gdx.graphics.getWidth() - clueBox.getWidth()) / 8;
+
+            descWindow.setPosition(posX, clueBox.getY());
+            clueStage.addActor(descWindow);
+
+            Label description = new Label(displayingClue.getDescription(), uiSkin, "white");
+            description.setSize(descWindow.getWidth() * 0.9f, descWindow.getHeight() * 0.9f);
+            description.setAlignment(Align.top);
+            description.setPosition(descWindow.getX() + descWindow.getWidth() * 0.05f, descWindow.getY() + descWindow.getHeight() * 0.05f);
+            description.setWrap(true);
+
+            clueStage.addActor(description);
         }
 
         Pixmap pixMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 10, Pixmap.Format.RGBA8888);
