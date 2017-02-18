@@ -15,10 +15,11 @@ public class Dialogue
 {
     private JsonValue jsonData;
     private static String templatePath;
+    private boolean isForPlayer;
 
-    public Dialogue(String jsonFile) throws InvalidDialogueException {
+    public Dialogue(String jsonFile, boolean player) throws InvalidDialogueException {
         importDialogue(jsonFile);
-
+        isForPlayer = player;
 
         //TODO: validate against template
         validateJsonAgainstTemplate();
@@ -35,19 +36,20 @@ public class Dialogue
     }
 
     /**
-     * This takes a list of clues and validates that there exists a valid response to each of the clues.
-     * @param clues Clues to validate against
+     * This takes a template file and validates that there exists a valid response like the templates.
      * @return Boolean true if it passes
      * @throws InvalidDialogueException if the JSON is invalid
      */
     private boolean validateJsonAgainstTemplate() throws InvalidDialogueException {
         JsonValue jsonTemp =  new JsonReader().parse(Gdx.files.internal("characters/template.JSON"));
+        Iterator itr = jsonTemp.get("responses").iterator();
 
-            Iterator itr = jsonTemp.get("responses").iterator();
             while (itr.hasNext()) {
                 String key = itr.next().toString().split(":")[0];
                 if (this.jsonData.get("responses").has(key)) {
-                    if (!(this.jsonData.get("responses").getString(key).length() > 0)) {
+                    if (this.isForPlayer && this.jsonData.get("responses").get(key).size != 3 ) {
+                        throw new InvalidDialogueException("No question values for the key: " + key + ", in the player json");
+                    } else if (this.jsonData.get("responses").getString(key).length() < 1) {
                         throw new InvalidDialogueException("No response value for key: " + key);
                     }
                 } else {
@@ -68,6 +70,20 @@ public class Dialogue
 
     public String get(String speechKey)
     {
+        if (this.jsonData.get("responses").has(speechKey)) {
+            return this.jsonData.get("responses").getString(speechKey);
+        } else {
+            //TODO: randomise
+            return this.jsonData.get("noneResponse").getString(0);
+        }
+    }
+
+    public String get(String speechKey, String personality)
+    {
+        if (isForPlayer) {
+            return this.jsonData.get("responses").get(speechKey).getString(personality);
+        }
+
         if (this.jsonData.get("responses").has(speechKey)) {
             return this.jsonData.get("responses").getString(speechKey);
         } else {

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.*;
 import org.teamfarce.mirch.Entities.AbstractPerson;
+import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.Screens.Elements.InterviewResponseBox;
 import org.teamfarce.mirch.Screens.Elements.InterviewResponseButton;
@@ -105,6 +106,25 @@ public class InterviewScreen extends AbstractScreen {
 
                 break;
 
+
+            case interviewQuestionClue:
+                //Setup suspect's dialogue
+                suspectDialogue = "";
+
+                //Ask player how to respond
+                responseBoxInstructions = "What would you like to ask about";
+
+                //Setup buttons to Question, Accuse and Ignore
+
+                //TODO: update to journal
+                for (Clue c : game.gameSnapshot.getClues()) {
+                    if (!c.isMotiveClue()) {
+                        buttonList.add(new InterviewResponseButton(c.getName(),0, switchStateHandler));
+                    }
+                }
+
+                break;
+
             case interviewQuestion:
                 //Setup suspect's dialogue
                 suspectDialogue = "Hmm, this is a reply";
@@ -180,7 +200,7 @@ public class InterviewScreen extends AbstractScreen {
     private void switchState(int result) {
         switch (result) {
             case 0: //Question
-                gameSnapshot.setState(GameState.interviewQuestion);
+                gameSnapshot.setState(GameState.interviewQuestionClue);
                 break;
             case 1: //Accuse
                 gameSnapshot.setState(GameState.interviewAccuse);
@@ -198,6 +218,7 @@ public class InterviewScreen extends AbstractScreen {
                 break;
         }
     }
+
 
 
     @Override

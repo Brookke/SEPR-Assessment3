@@ -126,7 +126,7 @@ public class GameSnapshot
      *
      * @return The props.
      */
-    List<Clue> getClues()
+    public List<Clue> getClues()
     {
         return this.clues;
     }

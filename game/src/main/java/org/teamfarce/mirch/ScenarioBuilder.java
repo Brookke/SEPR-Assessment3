@@ -32,7 +32,7 @@ public class ScenarioBuilder
         dataCharacters.forEach((x,c) -> {
             Dialogue dialogue = null;
             try {
-                dialogue = new Dialogue(c.dialogue.filename);
+                dialogue = new Dialogue(c.dialogue.filename, false);
             } catch (Dialogue.InvalidDialogueException e) {
                 e.printStackTrace();
                 System.exit(0);

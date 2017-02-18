@@ -279,7 +279,7 @@ w
         //initialise the player sprite
         Dialogue playerDialogue = null;
         try {
-            playerDialogue = new Dialogue("template.JSON");
+            playerDialogue = new Dialogue("template.JSON", false);
         } catch (Dialogue.InvalidDialogueException e) {
             System.exit(0);
         }

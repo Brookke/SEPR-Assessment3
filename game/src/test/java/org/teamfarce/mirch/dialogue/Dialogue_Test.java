@@ -22,7 +22,7 @@ public class Dialogue_Test extends GameTest
     public void setup() {
         testClue = new Clue("Big Footprint", "1", "Axe.png");
         try {
-            testDialogue = new Dialogue("template.JSON");
+            testDialogue = new Dialogue("template.JSON", false);
         } catch (Dialogue.InvalidDialogueException e) {
             fail(e.getMessage());
         }
@@ -35,7 +35,7 @@ public class Dialogue_Test extends GameTest
         Dialogue testConstructor;
 
         try {
-            testConstructor = new Dialogue("DoNotUse.JSON");
+            testConstructor = new Dialogue("DoNotUse.JSON", false);
             fail("JSON not being verified");
         } catch (Dialogue.InvalidDialogueException e) {
 
@@ -46,7 +46,7 @@ public class Dialogue_Test extends GameTest
     public void constructor2() {
         Dialogue testConstructor;
         try {
-            testConstructor = new Dialogue("template.JSON");
+            testConstructor = new Dialogue("template.JSON", false);
         } catch (Dialogue.InvalidDialogueException e) {
             fail(e.getMessage());
         }
