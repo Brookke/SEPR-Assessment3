@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 /**
  * Created by brookehatton on 16/02/2017.
  */
-public class DialogueTest extends GameTest
+public class Dialogue_Test extends GameTest
 {
     private Dialogue testDialogue;
     private Clue testClue;
