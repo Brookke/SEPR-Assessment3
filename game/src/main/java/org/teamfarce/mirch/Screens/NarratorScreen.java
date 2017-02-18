@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.GameSnapshot;
@@ -73,6 +74,12 @@ public class NarratorScreen extends AbstractScreen
 
         //Set introduction speech
         setSpeech("hi");
+        setButton("Start Game", new Runnable() {
+            @Override
+            public void run() {
+                game.gameSnapshot.setState(GameState.map);
+            }
+        });
     }
 
     /**
@@ -90,19 +97,6 @@ public class NarratorScreen extends AbstractScreen
         speech.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.6f);
         speech.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 0.25f);
         speech.setWrap(true);
-
-        prompt = new TextButton("Start Game", uiSkin);
-        prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
-        prompt.setPosition(Gdx.graphics.getWidth() * 0.45f, Gdx.graphics.getHeight() * 0.25f);
-        prompt.setVisible(false);
-        prompt.addListener(new ChangeListener()
-        {
-            @Override
-            public void changed(ChangeEvent event, Actor actor)
-            {
-                gameSnapshot.setState(GameState.map);
-            }
-        });
 
         narratorStage.addActor(background);
         narratorStage.addActor(speech);
@@ -167,6 +161,30 @@ public class NarratorScreen extends AbstractScreen
     {
         endMessage = speech;
         currentMessage = "";
+
+        return this;
+    }
+
+    /**
+     * This method sets the buttons text and the clickable action so that this screen
+     * can be used for more than one situation
+     *
+     * @return this
+     */
+    public NarratorScreen setButton(String text, Runnable runnable)
+    {
+        prompt = new TextButton(text, uiSkin);
+        prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
+        prompt.setPosition(Gdx.graphics.getWidth() * 0.45f, Gdx.graphics.getHeight() * 0.25f);
+        prompt.setVisible(false);
+        prompt.addListener(new ChangeListener()
+        {
+            @Override
+            public void changed(ChangeEvent event, Actor actor)
+            {
+                runnable.run();
+            }
+        });
 
         return this;
     }

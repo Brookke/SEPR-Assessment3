@@ -1,6 +1,8 @@
 package org.teamfarce.mirch;
 
+import org.lwjgl.opencl.CL;
 import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.Screens.NarratorScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
  */
 public class Journal
 {
+    MIRCH game;
 
     public ArrayList<Clue> foundClues;
 
@@ -27,8 +30,9 @@ public class Journal
     /**
      * Initialise the Journal in an empty state.
      */
-    public Journal()
+    public Journal(MIRCH game)
     {
+        this.game = game;
         this.conversations = new ArrayList<>();
         this.foundClues = new ArrayList<>();
     }
@@ -46,13 +50,47 @@ public class Journal
 
         if (motivesFound == 3)
         {
-            //Completed motive clue
+            game.guiController.narratorScreen.setSpeech("Congratulations! You have solved the killers motive! Let's take a look at those clues...\n \n"
+                                                       + getMotive() + "\n \nI can't believe someone would kill someone for that!\n \n"
+                                                       + "Well, you go out there and find out who committed this murder!\n \nGood Luck!")
+                                            .setButton("Continue Game", new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    game.gameSnapshot.setState(GameState.map);
+                                                }
+                                            });
         }
 
         if (clue.isMeansClue())
         {
             foundWeapon = true;
         }
+    }
+
+    private String getMotive()
+    {
+        String[] motives = new String[]{"","",""};
+
+        for (Clue c : foundClues)
+        {
+            if (c.getName().contains("Motive"))
+            {
+                if (c.getName().contains("1"))
+                {
+                    motives[0] = c.getDescription();
+                }
+                else if (c.getName().contains("2"))
+                {
+                    motives[1] = c.getDescription();
+                }
+                else if (c.getName().contains("3"))
+                {
+                    motives[2] = c.getDescription();
+                }
+            }
+        }
+
+        return motives[0] + motives[1] + motives[2];
     }
 
     public List<Clue> getClues()

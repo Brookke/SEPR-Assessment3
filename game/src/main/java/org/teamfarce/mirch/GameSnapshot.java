@@ -60,7 +60,7 @@ public class GameSnapshot
         this.rooms = rooms;
         this.meansProven = 0;
         this.motiveProven = 0;
-        this.journal = new Journal();
+        this.journal = new Journal(game);
         this.time = 0;
         this.gameWon = false;
         this.sumProvesMean = sumProvesMeans;
