@@ -20,7 +20,7 @@ public class Player_Test extends GameTest {
     @Before
     public void start() throws Dialogue.InvalidDialogueException
     {
-        Dialogue dialogue = new Dialogue("template.json");
+        Dialogue dialogue = new Dialogue("template.JSON");
         p = new Player("Name", "Desc", "Detective_sprite.png", dialogue);
     }
 
