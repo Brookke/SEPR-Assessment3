@@ -7,7 +7,7 @@ import org.teamfarce.mirch.Entities.Clue;
  */
 public class InterviewResponseButton
 {
-    private Clue clue = null;
+
     /**
      * The text to display on the button
      */
@@ -19,14 +19,14 @@ public class InterviewResponseButton
     public int result;
 
     /**
-     * The event handler that listens for the click event
+     * The clue associated with the response, can be null
      */
-    public EventHandler eventHandler;
+    public Clue clue = null;
 
     /**
      * The event handler that listens for the click event
      */
-    public ClueEventHandler clueEventHandler;
+    public EventHandler eventHandler;
 
     /**
      * Constructor for InterviewResponseButton
@@ -34,19 +34,12 @@ public class InterviewResponseButton
      * @param buttonText      String to display on button
      * @param eventHandlerVal On click event handler - use a Lambda function (Java8 only)
      */
-    public InterviewResponseButton(String buttonText, int buttonresult, EventHandler eventHandlerVal)
+    public InterviewResponseButton(String buttonText, int buttonResult, Clue clue, EventHandler eventHandlerVal)
     {
-        text = buttonText;
-        result = buttonresult;
-        eventHandler = eventHandlerVal;
-    }
-
-    public InterviewResponseButton(String buttonText, int buttonresult, Clue clue, ClueEventHandler eventHandlerVal)
-    {
-        text = buttonText;
-        result = buttonresult;
+        this.text = buttonText;
+        this.result = buttonResult;
+        this.eventHandler = eventHandlerVal;
         this.clue = clue;
-        clueEventHandler = eventHandlerVal;
     }
 
     /**
@@ -63,25 +56,6 @@ public class InterviewResponseButton
      * InterviewResponseButton.eventHandler.trigger();
      */
     public interface EventHandler
-    {
-        void trigger(int result);
-
-    }
-
-    /**
-     * Event handler interface
-     * Used for defining the click event handler on a InterviewResponseButton
-     * <p>
-     * Initialising an event handler:
-     * InterviewResponseButton.EventHandler eventHandler = (String name) -> {
-     * System.out.println(name + " was pressed");
-     * };
-     * <p>
-     * Usage:
-     * Used in InterviewResponseBox class on button click
-     * InterviewResponseButton.eventHandler.trigger();
-     */
-    public interface ClueEventHandler
     {
         void trigger(int result, Clue clue);
 

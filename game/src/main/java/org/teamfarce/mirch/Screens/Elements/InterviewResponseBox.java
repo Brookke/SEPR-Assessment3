@@ -89,7 +89,7 @@ public class InterviewResponseBox {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         //Trigger click event handler for current button (see button definition)
-                        button.eventHandler.trigger(button.result);
+                        button.eventHandler.trigger(button.result, button.clue);
                     }
                 });
 

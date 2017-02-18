@@ -87,8 +87,8 @@ public class InterviewScreen extends AbstractScreen {
         String responseBoxInstructions = "";
         String suspectDialogue = "";
         ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
-        InterviewResponseButton.EventHandler switchStateHandler = (result) -> switchState(result);
-        InterviewResponseButton.ClueEventHandler clueHandler = (result, clue) -> questionClue(result, clue);
+        InterviewResponseButton.EventHandler switchStateHandler = (result, clue) -> switchState(result);
+        InterviewResponseButton.EventHandler clueHandler = (result, clue) -> questionClue(result, clue);
 
         //Check current GameState, and render appropriate GUI
         GameState currentState = gameSnapshot.getState();
@@ -101,9 +101,9 @@ public class InterviewScreen extends AbstractScreen {
                 responseBoxInstructions = "What would you like to do?";
 
                 //Setup buttons to Question, Accuse and Ignore
-                buttonList.add(new InterviewResponseButton("Question the suspect", 0, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Leave the interview", 2, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Question the suspect", 0, null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1,null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Leave the interview", 2,null, switchStateHandler));
 
                 break;
 
@@ -134,9 +134,9 @@ public class InterviewScreen extends AbstractScreen {
                 responseBoxInstructions = "How would you like to respond?";
 
                 //Setup buttons to Question, Accuse and Ignore
-                buttonList.add(new InterviewResponseButton("Nicely", 0, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Neutrally", 1, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Angrily", 2, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Nicely", 0,null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Neutrally", 1,null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Angrily", 2,null, switchStateHandler));
 
                 break;
 
@@ -149,7 +149,7 @@ public class InterviewScreen extends AbstractScreen {
 
                     //Inform user of result
                     responseBoxInstructions = "How would you like to respond?";
-                    buttonList.add(new InterviewResponseButton("Arrest " + suspect.getName(), 3, switchStateHandler));
+                    buttonList.add(new InterviewResponseButton("Arrest " + suspect.getName(), 3,null, switchStateHandler));
 
                 } else {
                     //Setup suspect's dialogue
@@ -157,7 +157,7 @@ public class InterviewScreen extends AbstractScreen {
 
                     //Inform user of result
                     responseBoxInstructions = "How would you like to respond?";
-                    buttonList.add(new InterviewResponseButton("Apologise & leave the interview", 2, switchStateHandler));
+                    buttonList.add(new InterviewResponseButton("Apologise & leave the interview", 2,null, switchStateHandler));
                 }
                 break;
         }
