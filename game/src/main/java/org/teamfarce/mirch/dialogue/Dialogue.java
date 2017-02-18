@@ -31,7 +31,7 @@ public class Dialogue
      */
     private void importDialogue(String fileName)
     {
-        jsonData = new JsonReader().parse(Gdx.files.internal(fileName));
+        jsonData = new JsonReader().parse(Gdx.files.internal("characters/" + fileName));
     }
 
     /**
