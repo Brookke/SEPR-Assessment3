@@ -27,7 +27,7 @@ public class Dialogue_Test extends GameTest
     }
 
     @Test
-    public void constructor1() throws Exception
+    public void constructorValidationFail() throws Exception
     {
         Dialogue testConstructor;
 
@@ -40,7 +40,7 @@ public class Dialogue_Test extends GameTest
     }
 
     @Test
-    public void constructor2() {
+    public void constructor2ValidationPass() {
         Dialogue testConstructor;
         try {
             testConstructor = new Dialogue("template.JSON", false);
@@ -50,14 +50,14 @@ public class Dialogue_Test extends GameTest
     }
 
     @Test
-    public void get1() throws Exception
+    public void getUsingClue() throws Exception
     {
 
         assertEquals("test 2", testDialogue.get(testClue));
     }
 
     @Test
-    public void get2() throws Exception
+    public void getUsingString() throws Exception
     {
         assertEquals("test 2", testDialogue.get(testClue.getName()));
     }
