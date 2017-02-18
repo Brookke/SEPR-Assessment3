@@ -51,6 +51,12 @@ public class FindClueScreen extends AbstractScreen {
 
     private StatusBar statusBar;
 
+    /**
+     * Initialiser
+     *
+     * @param game - Reference to the main game class
+     * @param uiSkin - The skin to render objects with
+     */
     public FindClueScreen(MIRCH game, Skin uiSkin)
     {
         super(game);
@@ -60,6 +66,9 @@ public class FindClueScreen extends AbstractScreen {
         statusBar = new StatusBar(game.gameSnapshot, uiSkin);
     }
 
+    /**
+     * Initialise all the components on the screen
+     */
     private void initScreen()
     {
         soFarAnim = 0f;
@@ -91,12 +100,21 @@ public class FindClueScreen extends AbstractScreen {
         clueStage.addActor(clueImage);
     }
 
+    /**
+     * This method converts a tile location to a pixel screen position relative to the bottom left of the window
+     * @param tileX - The tile X coordinate
+     * @param tileY - The tile Y coordinate
+     * @return an array if Integers. Slot 1 being the X coordinate, slot 2 being the Y coordinate
+     */
     public int[] tileToScreenPos(int tileX, int tileY)
     {
         Vector3 res = game.orthoCam.project(new Vector3(tileX * 32, tileY * 32, 0));
         return new int[]{(int) res.x, (int) res.y};
     }
 
+    /**
+     * Show the window
+     */
     @Override
     public void show() {
         MapScreen.grabScreenshot = false;
@@ -108,6 +126,10 @@ public class FindClueScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(multiplexer);
     }
 
+    /**
+     * Render the screen
+     * @param delta - Time since last frame in seconds
+     */
     @Override
     public void render(float delta)
     {
@@ -156,6 +178,9 @@ public class FindClueScreen extends AbstractScreen {
         }
     }
 
+    /**
+     * This adds the buttons and clue descriptors to the screen. It shows them once the clue has moved to the centre of the screen
+     */
     public void addAllToStage()
     {
         continueButton = new TextButton("Continue", uiSkin);
@@ -191,7 +216,7 @@ public class FindClueScreen extends AbstractScreen {
         }
         else
         {
-            Pixmap pixMap = new Pixmap((int) (clueBox.getWidth() / 2), (int) clueBox.getHeight(), Pixmap.Format.RGBA8888);
+            Pixmap pixMap = new Pixmap(( int) (clueBox.getWidth() / 2), (int) clueBox.getHeight(), Pixmap.Format.RGBA8888);
             pixMap.setColor(0, 0, 0, 0.9f);
             pixMap.fill();
 

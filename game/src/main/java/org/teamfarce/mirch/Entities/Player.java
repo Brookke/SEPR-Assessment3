@@ -1,6 +1,5 @@
 package org.teamfarce.mirch.Entities;
 
-import com.sun.media.jfxmedia.events.PlayerStateEvent;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.MapScreen;
