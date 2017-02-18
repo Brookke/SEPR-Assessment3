@@ -89,7 +89,7 @@ public class InterviewScreen extends AbstractScreen {
         switch (currentState) {
             case interviewStart:
                 //Setup suspect's dialogue
-                suspectDialogue = "Hi, how can I help?";
+                suspect.dialogue.get("introduction");
 
                 //Set initial instructions for player
                 responseBoxInstructions = "What would you like to do?";
