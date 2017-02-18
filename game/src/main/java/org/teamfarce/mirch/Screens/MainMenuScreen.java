@@ -24,6 +24,11 @@ import org.teamfarce.mirch.MIRCH;
 /**
  * Created by vishal on 15/02/2017.
  */
+
+/**
+ * The Main Menu screen draws the Main Menu GUI to the screen and handles any inputs
+ * whilst the Menu is displayed.
+ */
 public class MainMenuScreen extends AbstractScreen {
 
     /**
@@ -74,33 +79,38 @@ public class MainMenuScreen extends AbstractScreen {
 
     private void initMenu(final MIRCH game) {
         //Initialising the skin used for the buttons and the label
-        Skin glassySkin;
-        glassySkin = new Skin(Gdx.files.internal("skins/skin_glassy/glassy-ui.json"));
+        Skin holoSkin;
+        holoSkin = new Skin(Gdx.files.internal("skins/gdx-holo/uiskin.json"));
 
         //Setting the background
         Image background = new Image(new TextureRegion(Assets.loadTexture("rch3.jpg")));
 
+        //Creating the labelstyle used for the text in the label.
+        BitmapFont font = new BitmapFont();
+        LabelStyle textStyle = new LabelStyle(font, Color.WHITE);
+
         //Creating the label containing text and determining  its size and location on screen
         Label text;
 
-        text = new Label("Welcome to the Lorem Ipsum Murder Mystery Game!", glassySkin);
-        TextButton newGameButton = new TextButton("New Game", glassySkin);
+        text = new Label("Welcome to the Lorem Ipsum Murder Mystery Game!", textStyle);
+        TextButton newGameButton = new TextButton("New Game", holoSkin);
 
         text.setFontScale(2, 2);
 
-        text.setBounds(Gdx.graphics.getWidth() / 2 - text.getWidth(), Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight() / 3 + Gdx.graphics.getHeight() / 16, text.getWidth(), text.getHeight());
+        text.setBounds(Gdx.graphics.getWidth() / 2 - text.getWidth() + 30, Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight() / 3 + Gdx.graphics.getHeight() / 16, text.getWidth(), text.getHeight());
 
         //Creating the buttons and setting their positions
         newGameButton.setPosition(WIDTH, (float) (Gdx.graphics.getHeight()-(Gdx.graphics.getHeight() / 4)-120));
-        TextButton settings = new TextButton("Settings", glassySkin );
-        settings.setPosition(WIDTH+30, (Gdx.graphics.getHeight() / 2)-90);
-        TextButton quit = new TextButton("Quit", glassySkin);
-        quit.setPosition(WIDTH+32, (Gdx.graphics.getHeight() / 4)-60 );
+        newGameButton.getLabel().setFontScale(3/2,3/2);
+        newGameButton.setSize(400, 80);
+        TextButton quit = new TextButton("Quit", holoSkin);
+        quit.getLabel().setFontScale(3/2,3/2);
+        quit.setSize(400, 80);
+        quit.setPosition(WIDTH, (Gdx.graphics.getHeight() / 2)-70 );
 
         //Loading the buttons onto the stage
         stage.addActor(background);
         stage.addActor(text);
-        stage.addActor(settings);
         stage.addActor(newGameButton);
         stage.addActor(quit);
 
@@ -124,15 +134,7 @@ public class MainMenuScreen extends AbstractScreen {
                 Gdx.app.exit();
             }
         });
-        //Making the "Settings" button clickable and causing it to load the settings screen
-        settings.addListener(new ClickListener()
-        {
-            @Override
-            public void clicked(InputEvent event, float x, float y)
-            {
-                //Change to settings screen once its been made
-            }
-        });
+
     }
 
     public void makeVisible()
