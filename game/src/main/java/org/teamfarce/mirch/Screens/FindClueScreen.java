@@ -2,6 +2,9 @@ package org.teamfarce.mirch.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
@@ -150,8 +153,21 @@ public class FindClueScreen extends AbstractScreen {
             clueStage.addActor(motiveLabel);
         }
 
+        Pixmap pixMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 10, Pixmap.Format.RGBA8888);
+        pixMap.setColor(0, 0, 0, 0.9f);
+        pixMap.fill();
 
+        Image nameWindow = new Image(new Texture(pixMap));
+        nameWindow.setPosition(0, Gdx.graphics.getHeight() * 0.88f);
 
+        Label name = new Label(displayingClue.getName(), uiSkin, "white");
+        name.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() / 10);
+        name.setAlignment(Align.center);
+        name.setPosition(nameWindow.getX(), nameWindow.getY());
+        name.setWrap(true);
+
+        clueStage.addActor(nameWindow);
+        clueStage.addActor(name);
         clueStage.addActor(button);
     }
 
