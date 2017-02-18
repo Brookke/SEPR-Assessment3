@@ -137,6 +137,8 @@ public class FindClueScreen extends AbstractScreen {
                 if (continueButton != null)
                 {
                     game.gameSnapshot.setState(GameState.map);
+
+                    game.gameSnapshot.journal.addClue(displayingClue);
                 }
                 else
                 {
@@ -162,8 +164,6 @@ public class FindClueScreen extends AbstractScreen {
         continueButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.gameSnapshot.journal.addClue(displayingClue);
-
                 hideAll();
 
                 rotate = true;

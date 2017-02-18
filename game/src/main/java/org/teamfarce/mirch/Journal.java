@@ -59,6 +59,8 @@ public class Journal
                                                     game.gameSnapshot.setState(GameState.map);
                                                 }
                                             });
+
+            game.gameSnapshot.setState(GameState.narrator);
         }
 
         if (clue.isMeansClue())

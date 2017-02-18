@@ -20,7 +20,7 @@ public class Journal_Test extends GameTest
     @Test
     public void addClue()
     {
-        Journal journal = new Journal();
+        Journal journal = new Journal(null);
 		    Clue clue = new Clue("Clue name", "Description","clueSheet.png", 0, 0, false);
         journal.addClue(clue);
 
@@ -31,7 +31,7 @@ public class Journal_Test extends GameTest
     @Test
     public void getClues()
     {
-        Journal journal = new Journal();
+        Journal journal = new Journal(null);
         ArrayList<Clue> cluesList = new ArrayList<>();
 
 		    Clue clue = new Clue("Clue name", "Description","clueSheet.png", 0, 0, false);
@@ -49,7 +49,7 @@ public class Journal_Test extends GameTest
     @Test
     public void addConversation()
     {
-        Journal journal = new Journal();
+        Journal journal = new Journal(null);
 
         String dialogue = "Convo text";
         String character = "Character name";
@@ -63,7 +63,7 @@ public class Journal_Test extends GameTest
     @Test
     public void getConversations()
     {
-        Journal journal = new Journal();
+        Journal journal = new Journal(null);
 
         journal.addConversation("Dialogue", "Character 1");
         journal.addConversation("Dialogue", "Character 2");
