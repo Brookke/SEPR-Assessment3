@@ -97,6 +97,7 @@ public class MapScreen extends AbstractScreen
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(false, w, h);
         this.camera.update();
+        game.orthoCam = camera;
         this.tileRender = new OrthogonalTiledMapRendererWithPeople(game.player.getRoom().getTiledMap());
         this.tileRender.addPerson(game.player);
         currentNPCs = game.gameSnapshot.map.getNPCs(game.player.getRoom());

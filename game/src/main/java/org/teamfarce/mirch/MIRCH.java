@@ -1,10 +1,7 @@
 package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.Entities.Player;
 import org.teamfarce.mirch.Entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
@@ -27,6 +24,7 @@ public class MIRCH extends Game {
     public ArrayList<Room> rooms;
     public ArrayList<Suspect> characters;
 
+    public OrthographicCamera orthoCam;
 
     public int step; //stores the current loop number
 
