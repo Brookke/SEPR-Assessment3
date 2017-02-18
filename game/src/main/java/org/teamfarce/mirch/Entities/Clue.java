@@ -9,11 +9,19 @@ import org.teamfarce.mirch.Settings;
  */
 public class Clue extends MapEntity
 {
-
+    /**
+     * This stores whether this clue is a motive clue
+     */
     private boolean motiveClue = false;
 
+    /**
+     * This stores whether this clue is the murder weapon
+     */
     private boolean meansClue = false;
 
+    /**
+     * This stores the tile location of the clue asset on the clue sprite sheet
+     */
     private int resourceX = 0;
     private int resourceY = 0;
 
@@ -53,23 +61,42 @@ public class Clue extends MapEntity
         return false;
     }
 
+    /**
+     * Returns whether the clue is a motive clue or not
+     * @return `motiveClue`
+     */
     public boolean isMotiveClue() {
         return motiveClue;
     }
 
+    /**
+     * Returns whether the clue is a means clue or not
+     * @return `meansClue`
+     */
     public boolean isMeansClue()
     {
         return meansClue;
     }
 
+    /**
+     * Returns the x tile location of the resource
+     * @return `resourceX`
+     */
     public int getResourceX(){
         return resourceX;
     }
 
+    /**
+     * Returns the y tile location of the resource
+     * @return `resourceY`
+     */
     public int getResourceY(){
         return resourceY;
     }
 
+    /**
+     * This method sets the clue to be a motive clue
+     */
     public void setMotiveClue() {
         this.motiveClue = true;
     }
