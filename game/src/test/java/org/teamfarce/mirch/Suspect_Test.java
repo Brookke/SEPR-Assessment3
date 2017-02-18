@@ -2,10 +2,16 @@ package org.teamfarce.mirch;
 
 import static org.junit.Assert.*;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.junit.Before;
 import org.junit.Test;
 
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.Screens.NarratorScreen;
+import org.teamfarce.mirch.map.Map;
+import org.teamfarce.mirch.map.Room;
+
+import java.util.ArrayList;
 
 /**
  * @author jacobwunwin
@@ -22,7 +28,9 @@ public class Suspect_Test {
         Vector2Int position = new Vector2Int(0, 1);
 
         MIRCH game = new MIRCH();
-        game.gameSnapshot =  new GameSnapshot(game, null, null, null, null, 0, 0);
+        game.gameSnapshot =  new GameSnapshot(game, new Map(game), new ArrayList<Room>(), new ArrayList<Suspect>(), null, 0, 0);
+        game.guiController = new GUIController(game);
+        game.guiController.narratorScreen = new NarratorScreen(game, new Skin());
 
         suspect = new Suspect(game, name, "Description", "Detective_sprite.png", position, "");
     }

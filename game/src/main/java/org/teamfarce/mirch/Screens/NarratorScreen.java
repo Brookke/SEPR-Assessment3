@@ -173,18 +173,22 @@ public class NarratorScreen extends AbstractScreen
      */
     public NarratorScreen setButton(String text, Runnable runnable)
     {
-        prompt = new TextButton(text, uiSkin);
-        prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
-        prompt.setPosition(Gdx.graphics.getWidth() * 0.45f, Gdx.graphics.getHeight() * 0.25f);
-        prompt.setVisible(false);
-        prompt.addListener(new ChangeListener()
+        try
         {
-            @Override
-            public void changed(ChangeEvent event, Actor actor)
+            prompt = new TextButton(text, uiSkin);
+            prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
+            prompt.setPosition(Gdx.graphics.getWidth() * 0.45f, Gdx.graphics.getHeight() * 0.25f);
+            prompt.setVisible(false);
+            prompt.addListener(new ChangeListener()
             {
-                runnable.run();
-            }
-        });
+                @Override
+                public void changed(ChangeEvent event, Actor actor)
+                {
+                    runnable.run();
+                }
+            });
+        }
+        catch (Exception e){}
 
         return this;
     }
