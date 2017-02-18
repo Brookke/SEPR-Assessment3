@@ -115,7 +115,7 @@ public class Journal
         foundClues.remove(remove[1]);
         foundClues.remove(remove[2]);
 
-        addClue(new Clue("Motive Clue", "After peicing it together, this is the motive:\n" + motives[0] + motives[1] + motives[2], "clueSheet.png", 1, 2, false));
+        addClue(new Clue("Motive Clue", "After piecing it together, this is the motive:\n" + motives[0] + motives[1] + motives[2], "clueSheet.png", 1, 2, false));
 
         return motives[0] + motives[1] + motives[2];
     }
