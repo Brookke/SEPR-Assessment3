@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.dialogue.Dialogue;
 
 /**
  * @author jacobwunwin
@@ -24,7 +25,7 @@ public class Suspect_Test {
         MIRCH game = new MIRCH();
         game.gameSnapshot =  new GameSnapshot(game, null, null, null, null, 0, 0);
 
-        suspect = new Suspect(game, name, "Description", "Detective_sprite.png", position, "");
+        suspect = new Suspect(game, name, "Description", "Detective_sprite.png", position, null);
     }
 
 	@Test
