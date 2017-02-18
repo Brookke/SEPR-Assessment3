@@ -11,16 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import org.teamfarce.mirch.*;
+import org.teamfarce.mirch.Entities.AbstractPerson;
 import org.teamfarce.mirch.Entities.Suspect;
-import org.teamfarce.mirch.GameSnapshot;
-import org.teamfarce.mirch.GameState;
-import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Screens.Elements.InterviewResponseBox;
 import org.teamfarce.mirch.Screens.Elements.InterviewResponseButton;
 import org.teamfarce.mirch.Screens.Elements.StatusBar;
-import org.teamfarce.mirch.Vector2Int;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 
 /**
@@ -40,6 +39,8 @@ public class InterviewScreen extends AbstractScreen {
     final static float Y_OFFSET = 20;
     final static float WIDTH = Gdx.graphics.getWidth() - (2 * X_OFFSET);
     final static float HEIGHT = Gdx.graphics.getHeight() - Y_OFFSET;
+
+    private Suspect suspect = null;
 
     /**
      * Constructor for Interview screen
@@ -74,9 +75,12 @@ public class InterviewScreen extends AbstractScreen {
         interviewContainer.setBackground(trd);
         interviewStage.addActor(interviewContainer);
 
+        suspect = gameSnapshot.getSuspectForInterview();
 
-        //TODO: replace this with actual suspect
-        Suspect suspect = new Suspect("Donald Trump", "POTUS", "Trumpo_sprite.png", new Vector2Int(1,1), null);
+        if (suspect == null)
+        {
+            throw new NullPointerException("No Suspect Defined for Interview Screen");
+        }
 
         //Setup vars needed to render dialogue & responses
         String responseBoxInstructions = "";
@@ -163,11 +167,11 @@ public class InterviewScreen extends AbstractScreen {
         dialogue.setPosition(280, 510);
         this.interviewStage.addActor(dialogue);
 
-        Image suspectImage = new Image(suspect.getTexture());
-        suspectImage.setPosition(200, 500);
+        Image suspectImage = new Image(new TextureRegion(suspect.getTexture(), 0, 0, AbstractPerson.SPRITE_WIDTH, AbstractPerson.SPRITE_HEIGHT));
+        suspectImage.setSize(AbstractPerson.SPRITE_WIDTH * 2f, AbstractPerson.SPRITE_HEIGHT * 2f);
+        suspectImage.setPosition(200, 475);
         this.interviewStage.addActor(suspectImage);
     }
-
 
     /**
      * Event handler that switches game state when player selects a response
@@ -183,6 +187,10 @@ public class InterviewScreen extends AbstractScreen {
                 break;
             case 2: //Ignore or return to map
                 gameSnapshot.setState(GameState.map);
+                suspect.canMove = true;
+                suspect = null;
+                gameSnapshot.setSuspectForInterview(null);
+                game.player.clearTalkTo();
                 break;
             case 3: //Game has been won
                 gameSnapshot.gameWon = true;
