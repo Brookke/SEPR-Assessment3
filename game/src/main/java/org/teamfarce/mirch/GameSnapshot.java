@@ -66,7 +66,7 @@ public class GameSnapshot
         this.gameWon = false;
         this.sumProvesMean = sumProvesMeans;
         this.sumProvesMotive = sumProvesMotive;
-        this.score = 1;
+        this.score = 50;
 
     }
 
