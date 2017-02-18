@@ -21,7 +21,8 @@ import java.util.ArrayList;
 
 /**
  * The InterviewScreen contains GUI for these GameStates:
- * interviewStart, interviewQuestionStyle, interviewAccuse
+ * interviewStart, interviewQuestionStyle, interviewAccuse, interviewQuestion,
+ * interviewQuestionClue
  */
 public class InterviewScreen extends AbstractScreen {
 
