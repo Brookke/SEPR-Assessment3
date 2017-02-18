@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.Entities.Clue;
 import org.teamfarce.mirch.GameSnapshot;
@@ -108,8 +109,10 @@ public class JournalScreen extends AbstractScreen
         clueName.setPosition( 10, clueBackground.getY() + clueBackground.getHeight() - 30);
 
         clueDesc = new Label(currentClue.getDescription(), uiSkin);
-        clueDesc.setPosition(10, clueBackground.getY() + clueBackground.getHeight() - 70);
+        clueDesc.setPosition(10, clueBackground.getY());
         clueDesc.setWidth(PAGE_CONTENT_WIDTH / 2);
+        clueDesc.setHeight(clueBackground.getHeight() - 40);
+        clueDesc.setAlignment(Align.topLeft);
         clueDesc.setWrap(true);
 
         clueImage = new Image(new TextureRegion(currentClue.getTexture(), currentClue.getResourceX() * 128, currentClue.getResourceY() * 128, 128, 128));
