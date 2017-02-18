@@ -26,7 +26,7 @@ public class StatusBar
     /**
      * Item count
      */
-    private static final int ITEM_COUNT = 4; //Used to set width of controls on bar
+    private static final int ITEM_COUNT = 5; //Used to set width of controls on bar
 
     /**
      * Width of bar
@@ -39,6 +39,7 @@ public class StatusBar
     public Stage stage;
 
     private TextButton scoreLabel;
+    private TextButton personalityMeter;
 
     /**
      * Game snapshot instance
@@ -63,7 +64,6 @@ public class StatusBar
 
 
         scoreLabel = new TextButton("Score: " + gameSnapshot.getScore(), uiSkin);
-        //scoreLabel.setAlignment(Align.center, Align.center);
         statusBar.add(scoreLabel).uniform();
 
         TextButton mapButton = new TextButton("Map", uiSkin);
@@ -72,6 +72,10 @@ public class StatusBar
         TextButton journalButton = new TextButton("Journal", uiSkin);
         statusBar.add(journalButton).uniform();
 
+        personalityMeter = new TextButton(getPersonalityMeterValue(), uiSkin);
+        statusBar.add(personalityMeter).uniform();
+
+        /* Event handlers */
         //add a listener for the show interview log button
         mapButton.addListener(new ChangeListener()
         {
@@ -95,6 +99,24 @@ public class StatusBar
         stage.addActor(statusBar);
     }
 
+    private String getPersonalityMeterValue() {
+        int personalityScore = gameSnapshot.getPersonality();
+        String result = "";
+
+        if (personalityScore > 5) {
+            result = "Very polite";
+        } else if (personalityScore <= 5 && personalityScore >= 2) {
+            result = "Quite polite";
+        } else if (personalityScore <= 1 && personalityScore >= -1) {
+            result = "Conversational";
+        } else if (personalityScore <= -2 && personalityScore >= -5) {
+            result = "Quite aggressive";
+        } else if (personalityScore < -5) {
+            result = "Very aggressive";
+        }
+        return "Your Personality: " + result;
+    }
+
     /**
      * Render function to display the status bar
      * Usage: call within the render() method in a screen
@@ -102,6 +124,7 @@ public class StatusBar
     public void render()
     {
         scoreLabel.setText("Score: " + gameSnapshot.getScore());
+        personalityMeter.setText(getPersonalityMeterValue());
         stage.act();
 
         stage.draw();
