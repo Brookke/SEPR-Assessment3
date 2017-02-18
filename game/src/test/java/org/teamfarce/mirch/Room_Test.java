@@ -2,7 +2,7 @@ package org.teamfarce.mirch;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.teamfarce.mirch.Entities.Direction;
+import org.teamfarce.mirch.entities.Direction;
 import org.teamfarce.mirch.Map.Room;
 
 import static junit.framework.TestCase.assertEquals;

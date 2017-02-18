@@ -1,14 +1,11 @@
-package org.teamfarce.mirch.Entities;
+package org.teamfarce.mirch.entities;
 
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
-import org.teamfarce.mirch.Screens.MapScreen;
+import org.teamfarce.mirch.screens.MapScreen;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.Map.Room;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by brookehatton on 31/01/2017.

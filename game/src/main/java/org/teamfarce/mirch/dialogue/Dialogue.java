@@ -3,11 +3,9 @@ package org.teamfarce.mirch.dialogue;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.entities.Clue;
 
 import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by brookehatton on 16/02/2017.

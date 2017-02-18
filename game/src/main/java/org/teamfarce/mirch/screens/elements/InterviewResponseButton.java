@@ -1,6 +1,6 @@
-package org.teamfarce.mirch.Screens.Elements;
+package org.teamfarce.mirch.screens.elements;
 
-import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.entities.Clue;
 
 /**
  * Button to use with the interview response box

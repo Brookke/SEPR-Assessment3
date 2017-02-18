@@ -1,6 +1,6 @@
 package org.teamfarce.mirch;
 
-import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.entities.Clue;
 
 import java.util.ArrayList;
 import java.util.List;

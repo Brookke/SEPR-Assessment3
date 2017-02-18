@@ -1,8 +1,8 @@
 package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Game;
-import org.teamfarce.mirch.Entities.Player;
-import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.entities.Player;
+import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
 import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.Map.Room;

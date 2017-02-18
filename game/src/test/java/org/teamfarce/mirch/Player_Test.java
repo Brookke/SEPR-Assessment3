@@ -2,9 +2,7 @@ package org.teamfarce.mirch;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.teamfarce.mirch.Entities.Player;
-import org.teamfarce.mirch.GameTest;
-import org.teamfarce.mirch.Vector2Int;
+import org.teamfarce.mirch.entities.Player;
 import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.Map.Room;
 

@@ -1,12 +1,10 @@
-package org.teamfarce.mirch.Entities;
+package org.teamfarce.mirch.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.dialogue.Dialogue;
-import org.teamfarce.mirch.dialogue.DialogueTree;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 

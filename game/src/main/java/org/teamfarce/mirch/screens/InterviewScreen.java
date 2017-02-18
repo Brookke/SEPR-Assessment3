@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.Screens;
+package org.teamfarce.mirch.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -9,12 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.*;
-import org.teamfarce.mirch.Entities.AbstractPerson;
-import org.teamfarce.mirch.Entities.Clue;
-import org.teamfarce.mirch.Entities.Suspect;
-import org.teamfarce.mirch.Screens.Elements.InterviewResponseBox;
-import org.teamfarce.mirch.Screens.Elements.InterviewResponseButton;
-import org.teamfarce.mirch.Screens.Elements.StatusBar;
+import org.teamfarce.mirch.entities.AbstractPerson;
+import org.teamfarce.mirch.entities.Clue;
+import org.teamfarce.mirch.entities.Suspect;
+import org.teamfarce.mirch.screens.elements.InterviewResponseBox;
+import org.teamfarce.mirch.screens.elements.InterviewResponseButton;
+import org.teamfarce.mirch.screens.elements.StatusBar;
 
 import java.util.ArrayList;
 

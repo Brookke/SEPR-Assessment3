@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.Entities;
+package org.teamfarce.mirch.entities;
 
 /**
  * Created by brookehatton on 02/02/2017.

@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.Entities;
+package org.teamfarce.mirch.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

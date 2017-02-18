@@ -2,11 +2,8 @@ package org.teamfarce.mirch.dialogue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.GameTest;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.*;
 

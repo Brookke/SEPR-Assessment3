@@ -5,8 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.teamfarce.mirch.Entities.Suspect;
-import org.teamfarce.mirch.dialogue.Dialogue;
+import org.teamfarce.mirch.entities.Suspect;
 
 /**
  * @author jacobwunwin
