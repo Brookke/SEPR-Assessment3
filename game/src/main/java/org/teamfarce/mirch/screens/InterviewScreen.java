@@ -118,7 +118,7 @@ public class InterviewScreen extends AbstractScreen {
 
                     //Setup buttons to Question, Accuse and Ignore
 
-                    for (Clue c : game.gameSnapshot.journal.getClues()) {
+                    for (Clue c : game.gameSnapshot.journal.getQuestionableClues()) {
                         buttonList.add(new InterviewResponseButton(c.getName(), 0, c, clueHandler));
                     }
                 } else {
