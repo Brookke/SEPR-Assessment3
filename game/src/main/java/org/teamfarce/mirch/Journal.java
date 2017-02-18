@@ -76,6 +76,13 @@ public class Journal
         }
     }
 
+    /**
+     * This method returns the full motive from the 3 seperated clues.
+     *
+     * It also adds a full motive to the journal clues and removes the seperate parts
+     *
+     * @return String motive
+     */
     private String getMotive()
     {
         String[] motives = new String[]{"","",""};
