@@ -19,8 +19,11 @@ public class Journal
 
     public ArrayList<Clue> foundClues;
 
-    public int motivesFound = 0;
-    public boolean foundWeapon = false;
+    /**
+     * These variables store information about what clues have been found
+     */
+    private int motivesFound = 0;
+    private boolean foundWeapon = false;
 
     /**
      * The conversation buffer.
@@ -124,6 +127,22 @@ public class Journal
     public void addConversation(String text, String characterName)
     {
         this.conversations.add(String.format("%1$s: %2$s", characterName, text));
+    }
+
+    /**
+     * This method returns whether the murder weapon has been found or not
+     */
+    public boolean hasFoundMurderWeapon()
+    {
+        return foundWeapon;
+    }
+
+    /**
+     * This method returns whether the motive clue has been found or not
+     */
+    public boolean hasFoundMotiveClue()
+    {
+        return motivesFound >= 3;
     }
 
     public List<String> getConversations()

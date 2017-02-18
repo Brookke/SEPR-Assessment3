@@ -3,6 +3,7 @@
  */
 package org.teamfarce.mirch;
 
+import com.badlogic.gdx.Game;
 import org.junit.Test;
 import org.teamfarce.mirch.Entities.Clue;
 
@@ -20,7 +21,11 @@ public class Journal_Test extends GameTest
     @Test
     public void addClue()
     {
-        Journal journal = new Journal(null);
+        MIRCH game = new MIRCH();
+        game.gameSnapshot = new GameSnapshot(game, null, null, null, null, 0, 0);
+        game.gameSnapshot.score = 0;
+
+        Journal journal = new Journal(game);
 		    Clue clue = new Clue("Clue name", "Description","clueSheet.png", 0, 0, false);
         journal.addClue(clue);
 
@@ -31,7 +36,11 @@ public class Journal_Test extends GameTest
     @Test
     public void getClues()
     {
-        Journal journal = new Journal(null);
+        MIRCH game = new MIRCH();
+        game.gameSnapshot = new GameSnapshot(game, null, null, null, null, 0, 0);
+        game.gameSnapshot.score = 0;
+
+        Journal journal = new Journal(game);
         ArrayList<Clue> cluesList = new ArrayList<>();
 
 		    Clue clue = new Clue("Clue name", "Description","clueSheet.png", 0, 0, false);
