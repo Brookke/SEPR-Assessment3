@@ -84,6 +84,9 @@ public class Player extends AbstractPerson
         //Check to see if a person is standing at that location
         //Then we'll want to walk towards them (or next to them)
 
+        talkToOnEnd = null;
+        findOnEnd = null;
+
         for (Suspect s : ((MapScreen) game.guiController.mapScreen).getNPCs())
         {
             if (s.getTileCoordinates().equals(tileLocation) && s.getState() != PersonState.WALKING)
@@ -237,6 +240,13 @@ public class Player extends AbstractPerson
 
             game.gameSnapshot.setState(GameState.interviewStart);
             game.gameSnapshot.setSuspectForInterview(talkToOnEnd);
+        }
+
+        if (toMoveTo.isEmpty() && findOnEnd != null)
+        {
+            setDirection(findOnEnd.getTileCoordinates().dirBetween(getTileCoordinates()));
+
+            //game.gameSnapshot.setState(GameState.findClue);
         }
     }
 
