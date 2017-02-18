@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.teamfarce.mirch.entities.Clue;
 
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Created by brookehatton on 16/02/2017.
@@ -64,9 +65,6 @@ public class Dialogue
             }
         }
 
-
-        //TODO: add verification of noneResponses too
-
         return true;
 
     }
@@ -91,8 +89,9 @@ public class Dialogue
         if (this.jsonData.get("responses").has(speechKey)) {
             return this.jsonData.get("responses").getString(speechKey);
         } else {
-            //TODO: randomise
-            return this.jsonData.get("noneResponses").getString(0);
+            Random random = new Random();
+            int size = this.jsonData.get("noneResponses").size;
+            return this.jsonData.get("noneResponses").getString(random.nextInt(size));
         }
     }
 
