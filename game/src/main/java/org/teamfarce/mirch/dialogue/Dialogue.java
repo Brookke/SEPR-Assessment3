@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.teamfarce.mirch.Entities.Clue;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class Dialogue
 
 
         //TODO: validate against template
-        //validateJsonAgainst(cluesNames);
+        validateJsonAgainstTemplate();
     }
 
     /**
@@ -40,16 +41,19 @@ public class Dialogue
      * @throws InvalidDialogueException if the JSON is invalid
      */
     private boolean validateJsonAgainstTemplate() throws InvalidDialogueException {
+        JsonValue jsonTemp =  new JsonReader().parse(Gdx.files.internal("template.JSON"));
 
-       /* for (: clues) {
-            if (this.jsonData.get("responses").has(c.getName())) {
-                if (!(this.jsonData.get("responses").getString(c.getName()).length() > 0)) {
-                    throw new InvalidDialogueException("No response value for clue: " + c.getName());
+            Iterator itr = jsonTemp.get("responses").iterator();
+            while (itr.hasNext()) {
+                String key = itr.next().toString().split(":")[0];
+                if (this.jsonData.get("responses").has(key)) {
+                    if (!(this.jsonData.get("responses").getString(key).length() > 0)) {
+                        throw new InvalidDialogueException("No response value for key: " + key);
+                    }
+                } else {
+                    throw new InvalidDialogueException("No response key for key: " + key);
                 }
-            } else {
-                throw new InvalidDialogueException("No response key for clue: " + c.getName());
             }
-        }*/
 
         //TODO: add verification of noneResponses too
 

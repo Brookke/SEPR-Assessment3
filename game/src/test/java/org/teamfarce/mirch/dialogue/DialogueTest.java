@@ -20,14 +20,8 @@ public class DialogueTest extends GameTest
 
     @Before
     public void setup() {
-        clues = new ArrayList<>();
-        clues.add(new Clue("Big Footprint", "1", "Axe.png"));
-        clues.add(new Clue("Small Footprint", "2", "Axe.png"));
-        clues.add(new Clue("Glasses", "3", "Axe.png"));
-        clues.add(new Clue("Bag", "4", "Axe.png"));
-
         try {
-            testDialogue = new Dialogue("template.JSON", clues);
+            testDialogue = new Dialogue("template.JSON");
         } catch (Dialogue.InvalidDialogueException e) {
             fail(e.getMessage());
         }
@@ -37,16 +31,10 @@ public class DialogueTest extends GameTest
     @Test
     public void constructor1() throws Exception
     {
-        List<Clue> failClues = new ArrayList<>();
-        failClues.add(new Clue("Hand", "1", "Axe.png"));
-        failClues.add(new Clue("Leg", "2", "Axe.png"));
-        failClues.add(new Clue("Glasses", "3", "Axe.png"));
-        failClues.add(new Clue("Bag", "4", "Axe.png"));
-
         Dialogue testConstructor;
 
         try {
-            testConstructor = new Dialogue("template.JSON", failClues);
+            testConstructor = new Dialogue("DoNotUse.JSON");
             fail("JSON not being verified");
         } catch (Dialogue.InvalidDialogueException e) {
 
@@ -57,7 +45,7 @@ public class DialogueTest extends GameTest
     public void constructor2() {
         Dialogue testConstructor;
         try {
-            testConstructor = new Dialogue("template.JSON", clues);
+            testConstructor = new Dialogue("template.JSON");
         } catch (Dialogue.InvalidDialogueException e) {
             fail(e.getMessage());
         }
