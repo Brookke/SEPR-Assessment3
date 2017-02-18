@@ -270,6 +270,10 @@ public class Player extends AbstractPerson
 
             this.setRoom(newRoomData.getNewRoom());
 
+            if (newRoomData.getNewRoom().isMurderRoom())
+            {
+                game.gameSnapshot.hasFoundMurderRoom = true;
+            }
 
             if (newRoomData.newDirection != null) {
                 direction = newRoomData.newDirection;

@@ -37,6 +37,8 @@ public class GameSnapshot
     private GameState state;
     private float counter = 0f;
 
+    public boolean hasFoundMurderRoom = false;
+
     private Suspect interviewSuspect = null;
 
 
@@ -229,7 +231,7 @@ public class GameSnapshot
      */
     public boolean isMeansProven()
     {
-        return (this.meansProven >= this.sumProvesMean * 0.5);
+        return journal.hasFoundMurderWeapon();
     }
 
     /**
@@ -239,7 +241,17 @@ public class GameSnapshot
      */
     public boolean isMotiveProven()
     {
-        return (this.motiveProven >= this.sumProvesMotive * 0.5);
+        return journal.hasFoundMotiveClue();
+    }
+
+    /**
+     * Returns true if they have discovered the murder room or not
+     *
+     * @return Whether the murder room has been discovered or not
+     */
+    public boolean hasFoundMurderRoom()
+    {
+        return hasFoundMurderRoom;
     }
 
     /**
