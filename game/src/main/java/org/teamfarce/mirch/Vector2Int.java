@@ -1,7 +1,7 @@
 package org.teamfarce.mirch;
 
 
-import org.teamfarce.mirch.Entities.Direction;
+import org.teamfarce.mirch.entities.Direction;
 
 /**
  * This class defines a 2D vector to represent coordinates within the game.

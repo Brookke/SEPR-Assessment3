@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.Screens;
+package org.teamfarce.mirch.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -16,11 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
-import org.teamfarce.mirch.Screens.Elements.StatusBar;
+import org.teamfarce.mirch.screens.elements.StatusBar;
 
 import java.util.List;
 

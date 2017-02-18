@@ -5,7 +5,7 @@ package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Game;
 import org.junit.Test;
-import org.teamfarce.mirch.Entities.Clue;
+import org.teamfarce.mirch.entities.Clue;
 
 import java.util.ArrayList;
 

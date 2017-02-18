@@ -6,10 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.Map.Map;
 import org.teamfarce.mirch.Map.Room;
-import org.teamfarce.mirch.Screens.NarratorScreen;
+import org.teamfarce.mirch.screens.NarratorScreen;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ public class Suspect_Test {
         game.guiController = new GUIController(game);
         game.guiController.narratorScreen = new NarratorScreen(game, new Skin());
 
-        suspect = new Suspect(game, name, "Description", "Detective_sprite.png", position, "");
+        suspect = new Suspect(game, name, "Description", "Detective_sprite.png", position, null);
     }
 
 	@Test

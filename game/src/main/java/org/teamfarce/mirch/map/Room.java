@@ -7,10 +7,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import org.teamfarce.mirch.Assets;
-import org.teamfarce.mirch.Entities.Clue;
-import org.teamfarce.mirch.Entities.Direction;
 import org.teamfarce.mirch.Settings;
-import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.entities.Clue;
+import org.teamfarce.mirch.entities.Direction;
+import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
 

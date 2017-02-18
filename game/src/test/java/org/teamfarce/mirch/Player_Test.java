@@ -2,7 +2,8 @@ package org.teamfarce.mirch;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.teamfarce.mirch.Entities.Player;
+import org.teamfarce.mirch.entities.Player;
+import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.Map.Room;
 
 import static org.junit.Assert.*;
@@ -15,9 +16,10 @@ public class Player_Test extends GameTest {
     Player p;
 
     @Before
-    public void start()
+    public void start() throws Dialogue.InvalidDialogueException
     {
-        p = new Player(null, "Name", "Desc", "Detective_sprite.png");
+        Dialogue dialogue = new Dialogue("template.JSON", false);
+        p = new Player(null, "Name", "Desc", "Detective_sprite.png", dialogue);
     }
 
     @Test

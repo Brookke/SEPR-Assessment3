@@ -1,15 +1,10 @@
-package org.teamfarce.mirch.Screens.Elements;
+package org.teamfarce.mirch.screens.elements;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -89,7 +84,7 @@ public class InterviewResponseBox {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         //Trigger click event handler for current button (see button definition)
-                        button.eventHandler.trigger(button.result);
+                        button.eventHandler.trigger(button.result, button.clue);
                     }
                 });
 
