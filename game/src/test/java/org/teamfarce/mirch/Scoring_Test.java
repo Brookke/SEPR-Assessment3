@@ -17,13 +17,13 @@ public class Scoring_Test extends GameTest
     public void init_tests()
     {
 
-        gameSnapshot = new GameSnapshot(null, null, null, 0, 0);
+        gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
 
     }
 
 
     @Test
-    public void test_modifyScore_Addition()
+    public void modifyScoreAddition()
     {
         int currentScore;
         int inc = 20;
@@ -35,7 +35,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void test_modifyScore_Subtraction()
+    public void modifyScoreSubtraction()
     {
         int currentScore;
         int inc = -20;
@@ -47,7 +47,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void test_updateScore_no_decrease()
+    public void updateScoreNoDecrease()
     {
         int currentScore;
         float delta = 0.25f;
@@ -59,7 +59,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void test_updateScore_has_decrease()
+    public void updateScoreHasDecrease()
     {
         int currentScore;
         float delta = 5.00f;

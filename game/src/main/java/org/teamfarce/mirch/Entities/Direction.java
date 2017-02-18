@@ -39,5 +39,19 @@ public enum Direction
         return this.dy;
     }
 
+    /**
+     * This method takes the current direction and gets the opposite direction
+     *
+     * @return (Direction) the opposite direction to this
+     */
+    public Direction getOpposite()
+    {
+        if (this == Direction.NORTH) return Direction.SOUTH;
+        if (this == Direction.EAST) return Direction.WEST;
+        if (this == Direction.SOUTH) return Direction.NORTH;
+        if (this == Direction.WEST) return Direction.EAST;
+
+        return null;
+    }
 
 }

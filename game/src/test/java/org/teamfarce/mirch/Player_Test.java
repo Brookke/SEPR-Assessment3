@@ -19,11 +19,11 @@ public class Player_Test extends GameTest {
     @Before
     public void start()
     {
-        p = new Player("Name", "Desc", "Detective_sprite.png");
+        p = new Player(null, "Name", "Desc", "Detective_sprite.png");
     }
 
     @Test
-    public void test_aStar()
+    public void aStar()
     {
         Vector2Int start = new Vector2Int(0, 0);
 

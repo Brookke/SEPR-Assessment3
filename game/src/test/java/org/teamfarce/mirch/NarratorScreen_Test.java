@@ -22,12 +22,12 @@ public class NarratorScreen_Test extends GameTest
     {
         Skin skin = new Skin();
         game = new MIRCH();
-        game.gameSnapshot = new GameSnapshot(null, null, null, 0, 0);
+        game.gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
         screen = new NarratorScreen(game, skin);
     }
 
     @Test
-    public void test_setSpeech()
+    public void setSpeech()
     {
         screen.setSpeech("Test Speech");
 
@@ -35,7 +35,7 @@ public class NarratorScreen_Test extends GameTest
     }
 
     @Test
-    public void test_UpdateSpeech()
+    public void updateSpeech()
     {
         screen.setSpeech("Test Speech");
         screen.updateSpeech();
