@@ -224,6 +224,8 @@ public class InterviewScreen extends AbstractScreen {
 
         Label dialogue = new Label(suspectDialogue, uiSkin);
         dialogue.setPosition(280, 510);
+        dialogue.setWidth(440);
+        dialogue.setWrap(true);
         this.interviewStage.addActor(dialogue);
 
         Image suspectImage = new Image(new TextureRegion(suspect.getTexture(), 0, 0, AbstractPerson.SPRITE_WIDTH, AbstractPerson.SPRITE_HEIGHT));
