@@ -46,7 +46,7 @@ public class ScenarioBuilderDatabase
             singleMeans.id = rsMeans.getInt("id");
             singleMeans.name = rsMeans.getString("name");
             singleMeans.description = rsMeans.getString("description");
-            singleMeans.sprite = "clueSheet.png";
+            singleMeans.sprite = resources.get(rsMeans.getInt("resource")).filename;
             singleMeans.assetX = rsMeans.getInt("resourceX");
             singleMeans.assetY = rsMeans.getInt("resourceY");
             singleMeans.isMeans = true;
@@ -60,7 +60,7 @@ public class ScenarioBuilderDatabase
             clue.id = rsClue.getInt("id");
             clue.name = rsClue.getString("name");
             clue.description = rsClue.getString("description");
-            clue.sprite = "clueSheet.png";
+            clue.sprite = resources.get(rsMeans.getInt("resource")).filename;
             clue.assetX = rsClue.getInt("resourceX");
             clue.assetY = rsClue.getInt("resourceY");
             clue.isMeans = false;
