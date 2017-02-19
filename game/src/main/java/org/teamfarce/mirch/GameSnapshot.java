@@ -22,7 +22,6 @@ public class GameSnapshot {
      */
     public Journal journal;
     public Map map;
-    public boolean hasFoundMurderRoom = false;
     public Suspect victim;
     public Suspect murderer;
     MIRCH game;
@@ -217,15 +216,6 @@ public class GameSnapshot {
      */
     public boolean isMotiveProven() {
         return journal.hasFoundMotiveClue();
-    }
-
-    /**
-     * Returns true if they have discovered the murder room or not
-     *
-     * @return Whether the murder room has been discovered or not
-     */
-    public boolean hasFoundMurderRoom() {
-        return hasFoundMurderRoom;
     }
 
     /**
