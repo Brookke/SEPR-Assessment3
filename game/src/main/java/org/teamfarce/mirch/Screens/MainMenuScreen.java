@@ -74,13 +74,10 @@ public class MainMenuScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(stage);
 
         //Loading the menu
-        initMenu(game);
+        initMenu(game, uiSkin);
     }
 
-    private void initMenu(final MIRCH game) {
-        //Initialising the skin used for the buttons and the label
-        Skin holoSkin;
-        holoSkin = new Skin(Gdx.files.internal("skins/gdx-holo/uiskin.json"));
+    private void initMenu(final MIRCH game, Skin uiSkin) {
 
         //Setting the background
         Image background = new Image(new TextureRegion(Assets.loadTexture("rch3.jpg")));
@@ -93,7 +90,7 @@ public class MainMenuScreen extends AbstractScreen {
         Label text;
 
         text = new Label("Welcome to the Lorem Ipsum Murder Mystery Game!", textStyle);
-        TextButton newGameButton = new TextButton("New Game", holoSkin);
+        TextButton newGameButton = new TextButton("New Game", uiSkin);
 
         text.setFontScale(2, 2);
 
@@ -103,7 +100,7 @@ public class MainMenuScreen extends AbstractScreen {
         newGameButton.setPosition(WIDTH, (float) (Gdx.graphics.getHeight()-(Gdx.graphics.getHeight() / 4)-120));
         newGameButton.getLabel().setFontScale(3/2,3/2);
         newGameButton.setSize(400, 80);
-        TextButton quit = new TextButton("Quit", holoSkin);
+        TextButton quit = new TextButton("Quit", uiSkin);
         quit.getLabel().setFontScale(3/2,3/2);
         quit.setSize(400, 80);
         quit.setPosition(WIDTH, (Gdx.graphics.getHeight() / 2)-70 );
