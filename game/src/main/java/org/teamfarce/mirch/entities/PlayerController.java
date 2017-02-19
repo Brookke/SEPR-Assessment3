@@ -83,8 +83,6 @@ public class PlayerController extends InputAdapter {
             return true;
         }
 
-        //TODO: The following 3 key reads could do with being placed in another controller
-
         return false;
     }
 
