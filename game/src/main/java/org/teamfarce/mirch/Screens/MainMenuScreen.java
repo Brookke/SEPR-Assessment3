@@ -22,10 +22,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import org.teamfarce.mirch.MIRCH;
 
 /**
- * Created by vishal on 15/02/2017.
- */
-
-/**
  * The Main Menu screen draws the Main Menu GUI to the screen and handles any inputs
  * whilst the Menu is displayed.
  */
@@ -134,6 +130,10 @@ public class MainMenuScreen extends AbstractScreen {
 
     }
 
+    /**
+     * This method is called to change the state to "menu", this sets the screen to
+     * "MainMenuScreen".
+     */
     public void makeVisible()
     {
         gameSnapshot.setState(GameState.menu);
