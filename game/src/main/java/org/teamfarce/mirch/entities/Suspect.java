@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class Suspect extends AbstractPerson {
     public List<Clue> relatedClues;
-    public boolean isMurderer;
+
     /**
      * The size of this suspect's step.
      */
@@ -49,7 +49,6 @@ public class Suspect extends AbstractPerson {
         super(game, name, description, filename, dialogue);
 
         this.beenAccused = false;
-        this.isMurderer = false;
         this.setTileCoordinates(startingPosition.x, startingPosition.y);
         this.moveStep = new Vector2(0, 0);
     }
@@ -68,12 +67,12 @@ public class Suspect extends AbstractPerson {
     public boolean accuse(boolean hasEvidence) {
         this.beenAccused = true;
         //clear the dialogue tree here
-        if (this.isMurderer == false || hasEvidence == false) {
+        if (this.killer == false || hasEvidence == false) {
             game.gameSnapshot.modifyScore(-50);
         } else {
             game.gameSnapshot.modifyScore(100);
         }
-        return (this.isMurderer) && (hasEvidence);
+        return (this.killer) && (hasEvidence);
     }
 
     /**

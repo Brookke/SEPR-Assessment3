@@ -45,7 +45,7 @@ public class Suspect_Test {
 
     @Test
     public void hasBeenAccused() {
-        suspect.isMurderer = false;
+        suspect.setKiller();
         assertFalse(suspect.accuse(false));
 
         assertTrue(suspect.hasBeenAccused());
