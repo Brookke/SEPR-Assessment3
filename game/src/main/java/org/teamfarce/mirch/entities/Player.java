@@ -84,7 +84,13 @@ public class Player extends AbstractPerson
         initialiseMove(dir);
     }
 
-
+    /**
+     * This method is called when the player clicks on the screen.
+     *
+     * This is handled in the PlayerController and passed to here
+     *
+     * @param tileLocation - The tile location they clicked at.
+     */
     public void interact(Vector2Int tileLocation)
     {
         talkToOnEnd = null;

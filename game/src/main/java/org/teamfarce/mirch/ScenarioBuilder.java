@@ -79,7 +79,6 @@ public class ScenarioBuilder
         System.out.println(parts[1]);
         System.out.println(parts[2]);
 
-        //TODO: update to the correct sprite if we are using them
         Clue part1 = new Clue("Motive Part 1", parts[0], "clueSheet.png", 1, 2, false);
         part1.setMotiveClue();
         Clue part2 = new Clue("Motive Part 2", parts[1], "clueSheet.png",1 , 2, false);

@@ -181,7 +181,7 @@ public class FindClueScreen extends AbstractScreen {
 
                 rotate = true;
 
-                goalPos = new Vector2Int((int) (Gdx.graphics.getWidth() * 0.75), Gdx.graphics.getHeight());
+                goalPos = new Vector2Int((int) (Gdx.graphics.getWidth() * 0.6), Gdx.graphics.getHeight());
                 goalSize = new Vector2Int(0, 0);
 
                 soFarAnim = 0f;
@@ -242,6 +242,11 @@ public class FindClueScreen extends AbstractScreen {
         clueStage.addActor(continueButton);
     }
 
+    /**
+     * This method hides the UI elements of this screen.
+     *
+     * Used when doing the animation of the clue going into the journal
+     */
     private void hideAll()
     {
         name.setVisible(false);
