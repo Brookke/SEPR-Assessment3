@@ -11,16 +11,14 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by joeshuff on 13/02/2017.
  */
-public class NarratorScreen_Test extends GameTest
-{
+public class NarratorScreen_Test extends GameTest {
 
     private NarratorScreen screen;
 
     private MIRCH game;
 
     @Before
-    public void init_tests()
-    {
+    public void init_tests() {
         Skin skin = new Skin();
         game = new MIRCH();
         game.gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
@@ -29,16 +27,14 @@ public class NarratorScreen_Test extends GameTest
     }
 
     @Test
-    public void setSpeech()
-    {
+    public void setSpeech() {
         screen.setSpeech("Test Speech");
 
         assertEquals("Test Speech", screen.getSpeech());
     }
 
     @Test
-    public void updateSpeech()
-    {
+    public void updateSpeech() {
         screen.setSpeech("Test Speech");
         screen.updateSpeech();
 

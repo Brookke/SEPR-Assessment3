@@ -1,15 +1,15 @@
 package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import org.teamfarce.mirch.entities.Player;
-import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
 import org.teamfarce.mirch.dialogue.Dialogue;
-import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.entities.Player;
+import org.teamfarce.mirch.entities.Suspect;
+import org.teamfarce.mirch.map.Room;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * MIRCH is used to generate all graphics in the program. It initialises the scenario generator and game state

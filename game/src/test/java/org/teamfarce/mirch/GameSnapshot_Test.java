@@ -8,26 +8,22 @@ import static org.junit.Assert.assertSame;
 /**
  * @author jacobwunwin
  */
-public class GameSnapshot_Test
-{
+public class GameSnapshot_Test {
 
     @Test
-    public void getTime()
-    {
+    public void getTime() {
         GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
         assertSame(gameSnapshot.getTime(), gameSnapshot.time);
     }
 
     @Test
-    public void getRooms()
-    {
+    public void getRooms() {
         GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
         assertSame(gameSnapshot.getRooms(), gameSnapshot.rooms);
     }
 
     @Test
-    public void getClues()
-    {
+    public void getClues() {
         GameSnapshot gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
         assertSame(gameSnapshot.getClues(), gameSnapshot.clues);
     }

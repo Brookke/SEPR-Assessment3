@@ -2,7 +2,7 @@ package org.teamfarce.mirch;
 
 import org.junit.Test;
 import org.teamfarce.mirch.entities.Clue;
-import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.map.Room;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +15,10 @@ import static org.junit.Assert.fail;
  *
  * @author jacobwunwin
  */
-public class ScenarioBuilder_Test extends GameTest
-{
+public class ScenarioBuilder_Test extends GameTest {
 
     @Test
-    public void distributeCluesGiveRooms()
-    {
+    public void distributeCluesGiveRooms() {
         List<Clue> clues = new ArrayList<>();
 
         clues.add(new Clue("1", "1", "clueSheet.png", 0, 0, false));
@@ -46,8 +44,7 @@ public class ScenarioBuilder_Test extends GameTest
     }
 
     @Test
-    public void distributeCluesDiffRooms()
-    {
+    public void distributeCluesDiffRooms() {
 
         List<Clue> clues = new ArrayList<>();
         clues.add(new Clue("1", "1", "clueSheet.png", 0, 0, false));
@@ -85,12 +82,12 @@ public class ScenarioBuilder_Test extends GameTest
 
 
     }
+
     /**
      * Test a typical use case of the ScenarioBuilder.
      */
     @Test
-    public void generateGame()
-    {
+    public void generateGame() {
         //ScenarioBuilder sb = new ScenarioBuilder();
         //sb.generateGame(10);
         //temporary output until test is fully built

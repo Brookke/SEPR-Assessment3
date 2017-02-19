@@ -11,23 +11,22 @@ import java.util.Random;
 /**
  * Stores information about a single suspect character.
  */
-public class Suspect extends AbstractPerson
-{
-    private Random random = new Random();
-
+public class Suspect extends AbstractPerson {
     public List<Clue> relatedClues;
     public boolean isMurderer;
-    /**
-     * The position of the suspect on the map.
-     */
     /**
      * The size of this suspect's step.
      */
     public Vector2 moveStep;
+    /**
+     * The position of the suspect on the map.
+     */
+    private Random random = new Random();
     private boolean beenAccused;
 
     private boolean killer = false;
     private boolean victim = false;
+
     /**
      * Initialiser function.
      *
@@ -35,7 +34,7 @@ public class Suspect extends AbstractPerson
      * @param description      A string description
      * @param filename         The filename of the image for this suspect.
      * @param startingPosition The position to start at.
-     * @param dialogue    The json file containing the suspects dialogue.
+     * @param dialogue         The json file containing the suspects dialogue.
      */
     public Suspect(
             MIRCH game,
@@ -44,8 +43,7 @@ public class Suspect extends AbstractPerson
             String filename,
             Vector2Int startingPosition,
             Dialogue dialogue
-    )
-    {
+    ) {
         super(game, name, description, filename, dialogue);
 
         this.beenAccused = false;
@@ -65,8 +63,7 @@ public class Suspect extends AbstractPerson
      * @param hasEvidence Whether the player has sufficient evidence the accuse
      * @return Whether the player has successfully accused the suspect
      */
-    public boolean accuse(boolean hasEvidence)
-    {
+    public boolean accuse(boolean hasEvidence) {
         this.beenAccused = true;
         //clear the dialogue tree here
         if (this.isMurderer == false || hasEvidence == false) {
@@ -82,21 +79,19 @@ public class Suspect extends AbstractPerson
      *
      * @return Whether the suspect has been accused.
      */
-    public boolean hasBeenAccused()
-    {
+    public boolean hasBeenAccused() {
         return beenAccused;
     }
 
     @Override
-    public void move(Direction dir)
-    {
+    public void move(Direction dir) {
         if (this.state != PersonState.STANDING) {
             return;
         }
 
         if (!canMove) return;
 
-        if (!getRoom().isWalkableTile(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy())) {
+        if (!getRoom().isWalkableTile(this.getTileX() + dir.getDx(), this.getTileY() + dir.getDy()) || getRoom().isTriggerTile(this.getTileX() + dir.getDx(), this.getTileY() + dir.getDy())) {
             setDirection(dir);
             return;
         }
@@ -108,8 +103,7 @@ public class Suspect extends AbstractPerson
      * This method is called once a game tick to randomise movement.
      */
     @Override
-    public void update(float delta)
-    {
+    public void update(float delta) {
         super.update(delta);
         this.randomMove();
     }
@@ -117,8 +111,7 @@ public class Suspect extends AbstractPerson
     /**
      * This method attempts to move the NPC in a random direction
      */
-    private void randomMove()
-    {
+    private void randomMove() {
         if (getState() == PersonState.WALKING) return;
 
         if (random.nextDouble() > 0.01) {

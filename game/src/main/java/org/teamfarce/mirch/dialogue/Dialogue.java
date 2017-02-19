@@ -11,10 +11,9 @@ import java.util.Random;
 /**
  * Created by brookehatton on 16/02/2017.
  */
-public class Dialogue
-{
-    private JsonValue jsonData;
+public class Dialogue {
     private static String templatePath;
+    private JsonValue jsonData;
     private boolean isForPlayer;
 
     public Dialogue(String jsonFile, boolean player) throws InvalidDialogueException {
@@ -28,20 +27,19 @@ public class Dialogue
      *
      * @param fileName - The filename to read from
      */
-    private void importDialogue(String fileName)
-    {
+    private void importDialogue(String fileName) {
         jsonData = new JsonReader().parse(Gdx.files.internal("characters/" + fileName));
     }
 
     /**
      * This takes a template file and validates that there exists a valid response like the templates.
+     *
      * @return Boolean true if it passes
      * @throws InvalidDialogueException if the JSON is invalid
      */
     private boolean validateJsonAgainstTemplate() throws InvalidDialogueException {
-        JsonValue jsonTemp =  new JsonReader().parse(Gdx.files.internal("characters/template.JSON"));
+        JsonValue jsonTemp = new JsonReader().parse(Gdx.files.internal("characters/template.JSON"));
         Iterator itr = jsonTemp.get("responses").iterator();
-
 
 
         if (isForPlayer) {
@@ -69,21 +67,21 @@ public class Dialogue
 
     /**
      * This gets the speech related to a clue
+     *
      * @param clue
      * @return
      */
-    public String get(Clue clue)
-    {
+    public String get(Clue clue) {
         return get(clue.getName());
     }
 
     /**
      * This gets the speech via its key in the JSON
+     *
      * @param speechKey
      * @return
      */
-    public String get(String speechKey)
-    {
+    public String get(String speechKey) {
         if (this.jsonData.get("responses").has(speechKey)) {
             return this.jsonData.get("responses").getString(speechKey);
         } else {
@@ -95,12 +93,12 @@ public class Dialogue
 
     /**
      * This handles the getting of personality based speech
+     *
      * @param clue
      * @param personality
      * @return
      */
-    public String get(Clue clue, String personality)
-    {
+    public String get(Clue clue, String personality) {
         if (isForPlayer) {
             return this.jsonData.get("responses").get(clue.getName()).getString(personality);
         }
@@ -113,14 +111,13 @@ public class Dialogue
     }
 
 
-    public class InvalidDialogueException extends Exception
-    {
+    public class InvalidDialogueException extends Exception {
         //Parameterless Constructor
-        public InvalidDialogueException() {}
+        public InvalidDialogueException() {
+        }
 
         //Constructor that accepts a message
-        public InvalidDialogueException(String message)
-        {
+        public InvalidDialogueException(String message) {
             super(message);
         }
     }

@@ -10,99 +10,80 @@ import static org.junit.Assert.assertSame;
 /**
  * Created by Jason on 04/02/2017.
  */
-public class GUIController_Test extends GameTest
-{
+public class GUIController_Test extends GameTest {
 
     MIRCH game;
 
     //Init empty screens for testing
     //This is done twice as we need two different objects to compare
     //No point loading actual game screens as they have extra dependencies
-    AbstractScreen screen1 = new AbstractScreen(game)
-    {
+    AbstractScreen screen1 = new AbstractScreen(game) {
         @Override
-        public void show()
-        {
+        public void show() {
         }
 
         @Override
-        public void render(float delta)
-        {
+        public void render(float delta) {
         }
 
         @Override
-        public void resize(int width, int height)
-        {
+        public void resize(int width, int height) {
         }
 
         @Override
-        public void pause()
-        {
+        public void pause() {
         }
 
         @Override
-        public void resume()
-        {
+        public void resume() {
         }
 
         @Override
-        public void hide()
-        {
+        public void hide() {
         }
 
         @Override
-        public void dispose()
-        {
+        public void dispose() {
         }
     };
-    AbstractScreen screen2 = new AbstractScreen(game)
-    {
+    AbstractScreen screen2 = new AbstractScreen(game) {
         @Override
-        public void show()
-        {
+        public void show() {
         }
 
         @Override
-        public void render(float delta)
-        {
+        public void render(float delta) {
         }
 
         @Override
-        public void resize(int width, int height)
-        {
+        public void resize(int width, int height) {
         }
 
         @Override
-        public void pause()
-        {
+        public void pause() {
         }
 
         @Override
-        public void resume()
-        {
+        public void resume() {
         }
 
         @Override
-        public void hide()
-        {
+        public void hide() {
         }
 
         @Override
-        public void dispose()
-        {
+        public void dispose() {
         }
     };
 
     @Before
-    public void init_tests()
-    {
+    public void init_tests() {
         game = new MIRCH();
         game.gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
     }
 
     @Test
-    public void constructor()
-    {
+    public void constructor() {
 
         //Init GUIController
         GUIController guiController = new GUIController(game);
@@ -113,8 +94,7 @@ public class GUIController_Test extends GameTest
     }
 
     @Test
-    public void screenCanBeSet()
-    {
+    public void screenCanBeSet() {
 
         //Init GUIController
         GUIController guiController = new GUIController(game);
@@ -135,8 +115,7 @@ public class GUIController_Test extends GameTest
     }
 
     @Test
-    public void screenCanBeChanged()
-    {
+    public void screenCanBeChanged() {
 
         //Init GUIController with active MapScreen
         game.gameSnapshot.setState(GameState.map);
