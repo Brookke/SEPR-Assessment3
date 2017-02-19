@@ -85,6 +85,7 @@ public class InterviewScreen extends AbstractScreen {
         //Setup vars needed to render dialogue & responses
         String responseBoxInstructions = "";
         String suspectDialogue = "";
+        boolean useMultiRowResponseBox = false;
         ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
         InterviewResponseButton.EventHandler switchStateHandler = (result, clue) -> switchState(result);
         InterviewResponseButton.EventHandler clueHandler = (result, clue) -> questionClue(result, clue);
@@ -132,6 +133,8 @@ public class InterviewScreen extends AbstractScreen {
                 break;
 
             case interviewQuestionStyle:
+                useMultiRowResponseBox = true;
+
                 //Setup suspect's dialogue
                 suspectDialogue = "";
 
@@ -143,13 +146,13 @@ public class InterviewScreen extends AbstractScreen {
 
                 //Setup buttons to Question, Accuse and Ignore, dependant on personality
                 if (personality <= 5) {
-                    buttonList.add(new InterviewResponseButton("Aggressively" + game.player.dialogue.get(tempClue, "AGGRESSIVE"), 0, null, styleHandler));
+                    buttonList.add(new InterviewResponseButton("Aggressively: " + game.player.dialogue.get(tempClue, "AGGRESSIVE"), 0, null, styleHandler));
                 }
 
-                buttonList.add(new InterviewResponseButton("Conversational" + game.player.dialogue.get(tempClue, "CONVERSATIONAL"), 1,null, styleHandler));
+                buttonList.add(new InterviewResponseButton("Conversational: " + game.player.dialogue.get(tempClue, "CONVERSATIONAL"), 1,null, styleHandler));
 
                 if (personality >= -5) {
-                    buttonList.add(new InterviewResponseButton("Politely" + game.player.dialogue.get(tempClue, "POLITE"), 2, null, styleHandler));
+                    buttonList.add(new InterviewResponseButton("Politely: " + game.player.dialogue.get(tempClue, "POLITE"), 2, null, styleHandler));
                 }
 
                 break;
@@ -198,9 +201,18 @@ public class InterviewScreen extends AbstractScreen {
         initSuspectBox(suspect, suspectDialogue);
 
         //Render Player's response options to the screen
-        InterviewResponseBox responseBox = new InterviewResponseBox(responseBoxInstructions, buttonList, uiSkin);
+        InterviewResponseBox responseBox = new InterviewResponseBox(responseBoxInstructions, buttonList, uiSkin, useMultiRowResponseBox);
         Table responseBoxTable = responseBox.getContent();
-        responseBoxTable.setPosition(450, 220);
+
+        //Position response box
+        responseBoxTable.setX(430);
+        if (useMultiRowResponseBox) {
+            responseBoxTable.setY(170);
+        } else {
+            responseBoxTable.setY(220);
+        }
+
+        //Add response box to screen
         interviewStage.addActor(responseBoxTable);
     }
 
