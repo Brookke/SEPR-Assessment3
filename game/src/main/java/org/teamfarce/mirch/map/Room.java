@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.Map;
+package org.teamfarce.mirch.map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -530,7 +530,7 @@ public class Room
 
         for (int w = 0; w < roomWidth; w++) {
             for (int h = 0; h < roomHeight; h++) {
-                if (isWalkableTile(w, h)) {
+                if (isWalkableTile(w, h) && !isTriggerTile(w,h)) {
                     possibleLocations.add(new Vector2Int(w, h));
                 }
             }

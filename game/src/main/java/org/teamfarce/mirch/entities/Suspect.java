@@ -96,7 +96,7 @@ public class Suspect extends AbstractPerson
 
         if (!canMove) return;
 
-        if (!getRoom().isWalkableTile(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy())) {
+        if (!getRoom().isWalkableTile(this.getTileX() + dir.getDx(), this.getTileY() + dir.getDy()) || getRoom().isTriggerTile(this.getTileX() + dir.getDx(), this.getTileY() + dir.getDy())) {
             setDirection(dir);
             return;
         }

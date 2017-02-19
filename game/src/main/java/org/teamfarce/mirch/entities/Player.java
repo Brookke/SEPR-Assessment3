@@ -282,8 +282,13 @@ public class Player extends AbstractPerson
 
         if (toMoveTo.isEmpty() && transitionOnEnd)
         {
-            setDirection(Direction.valueOf(getRoom().getMatRotation(getTileX(), getTileY())));
-            roomChange = true;
+            if (getRoom().isTriggerTile(getTileX(), getTileY()))
+            {
+                setDirection(Direction.valueOf(getRoom().getMatRotation(getTileX(), getTileY())));
+                roomChange = true;
+            }
+
+
         }
 
         if (trackToNext != null)

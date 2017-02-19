@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.Map;
+package org.teamfarce.mirch.map;
 
 
 import org.teamfarce.mirch.entities.Direction;
