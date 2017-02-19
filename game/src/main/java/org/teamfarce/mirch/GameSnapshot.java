@@ -14,8 +14,6 @@ import java.util.Random;
  */
 public class GameSnapshot
 {
-    MIRCH game;
-
     /**
      * Indicates whether the game has been won.
      */
@@ -24,9 +22,13 @@ public class GameSnapshot
      * Holds the journal associated with this state.
      */
     public Journal journal;
+    public Map map;
+    public boolean hasFoundMurderRoom = false;
+    public Suspect victim;
+    public Suspect murderer;
+    MIRCH game;
     List<Clue> clues;
     List<Room> rooms;
-    public Map map;
     int meansProven;
     int motiveProven;
     int sumProvesMotive;
@@ -37,13 +39,7 @@ public class GameSnapshot
     private List<Suspect> suspects;
     private GameState state;
     private float counter = 0f;
-
-    public boolean hasFoundMurderRoom = false;
-
     private Suspect interviewSuspect = null;
-
-    public Suspect victim;
-    public Suspect murderer;
 
     /**
      * Initialises function.
@@ -85,8 +81,7 @@ public class GameSnapshot
     {
         score += amount;
 
-        if (score <= 0)
-        {
+        if (score <= 0) {
             //Lost game
 
             String murdererName = murderer.getName();
@@ -95,17 +90,13 @@ public class GameSnapshot
             String weapon = "";
 
             //Get the murder room name and the murder weapon
-            for (Room r : game.gameSnapshot.map.getRooms())
-            {
-                if (r.isMurderRoom())
-                {
+            for (Room r : game.gameSnapshot.map.getRooms()) {
+                if (r.isMurderRoom()) {
                     room = r.getName();
                 }
 
-                for (Clue c : r.getClues())
-                {
-                    if (c.isMeansClue())
-                    {
+                for (Clue c : r.getClues()) {
+                    if (c.isMeansClue()) {
                         weapon = c.getName();
                     }
                 }
@@ -117,9 +108,11 @@ public class GameSnapshot
             //Send the speech to the narrrator screen and display it
             game.guiController.narratorScreen.setSpeech("Oh No!\n \nDetective " + detectives[new Random().nextInt(detectives.length)] + " has solved the crime before you! They discovered that all along it was " + murderer + " who killed " + victim + " in the " + room + " with " + weapon + "\n \n" +
                     "It's a real shame, I really thought you'd have gotten there first!\n \nOh well! Better luck next time!")
-                    .setButton("End Game", new Runnable() {
+                    .setButton("End Game", new Runnable()
+                    {
                         @Override
-                        public void run() {
+                        public void run()
+                        {
                             Gdx.app.exit();
                         }
                     });
@@ -273,14 +266,14 @@ public class GameSnapshot
         return this.suspects;
     }
 
-    public void setSuspectForInterview(Suspect s)
-    {
-        interviewSuspect = s;
-    }
-
     public Suspect getSuspectForInterview()
     {
         return interviewSuspect;
+    }
+
+    public void setSuspectForInterview(Suspect s)
+    {
+        interviewSuspect = s;
     }
 
     /**
@@ -308,11 +301,14 @@ public class GameSnapshot
     {
         return this.currentPersonality;
     }
+
     /**
      * Updates current personality of player in game
+     *
      * @param amount Amount to modify personality score by
      */
-    public void modifyPersonality(int amount) {
+    public void modifyPersonality(int amount)
+    {
         if (this.currentPersonality > -10 && this.currentPersonality < 10) {
             this.currentPersonality += amount;
         }

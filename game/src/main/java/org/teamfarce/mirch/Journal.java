@@ -1,8 +1,6 @@
 package org.teamfarce.mirch;
 
-import org.lwjgl.opencl.CL;
 import org.teamfarce.mirch.entities.Clue;
-import org.teamfarce.mirch.screens.NarratorScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +13,17 @@ import java.util.List;
  */
 public class Journal
 {
-    MIRCH game;
-
     public ArrayList<Clue> foundClues;
-
+    /**
+     * The conversation buffer.
+     */
+    public ArrayList<String> conversations;
+    MIRCH game;
     /**
      * These variables store information about what clues have been found
      */
     private int motivesFound = 0;
     private boolean foundWeapon = false;
-
-    /**
-     * The conversation buffer.
-     */
-    public ArrayList<String> conversations;
 
     /**
      * Initialise the Journal in an empty state.
@@ -51,15 +46,13 @@ public class Journal
 
         game.gameSnapshot.modifyScore(5);
 
-        if (clue.isMotiveClue()) motivesFound ++;
+        if (clue.isMotiveClue()) motivesFound++;
 
-        if (motivesFound == 3)
-        {
+        if (motivesFound == 3) {
             displayMotive();
         }
 
-        if (clue.isMeansClue())
-        {
+        if (clue.isMeansClue()) {
             foundWeapon = true;
         }
     }
@@ -72,9 +65,11 @@ public class Journal
         game.guiController.narratorScreen.setSpeech("Congratulations! You have solved the killers motive! Let's take a look at those clues...\n \n"
                 + getMotive() + "\n \nI can't believe someone would kill someone for that!\n \n"
                 + "Well, you go out there and find out who committed this murder!\n \nGood Luck!")
-                .setButton("Continue Game", new Runnable() {
+                .setButton("Continue Game", new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         game.gameSnapshot.setState(GameState.map);
                     }
                 });
@@ -86,33 +81,26 @@ public class Journal
 
     /**
      * This method returns the full motive from the 3 seperated clues.
-     *
+     * <p>
      * It also adds a full motive to the journal clues and removes the seperate parts
      *
      * @return String motive
      */
     private String getMotive()
     {
-        String[] motives = new String[]{"","",""};
+        String[] motives = new String[]{"", "", ""};
 
         Clue[] remove = new Clue[3];
 
-        for (Clue c : foundClues)
-        {
-            if (c.getName().contains("Motive"))
-            {
-                if (c.getName().contains("1"))
-                {
+        for (Clue c : foundClues) {
+            if (c.getName().contains("Motive")) {
+                if (c.getName().contains("1")) {
                     motives[0] = c.getDescription();
                     remove[0] = c;
-                }
-                else if (c.getName().contains("2"))
-                {
+                } else if (c.getName().contains("2")) {
                     motives[1] = c.getDescription();
                     remove[1] = c;
-                }
-                else if (c.getName().contains("3"))
-                {
+                } else if (c.getName().contains("3")) {
                     motives[2] = c.getDescription();
                     remove[2] = c;
                 }
@@ -136,6 +124,7 @@ public class Journal
 
     /**
      * This gets the clues that can be used in the interview process
+     *
      * @return
      */
     public List<Clue> getQuestionableClues()
@@ -182,6 +171,7 @@ public class Journal
 
     /**
      * Returns a list of conversations that are recorded in the journal.
+     *
      * @return
      */
     public List<String> getConversations()

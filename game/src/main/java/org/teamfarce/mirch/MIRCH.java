@@ -1,14 +1,15 @@
 package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Game;
-import org.teamfarce.mirch.entities.Player;
-import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
 import org.teamfarce.mirch.dialogue.Dialogue;
+import org.teamfarce.mirch.entities.Player;
+import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.map.Room;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * MIRCH is used to generate all graphics in the program. It initialises the scenario generator and game state
@@ -16,7 +17,8 @@ import java.util.*;
  *
  * @author jacobwunwin
  */
-public class MIRCH extends Game {
+public class MIRCH extends Game
+{
     public static MIRCH me;
     public GameSnapshot gameSnapshot;
     public GUIController guiController;
@@ -32,7 +34,8 @@ public class MIRCH extends Game {
      * Initialises all variables in the game and sets up the game for play.
      */
     @Override
-    public void create() {
+    public void create()
+    {
 
         me = this;
         Assets.load();
@@ -94,7 +97,8 @@ public class MIRCH extends Game {
      * carries out logic and pushes outputs to the screen through the GUIController
      */
     @Override
-    public void render() {
+    public void render()
+    {
         this.guiController.update();
         super.render();
 
@@ -102,7 +106,8 @@ public class MIRCH extends Game {
     }
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
 
     }
 }

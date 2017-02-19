@@ -13,21 +13,21 @@ import java.util.Random;
  */
 public class Suspect extends AbstractPerson
 {
-    private Random random = new Random();
-
     public List<Clue> relatedClues;
     public boolean isMurderer;
-    /**
-     * The position of the suspect on the map.
-     */
     /**
      * The size of this suspect's step.
      */
     public Vector2 moveStep;
+    /**
+     * The position of the suspect on the map.
+     */
+    private Random random = new Random();
     private boolean beenAccused;
 
     private boolean killer = false;
     private boolean victim = false;
+
     /**
      * Initialiser function.
      *
@@ -35,7 +35,7 @@ public class Suspect extends AbstractPerson
      * @param description      A string description
      * @param filename         The filename of the image for this suspect.
      * @param startingPosition The position to start at.
-     * @param dialogue    The json file containing the suspects dialogue.
+     * @param dialogue         The json file containing the suspects dialogue.
      */
     public Suspect(
             MIRCH game,
@@ -143,20 +143,24 @@ public class Suspect extends AbstractPerson
         move(dir);
     }
 
-    public boolean isKiller() {
+    public boolean isKiller()
+    {
         return killer;
     }
 
-    public void setKiller() {
+    public void setKiller()
+    {
         this.killer = true;
         this.victim = false;
     }
 
-    public boolean isVictim() {
+    public boolean isVictim()
+    {
         return victim;
     }
 
-    public void setVictim() {
+    public void setVictim()
+    {
         this.victim = true;
         this.killer = false;
     }

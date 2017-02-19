@@ -81,7 +81,8 @@ public class Vector2Int
      * @return hashCode formatted as xCoordinate00ycoordinate
      */
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Integer.valueOf(x + "00" + y);
     }
 

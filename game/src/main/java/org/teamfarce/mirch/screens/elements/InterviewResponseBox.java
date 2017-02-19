@@ -1,8 +1,10 @@
 package org.teamfarce.mirch.screens.elements;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
@@ -11,7 +13,8 @@ import java.util.ArrayList;
  * The InterviewResponseBox is used within the InterviewScreen
  * Used to present the player with options for responding to a Suspect
  */
-public class InterviewResponseBox {
+public class InterviewResponseBox
+{
     /**
      * Layout constants
      */
@@ -36,18 +39,21 @@ public class InterviewResponseBox {
 
     /**
      * The constructor for the InterviewResponseBox
-     * @param content Text to display above buttons
+     *
+     * @param content    Text to display above buttons
      * @param buttonList List of InterviewResponseButtons for presenting the player with options
-     * @param uiSkin Skin used to style UI
+     * @param uiSkin     Skin used to style UI
      */
-    public InterviewResponseBox(String content, ArrayList<InterviewResponseButton> buttonList, Skin uiSkin, boolean isMultiRow) {
+    public InterviewResponseBox(String content, ArrayList<InterviewResponseButton> buttonList, Skin uiSkin, boolean isMultiRow)
+    {
         textContent = content;
         buttons = buttonList;
         this.uiSkin = uiSkin;
         this.isMultiRow = isMultiRow;
     }
 
-    public Table getContent() {
+    public Table getContent()
+    {
         Table table = new Table();
         table.setSize(TABLE_WIDTH, TABLE_HEIGHT);
 
@@ -82,9 +88,11 @@ public class InterviewResponseBox {
 
                 //Create button, and add listener for click event
                 TextButton buttonElement = new TextButton(button.text, uiSkin);
-                buttonElement.addListener(new ClickListener() {
+                buttonElement.addListener(new ClickListener()
+                {
                     @Override
-                    public void clicked(InputEvent event, float x, float y) {
+                    public void clicked(InputEvent event, float x, float y)
+                    {
                         //Trigger click event handler for current button (see button definition)
                         button.eventHandler.trigger(button.result, button.clue);
                     }

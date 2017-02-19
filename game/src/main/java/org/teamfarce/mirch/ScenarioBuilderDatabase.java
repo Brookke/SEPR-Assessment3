@@ -1,7 +1,10 @@
 package org.teamfarce.mirch;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 public class ScenarioBuilderDatabase
 {
@@ -113,6 +116,11 @@ public class ScenarioBuilderDatabase
 
     }
 
+    public static class DataMotive
+    {
+        public int id;
+        public String description;
+    }
 
     public class DataResource
     {
@@ -133,12 +141,6 @@ public class ScenarioBuilderDatabase
     }
 
     public class DataQuestioningStyle
-    {
-        public int id;
-        public String description;
-    }
-
-    public static class DataMotive
     {
         public int id;
         public String description;

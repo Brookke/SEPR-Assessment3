@@ -13,11 +13,12 @@ import java.util.Random;
  */
 public class Dialogue
 {
-    private JsonValue jsonData;
     private static String templatePath;
+    private JsonValue jsonData;
     private boolean isForPlayer;
 
-    public Dialogue(String jsonFile, boolean player) throws InvalidDialogueException {
+    public Dialogue(String jsonFile, boolean player) throws InvalidDialogueException
+    {
         importDialogue(jsonFile);
         isForPlayer = player;
         validateJsonAgainstTemplate();
@@ -35,13 +36,14 @@ public class Dialogue
 
     /**
      * This takes a template file and validates that there exists a valid response like the templates.
+     *
      * @return Boolean true if it passes
      * @throws InvalidDialogueException if the JSON is invalid
      */
-    private boolean validateJsonAgainstTemplate() throws InvalidDialogueException {
-        JsonValue jsonTemp =  new JsonReader().parse(Gdx.files.internal("characters/template.JSON"));
+    private boolean validateJsonAgainstTemplate() throws InvalidDialogueException
+    {
+        JsonValue jsonTemp = new JsonReader().parse(Gdx.files.internal("characters/template.JSON"));
         Iterator itr = jsonTemp.get("responses").iterator();
-
 
 
         if (isForPlayer) {
@@ -69,6 +71,7 @@ public class Dialogue
 
     /**
      * This gets the speech related to a clue
+     *
      * @param clue
      * @return
      */
@@ -79,6 +82,7 @@ public class Dialogue
 
     /**
      * This gets the speech via its key in the JSON
+     *
      * @param speechKey
      * @return
      */
@@ -95,6 +99,7 @@ public class Dialogue
 
     /**
      * This handles the getting of personality based speech
+     *
      * @param clue
      * @param personality
      * @return
@@ -116,7 +121,9 @@ public class Dialogue
     public class InvalidDialogueException extends Exception
     {
         //Parameterless Constructor
-        public InvalidDialogueException() {}
+        public InvalidDialogueException()
+        {
+        }
 
         //Constructor that accepts a message
         public InvalidDialogueException(String message)

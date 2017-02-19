@@ -2,12 +2,10 @@ package org.teamfarce.mirch.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -21,7 +19,8 @@ import org.teamfarce.mirch.screens.elements.StatusBar;
 /**
  * This class displays a clue with its information when it has just been found
  */
-public class FindClueScreen extends AbstractScreen {
+public class FindClueScreen extends AbstractScreen
+{
 
     private GameSnapshot snapshot;
     private Skin uiSkin;
@@ -54,7 +53,7 @@ public class FindClueScreen extends AbstractScreen {
     /**
      * Initialiser
      *
-     * @param game - Reference to the main game class
+     * @param game   - Reference to the main game class
      * @param uiSkin - The skin to render objects with
      */
     public FindClueScreen(MIRCH game, Skin uiSkin)
@@ -85,7 +84,7 @@ public class FindClueScreen extends AbstractScreen {
         goalPos = new Vector2Int((Gdx.graphics.getWidth() / 2) - (goalSize.getX() / 2), (Gdx.graphics.getHeight() / 2) - (goalSize.getY() / 2));
 
         clueBox = new Image(Assets.loadTexture("clues/clueBox.png"));
-        clueBox.setSize(Settings.TILE_SIZE  * 1.1f, Settings.TILE_SIZE * 1.1f);
+        clueBox.setSize(Settings.TILE_SIZE * 1.1f, Settings.TILE_SIZE * 1.1f);
 
         displayingClue = game.player.getClueFound();
         clueImage = new Image(new TextureRegion(displayingClue.getTexture(), displayingClue.getResourceX() * 128, displayingClue.getResourceY() * 128, 128, 128));
@@ -104,7 +103,8 @@ public class FindClueScreen extends AbstractScreen {
      * Show the window
      */
     @Override
-    public void show() {
+    public void show()
+    {
         MapScreen.grabScreenshot = false;
 
         initScreen();
@@ -116,13 +116,13 @@ public class FindClueScreen extends AbstractScreen {
 
     /**
      * Render the screen
+     *
      * @param delta - Time since last frame in seconds
      */
     @Override
     public void render(float delta)
     {
-        if (soFarAnim < ANIM_TIME * 0.5f)
-        {
+        if (soFarAnim < ANIM_TIME * 0.5f) {
             soFarAnim += delta;
 
             float nextWidth = Interpolation.linear.apply(clueImage.getWidth(), goalSize.getX(), soFarAnim / ANIM_TIME);
@@ -136,22 +136,17 @@ public class FindClueScreen extends AbstractScreen {
             clueImage.setSize(nextWidth, nextHeight);
             clueImage.setPosition(nextXPos, nextYPos);
 
-            if (rotate)
-            {
+            if (rotate) {
                 clueBox.rotateBy(15);
                 clueImage.rotateBy(15);
             }
 
-            if (soFarAnim >= ANIM_TIME * 0.5f)
-            {
-                if (continueButton != null)
-                {
+            if (soFarAnim >= ANIM_TIME * 0.5f) {
+                if (continueButton != null) {
                     game.gameSnapshot.setState(GameState.map);
 
                     game.gameSnapshot.journal.addClue(displayingClue);
-                }
-                else
-                {
+                } else {
                     addAllToStage();
                 }
             }
@@ -160,8 +155,7 @@ public class FindClueScreen extends AbstractScreen {
         clueStage.act();
         clueStage.draw();
 
-        if (rotate)
-        {
+        if (rotate) {
             statusBar.render();
         }
     }
@@ -174,9 +168,11 @@ public class FindClueScreen extends AbstractScreen {
         continueButton = new TextButton("Continue", uiSkin);
         continueButton.setSize(Gdx.graphics.getWidth() / 4, 50);
         continueButton.setPosition((Gdx.graphics.getWidth() / 2) - (continueButton.getWidth() / 2), clueBox.getY() - (2 * continueButton.getHeight()));
-        continueButton.addListener(new ChangeListener() {
+        continueButton.addListener(new ChangeListener()
+        {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void changed(ChangeEvent event, Actor actor)
+            {
                 hideAll();
 
                 rotate = true;
@@ -192,8 +188,7 @@ public class FindClueScreen extends AbstractScreen {
             }
         });
 
-        if (displayingClue.getName().contains("Motive"))
-        {
+        if (displayingClue.getName().contains("Motive")) {
             motiveLabel = new Label(displayingClue.getDescription(), uiSkin);
             motiveLabel.setSize(clueImage.getWidth() * 0.6f, clueImage.getHeight());
             motiveLabel.setAlignment(Align.center);
@@ -201,10 +196,8 @@ public class FindClueScreen extends AbstractScreen {
             motiveLabel.setWrap(true);
 
             clueStage.addActor(motiveLabel);
-        }
-        else
-        {
-            Pixmap pixMap = new Pixmap(( int) (clueBox.getWidth() / 2), (int) clueBox.getHeight(), Pixmap.Format.RGBA8888);
+        } else {
+            Pixmap pixMap = new Pixmap((int) (clueBox.getWidth() / 2), (int) clueBox.getHeight(), Pixmap.Format.RGBA8888);
             pixMap.setColor(0, 0, 0, 0.9f);
             pixMap.fill();
 
@@ -244,7 +237,7 @@ public class FindClueScreen extends AbstractScreen {
 
     /**
      * This method hides the UI elements of this screen.
-     *
+     * <p>
      * Used when doing the animation of the clue going into the journal
      */
     private void hideAll()
@@ -261,27 +254,32 @@ public class FindClueScreen extends AbstractScreen {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int width, int height)
+    {
 
     }
 
     @Override
-    public void pause() {
+    public void pause()
+    {
 
     }
 
     @Override
-    public void resume() {
+    public void resume()
+    {
 
     }
 
     @Override
-    public void hide() {
+    public void hide()
+    {
 
     }
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
 
     }
 }

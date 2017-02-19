@@ -16,10 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
+import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.screens.elements.StatusBar;
 
 import java.util.List;
@@ -93,7 +93,7 @@ public class JournalScreen extends AbstractScreen
         TextureRegionDrawable trd = new TextureRegionDrawable(tr);
         journalContainer.setBackground(trd);
 
-        Pixmap pixMap = new Pixmap((int) (PAGE_CONTENT_WIDTH) , (int)(PAGE_HEIGHT / 3), Pixmap.Format.RGBA8888);
+        Pixmap pixMap = new Pixmap((int) (PAGE_CONTENT_WIDTH), (int) (PAGE_HEIGHT / 3), Pixmap.Format.RGBA8888);
         pixMap.setColor(Color.GRAY);
         pixMap.fill();
 
@@ -106,7 +106,7 @@ public class JournalScreen extends AbstractScreen
 
         clueName = new Label(currentClue.getName(), uiSkin);
         clueName.setFontScale(1.2f);
-        clueName.setPosition( 10, clueBackground.getY() + clueBackground.getHeight() - 30);
+        clueName.setPosition(10, clueBackground.getY() + clueBackground.getHeight() - 30);
 
         clueDesc = new Label(currentClue.getDescription(), uiSkin);
         clueDesc.setPosition(10, clueBackground.getY());
@@ -139,8 +139,7 @@ public class JournalScreen extends AbstractScreen
             case journalClues:
                 detailsPage = initJournalCluesPage();
 
-                if (game.gameSnapshot.journal.getClues().size() != 0)
-                {
+                if (game.gameSnapshot.journal.getClues().size() != 0) {
                     clueContainer.setVisible(true);
                 }
 
@@ -215,12 +214,14 @@ public class JournalScreen extends AbstractScreen
             Label clueLabel = new Label(clues.get(i).getName(), uiSkin);
             content.add(clueLabel).width(PAGE_CONTENT_WIDTH).height(30);
 
-            clueLabel.addListener(new ClickListener() {
+            clueLabel.addListener(new ClickListener()
+            {
 
                 @Override
-                public void clicked(InputEvent event, float x, float y) {
+                public void clicked(InputEvent event, float x, float y)
+                {
 
-                    for (Clue c: game.gameSnapshot.journal.getClues()) {
+                    for (Clue c : game.gameSnapshot.journal.getClues()) {
                         if (c.getName().equals(clueLabel.getText().toString())) {
                             currentClue = c;
                             updateClue();
@@ -230,12 +231,14 @@ public class JournalScreen extends AbstractScreen
                 }
 
                 @Override
-                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+                {
                     clueLabel.setStyle(new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
                 }
 
                 @Override
-                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
+                {
                     clueLabel.setStyle(uiSkin.get("default", Label.LabelStyle.class));
                 }
             });
@@ -243,8 +246,7 @@ public class JournalScreen extends AbstractScreen
             content.row();
         }
 
-        if (!game.gameSnapshot.journal.getClues().isEmpty())
-        {
+        if (!game.gameSnapshot.journal.getClues().isEmpty()) {
             currentClue = game.gameSnapshot.journal.getClues().get(game.gameSnapshot.journal.getClues().size() - 1);
             updateClue();
         }

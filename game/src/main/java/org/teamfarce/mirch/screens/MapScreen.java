@@ -9,15 +9,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
+import org.teamfarce.mirch.MIRCH;
+import org.teamfarce.mirch.OrthogonalTiledMapRendererWithPeople;
 import org.teamfarce.mirch.entities.AbstractPerson;
 import org.teamfarce.mirch.entities.PlayerController;
 import org.teamfarce.mirch.entities.Suspect;
-import org.teamfarce.mirch.MIRCH;
-import org.teamfarce.mirch.OrthogonalTiledMapRendererWithPeople;
 import org.teamfarce.mirch.screens.elements.RoomArrow;
 import org.teamfarce.mirch.screens.elements.StatusBar;
 
@@ -32,65 +31,55 @@ import java.util.Random;
 public class MapScreen extends AbstractScreen
 {
 
-    private OrthogonalTiledMapRendererWithPeople tileRender;
-    private OrthographicCamera camera;
-    private PlayerController playerController;
-    private int moveStep = 50;
-
-    /**
-     * This stores the room arrow that is drawn when the player stands on a room changing mat
-     */
-    private RoomArrow arrow = new RoomArrow(game.player);
-
-    /**
-     * This is the sprite batch that is relative to the screens origin
-     */
-    private SpriteBatch spriteBatch;
-
-    /**
-     * This stores whether the room is currently in transition or not
-     */
-    private boolean roomTransition = false;
-
-    /**
-     * The amount of ticks it takes for the black to fade in and out
-     */
-    private float ANIM_TIME = 0.7f;
-
-    /**
-     * The current room ID. This is used to catch when a player has moved rooms.
-     */
-    private int currentRoomID = 0;
-
-    /**
-     * This is the list of NPCs who are in the current room
-     */
-    List<Suspect> currentNPCs = new ArrayList<Suspect>();
-
-    /**
-     * The black sprite that is used to fade in/out
-     */
-    private Sprite BLACK_BACKGROUND = new Sprite();
-
-    /**
-     * The current animation frame of the fading in/out
-     */
-    private float animTimer = 0.0f;
-
-    /**
-     * This boolean determines whether the black is fading in or out
-     */
-    private boolean fadeToBlack = true;
-
     /**
      * This stores the most recent frame as an image
      */
     public static Image recentFrame;
     public static boolean grabScreenshot = false;
-
+    /**
+     * This is the list of NPCs who are in the current room
+     */
+    List<Suspect> currentNPCs = new ArrayList<Suspect>();
+    private OrthogonalTiledMapRendererWithPeople tileRender;
+    private OrthographicCamera camera;
+    private PlayerController playerController;
+    private int moveStep = 50;
+    /**
+     * This stores the room arrow that is drawn when the player stands on a room changing mat
+     */
+    private RoomArrow arrow = new RoomArrow(game.player);
+    /**
+     * This is the sprite batch that is relative to the screens origin
+     */
+    private SpriteBatch spriteBatch;
+    /**
+     * This stores whether the room is currently in transition or not
+     */
+    private boolean roomTransition = false;
+    /**
+     * The amount of ticks it takes for the black to fade in and out
+     */
+    private float ANIM_TIME = 0.7f;
+    /**
+     * The current room ID. This is used to catch when a player has moved rooms.
+     */
+    private int currentRoomID = 0;
+    /**
+     * The black sprite that is used to fade in/out
+     */
+    private Sprite BLACK_BACKGROUND = new Sprite();
+    /**
+     * The current animation frame of the fading in/out
+     */
+    private float animTimer = 0.0f;
+    /**
+     * This boolean determines whether the black is fading in or out
+     */
+    private boolean fadeToBlack = true;
     private StatusBar statusBar;
 
-    public MapScreen(MIRCH game, Skin uiSkin) {
+    public MapScreen(MIRCH game, Skin uiSkin)
+    {
         super(game);
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -161,13 +150,11 @@ public class MapScreen extends AbstractScreen
 
         Random random = new Random();
 
-        if (!grabScreenshot)
-        {
+        if (!grabScreenshot) {
             statusBar.render();
         }
 
-        if (grabScreenshot)
-        {
+        if (grabScreenshot) {
             recentFrame = new Image(ScreenUtils.getFrameBufferTexture());
         }
     }

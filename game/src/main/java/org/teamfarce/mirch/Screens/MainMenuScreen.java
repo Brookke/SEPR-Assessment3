@@ -1,7 +1,10 @@
 package org.teamfarce.mirch.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,15 +20,14 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.Assets;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
-import com.badlogic.gdx.InputMultiplexer;
-
 import org.teamfarce.mirch.MIRCH;
 
 /**
  * The Main Menu screen draws the Main Menu GUI to the screen and handles any inputs
  * whilst the Menu is displayed.
  */
-public class MainMenuScreen extends AbstractScreen {
+public class MainMenuScreen extends AbstractScreen
+{
 
     /**
      * The width of the menu
@@ -34,17 +36,14 @@ public class MainMenuScreen extends AbstractScreen {
 
 
     //Initialising necessary objects and variables
-
-    /**
-     * This is the referencing to the game snapshot
-     */
-    private GameSnapshot gameSnapshot;
-
     /**
      * the stage to render the menu to
      */
     public Stage stage;
-
+    /**
+     * This is the referencing to the game snapshot
+     */
+    private GameSnapshot gameSnapshot;
     /**
      * This is the camera for the menu
      */
@@ -60,7 +59,8 @@ public class MainMenuScreen extends AbstractScreen {
      *
      * @param game - The game object the menu is being loaded for
      */
-    public MainMenuScreen(final MIRCH game, Skin uiSkin) {
+    public MainMenuScreen(final MIRCH game, Skin uiSkin)
+    {
 
         super(game);
         this.gameSnapshot = game.gameSnapshot;
@@ -73,7 +73,8 @@ public class MainMenuScreen extends AbstractScreen {
         initMenu(game, uiSkin);
     }
 
-    private void initMenu(final MIRCH game, Skin uiSkin) {
+    private void initMenu(final MIRCH game, Skin uiSkin)
+    {
 
         //Setting the background
         Image background = new Image(new TextureRegion(Assets.loadTexture("rch3.jpg")));
@@ -93,13 +94,13 @@ public class MainMenuScreen extends AbstractScreen {
         text.setBounds(Gdx.graphics.getWidth() / 2 - text.getWidth() + 30, Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight() / 3 + Gdx.graphics.getHeight() / 16, text.getWidth(), text.getHeight());
 
         //Creating the buttons and setting their positions
-        newGameButton.setPosition(WIDTH, (float) (Gdx.graphics.getHeight()-(Gdx.graphics.getHeight() / 4)-120));
-        newGameButton.getLabel().setFontScale(3/2,3/2);
+        newGameButton.setPosition(WIDTH, (float) (Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 4) - 120));
+        newGameButton.getLabel().setFontScale(3 / 2, 3 / 2);
         newGameButton.setSize(400, 80);
         TextButton quit = new TextButton("Quit", uiSkin);
-        quit.getLabel().setFontScale(3/2,3/2);
+        quit.getLabel().setFontScale(3 / 2, 3 / 2);
         quit.setSize(400, 80);
-        quit.setPosition(WIDTH, (Gdx.graphics.getHeight() / 2)-70 );
+        quit.setPosition(WIDTH, (Gdx.graphics.getHeight() / 2) - 70);
 
         //Loading the buttons onto the stage
         stage.addActor(background);
@@ -181,17 +182,20 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     @Override
-    public void hide() {
+    public void hide()
+    {
 
     }
 
     @Override
-    public void pause() {
+    public void pause()
+    {
 
     }
 
     @Override
-    public void resume() {
+    public void resume()
+    {
 
     }
-    };
+};

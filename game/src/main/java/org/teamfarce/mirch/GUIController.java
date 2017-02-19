@@ -78,7 +78,7 @@ public class GUIController
         interviewScreen = new InterviewScreen(game, uiSkin);
         narratorScreen = new NarratorScreen(game, uiSkin);
         findClueScreen = new FindClueScreen(game, uiSkin);
-        menuScreen= new MainMenuScreen(game, uiSkin);
+        menuScreen = new MainMenuScreen(game, uiSkin);
     }
 
 

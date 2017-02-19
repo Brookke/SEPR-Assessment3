@@ -7,12 +7,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import org.teamfarce.mirch.Assets;
+import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Settings;
+import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.entities.Direction;
 import org.teamfarce.mirch.entities.Suspect;
-import org.teamfarce.mirch.MIRCH;
-import org.teamfarce.mirch.Vector2Int;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -205,7 +205,7 @@ public class Room
      */
     public void removeClue(Clue c)
     {
-       cluesInRoom.remove(c);
+        cluesInRoom.remove(c);
     }
 
     /**
@@ -530,7 +530,7 @@ public class Room
 
         for (int w = 0; w < roomWidth; w++) {
             for (int h = 0; h < roomHeight; h++) {
-                if (isWalkableTile(w, h) && !isTriggerTile(w,h)) {
+                if (isWalkableTile(w, h) && !isTriggerTile(w, h)) {
                     possibleLocations.add(new Vector2Int(w, h));
                 }
             }

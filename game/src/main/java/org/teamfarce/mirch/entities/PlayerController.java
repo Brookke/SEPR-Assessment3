@@ -5,9 +5,9 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import org.teamfarce.mirch.MIRCH;
-import org.teamfarce.mirch.screens.MapScreen;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
+import org.teamfarce.mirch.screens.MapScreen;
 
 /**
  * This class allows the player to be moved and controlled.

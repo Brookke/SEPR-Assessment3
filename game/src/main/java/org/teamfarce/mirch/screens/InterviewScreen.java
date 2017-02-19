@@ -5,16 +5,20 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import org.teamfarce.mirch.*;
+import org.teamfarce.mirch.GameSnapshot;
+import org.teamfarce.mirch.GameState;
+import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.entities.AbstractPerson;
 import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.screens.elements.InterviewResponseBox;
 import org.teamfarce.mirch.screens.elements.InterviewResponseButton;
-import org.teamfarce.mirch.screens.elements.StatusBar;
 
 import java.util.ArrayList;
 
@@ -24,26 +28,25 @@ import java.util.ArrayList;
  * interviewStart, interviewQuestionStyle, interviewAccuse, interviewQuestion,
  * interviewQuestionClue
  */
-public class InterviewScreen extends AbstractScreen {
-
-    private MIRCH game;
-    private GameSnapshot gameSnapshot;
-
-    public Stage interviewStage;
-    private Skin uiSkin;
+public class InterviewScreen extends AbstractScreen
+{
 
     final static float X_OFFSET = 10;
     final static float Y_OFFSET = 20;
     final static float WIDTH = Gdx.graphics.getWidth() - (2 * X_OFFSET);
     final static float HEIGHT = Gdx.graphics.getHeight() - Y_OFFSET;
-
+    public Stage interviewStage;
+    private MIRCH game;
+    private GameSnapshot gameSnapshot;
+    private Skin uiSkin;
     private Suspect suspect = null;
     private Clue tempClue;
     private String tempStyle;
 
     /**
      * Constructor for Interview screen
-     * @param game Reference to current game
+     *
+     * @param game   Reference to current game
      * @param uiSkin Skin reference for UI controls
      */
     public InterviewScreen(MIRCH game, Skin uiSkin)
@@ -59,7 +62,8 @@ public class InterviewScreen extends AbstractScreen {
      * Prepares the stage ready to render on screen
      * Adds GUI controls to the stage
      */
-    private void initInterviewStage() {
+    private void initInterviewStage()
+    {
         //Initialise stage used to show interview contents
         interviewStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
@@ -74,8 +78,7 @@ public class InterviewScreen extends AbstractScreen {
 
         suspect = gameSnapshot.getSuspectForInterview();
 
-        if (suspect == null)
-        {
+        if (suspect == null) {
             throw new NullPointerException("No Suspect Defined for Interview Screen");
         }
 
@@ -100,8 +103,8 @@ public class InterviewScreen extends AbstractScreen {
 
                 //Setup buttons to Question, Accuse and Ignore
                 buttonList.add(new InterviewResponseButton("Question the suspect", 0, null, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1,null, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Leave the interview", 2,null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Leave the interview", 2, null, switchStateHandler));
 
                 break;
 
@@ -121,7 +124,7 @@ public class InterviewScreen extends AbstractScreen {
                     }
                 } else {
                     responseBoxInstructions = "You haven't found any clues yet to ask about";
-                    buttonList.add(new InterviewResponseButton("Leave the interview", 2,null, switchStateHandler));
+                    buttonList.add(new InterviewResponseButton("Leave the interview", 2, null, switchStateHandler));
                 }
 
                 break;
@@ -143,7 +146,7 @@ public class InterviewScreen extends AbstractScreen {
                     buttonList.add(new InterviewResponseButton("Aggressively: " + game.player.dialogue.get(tempClue, "AGGRESSIVE"), 0, null, styleHandler));
                 }
 
-                buttonList.add(new InterviewResponseButton("Conversational: " + game.player.dialogue.get(tempClue, "CONVERSATIONAL"), 1,null, styleHandler));
+                buttonList.add(new InterviewResponseButton("Conversational: " + game.player.dialogue.get(tempClue, "CONVERSATIONAL"), 1, null, styleHandler));
 
                 if (personality >= -5) {
                     buttonList.add(new InterviewResponseButton("Politely: " + game.player.dialogue.get(tempClue, "POLITE"), 2, null, styleHandler));
@@ -165,8 +168,8 @@ public class InterviewScreen extends AbstractScreen {
                 //Ask player how to respond
                 responseBoxInstructions = "How would you like to respond?";
                 buttonList.add(new InterviewResponseButton("Question the suspect again", 0, null, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1,null, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Leave the interview", 2,null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Leave the interview", 2, null, switchStateHandler));
                 break;
 
             case interviewAccuse:
@@ -178,7 +181,7 @@ public class InterviewScreen extends AbstractScreen {
 
                     //Inform user of result
                     responseBoxInstructions = "How would you like to respond?";
-                    buttonList.add(new InterviewResponseButton("Arrest " + suspect.getName(), 3,null, switchStateHandler));
+                    buttonList.add(new InterviewResponseButton("Arrest " + suspect.getName(), 3, null, switchStateHandler));
 
                 } else {
                     //Setup suspect's dialogue
@@ -186,7 +189,7 @@ public class InterviewScreen extends AbstractScreen {
 
                     //Inform user of result
                     responseBoxInstructions = "How would you like to respond?";
-                    buttonList.add(new InterviewResponseButton("Apologise & leave the interview", 2,null, switchStateHandler));
+                    buttonList.add(new InterviewResponseButton("Apologise & leave the interview", 2, null, switchStateHandler));
                 }
                 break;
         }
@@ -213,10 +216,12 @@ public class InterviewScreen extends AbstractScreen {
 
     /**
      * Initialises GUI controls for Suspect's dialogue
-     * @param suspect Reference to instance of Suspect class
+     *
+     * @param suspect         Reference to instance of Suspect class
      * @param suspectDialogue Speech for the suspect to say
      */
-    private void initSuspectBox(Suspect suspect, String suspectDialogue) {
+    private void initSuspectBox(Suspect suspect, String suspectDialogue)
+    {
         Label suspectName = new Label(suspect.getName(), uiSkin);
         suspectName.setPosition(280, 540);
         suspectName.setFontScale(1.1f);
@@ -236,9 +241,11 @@ public class InterviewScreen extends AbstractScreen {
 
     /**
      * Event handler that switches game state when player selects a response
+     *
      * @param result Int associated with each state
      */
-    private void switchState(int result) {
+    private void switchState(int result)
+    {
         switch (result) {
             case 0: //Question
                 gameSnapshot.setState(GameState.interviewQuestionClue);
@@ -261,7 +268,8 @@ public class InterviewScreen extends AbstractScreen {
         }
     }
 
-    private void questionClue(int result, Clue clue) {
+    private void questionClue(int result, Clue clue)
+    {
         switch (result) {
             case 0:
                 tempClue = clue;
@@ -270,7 +278,8 @@ public class InterviewScreen extends AbstractScreen {
         }
     }
 
-    private void questionStyle(int result) {
+    private void questionStyle(int result)
+    {
         switch (result) {
             case 0:
                 tempStyle = "AGGRESSIVE";
@@ -297,9 +306,9 @@ public class InterviewScreen extends AbstractScreen {
     }
 
 
-
     @Override
-    public void show() {
+    public void show()
+    {
         initInterviewStage();
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -308,27 +317,36 @@ public class InterviewScreen extends AbstractScreen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta)
+    {
         interviewStage.act();
         interviewStage.draw();
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int width, int height)
+    {
         interviewStage.getViewport().update(width, height, false);
     }
 
     @Override
-    public void pause() { }
+    public void pause()
+    {
+    }
 
     @Override
-    public void resume() { }
+    public void resume()
+    {
+    }
 
     @Override
-    public void hide() { }
+    public void hide()
+    {
+    }
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
         interviewStage.dispose();
     }
 }

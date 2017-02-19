@@ -99,7 +99,8 @@ public class StatusBar
         stage.addActor(statusBar);
     }
 
-    private String getPersonalityMeterValue() {
+    private String getPersonalityMeterValue()
+    {
         int personalityScore = gameSnapshot.getPersonality();
         String result = "";
 

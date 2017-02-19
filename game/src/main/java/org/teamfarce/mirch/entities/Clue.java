@@ -63,14 +63,17 @@ public class Clue extends MapEntity
 
     /**
      * Returns whether the clue is a motive clue or not
+     *
      * @return `motiveClue`
      */
-    public boolean isMotiveClue() {
+    public boolean isMotiveClue()
+    {
         return motiveClue;
     }
 
     /**
      * Returns whether the clue is a means clue or not
+     *
      * @return `meansClue`
      */
     public boolean isMeansClue()
@@ -80,24 +83,29 @@ public class Clue extends MapEntity
 
     /**
      * Returns the x tile location of the resource
+     *
      * @return `resourceX`
      */
-    public int getResourceX(){
+    public int getResourceX()
+    {
         return resourceX;
     }
 
     /**
      * Returns the y tile location of the resource
+     *
      * @return `resourceY`
      */
-    public int getResourceY(){
+    public int getResourceY()
+    {
         return resourceY;
     }
 
     /**
      * This method sets the clue to be a motive clue
      */
-    public void setMotiveClue() {
+    public void setMotiveClue()
+    {
         this.motiveClue = true;
     }
 }
