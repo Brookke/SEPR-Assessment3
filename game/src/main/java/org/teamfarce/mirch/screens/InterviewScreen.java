@@ -100,7 +100,12 @@ public class InterviewScreen extends AbstractScreen {
 
                 //Setup buttons to Question, Accuse and Ignore
                 buttonList.add(new InterviewResponseButton("Question the suspect", 0, null, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
+
+                if (game.gameSnapshot.isMeansProven() && game.gameSnapshot.isMotiveProven())
+                {
+                    buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
+                }
+
                 buttonList.add(new InterviewResponseButton("Leave the interview", 2, null, switchStateHandler));
 
                 break;
