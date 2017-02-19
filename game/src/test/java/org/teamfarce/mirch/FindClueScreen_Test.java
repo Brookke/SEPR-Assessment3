@@ -16,8 +16,8 @@ public class FindClueScreen_Test extends GameTest {
 
     private MIRCH game;
 
-    @Before
-    public void before()
+    @Test
+    public void constructor()
     {
         Skin skin = new Skin();
         game = new MIRCH();
