@@ -14,16 +14,10 @@ import static org.junit.Assert.*;
  *
  * @author jacobwunwin
  */
-public class Clue_Test
+public class Clue_Test extends GameTest
 {
 
     Clue clue;
-
-    @Before
-    public void before()
-    {
-        clue = new Clue("Test Clue", "Test Description", "clueSheet.png", 0, 0, false);
-    }
 
     /**
      * Test the initialiser function
@@ -31,8 +25,10 @@ public class Clue_Test
     @Test
     public void getInfo()
     {
+        clue = new Clue("Test Clue", "Test Description", "clueSheet.png", 0, 0, false);
+
 		assertEquals("Test Clue", clue.getName());
-		assertEquals("Text Description", clue.getDescription());
+		assertEquals("Test Description", clue.getDescription());
 		assertEquals(0, clue.getResourceX());
 		assertEquals(0, clue.getResourceY());
     }
@@ -40,6 +36,7 @@ public class Clue_Test
     @Test
     public void isMotive()
     {
+        clue = new Clue("Test Clue", "Test Description", "clueSheet.png", 0, 0, false);
         assertFalse(clue.isMotiveClue());
         clue.setMotiveClue();
         assertTrue(clue.isMotiveClue());
@@ -48,6 +45,7 @@ public class Clue_Test
     @Test
     public void isMeans()
     {
+        clue = new Clue("Test Clue", "Test Description", "clueSheet.png", 0, 0, false);
         assertFalse(clue.isMeansClue());
         clue = new Clue("Test Clue", "Test Description", "clueSheet.png", 0, 0, true);
         assertTrue(clue.isMeansClue());
