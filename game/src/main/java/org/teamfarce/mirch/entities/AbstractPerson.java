@@ -127,7 +127,9 @@ public abstract class AbstractPerson extends MapEntity
                 {
                     Vector2Int after = toMoveTo.get(1);
 
+                    if (after.getX() == getTileX() || after.getY() == getTileY())
                     {
+                        animTime = 0.25f;
                     }
                 }
 
