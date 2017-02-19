@@ -8,6 +8,8 @@ import org.teamfarce.mirch.screens.InterviewScreen;
 import org.teamfarce.mirch.screens.JournalScreen;
 import org.teamfarce.mirch.screens.MapScreen;
 import org.teamfarce.mirch.screens.NarratorScreen;
+import org.teamfarce.mirch.screens.MainMenuScreen;
+
 
 /**
  * Generates and controls all GUI screens
