@@ -31,8 +31,9 @@ public class MainMenuScreen extends AbstractScreen {
     /**
      * The width of the menu
      */
-    private static final int WIDTH = Gdx.graphics.getWidth() / 2 - Gdx.graphics.getWidth() / 8;
-
+    private static final int BUTTON_WIDTH = Gdx.graphics.getWidth() / 3;
+    private static final int BUTTON_HEIGHT = 80;
+    private static final int CENTER_MARGIN = 30;
 
     //Initialising necessary objects and variables
     /**
@@ -74,37 +75,29 @@ public class MainMenuScreen extends AbstractScreen {
     private void initMenu(final MIRCH game, Skin uiSkin) {
 
         //Setting the background
-        Image background = new Image(new TextureRegion(Assets.loadTexture("rch3.jpg")));
+        Image background = new Image(new TextureRegion(Assets.loadTexture("menuBackground.jpg")));
 
         //Creating the labelstyle used for the text in the label.
         BitmapFont font = new BitmapFont();
         LabelStyle textStyle = new LabelStyle(font, Color.WHITE);
 
         //Creating the label containing text and determining  its size and location on screen
-        Label text;
-
-        text = new Label("Welcome to the Lorem Ipsum Murder Mystery Game!", textStyle);
-        TextButton newGameButton = new TextButton("New Game", uiSkin);
+        Label text = new Label("Welcome to the Lorem Ipsum Murder Mystery Game!", textStyle);
 
         text.setFontScale(2, 2);
-
         text.setBounds(Gdx.graphics.getWidth() / 2 - text.getWidth() + 30, Gdx.graphics.getHeight() / 2 + Gdx.graphics.getHeight() / 3 + Gdx.graphics.getHeight() / 16, text.getWidth(), text.getHeight());
 
+        TextButton newGameButton = new TextButton("New Game", uiSkin);
+
         //Creating the buttons and setting their positions
-        newGameButton.setPosition(WIDTH, (float) (Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 4) - 120));
+        newGameButton.setPosition((Gdx.graphics.getWidth() / 2) - (BUTTON_WIDTH / 2),(Gdx.graphics.getHeight() / 2) + CENTER_MARGIN);
         newGameButton.getLabel().setFontScale(3 / 2, 3 / 2);
-        newGameButton.setSize(400, 80);
+        newGameButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+
         TextButton quit = new TextButton("Quit", uiSkin);
         quit.getLabel().setFontScale(3 / 2, 3 / 2);
-        quit.setSize(400, 80);
-        quit.setPosition(WIDTH, (Gdx.graphics.getHeight() / 2) - 70);
-
-        //Loading the buttons onto the stage
-        stage.addActor(background);
-        stage.addActor(text);
-        stage.addActor(newGameButton);
-        stage.addActor(quit);
-
+        quit.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        quit.setPosition((Gdx.graphics.getWidth() / 2) - (BUTTON_WIDTH / 2), (Gdx.graphics.getHeight() / 2) - BUTTON_HEIGHT - CENTER_MARGIN);
 
         //Making the "New Game" button clickable and causing it to start the game
         newGameButton.addListener(new ClickListener() {
@@ -122,6 +115,11 @@ public class MainMenuScreen extends AbstractScreen {
             }
         });
 
+        //Loading the buttons onto the stage
+        stage.addActor(background);
+        stage.addActor(text);
+        stage.addActor(newGameButton);
+        stage.addActor(quit);
     }
 
     /**

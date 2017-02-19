@@ -84,7 +84,7 @@ public class NarratorScreen extends AbstractScreen {
     private void initStage() {
         narratorStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-        Image background = new Image(new TextureRegion(Assets.loadTexture("rch.png")));
+        Image background = new Image(new TextureRegion(Assets.loadTexture("narratorBackground.png")));
         background.setHeight(Gdx.graphics.getHeight());
         background.setWidth(Gdx.graphics.getWidth());
 
