@@ -1,10 +1,10 @@
 package org.teamfarce.mirch.Map;
 
 
-import org.teamfarce.mirch.entities.Direction;
-import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
+import org.teamfarce.mirch.entities.Direction;
+import org.teamfarce.mirch.entities.Suspect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,22 +14,19 @@ import java.util.Random;
 /**
  * The map is a collection of Rooms , it links them all together.
  */
-public class Map
-{
+public class Map {
     MIRCH game;
 
     List<Room> rooms = new ArrayList<Room>();
 
-    public Map(MIRCH game)
-    {
+    public Map(MIRCH game) {
         this.game = game;
     }
 
     /**
      * This function initialises all the rooms of the Ron Cooke Hub and their transitions
      */
-    public List<Room> initialiseRooms()
-    {
+    public List<Room> initialiseRooms() {
 
         Room mainRoom = new Room(0, "mainroom.tmx", "Main Foyer");
 
@@ -118,14 +115,11 @@ public class Map
      * @param room - The room to check
      * @return List<Suspect> The suspects that are in the room
      */
-    public List<Suspect> getNPCs(Room room)
-    {
+    public List<Suspect> getNPCs(Room room) {
         List<Suspect> npcsInRoom = new ArrayList<Suspect>();
 
-        for (Suspect s : game.gameSnapshot.getSuspects())
-        {
-            if (s.getRoom().getID() == room.getID())
-            {
+        for (Suspect s : game.gameSnapshot.getSuspects()) {
+            if (s.getRoom().getID() == room.getID()) {
                 npcsInRoom.add(s);
             }
         }
@@ -138,8 +132,7 @@ public class Map
      *
      * @param NPCs - The NPCs to distribute
      */
-    public void placeNPCsInRooms(List<Suspect> NPCs)
-    {
+    public void placeNPCsInRooms(List<Suspect> NPCs) {
         int amountOfRooms = rooms.size();
 
         List<Integer> roomsLeft = new ArrayList<>();
@@ -175,10 +168,10 @@ public class Map
 
     /**
      * This method returns all the rooms in the map
+     *
      * @return the rooms
      */
-    public List<Room> getRooms()
-    {
+    public List<Room> getRooms() {
         return rooms;
     }
 }

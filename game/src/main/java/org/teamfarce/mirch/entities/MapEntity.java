@@ -3,15 +3,14 @@ package org.teamfarce.mirch.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.teamfarce.mirch.Map.Room;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
-import org.teamfarce.mirch.Map.Room;
 
 /**
  * Base class to represent different Map entities.
  */
-public class MapEntity extends Sprite implements tileLocation
-{
+public class MapEntity extends Sprite implements tileLocation {
     protected Room room;
     protected String name;
     protected String description;
@@ -30,8 +29,7 @@ public class MapEntity extends Sprite implements tileLocation
      * @param description The description of the entity.
      * @param texture     The the texture for the entity
      */
-    public MapEntity(String name, String description, Texture texture)
-    {
+    public MapEntity(String name, String description, Texture texture) {
         super(texture);
         this.name = name;
         this.description = description;
@@ -45,8 +43,7 @@ public class MapEntity extends Sprite implements tileLocation
      * @param description The description of the entity.
      * @param texture     The the texture region for the entity
      */
-    public MapEntity(String name, String description, TextureRegion texture)
-    {
+    public MapEntity(String name, String description, TextureRegion texture) {
         super(texture);
         this.name = name;
         this.description = description;
@@ -60,8 +57,7 @@ public class MapEntity extends Sprite implements tileLocation
      * @param y the y tile
      */
     @Override
-    public void setTileCoordinates(int x, int y)
-    {
+    public void setTileCoordinates(int x, int y) {
         this.tileCoordinates = new Vector2Int(x, y);
         this.setPosition(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE);
     }
@@ -72,8 +68,7 @@ public class MapEntity extends Sprite implements tileLocation
      * @return x tiles
      */
     @Override
-    public int getTileX()
-    {
+    public int getTileX() {
         return tileCoordinates.x;
     }
 
@@ -83,13 +78,11 @@ public class MapEntity extends Sprite implements tileLocation
      * @return y tile
      */
     @Override
-    public int getTileY()
-    {
+    public int getTileY() {
         return tileCoordinates.y;
     }
 
-    public Vector2Int getTileCoordinates()
-    {
+    public Vector2Int getTileCoordinates() {
         return this.tileCoordinates;
     }
 
@@ -99,8 +92,7 @@ public class MapEntity extends Sprite implements tileLocation
      * @param vector the vector location to set it to
      */
     @Override
-    public void setTileCoordinates(Vector2Int vector)
-    {
+    public void setTileCoordinates(Vector2Int vector) {
         this.tileCoordinates = vector;
         this.setPosition(vector.x * Settings.TILE_SIZE, vector.y * Settings.TILE_SIZE);
     }
@@ -110,8 +102,7 @@ public class MapEntity extends Sprite implements tileLocation
      *
      * @return The entity's current room.
      */
-    public Room getRoom()
-    {
+    public Room getRoom() {
         return this.room;
     }
 
@@ -120,8 +111,7 @@ public class MapEntity extends Sprite implements tileLocation
      *
      * @param room The room to set.
      */
-    public void setRoom(Room room)
-    {
+    public void setRoom(Room room) {
         this.room = room;
     }
 
@@ -130,8 +120,7 @@ public class MapEntity extends Sprite implements tileLocation
      *
      * @return The entity's name.
      */
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
@@ -140,8 +129,7 @@ public class MapEntity extends Sprite implements tileLocation
      *
      * @return The entity's description.
      */
-    public String getDescription()
-    {
+    public String getDescription() {
         return this.description;
     }
 }

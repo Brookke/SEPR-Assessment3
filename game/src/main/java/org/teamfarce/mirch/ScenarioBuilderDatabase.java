@@ -1,10 +1,12 @@
 package org.teamfarce.mirch;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
-public class ScenarioBuilderDatabase
-{
+public class ScenarioBuilderDatabase {
     HashMap<Integer, DataClue> means;
     HashMap<Integer, DataResource> resources;
     HashMap<Integer, DataClue> clues;
@@ -13,8 +15,7 @@ public class ScenarioBuilderDatabase
     HashMap<Integer, DataMotive> motives;
     HashMap<Integer, DataCharacter> characters;
 
-    public ScenarioBuilderDatabase()
-    {
+    public ScenarioBuilderDatabase() {
         means = new HashMap<>();
         resources = new HashMap<>();
         clues = new HashMap<>();
@@ -24,8 +25,7 @@ public class ScenarioBuilderDatabase
         characters = new HashMap<>();
     }
 
-    public ScenarioBuilderDatabase(String databaseName) throws SQLException
-    {
+    public ScenarioBuilderDatabase(String databaseName) throws SQLException {
         this();
 
         Connection sqlConn = DriverManager.getConnection("jdbc:sqlite:" + databaseName);
@@ -113,16 +113,18 @@ public class ScenarioBuilderDatabase
 
     }
 
+    public static class DataMotive {
+        public int id;
+        public String description;
+    }
 
-    public class DataResource
-    {
+    public class DataResource {
         public int id;
         public String filename;
         public HashSet<DataCharacter> characters;
     }
 
-    public class DataClue
-    {
+    public class DataClue {
         public int id;
         public String name;
         public String description;
@@ -132,20 +134,12 @@ public class ScenarioBuilderDatabase
         public boolean isMeans;
     }
 
-    public class DataQuestioningStyle
-    {
+    public class DataQuestioningStyle {
         public int id;
         public String description;
     }
 
-    public static class DataMotive
-    {
-        public int id;
-        public String description;
-    }
-
-    public class DataCharacter
-    {
+    public class DataCharacter {
         public int id;
         public String name;
         public String description;

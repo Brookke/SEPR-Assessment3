@@ -8,10 +8,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
  *
  * @author jacobwunwin
  */
-class Application
-{
-    public static void main(String[] args)
-    {
+class Application {
+    public static void main(String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration(); //create a new libGDX objext
         config.title = "MIRCH"; //configure the title
         config.width = 1366; //configure the width and height
