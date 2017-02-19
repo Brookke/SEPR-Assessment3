@@ -116,7 +116,7 @@ public class InterviewScreen extends AbstractScreen {
                     buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
                 }
 
-                buttonList.add(new InterviewResponseButton("Leave the interview", 2, null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Ignore Suspect", 2, null, switchStateHandler));
 
                 break;
 
@@ -136,7 +136,7 @@ public class InterviewScreen extends AbstractScreen {
                     }
                 } else {
                     responseBoxInstructions = "You haven't found any clues yet to ask about";
-                    buttonList.add(new InterviewResponseButton("Leave the interview", 2, null, switchStateHandler));
+                    buttonList.add(new InterviewResponseButton("Leave the interview", 4, null, switchStateHandler));
                 }
 
                 break;
@@ -182,7 +182,7 @@ public class InterviewScreen extends AbstractScreen {
                 responseBoxInstructions = "How would you like to respond?";
                 buttonList.add(new InterviewResponseButton("Question the suspect again", 0, null, switchStateHandler));
                 buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Leave the interview", 2, null, switchStateHandler));
+                buttonList.add(new InterviewResponseButton("Ignore Suspect", 2, null, switchStateHandler));
                 break;
 
             case interviewAccuse:
