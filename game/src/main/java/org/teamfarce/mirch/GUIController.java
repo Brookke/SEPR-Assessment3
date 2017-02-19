@@ -28,7 +28,6 @@ public class GUIController
      */
     public GameState currentState;
 
-
     /**
      * Used to present the map screen when game state changes
      */
@@ -48,6 +47,8 @@ public class GUIController
      * Used to draw the narrator and his text
      */
     public NarratorScreen narratorScreen;
+
+    public MainMenuScreen menuScreen;
 
     /**
      * Used to draw the screen for finding a clue
@@ -77,6 +78,7 @@ public class GUIController
         interviewScreen = new InterviewScreen(game, uiSkin);
         narratorScreen = new NarratorScreen(game, uiSkin);
         findClueScreen = new FindClueScreen(game, uiSkin);
+        menuScreen= new MainMenuScreen(game, uiSkin);
     }
 
 
@@ -101,6 +103,9 @@ public class GUIController
             switch (newState) {
                 case map:
                     this.game.setScreen(mapScreen);
+                    break;
+                case menu:
+                    this.game.setScreen(menuScreen);
                     break;
                 case narrator:
                     this.game.setScreen(narratorScreen);
