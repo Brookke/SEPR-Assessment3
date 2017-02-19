@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.teamfarce.mirch.Settings;
 import org.teamfarce.mirch.Vector2Int;
-import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.map.Room;
 
 /**
- * Base class to represent different Map entities.
+ * Base class to represent different map entities.
  */
 public class MapEntity extends Sprite implements tileLocation
 {
@@ -17,9 +17,9 @@ public class MapEntity extends Sprite implements tileLocation
     protected String description;
 
     /**
-     * This is the location on the Map in terms of tiles can be set using {@link #setTileCoordinates(int, int)}
+     * This is the location on the map in terms of tiles can be set using {@link #setTileCoordinates(int, int)}
      * Note: this is different to com.badlogic.gdx.graphics.g2d.Sprite.position that is the position on the screen in terms of pixels,
-     * whereas this is in terms of Map tiles relative to the bottom left of the Map.
+     * whereas this is in terms of map tiles relative to the bottom left of the map.
      */
     protected Vector2Int tileCoordinates;
 

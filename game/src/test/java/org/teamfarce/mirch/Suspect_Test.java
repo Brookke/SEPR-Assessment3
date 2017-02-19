@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.teamfarce.mirch.entities.Suspect;
-import org.teamfarce.mirch.Map.Map;
-import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.map.Map;
+import org.teamfarce.mirch.map.Room;
 import org.teamfarce.mirch.screens.NarratorScreen;
 
 import java.util.ArrayList;

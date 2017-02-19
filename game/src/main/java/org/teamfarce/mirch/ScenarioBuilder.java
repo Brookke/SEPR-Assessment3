@@ -3,8 +3,8 @@ package org.teamfarce.mirch;
 import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.*;
-import org.teamfarce.mirch.Map.Map;
-import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.map.Map;
+import org.teamfarce.mirch.map.Room;
 import org.teamfarce.mirch.dialogue.Dialogue;
 
 import java.util.*;

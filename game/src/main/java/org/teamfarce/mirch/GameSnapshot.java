@@ -3,8 +3,8 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.Gdx;
 import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.entities.Suspect;
-import org.teamfarce.mirch.Map.Map;
-import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.map.Map;
+import org.teamfarce.mirch.map.Room;
 
 import java.util.List;
 import java.util.Random;

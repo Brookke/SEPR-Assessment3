@@ -1,10 +1,10 @@
 package org.teamfarce.mirch.map;
 
 
-import org.teamfarce.mirch.entities.Direction;
-import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
+import org.teamfarce.mirch.entities.Direction;
+import org.teamfarce.mirch.entities.Suspect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,10 +122,8 @@ public class Map
     {
         List<Suspect> npcsInRoom = new ArrayList<Suspect>();
 
-        for (Suspect s : game.gameSnapshot.getSuspects())
-        {
-            if (s.getRoom().getID() == room.getID())
-            {
+        for (Suspect s : game.gameSnapshot.getSuspects()) {
+            if (s.getRoom().getID() == room.getID()) {
                 npcsInRoom.add(s);
             }
         }
@@ -175,6 +173,7 @@ public class Map
 
     /**
      * This method returns all the rooms in the map
+     *
      * @return the rooms
      */
     public List<Room> getRooms()

@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.teamfarce.mirch.entities.Player;
 import org.teamfarce.mirch.dialogue.Dialogue;
-import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.map.Room;
 
 import static org.junit.Assert.*;
 

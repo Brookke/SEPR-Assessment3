@@ -7,12 +7,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import org.junit.Test;
 import org.teamfarce.mirch.entities.MapEntity;
-import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.map.Room;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Test the Map Entity
+ * Test the map Entity
  *
  * @author jacobwunwin
  */

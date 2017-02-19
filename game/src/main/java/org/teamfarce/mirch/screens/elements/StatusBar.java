@@ -66,7 +66,7 @@ public class StatusBar
         scoreLabel = new TextButton("Score: " + gameSnapshot.getScore(), uiSkin);
         statusBar.add(scoreLabel).uniform();
 
-        TextButton mapButton = new TextButton("Map", uiSkin);
+        TextButton mapButton = new TextButton("map", uiSkin);
         statusBar.add(mapButton).uniform();
 
         TextButton journalButton = new TextButton("Journal", uiSkin);
@@ -81,7 +81,7 @@ public class StatusBar
         {
             public void changed(ChangeEvent event, Actor actor)
             {
-                System.out.println("Map button was pressed");
+                System.out.println("map button was pressed");
                 gameSnapshot.setState(GameState.map);
             }
         });

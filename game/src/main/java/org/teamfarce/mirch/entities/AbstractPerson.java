@@ -355,7 +355,7 @@ public abstract class AbstractPerson extends MapEntity
 
     /**
      * This method is called once the A* Pathfinding algorithm has been completed. It reconstructs the path from the goal to the start point
-     * @param cameFrom - A Map of a node(key) , and the value being the node that we came from to get to the key node.
+     * @param cameFrom - A map of a node(key) , and the value being the node that we came from to get to the key node.
      * @param current - The final node. The goal destination
      *
      * @return List<Vector2Int> this is the list of tiles that are needed to be walked on to reach the goal

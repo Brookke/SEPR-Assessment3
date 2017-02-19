@@ -5,7 +5,7 @@ import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.screens.MapScreen;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.dialogue.Dialogue;
-import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.map.Room;
 
 /**
  * Created by brookehatton on 31/01/2017.
