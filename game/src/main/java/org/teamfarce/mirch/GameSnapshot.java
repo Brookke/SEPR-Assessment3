@@ -109,7 +109,7 @@ public class GameSnapshot {
         String[] detectives = new String[]{"Richie Paper", "Princess Fiona", "Lilly Blort", "Michael Dodders"};
 
         //Send the speech to the narrrator screen and display it
-        game.guiController.narratorScreen.setSpeech("Oh No!\n \nDetective " + detectives[new Random().nextInt(detectives.length)] + " has solved the crime before you! They discovered that all along it was " + murderer + " who killed " + victim + " in the " + room + " with " + weapon + "\n \n" +
+        game.guiController.narratorScreen.setSpeech("Oh No!\n \nDetective " + detectives[new Random().nextInt(detectives.length)] + " has solved the crime before you! They discovered that all along it was " + murdererName + " who killed " + victimName + " in the " + room + " with " + weapon + "\n \n" +
                 "It's a real shame, I really thought you'd have gotten there first!\n \nOh well! Better luck next time!")
                 .setButton("End Game", new Runnable() {
                     @Override
