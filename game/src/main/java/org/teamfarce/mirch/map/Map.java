@@ -1,8 +1,8 @@
-package org.teamfarce.mirch.map;
+package org.teamfarce.mirch.Map;
 
 
-import org.teamfarce.mirch.Entities.Direction;
-import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.entities.Direction;
+import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
 

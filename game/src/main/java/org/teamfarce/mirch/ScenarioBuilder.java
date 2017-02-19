@@ -1,16 +1,13 @@
 package org.teamfarce.mirch;
 
-import org.lwjgl.Sys;
-import org.teamfarce.mirch.Entities.Clue;
-import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.entities.Clue;
+import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.ScenarioBuilderDatabase.*;
-import org.teamfarce.mirch.dialogue.*;
-import org.teamfarce.mirch.map.Map;
-import org.teamfarce.mirch.map.Room;
+import org.teamfarce.mirch.Map.Map;
+import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.dialogue.Dialogue;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ScenarioBuilder
 {
@@ -30,13 +27,20 @@ public class ScenarioBuilder
         List<Suspect> posKillers = new ArrayList<>();
         List<Suspect> posVictims = new ArrayList<>();
         dataCharacters.forEach((x,c) -> {
+            Dialogue dialogue = null;
+            try {
+                dialogue = new Dialogue(c.dialogue.filename, false);
+            } catch (Dialogue.InvalidDialogueException e) {
+                e.printStackTrace();
+                System.exit(0);
+            }
             if (c.posKiller) {
-                Suspect tempSuspect = new Suspect(game, c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), c.dialogue.filename);
+                Suspect tempSuspect = new Suspect(game, c.name, c.description, c.spritesheet.filename, new Vector2Int(0, 0), dialogue);
                 tempSuspect.relatedClues = (convertClues(c.relatedClues));
                 posKillers.add(tempSuspect);
 
             } else {
-                posVictims.add(new Suspect(game, c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), c.dialogue.filename));
+                posVictims.add(new Suspect(game, c.name, c.description, c.spritesheet.filename, new Vector2Int(0,0), dialogue));
             }
         });
 
@@ -111,8 +115,6 @@ public class ScenarioBuilder
     public static GameSnapshot generateGame(
             MIRCH game,
             ScenarioBuilderDatabase database,
-            int suspectCount,
-            Set<DataQuestioningStyle> chosenStyles,
             Random random
     ) throws ScenarioBuilderException
     {
@@ -128,6 +130,27 @@ public class ScenarioBuilder
         CharacterData characterData;
         characterData = generateCharacters(game, database.characters);
 
+        Suspect victim = null;
+        Suspect murderer = null;
+
+        List<Suspect> aliveSuspects = new ArrayList<Suspect>();
+        for (Suspect suspect : characterData.allCharacters)
+        {
+            if (suspect.isVictim())
+            {
+                victim = suspect;
+            }
+            else
+            {
+                aliveSuspects.add(suspect);
+            }
+
+            if (suspect.isKiller())
+            {
+                murderer = suspect;
+            }
+        }
+
         constructedClues.addAll(characterData.murderer.relatedClues);
 
         Object[] means = database.means.values().toArray();
@@ -135,7 +158,10 @@ public class ScenarioBuilder
         constructedClues.add(new Clue(randomMean.name, randomMean.description, randomMean.sprite));
 
         distributeClues(constructedClues, map.initialiseRooms());
-        return new GameSnapshot(game, map, map.initialiseRooms(), characterData.allCharacters, constructedClues, 0, 0);
+        GameSnapshot snapshot = new GameSnapshot(game, map, map.initialiseRooms(), aliveSuspects, constructedClues, 0, 0);
+        snapshot.victim = victim;
+        snapshot.murderer = murderer;
+        return snapshot;
     }
 
     /**

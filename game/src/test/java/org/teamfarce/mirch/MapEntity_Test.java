@@ -5,10 +5,9 @@ package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.junit.Test;
-import org.teamfarce.mirch.Entities.MapEntity;
-import org.teamfarce.mirch.map.Room;
+import org.teamfarce.mirch.entities.MapEntity;
+import org.teamfarce.mirch.Map.Room;
 
 import static org.junit.Assert.assertEquals;
 

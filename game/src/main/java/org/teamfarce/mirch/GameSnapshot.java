@@ -1,10 +1,9 @@
 package org.teamfarce.mirch;
 
-import org.teamfarce.mirch.Entities.Clue;
-import org.teamfarce.mirch.Entities.Suspect;
-import org.teamfarce.mirch.Screens.InterviewScreen;
-import org.teamfarce.mirch.map.Map;
-import org.teamfarce.mirch.map.Room;
+import org.teamfarce.mirch.entities.Clue;
+import org.teamfarce.mirch.entities.Suspect;
+import org.teamfarce.mirch.Map.Map;
+import org.teamfarce.mirch.Map.Room;
 
 import java.util.List;
 
@@ -32,12 +31,15 @@ public class GameSnapshot
     int sumProvesMean;
     int score = 0;
     int time;
+    int currentPersonality;
     private List<Suspect> suspects;
     private GameState state;
     private float counter = 0f;
 
     private Suspect interviewSuspect = null;
 
+    public Suspect victim;
+    public Suspect murderer;
 
     /**
      * Initialises function.
@@ -66,6 +68,7 @@ public class GameSnapshot
         this.sumProvesMean = sumProvesMeans;
         this.sumProvesMotive = sumProvesMotive;
         this.score = 500;
+        this.currentPersonality = 0;
 
     }
 
@@ -126,7 +129,7 @@ public class GameSnapshot
      *
      * @return The props.
      */
-    List<Clue> getClues()
+    public List<Clue> getClues()
     {
         return this.clues;
     }
@@ -237,5 +240,26 @@ public class GameSnapshot
     {
         this.journal.foundClues.add(clue);
 
+    }
+
+
+    /**
+     * Getter for current personality
+     *
+     * @return Returns current personality score.
+     */
+
+    public int getPersonality()
+    {
+        return this.currentPersonality;
+    }
+    /**
+     * Updates current personality of player in game
+     * @param amount Amount to modify personality score by
+     */
+    public void modifyPersonality(int amount) {
+        if (this.currentPersonality > -10 && this.currentPersonality < 10) {
+            this.currentPersonality += amount;
+        }
     }
 }

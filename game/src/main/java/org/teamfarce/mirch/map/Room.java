@@ -1,13 +1,13 @@
-package org.teamfarce.mirch.map;
+package org.teamfarce.mirch.Map;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import org.teamfarce.mirch.Entities.Clue;
-import org.teamfarce.mirch.Entities.Direction;
-import org.teamfarce.mirch.Entities.Suspect;
+import org.teamfarce.mirch.entities.Clue;
+import org.teamfarce.mirch.entities.Direction;
+import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
 

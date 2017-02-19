@@ -6,12 +6,9 @@
     "Big Footprint": "test 2",
     "Small Footprint": "test 3",
     "Glasses": "test 4",
-    "Bag": "test 5",
+    "Bag": "",
     "Lipstick": "test 6",
-    "Right Handed": "test 7",
-    "Dark Hair": "test 8",
-    "Light Hair": "test 9",
-    "rubber duck": "test 10"
+    "Right Handed": "test 7"
   },
   "noneResponses": [
     "This is a test none response"
