@@ -88,24 +88,10 @@ public class GameSnapshot
         {
             //Lost game
 
-            String murderer = "";
-            String victim = "";
+            String murdererName = murderer.getName();
+            String victimName = victim.getName();
             String room = "";
             String weapon = "";
-
-            //Get the murderer and victims name
-            for (Suspect s : game.gameSnapshot.getSuspects())
-            {
-                if (s.isKiller())
-                {
-                    murderer = s.getName();
-                }
-
-                if (s.isVictim())
-                {
-                    victim = s.getName();
-                }
-            }
 
             //Get the murder room name and the murder weapon
             for (Room r : game.gameSnapshot.map.getRooms())
