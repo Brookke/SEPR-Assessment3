@@ -102,6 +102,13 @@ public class GameSnapshot {
                     weapon = c.getName();
                 }
             }
+
+            for (Clue c : journal.getClues())
+            {
+                if (c.isMeansClue()) {
+                    weapon = c.getName();
+                }
+            }
         }
 
         //List of other detectives who could've possibly solved the crime

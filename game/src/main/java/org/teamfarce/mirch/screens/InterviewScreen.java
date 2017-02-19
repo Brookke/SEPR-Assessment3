@@ -17,6 +17,7 @@ import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.entities.AbstractPerson;
 import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.entities.Suspect;
+import org.teamfarce.mirch.map.Room;
 import org.teamfarce.mirch.screens.elements.InterviewResponseBox;
 import org.teamfarce.mirch.screens.elements.InterviewResponseButton;
 
@@ -195,7 +196,6 @@ public class InterviewScreen extends AbstractScreen {
                     //Inform user of result
                     responseBoxInstructions = "How would you like to respond?";
                     buttonList.add(new InterviewResponseButton("Arrest " + suspect.getName(), 3, null, switchStateHandler));
-
                 } else {
                     //Setup suspect's dialogue
                     suspectDialogue = "Ha! You don't have the evidence to accuse me!";
@@ -232,6 +232,47 @@ public class InterviewScreen extends AbstractScreen {
         interviewStage.addActor(responseBoxTable);
     }
 
+    /**
+     * This method is called when the player has won the game
+     */
+    private void winGame()
+    {
+        game.guiController.narratorScreen.setButton("Return to Office", new Runnable() {
+            @Override
+            public void run() {
+                Gdx.app.exit();
+            }
+        });
+
+        String room = "";
+        String weapon = "";
+
+        //Get the murder room name and the murder weapon
+        for (Room r : game.gameSnapshot.map.getRooms()) {
+            if (r.isMurderRoom()) {
+                room = r.getName();
+            }
+
+            for (Clue c : r.getClues()) {
+                if (c.isMeansClue()) {
+                    weapon = c.getName();
+                }
+            }
+
+            for (Clue c : game.gameSnapshot.journal.getClues())
+            {
+                if (c.isMeansClue()) {
+                    weapon = c.getName();
+                }
+            }
+        }
+
+        game.guiController.narratorScreen.setSpeech("Congratulations! You solved it!\n\n" +
+                "All along it was " + game.gameSnapshot.murderer.getName() + " who killed " + gameSnapshot.victim.getName() + " with " + weapon + " in the " + room + "\n\nI would never have been able to work that out!\n\nYou completed the game with a score of " + gameSnapshot.getScore() + ", that's very impressive!");
+
+        gameSnapshot.gameWon = true;
+        gameSnapshot.setState(GameState.gameWon);
+    }
 
     /**
      * Initialises GUI controls for Suspect's dialogue
@@ -280,8 +321,7 @@ public class InterviewScreen extends AbstractScreen {
                 game.player.clearTalkTo();
                 break;
             case 3: //Game has been won
-                gameSnapshot.gameWon = true;
-                gameSnapshot.setState(GameState.gameWon);
+                winGame();
                 break;
             case 4:
                 gameSnapshot.setState(GameState.map);
