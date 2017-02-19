@@ -25,8 +25,6 @@ public class MIRCH extends Game {
     public ArrayList<Room> rooms;
     public ArrayList<Suspect> characters;
 
-    public OrthographicCamera orthoCam;
-
     public int step; //stores the current loop number
 
     public Player player;

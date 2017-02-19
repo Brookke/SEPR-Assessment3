@@ -91,25 +91,13 @@ public class FindClueScreen extends AbstractScreen {
         clueImage = new Image(new TextureRegion(displayingClue.getTexture(), displayingClue.getResourceX() * 128, displayingClue.getResourceY() * 128, 128, 128));
 
         clueImage.setSize(Settings.TILE_SIZE, Settings.TILE_SIZE);
-        int[] res = tileToScreenPos(displayingClue.getTileX(), displayingClue.getTileY());
+        int[] res = new int[]{Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2};
         clueImage.setPosition(res[0], res[1]);
         clueBox.setPosition(res[0], res[1]);
 
         clueStage.addActor(screenShot);
         clueStage.addActor(clueBox);
         clueStage.addActor(clueImage);
-    }
-
-    /**
-     * This method converts a tile location to a pixel screen position relative to the bottom left of the window
-     * @param tileX - The tile X coordinate
-     * @param tileY - The tile Y coordinate
-     * @return an array if Integers. Slot 1 being the X coordinate, slot 2 being the Y coordinate
-     */
-    public int[] tileToScreenPos(int tileX, int tileY)
-    {
-        Vector3 res = game.orthoCam.project(new Vector3(tileX * 32, tileY * 32, 0));
-        return new int[]{(int) res.x, (int) res.y};
     }
 
     /**
