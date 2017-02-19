@@ -119,7 +119,18 @@ public abstract class AbstractPerson extends MapEntity
              */
             if (!toMoveTo.isEmpty())
             {
+                animTime = 0.35f;
+
                 Vector2Int next = toMoveTo.get(0);
+
+                if (toMoveTo.size() >= 2)
+                {
+                    Vector2Int after = toMoveTo.get(1);
+
+                    {
+                    }
+                }
+
                 toMoveTo.remove(0);
 
                 int xDiff = next.getX() - getTileX();
