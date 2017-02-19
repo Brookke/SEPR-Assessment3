@@ -102,7 +102,6 @@ public class MapScreen extends AbstractScreen
         currentNPCs = game.gameSnapshot.map.getNPCs(game.player.getRoom());
         tileRender.addPerson((List<AbstractPerson>) ((List<? extends AbstractPerson>) currentNPCs));
         this.playerController = new PlayerController(game.player, game, camera);
-        game.orthoCam = this.camera;
         this.spriteBatch = new SpriteBatch();
 
         Pixmap pixMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Pixmap.Format.RGBA8888);
