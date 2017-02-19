@@ -176,16 +176,26 @@ public class ScenarioBuilder
 
         Collections.shuffle(clues);
         int amountOfClues = clues.size();
-        for (Room room : rooms) {
+
+        List<Room> loopRooms = new ArrayList<Room>();
+        loopRooms.addAll(rooms);
+        Collections.shuffle(loopRooms);
+
+        for (int i = 0; i < amountOfClues; i ++) {
             if (amountOfClues == 0) return;
 
-            Vector2Int randHidingSpot = room.getRandHidingSpot();
+            if (loopRooms.isEmpty())
+            {
+                loopRooms.addAll(rooms);
+                Collections.shuffle(loopRooms);
+            }
+
+            Vector2Int randHidingSpot = loopRooms.get(0).getRandHidingSpot();
 
             if (randHidingSpot != null) {
-                //Subtract 1 as java counts from 0
-                clues.get(amountOfClues - 1).setTileCoordinates(randHidingSpot);
-                room.addClue(clues.get(amountOfClues - 1));
-                amountOfClues--;
+                clues.get(i).setTileCoordinates(randHidingSpot);
+                loopRooms.get(0).addClue(clues.get(i));
+                loopRooms.remove(0);
             }
 
         }
