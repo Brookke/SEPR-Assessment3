@@ -93,6 +93,11 @@ public class Player extends AbstractPerson
      */
     public void interact(Vector2Int tileLocation)
     {
+        if (talkToOnEnd != null)
+        {
+            talkToOnEnd.canMove = true;
+        }
+
         talkToOnEnd = null;
         findOnEnd = null;
         transitionOnEnd = false;
