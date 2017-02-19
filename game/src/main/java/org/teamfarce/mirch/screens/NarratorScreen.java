@@ -66,7 +66,7 @@ public class NarratorScreen extends AbstractScreen
         this.gameSnapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
 
-        String introSpeech = "You have been invited to a lock-in costume party with some of the richest people around. There has been a murder, one of the guests has killed another.\n\n" +
+        String introSpeech = "You have been invited to a lock-in costume party with some of the richest people around. There has been a murder, one of the guests has killed " + /**game.gameSnapshot.victim.getName()**/ "\n\n" +
                 "The murderer instantly regretted their decision and has tried their hardest to cover up their tracks. All the clues have been hidden around the Ron Cooke Hub by the murderer so that they can avoid being discovered.\n\n" +
                 "NOT SO FAST! You're not the only detective that got called to the scene, there will be other detectives trying to solve the case at the same time.\n\n" +
                 "You must go around each room trying to find the clues that have been hidden. You must also question the guests to see if they know anything about the murder! Try to solve the case before any other detective!";
