@@ -1,10 +1,8 @@
 package org.teamfarce.mirch.screens.elements;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
@@ -38,10 +36,9 @@ public class InterviewResponseBox {
 
     /**
      * The constructor for the InterviewResponseBox
-     *
-     * @param content    Text to display above buttons
+     * @param content Text to display above buttons
      * @param buttonList List of InterviewResponseButtons for presenting the player with options
-     * @param uiSkin     Skin used to style UI
+     * @param uiSkin Skin used to style UI
      */
     public InterviewResponseBox(String content, ArrayList<InterviewResponseButton> buttonList, Skin uiSkin, boolean isMultiRow) {
         textContent = content;

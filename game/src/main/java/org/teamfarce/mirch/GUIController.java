@@ -11,7 +11,8 @@ import org.teamfarce.mirch.screens.*;
  *
  * @author jasonmash
  */
-public class GUIController {
+public class GUIController
+{
     /**
      * Reference to main game, used to set current screen and access GameState
      */
@@ -59,7 +60,8 @@ public class GUIController {
      *
      * @param game Used to set current screen, and access GameState
      */
-    GUIController(MIRCH game) {
+    GUIController(MIRCH game)
+    {
         this.game = game;
 
         uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json")); //load ui skin from assets
@@ -69,13 +71,14 @@ public class GUIController {
     /**
      * Initialises AbstractScreens ready to display later
      */
-    public void initScreens() {
+    public void initScreens()
+    {
         mapScreen = new MapScreen(game, uiSkin);
         journalScreen = new JournalScreen(game, uiSkin);
         interviewScreen = new InterviewScreen(game, uiSkin);
         narratorScreen = new NarratorScreen(game, uiSkin);
         findClueScreen = new FindClueScreen(game, uiSkin);
-        menuScreen = new MainMenuScreen(game, uiSkin);
+        menuScreen= new MainMenuScreen(game, uiSkin);
     }
 
 
@@ -83,7 +86,8 @@ public class GUIController {
      * Updates current GUI screen
      * Usage: use within render() methods
      */
-    public void update() {
+    public void update()
+    {
 
         //Clear background
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);

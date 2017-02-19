@@ -18,12 +18,14 @@ import java.util.ArrayList;
  *
  * @author jacobwunwin
  */
-public class InputController extends InputAdapter {
+public class InputController extends InputAdapter
+{
 
     /**
      * Empty initialiser for the input controller
      */
-    public InputController() {
+    public InputController()
+    {
 
     }
 
@@ -32,7 +34,8 @@ public class InputController extends InputAdapter {
      *
      * @return
      */
-    public Vector2Int fetchPlayerPositionUpdate() {
+    public Vector2Int fetchPlayerPositionUpdate()
+    {
         // process keyboard touch and translate
         Vector2Int move = new Vector2Int(0, 0);
 
@@ -61,7 +64,8 @@ public class InputController extends InputAdapter {
      * @param mouse
      * @return
      */
-    private boolean isSpritePressed(Sprite theSprite, Vector3 mouse) {
+    private boolean isSpritePressed(Sprite theSprite, Vector3 mouse)
+    {
         boolean toReturn = false;
 
         float x1 = theSprite.getX();
@@ -85,7 +89,8 @@ public class InputController extends InputAdapter {
      * @param camera
      * @return
      */
-    public boolean isObjectClicked(ArrayList<? extends Sprite> object, Camera camera) {
+    public boolean isObjectClicked(ArrayList<? extends Sprite> object, Camera camera)
+    {
         // process user touch input
         if (Gdx.input.isTouched()) {
 
@@ -110,7 +115,8 @@ public class InputController extends InputAdapter {
      * @param camera
      * @return
      */
-    public Sprite getClickedObject(ArrayList<? extends Sprite> object, Camera camera) {
+    public Sprite getClickedObject(ArrayList<? extends Sprite> object, Camera camera)
+    {
         // process user touch input
         if (Gdx.input.isTouched()) {
 

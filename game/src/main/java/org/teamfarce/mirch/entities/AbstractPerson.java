@@ -15,23 +15,28 @@ import java.util.*;
 /**
  * Created by brookehatton on 01/02/2017.
  */
-public abstract class AbstractPerson extends MapEntity {
+public abstract class AbstractPerson extends MapEntity
+{
+    /**
+     * Reference to the game
+     */
+    MIRCH game;
+
     /**
      * The height of the texture region for each person
      */
     public static final int SPRITE_HEIGHT = 48;
+
     /**
      * The width of the texture region for each person
      */
     public static final int SPRITE_WIDTH = 32;
+
     /**
      * This is whether the NPC can move or not. It is mainly used to not let them move during converstation
      */
     public boolean canMove = true;
-    /**
-     * This is the persons dialogue, it contains all their responses to any questions given to them.
-     */
-    public Dialogue dialogue;
+
     /**
      * This stores the current region of the above texture that is to be drawn
      * to the map
@@ -48,10 +53,7 @@ public abstract class AbstractPerson extends MapEntity {
      * to keep following these tiles until empty.
      */
     protected List<Vector2Int> toMoveTo = new ArrayList<Vector2Int>();
-    /**
-     * Reference to the game
-     */
-    MIRCH game;
+
     Direction direction = Direction.SOUTH;
     PersonState state;
     private Vector2Int startTile = new Vector2Int(0, 0);
@@ -59,14 +61,21 @@ public abstract class AbstractPerson extends MapEntity {
     private float animTimer;
     private float animTime = 0.35f;
 
+
+    /**
+     * This is the persons dialogue, it contains all their responses to any questions given to them.
+     */
+    public Dialogue dialogue;
+
     /**
      * Initialise the entity.
      *
-     * @param name            The name of the entity.
-     * @param description     The description of the entity.
-     * @param spriteSheetFile The spriteSheetFile of the image to display for the entity.
+     * @param name        The name of the entity.
+     * @param description The description of the entity.
+     * @param spriteSheetFile    The spriteSheetFile of the image to display for the entity.
      */
-    public AbstractPerson(MIRCH game, String name, String description, String spriteSheetFile, Dialogue dialogue) {
+    public AbstractPerson(MIRCH game, String name, String description, String spriteSheetFile, Dialogue dialogue)
+    {
         super(name, description, new TextureRegion(Assets.loadTexture("characters/" + spriteSheetFile), 0, 0, SPRITE_WIDTH, SPRITE_HEIGHT));
         this.game = game;
         this.name = name;
@@ -76,13 +85,13 @@ public abstract class AbstractPerson extends MapEntity {
         this.dialogue = dialogue;
 
     }
-
     /**
      * This controls the movement of a person
      */
     public abstract void move(Direction dir);
 
-    public PersonState getState() {
+    public PersonState getState()
+    {
         return state;
     }
 
@@ -90,7 +99,8 @@ public abstract class AbstractPerson extends MapEntity {
      * This is called to update the players position.
      * Called from the game loop, it interpolates the movement so that the person moves smoothly from tile to tile.
      */
-    public void update(float delta) {
+    public void update(float delta)
+    {
         if (this.state == PersonState.WALKING) {
 
             this.setPosition(Interpolation.linear.apply(startTile.x * Settings.TILE_SIZE, endTile.x * Settings.TILE_SIZE, animTimer / animTime), Interpolation.linear.apply(startTile.y * Settings.TILE_SIZE, endTile.y * Settings.TILE_SIZE, animTimer / animTime));
@@ -101,19 +111,24 @@ public abstract class AbstractPerson extends MapEntity {
                 this.setTileCoordinates(endTile.x, endTile.y);
                 this.finishMove();
             }
-        } else {
+        }
+        else
+        {
             /**
              * If they have a list of tiles to move to, move to the next tile in the list.
              */
-            if (!toMoveTo.isEmpty()) {
+            if (!toMoveTo.isEmpty())
+            {
                 animTime = 0.35f;
 
                 Vector2Int next = toMoveTo.get(0);
 
-                if (toMoveTo.size() >= 2) {
+                if (toMoveTo.size() >= 2)
+                {
                     Vector2Int after = toMoveTo.get(1);
 
-                    if (after.getX() == getTileX() || after.getY() == getTileY()) {
+                    if (after.getX() == getTileX() || after.getY() == getTileY())
+                    {
                         animTime = 0.25f;
                     }
                 }
@@ -123,13 +138,20 @@ public abstract class AbstractPerson extends MapEntity {
                 int xDiff = next.getX() - getTileX();
                 int yDiff = next.getY() - getTileY();
 
-                if (xDiff == 1) {
+                if (xDiff == 1)
+                {
                     move(Direction.EAST);
-                } else if (xDiff == -1) {
+                }
+                else if (xDiff == -1)
+                {
                     move(Direction.WEST);
-                } else if (yDiff == 1) {
+                }
+                else if (yDiff == 1)
+                {
                     move(Direction.NORTH);
-                } else if (yDiff == -1) {
+                }
+                else if (yDiff == -1)
+                {
                     move(Direction.SOUTH);
                 }
             }
@@ -144,7 +166,8 @@ public abstract class AbstractPerson extends MapEntity {
      *
      * @param dir the direction that the person is moving in.
      */
-    public void initialiseMove(Direction dir) {
+    public void initialiseMove(Direction dir)
+    {
         getRoom().lockCoordinate(this.tileCoordinates.x + dir.getDx(), this.tileCoordinates.y + dir.getDy());
 
         this.direction = dir;
@@ -163,7 +186,8 @@ public abstract class AbstractPerson extends MapEntity {
      * Finalises the move by resetting the animation timer and setting the state back to standing.
      * Called when the player is no longer moving.
      */
-    public void finishMove() {
+    public void finishMove()
+    {
         animTimer = 0f;
 
         this.state = PersonState.STANDING;
@@ -176,7 +200,8 @@ public abstract class AbstractPerson extends MapEntity {
     /**
      * Updates the texture region based upon how far though the animation time it is.
      */
-    public void updateTextureRegion() {
+    public void updateTextureRegion()
+    {
         float quarter = animTime / 4;
         float half = animTime / 2;
         float threeQuarters = quarter * 3;
@@ -216,13 +241,16 @@ public abstract class AbstractPerson extends MapEntity {
      * @param destination - The goal location
      * @return List<Vector2Int> the list of tiles to move to, from their current location to the goal destination.
      */
-    public List<Vector2Int> aStarPath(Vector2Int destination) {
+    public List<Vector2Int> aStarPath(Vector2Int destination)
+    {
         List<Vector2Int> emptyList = new ArrayList<Vector2Int>();
-        if (destination == null) {
+        if (destination == null)
+        {
             return emptyList;
         }
 
-        if (destination.equals(getTileCoordinates())) {
+        if (destination.equals(getTileCoordinates()))
+        {
             return emptyList;
         }
 
@@ -239,10 +267,12 @@ public abstract class AbstractPerson extends MapEntity {
         HashMap<Vector2Int, Integer> fScore = new HashMap<Vector2Int, Integer>();
         fScore.put(openSet.get(0), heuristic(new Vector2Int(getTileX(), getTileY()), destination));
 
-        while (!openSet.isEmpty()) {
+        while (!openSet.isEmpty())
+        {
             Vector2Int current = getLowestFScore(openSet, fScore);
 
-            if (current.equals(destination)) {
+            if (current.equals(destination))
+            {
                 return reconstructPath(cameFrom, current);
             }
 
@@ -251,21 +281,27 @@ public abstract class AbstractPerson extends MapEntity {
 
             List<Vector2Int> neighbours = getNeighbours(current);
 
-            for (Vector2Int neighbour : neighbours) {
+            for (Vector2Int neighbour : neighbours)
+            {
                 if (!getRoom().isWalkableTile(neighbour.getX(), neighbour.getY())) continue;
 
-                if (closedSet.contains(neighbour)) {
+                if (closedSet.contains(neighbour))
+                {
                     continue;
                 }
 
                 int tentativeGScore = gScore.get(current) + distFromNeighbour(current, neighbour);
 
-                if (!openSet.contains(neighbour)) {
+                if (!openSet.contains(neighbour))
+                {
                     openSet.add(neighbour);
-                } else {
+                }
+                else
+                {
                     int prevScore = gScore.get(neighbour);
 
-                    if (tentativeGScore >= prevScore) {
+                    if (tentativeGScore >= prevScore)
+                    {
                         continue;
                     }
                 }
@@ -283,17 +319,20 @@ public abstract class AbstractPerson extends MapEntity {
      * This method is used to get the cheapest next node from the open list
      *
      * @param openSet - The open list of locations
-     * @param fScore  - The estimated scores of each node to the goal
+     * @param fScore - The estimated scores of each node to the goal
      * @return Vector2Int the next best node from openSet
      */
-    public Vector2Int getLowestFScore(List<Vector2Int> openSet, HashMap<Vector2Int, Integer> fScore) {
+    public Vector2Int getLowestFScore(List<Vector2Int> openSet, HashMap<Vector2Int, Integer> fScore)
+    {
         if (openSet.isEmpty()) return null;
 
         Vector2Int lowest = openSet.get(0);
         int lowestInt = fScore.get(lowest);
 
-        for (Vector2Int v : openSet) {
-            if (fScore.get(v) < lowestInt) {
+        for (Vector2Int v : openSet)
+        {
+            if (fScore.get(v) < lowestInt)
+            {
                 lowest = v;
                 lowestInt = fScore.get(v);
             }
@@ -305,26 +344,29 @@ public abstract class AbstractPerson extends MapEntity {
     /**
      * This method gets the distance from one node to another.
      *
-     * @param current   - One position
+     * @param current - One position
      * @param neighbour - The second position
      * @return - Integer, the distance between the 2 positions
      */
-    public int distFromNeighbour(Vector2Int current, Vector2Int neighbour) {
+    public int distFromNeighbour(Vector2Int current, Vector2Int neighbour)
+    {
         return Math.abs(current.getX() - neighbour.getX()) + Math.abs(current.getY() - neighbour.getY());
     }
 
     /**
      * This method is called once the A* Pathfinding algorithm has been completed. It reconstructs the path from the goal to the start point
-     *
      * @param cameFrom - A Map of a node(key) , and the value being the node that we came from to get to the key node.
-     * @param current  - The final node. The goal destination
+     * @param current - The final node. The goal destination
+     *
      * @return List<Vector2Int> this is the list of tiles that are needed to be walked on to reach the goal
      */
-    public List<Vector2Int> reconstructPath(HashMap<Vector2Int, Vector2Int> cameFrom, Vector2Int current) {
+    public List<Vector2Int> reconstructPath(HashMap<Vector2Int, Vector2Int> cameFrom, Vector2Int current)
+    {
         List<Vector2Int> path = new ArrayList<Vector2Int>();
         path.add(current);
 
-        while (cameFrom.keySet().contains(current)) {
+        while (cameFrom.keySet().contains(current))
+        {
             current = cameFrom.get(current);
             path.add(current);
         }
@@ -334,36 +376,43 @@ public abstract class AbstractPerson extends MapEntity {
         return path;
     }
 
-    public List<Vector2Int> getNeighbours(Vector2Int current) {
+    public List<Vector2Int> getNeighbours(Vector2Int current)
+    {
         int roomWidth = ((TiledMapTileLayer) getRoom().getTiledMap().getLayers().get(0)).getWidth();
         int roomHeight = ((TiledMapTileLayer) getRoom().getTiledMap().getLayers().get(0)).getHeight();
 
         List<Vector2Int> neighbours = new ArrayList<Vector2Int>();
 
-        if (current.getX() + 1 <= roomWidth) {
+        if (current.getX() + 1 <= roomWidth)
+        {
             neighbours.add(new Vector2Int(current.getX() + 1, current.getY()));
         }
 
-        if (current.getY() + 1 <= roomHeight) {
+        if (current.getY() + 1 <= roomHeight)
+        {
             neighbours.add(new Vector2Int(current.getX(), current.getY() + 1));
         }
 
-        if (current.getX() - 1 >= 0) {
+        if (current.getX() - 1 >= 0)
+        {
             neighbours.add(new Vector2Int(current.getX() - 1, current.getY()));
         }
 
-        if (current.getY() - 1 >= 0) {
+        if (current.getY() - 1 >= 0)
+        {
             neighbours.add(new Vector2Int(current.getX(), current.getY() - 1));
         }
 
         return neighbours;
     }
 
-    public int heuristic(Vector2Int start, Vector2Int end) {
+    public int heuristic(Vector2Int start, Vector2Int end)
+    {
         return Math.abs(start.getX() - end.getX()) + Math.abs(start.getY() - end.getY());
     }
 
-    public void setDirection(Direction dir) {
+    public void setDirection(Direction dir)
+    {
         this.direction = dir;
     }
 
@@ -372,7 +421,8 @@ public abstract class AbstractPerson extends MapEntity {
      * <li>{@link #WALKING}</li>
      * <li>{@link #STANDING}</li>
      */
-    public enum PersonState {
+    public enum PersonState
+    {
         /**
          * Person is walking.
          */
@@ -390,7 +440,8 @@ public abstract class AbstractPerson extends MapEntity {
      * It is used to render NPCs and the Player in the correct order to avoid it appearing as though someone
      * is standing on top of someone else
      */
-    public static class PersonPositionComparator implements Comparator<AbstractPerson> {
+    public static class PersonPositionComparator implements Comparator<AbstractPerson>
+    {
         /**
          * This method compares the 2 objects.
          *
@@ -399,7 +450,8 @@ public abstract class AbstractPerson extends MapEntity {
          * @return (int) if <0 o1 is considered to be first in the list
          */
         @Override
-        public int compare(AbstractPerson o1, AbstractPerson o2) {
+        public int compare(AbstractPerson o1, AbstractPerson o2)
+        {
             return o2.getTileCoordinates().y - o1.getTileCoordinates().y;
         }
     }

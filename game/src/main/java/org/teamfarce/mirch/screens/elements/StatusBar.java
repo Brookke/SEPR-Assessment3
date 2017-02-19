@@ -16,7 +16,8 @@ import org.teamfarce.mirch.GameState;
 /**
  * Top status bar in game
  */
-public class StatusBar {
+public class StatusBar
+{
     /**
      * Height of bar
      */
@@ -49,7 +50,8 @@ public class StatusBar {
      * The initializer for the StatusBar
      * Sets up UI controls and adds them to the stage ready for rendering
      */
-    public StatusBar(GameSnapshot snapshot, Skin uiSkin) {
+    public StatusBar(GameSnapshot snapshot, Skin uiSkin)
+    {
         gameSnapshot = snapshot;
 
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -75,16 +77,20 @@ public class StatusBar {
 
         /* Event handlers */
         //add a listener for the show interview log button
-        mapButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
+        mapButton.addListener(new ChangeListener()
+        {
+            public void changed(ChangeEvent event, Actor actor)
+            {
                 System.out.println("Map button was pressed");
                 gameSnapshot.setState(GameState.map);
             }
         });
 
         //add a listener for the show interview log button
-        journalButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
+        journalButton.addListener(new ChangeListener()
+        {
+            public void changed(ChangeEvent event, Actor actor)
+            {
                 System.out.println("Journal button was pressed");
                 gameSnapshot.setState(GameState.journalClues);
             }
@@ -115,7 +121,8 @@ public class StatusBar {
      * Render function to display the status bar
      * Usage: call within the render() method in a screen
      */
-    public void render() {
+    public void render()
+    {
         scoreLabel.setText("Score: " + gameSnapshot.getScore());
         personalityMeter.setText(getPersonalityMeterValue());
         stage.act();
@@ -129,14 +136,16 @@ public class StatusBar {
      * @param width  - updated width
      * @param height - updated height
      */
-    public void resize(int width, int height) {
+    public void resize(int width, int height)
+    {
         stage.getViewport().update(width, height, true);
     }
 
     /**
      * This disposes all the elements
      */
-    public void dispose() {
+    public void dispose()
+    {
         stage.dispose();
     }
 }

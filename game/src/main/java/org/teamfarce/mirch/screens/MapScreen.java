@@ -9,14 +9,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
-import org.teamfarce.mirch.MIRCH;
-import org.teamfarce.mirch.OrthogonalTiledMapRendererWithPeople;
 import org.teamfarce.mirch.entities.AbstractPerson;
 import org.teamfarce.mirch.entities.PlayerController;
 import org.teamfarce.mirch.entities.Suspect;
+import org.teamfarce.mirch.MIRCH;
+import org.teamfarce.mirch.OrthogonalTiledMapRendererWithPeople;
 import org.teamfarce.mirch.screens.elements.RoomArrow;
 import org.teamfarce.mirch.screens.elements.StatusBar;
 
@@ -28,53 +29,65 @@ import java.util.Random;
 /**
  * Created by brookehatton on 31/01/2017.
  */
-public class MapScreen extends AbstractScreen {
+public class MapScreen extends AbstractScreen
+{
+
+    private OrthogonalTiledMapRendererWithPeople tileRender;
+    private OrthographicCamera camera;
+    private PlayerController playerController;
+    private int moveStep = 50;
+
+    /**
+     * This stores the room arrow that is drawn when the player stands on a room changing mat
+     */
+    private RoomArrow arrow = new RoomArrow(game.player);
+
+    /**
+     * This is the sprite batch that is relative to the screens origin
+     */
+    private SpriteBatch spriteBatch;
+
+    /**
+     * This stores whether the room is currently in transition or not
+     */
+    private boolean roomTransition = false;
+
+    /**
+     * The amount of ticks it takes for the black to fade in and out
+     */
+    private float ANIM_TIME = 0.7f;
+
+    /**
+     * The current room ID. This is used to catch when a player has moved rooms.
+     */
+    private int currentRoomID = 0;
+
+    /**
+     * This is the list of NPCs who are in the current room
+     */
+    List<Suspect> currentNPCs = new ArrayList<Suspect>();
+
+    /**
+     * The black sprite that is used to fade in/out
+     */
+    private Sprite BLACK_BACKGROUND = new Sprite();
+
+    /**
+     * The current animation frame of the fading in/out
+     */
+    private float animTimer = 0.0f;
+
+    /**
+     * This boolean determines whether the black is fading in or out
+     */
+    private boolean fadeToBlack = true;
 
     /**
      * This stores the most recent frame as an image
      */
     public static Image recentFrame;
     public static boolean grabScreenshot = false;
-    /**
-     * This is the list of NPCs who are in the current room
-     */
-    List<Suspect> currentNPCs = new ArrayList<Suspect>();
-    private OrthogonalTiledMapRendererWithPeople tileRender;
-    private OrthographicCamera camera;
-    private PlayerController playerController;
-    private int moveStep = 50;
-    /**
-     * This stores the room arrow that is drawn when the player stands on a room changing mat
-     */
-    private RoomArrow arrow = new RoomArrow(game.player);
-    /**
-     * This is the sprite batch that is relative to the screens origin
-     */
-    private SpriteBatch spriteBatch;
-    /**
-     * This stores whether the room is currently in transition or not
-     */
-    private boolean roomTransition = false;
-    /**
-     * The amount of ticks it takes for the black to fade in and out
-     */
-    private float ANIM_TIME = 0.7f;
-    /**
-     * The current room ID. This is used to catch when a player has moved rooms.
-     */
-    private int currentRoomID = 0;
-    /**
-     * The black sprite that is used to fade in/out
-     */
-    private Sprite BLACK_BACKGROUND = new Sprite();
-    /**
-     * The current animation frame of the fading in/out
-     */
-    private float animTimer = 0.0f;
-    /**
-     * This boolean determines whether the black is fading in or out
-     */
-    private boolean fadeToBlack = true;
+
     private StatusBar statusBar;
 
     public MapScreen(MIRCH game, Skin uiSkin) {
@@ -102,7 +115,8 @@ public class MapScreen extends AbstractScreen {
     }
 
     @Override
-    public void show() {
+    public void show()
+    {
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(statusBar.stage);
         multiplexer.addProcessor(playerController);
@@ -110,7 +124,8 @@ public class MapScreen extends AbstractScreen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta)
+    {
         game.gameSnapshot.updateScore(delta);
         playerController.update(delta);
         game.player.update(delta);
@@ -146,11 +161,13 @@ public class MapScreen extends AbstractScreen {
 
         Random random = new Random();
 
-        if (!grabScreenshot) {
+        if (!grabScreenshot)
+        {
             statusBar.render();
         }
 
-        if (grabScreenshot) {
+        if (grabScreenshot)
+        {
             recentFrame = new Image(ScreenUtils.getFrameBufferTexture());
         }
     }
@@ -158,7 +175,8 @@ public class MapScreen extends AbstractScreen {
     /**
      * This is called when the player decides to move to another room
      */
-    public void initialiseRoomTransition() {
+    public void initialiseRoomTransition()
+    {
         roomTransition = true;
     }
 
@@ -166,7 +184,8 @@ public class MapScreen extends AbstractScreen {
      * This is called when the room transition animation has completed so the necessary variables
      * can be returned to their normal values
      */
-    public void finishRoomTransition() {
+    public void finishRoomTransition()
+    {
         animTimer = 0;
         roomTransition = false;
         fadeToBlack = true;
@@ -177,14 +196,16 @@ public class MapScreen extends AbstractScreen {
     /**
      * This method returns true if the game is currently transitioning between rooms
      */
-    public boolean isTransitioning() {
+    public boolean isTransitioning()
+    {
         return roomTransition;
     }
 
     /**
      * This method is called once a render loop to update the room transition animation
      */
-    private void updateTransition(float delta) {
+    private void updateTransition(float delta)
+    {
         if (roomTransition) {
             BLACK_BACKGROUND.setAlpha(Interpolation.pow4.apply(0, 1, animTimer / ANIM_TIME));
 
@@ -218,36 +239,43 @@ public class MapScreen extends AbstractScreen {
         }
     }
 
-    public List<Suspect> getNPCs() {
+    public List<Suspect> getNPCs()
+    {
         return currentNPCs;
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int width, int height)
+    {
         statusBar.resize(width, height);
     }
 
     @Override
-    public void pause() {
+    public void pause()
+    {
 
     }
 
     @Override
-    public void resume() {
+    public void resume()
+    {
 
     }
 
     @Override
-    public void hide() {
+    public void hide()
+    {
 
     }
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
         statusBar.dispose();
     }
 
-    public OrthogonalTiledMapRendererWithPeople getTileRenderer() {
+    public OrthogonalTiledMapRendererWithPeople getTileRenderer()
+    {
         return tileRender;
     }
 }

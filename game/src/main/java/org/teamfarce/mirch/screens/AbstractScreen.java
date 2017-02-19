@@ -6,10 +6,12 @@ import org.teamfarce.mirch.MIRCH;
 /**
  * Created by brookehatton on 31/01/2017.
  */
-public abstract class AbstractScreen implements Screen {
+public abstract class AbstractScreen implements Screen
+{
     protected final MIRCH game;
 
-    public AbstractScreen(MIRCH game) {
+    public AbstractScreen(MIRCH game)
+    {
         this.game = game;
     }
 

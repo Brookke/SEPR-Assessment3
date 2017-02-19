@@ -6,7 +6,8 @@ import org.teamfarce.mirch.entities.Direction;
 /**
  * This class defines a 2D vector to represent coordinates within the game.
  */
-public class Vector2Int {
+public class Vector2Int
+{
     /**
      * x and y coordinates of the object
      */
@@ -19,7 +20,8 @@ public class Vector2Int {
      * @param x - x coordinate.
      * @param y - y coordinate.
      */
-    public Vector2Int(int x, int y) {
+    public Vector2Int(int x, int y)
+    {
         this.x = x;
         this.y = y;
     }
@@ -29,7 +31,8 @@ public class Vector2Int {
      *
      * @return returns value of x for this object.
      */
-    public int getX() {
+    public int getX()
+    {
         return this.x;
     }
 
@@ -38,7 +41,8 @@ public class Vector2Int {
      *
      * @return returns value of y for this object.
      */
-    public int getY() {
+    public int getY()
+    {
         return this.y;
     }
 
@@ -49,7 +53,8 @@ public class Vector2Int {
      * @return Returns true or false depending on whether the equality is true or false.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
@@ -65,7 +70,8 @@ public class Vector2Int {
      * @return String - Representing the values stored in this object
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "(" + x + "," + y + ")";
     }
 
@@ -85,7 +91,8 @@ public class Vector2Int {
      * @param other - The Vector2Int to compare
      * @return Direction - The direction the other position is in
      */
-    public Direction dirBetween(Vector2Int other) {
+    public Direction dirBetween(Vector2Int other)
+    {
         if (x - other.getX() == 1) return Direction.EAST;
         if (x - other.getX() == -1) return Direction.WEST;
         if (y - other.getY() == 1) return Direction.NORTH;
@@ -94,7 +101,8 @@ public class Vector2Int {
         return Direction.NORTH;
     }
 
-    public Vector2Int scl(int scalar) {
+    public Vector2Int scl(int scalar)
+    {
         x *= scalar;
         y *= scalar;
         return this;

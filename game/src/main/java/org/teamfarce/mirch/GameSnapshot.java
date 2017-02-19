@@ -1,10 +1,10 @@
 package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Gdx;
-import org.teamfarce.mirch.Map.Map;
-import org.teamfarce.mirch.Map.Room;
 import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.entities.Suspect;
+import org.teamfarce.mirch.Map.Map;
+import org.teamfarce.mirch.Map.Room;
 
 import java.util.List;
 import java.util.Random;
@@ -12,7 +12,10 @@ import java.util.Random;
 /**
  * Stores a snapshot of the game state.
  */
-public class GameSnapshot {
+public class GameSnapshot
+{
+    MIRCH game;
+
     /**
      * Indicates whether the game has been won.
      */
@@ -21,13 +24,9 @@ public class GameSnapshot {
      * Holds the journal associated with this state.
      */
     public Journal journal;
-    public Map map;
-    public boolean hasFoundMurderRoom = false;
-    public Suspect victim;
-    public Suspect murderer;
-    MIRCH game;
     List<Clue> clues;
     List<Room> rooms;
+    public Map map;
     int meansProven;
     int motiveProven;
     int sumProvesMotive;
@@ -38,7 +37,13 @@ public class GameSnapshot {
     private List<Suspect> suspects;
     private GameState state;
     private float counter = 0f;
+
+    public boolean hasFoundMurderRoom = false;
+
     private Suspect interviewSuspect = null;
+
+    public Suspect victim;
+    public Suspect murderer;
 
     /**
      * Initialises function.
@@ -51,7 +56,8 @@ public class GameSnapshot {
             List<Clue> clues,
             int sumProvesMotive,
             int sumProvesMeans
-    ) {
+    )
+    {
         this.game = game;
         this.suspects = suspects;
         this.state = GameState.menu;
@@ -75,10 +81,12 @@ public class GameSnapshot {
      *
      * @param amount - the integer to add to the score.
      */
-    public void modifyScore(int amount) {
+    public void modifyScore(int amount)
+    {
         score += amount;
 
-        if (score <= 0) {
+        if (score <= 0)
+        {
             //Lost game
 
             String murdererName = murderer.getName();
@@ -87,13 +95,17 @@ public class GameSnapshot {
             String weapon = "";
 
             //Get the murder room name and the murder weapon
-            for (Room r : game.gameSnapshot.map.getRooms()) {
-                if (r.isMurderRoom()) {
+            for (Room r : game.gameSnapshot.map.getRooms())
+            {
+                if (r.isMurderRoom())
+                {
                     room = r.getName();
                 }
 
-                for (Clue c : r.getClues()) {
-                    if (c.isMeansClue()) {
+                for (Clue c : r.getClues())
+                {
+                    if (c.isMeansClue())
+                    {
                         weapon = c.getName();
                     }
                 }
@@ -122,11 +134,13 @@ public class GameSnapshot {
      * @return Returns current score.
      */
 
-    public int getScore() {
+    public int getScore()
+    {
         return this.score;
     }
 
-    public void updateScore(float delta) {
+    public void updateScore(float delta)
+    {
         counter += delta;
         if (counter >= 5) {
             counter = 0;
@@ -140,7 +154,8 @@ public class GameSnapshot {
      *
      * @return The current time.
      */
-    public int getTime() {
+    public int getTime()
+    {
         return this.time;
     }
 
@@ -149,7 +164,8 @@ public class GameSnapshot {
      *
      * @return The rooms.
      */
-    List<Room> getRooms() {
+    List<Room> getRooms()
+    {
         return this.rooms;
     }
 
@@ -158,21 +174,22 @@ public class GameSnapshot {
      *
      * @return The props.
      */
-    public List<Clue> getClues() {
+    public List<Clue> getClues()
+    {
         return this.clues;
     }
 
     // The following two functions should be merged at some point.
 
  /*   *//**
-     * Increment the "means proof" value by the given value in the clues.
-     * <p>
-     * This effectively indicates that the means of the murder was proven by the given arbitrary
-     * value in the clues.
-     * </p>
-     *
-     * @param clues The clues which provide the means proven value.
-     *//*
+ * Increment the "means proof" value by the given value in the clues.
+ * <p>
+ * This effectively indicates that the means of the murder was proven by the given arbitrary
+ * value in the clues.
+ * </p>
+ *
+ * @param clues The clues which provide the means proven value.
+ *//*
     void proveMeans(Collection<Clue> clues)
     {
         for (Clue clue : clues) {
@@ -181,14 +198,14 @@ public class GameSnapshot {
     }
 
     *//**
-     * Increment the "motive proof" value by the given value.
-     * <p>
-     * This effectively indicates that the motive of the murder was proven by the given arbitrary
-     * value in the clues.
-     * </p>
-     *
-     * @param clues The clues which provide the motive proven value.
-     *//*
+ * Increment the "motive proof" value by the given value.
+ * <p>
+ * This effectively indicates that the motive of the murder was proven by the given arbitrary
+ * value in the clues.
+ * </p>
+ *
+ * @param clues The clues which provide the motive proven value.
+ *//*
     void proveMotive(Collection<Clue> clues)
     {
         for (Clue clue : clues) {
@@ -201,7 +218,8 @@ public class GameSnapshot {
      *
      * @return Whether we have "proven" the means.
      */
-    public boolean isMeansProven() {
+    public boolean isMeansProven()
+    {
         return journal.hasFoundMurderWeapon();
     }
 
@@ -210,7 +228,8 @@ public class GameSnapshot {
      *
      * @return Whether we have "proven" the motive.
      */
-    public boolean isMotiveProven() {
+    public boolean isMotiveProven()
+    {
         return journal.hasFoundMotiveClue();
     }
 
@@ -219,7 +238,8 @@ public class GameSnapshot {
      *
      * @return Whether the murder room has been discovered or not
      */
-    public boolean hasFoundMurderRoom() {
+    public boolean hasFoundMurderRoom()
+    {
         return hasFoundMurderRoom;
     }
 
@@ -228,7 +248,8 @@ public class GameSnapshot {
      *
      * @return The game state.
      */
-    public GameState getState() {
+    public GameState getState()
+    {
         return this.state;
     }
 
@@ -237,7 +258,8 @@ public class GameSnapshot {
      *
      * @param state The state to set.
      */
-    public void setState(GameState state) {
+    public void setState(GameState state)
+    {
         this.state = state;
     }
 
@@ -246,16 +268,19 @@ public class GameSnapshot {
      *
      * @return The suspects.
      */
-    public List<Suspect> getSuspects() {
+    public List<Suspect> getSuspects()
+    {
         return this.suspects;
     }
 
-    public Suspect getSuspectForInterview() {
-        return interviewSuspect;
+    public void setSuspectForInterview(Suspect s)
+    {
+        interviewSuspect = s;
     }
 
-    public void setSuspectForInterview(Suspect s) {
-        interviewSuspect = s;
+    public Suspect getSuspectForInterview()
+    {
+        return interviewSuspect;
     }
 
     /**
@@ -266,7 +291,8 @@ public class GameSnapshot {
      *
      * @param //Clue The clue to add.
      */
-    public void journalAddClue(Clue clue) {
+    public void journalAddClue(Clue clue)
+    {
         this.journal.foundClues.add(clue);
 
     }
@@ -278,13 +304,12 @@ public class GameSnapshot {
      * @return Returns current personality score.
      */
 
-    public int getPersonality() {
+    public int getPersonality()
+    {
         return this.currentPersonality;
     }
-
     /**
      * Updates current personality of player in game
-     *
      * @param amount Amount to modify personality score by
      */
     public void modifyPersonality(int amount) {

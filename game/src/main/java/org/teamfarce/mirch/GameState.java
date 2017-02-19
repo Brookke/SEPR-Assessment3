@@ -5,6 +5,7 @@ package org.teamfarce.mirch;
  *
  * @author Jacob Wunwin
  */
-public enum GameState {
+public enum GameState
+{
     map, interviewStart, interviewQuestionStyle, interviewAccuse, interviewQuestionClue, interviewQuestion, journalClues, journalQuestions, journalNotepad, accuse, gameWon, narrator, findClue, menu
 }

@@ -7,7 +7,8 @@ import org.teamfarce.mirch.Settings;
 /**
  * This class defines the clues that the player needs to find in order to solve the murder.
  */
-public class Clue extends MapEntity {
+public class Clue extends MapEntity
+{
     /**
      * This stores whether this clue is a motive clue
      */
@@ -31,7 +32,8 @@ public class Clue extends MapEntity {
      * @param description describes what the clue is
      * @param filename    the texture region of the clue
      */
-    public Clue(String name, String description, String filename, int resourceX, int resourceY, boolean meansClue) {
+    public Clue(String name, String description, String filename, int resourceX, int resourceY, boolean meansClue)
+    {
         super(name, description, new TextureRegion(Assets.loadTexture("clues/" + filename), resourceX * 128, resourceY * 128, 128, 128));
         this.resourceX = resourceX;
         this.resourceY = resourceY;
@@ -49,7 +51,8 @@ public class Clue extends MapEntity {
      * @return - Returns True if it is of the type Clue and the names are exactly the same
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if (obj instanceof Clue) {
             Clue c = (Clue) obj;
             return c.getName().equals(this.getName()) && c.getDescription().equals(this.description);
@@ -60,7 +63,6 @@ public class Clue extends MapEntity {
 
     /**
      * Returns whether the clue is a motive clue or not
-     *
      * @return `motiveClue`
      */
     public boolean isMotiveClue() {
@@ -69,28 +71,26 @@ public class Clue extends MapEntity {
 
     /**
      * Returns whether the clue is a means clue or not
-     *
      * @return `meansClue`
      */
-    public boolean isMeansClue() {
+    public boolean isMeansClue()
+    {
         return meansClue;
     }
 
     /**
      * Returns the x tile location of the resource
-     *
      * @return `resourceX`
      */
-    public int getResourceX() {
+    public int getResourceX(){
         return resourceX;
     }
 
     /**
      * Returns the y tile location of the resource
-     *
      * @return `resourceY`
      */
-    public int getResourceY() {
+    public int getResourceY(){
         return resourceY;
     }
 
