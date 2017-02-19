@@ -7,5 +7,5 @@ package org.teamfarce.mirch;
  */
 public enum GameState
 {
-    map, interviewStart, interviewQuestionStyle, interviewAccuse, journalClues, journalQuestions, journalNotepad, accuse, gameWon, interviewQuestionClue, interviewQuestion, narrator
+    map, interviewStart, interviewQuestionStyle, interviewAccuse, journalClues, journalQuestions, journalNotepad, accuse, gameWon, interviewQuestionClue, interviewQuestion, narrator, menu
 }
