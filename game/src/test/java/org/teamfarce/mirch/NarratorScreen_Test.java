@@ -3,6 +3,7 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import org.junit.Before;
 import org.junit.Test;
+import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.screens.NarratorScreen;
 
 import static org.junit.Assert.assertEquals;
@@ -23,6 +24,7 @@ public class NarratorScreen_Test extends GameTest
         Skin skin = new Skin();
         game = new MIRCH();
         game.gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
+        game.gameSnapshot.victim = new Suspect(game, "Test", "test", "Detective_Sprite.png", new Vector2Int(0, 0), null);
         screen = new NarratorScreen(game, skin);
     }
 
