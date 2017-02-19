@@ -287,4 +287,15 @@ public class GameSnapshot {
             this.currentPersonality += amount;
         }
     }
+
+    /**
+     * This method unlocks all the Suspects and allows them all to be spoken to.
+     */
+    public void setAllUnlocked()
+    {
+        for (Suspect s : getSuspects())
+        {
+            s.setLocked(false);
+        }
+    }
 }

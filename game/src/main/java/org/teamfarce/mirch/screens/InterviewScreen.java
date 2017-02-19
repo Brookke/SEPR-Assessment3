@@ -79,6 +79,16 @@ public class InterviewScreen extends AbstractScreen {
             throw new NullPointerException("No Suspect Defined for Interview Screen");
         }
 
+        //Check if the suspect is locked from talking to or not
+        if (suspect.speechLocked())
+        {
+            gameSnapshot.setState(GameState.interviewLock);
+        }
+        else
+        {
+            gameSnapshot.setAllUnlocked();
+        }
+
         //Setup vars needed to render dialogue & responses
         String responseBoxInstructions = "";
         String suspectDialogue = "";
@@ -194,6 +204,12 @@ public class InterviewScreen extends AbstractScreen {
                     buttonList.add(new InterviewResponseButton("Apologise & leave the interview", 2, null, switchStateHandler));
                 }
                 break;
+
+            case interviewLock:
+                suspectDialogue = "If you don't want to talk to me. I don't want to talk to you.";
+                responseBoxInstructions = "Maybe if I explore some more they will talk";
+                buttonList.add(new InterviewResponseButton("Exit Interview", 4, null, switchStateHandler));
+                break;
         }
 
         //Render Suspect's dialogue to the screen
@@ -257,6 +273,7 @@ public class InterviewScreen extends AbstractScreen {
             case 2: //Ignore or return to map
                 gameSnapshot.setState(GameState.map);
                 suspect.canMove = true;
+                suspect.setLocked(true);
                 suspect = null;
                 gameSnapshot.setSuspectForInterview(null);
                 game.player.clearTalkTo();
@@ -264,6 +281,13 @@ public class InterviewScreen extends AbstractScreen {
             case 3: //Game has been won
                 gameSnapshot.gameWon = true;
                 gameSnapshot.setState(GameState.gameWon);
+                break;
+            case 4:
+                gameSnapshot.setState(GameState.map);
+                suspect.canMove = true;
+                suspect = null;
+                gameSnapshot.setSuspectForInterview(null);
+                game.player.clearTalkTo();
                 break;
         }
     }
@@ -302,7 +326,6 @@ public class InterviewScreen extends AbstractScreen {
         }
         gameSnapshot.setState(GameState.interviewQuestion);
     }
-
 
     @Override
     public void show() {

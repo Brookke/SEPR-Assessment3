@@ -159,6 +159,7 @@ public class MapScreen extends AbstractScreen {
      * This is called when the player decides to move to another room
      */
     public void initialiseRoomTransition() {
+        game.gameSnapshot.setAllUnlocked();
         roomTransition = true;
     }
 

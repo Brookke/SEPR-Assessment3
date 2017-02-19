@@ -41,6 +41,8 @@ public class Journal {
     public void addClue(Clue clue) {
         this.foundClues.add(clue);
 
+        game.gameSnapshot.setAllUnlocked();
+
         game.gameSnapshot.modifyScore(5);
 
         if (clue.isMotiveClue()) motivesFound++;

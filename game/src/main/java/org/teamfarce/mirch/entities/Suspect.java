@@ -27,6 +27,8 @@ public class Suspect extends AbstractPerson {
     private boolean killer = false;
     private boolean victim = false;
 
+    private boolean isLocked = false;
+
     /**
      * Initialiser function.
      *
@@ -152,5 +154,24 @@ public class Suspect extends AbstractPerson {
     public void setVictim() {
         this.victim = true;
         this.killer = false;
+    }
+
+    /**
+     * This method returns whether this suspects speech is currently locked
+     *
+     * @return `isLocked`
+     */
+    public boolean speechLocked()
+    {
+        return isLocked;
+    }
+
+    /**
+     * This method sets the players speech lock to the parameter value
+     * @param locked - The value to set `isLocked` to
+     */
+    public void setLocked(boolean locked)
+    {
+        isLocked = locked;
     }
 }
