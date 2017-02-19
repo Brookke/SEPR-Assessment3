@@ -38,6 +38,8 @@ public class GameSnapshot
 
     private Suspect interviewSuspect = null;
 
+    public Suspect victim;
+    public Suspect murderer;
 
     /**
      * Initialises function.
