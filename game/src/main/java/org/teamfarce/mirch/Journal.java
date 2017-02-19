@@ -71,8 +71,6 @@ public class Journal {
                 });
 
         game.gameSnapshot.setState(GameState.narrator);
-
-        game.gameSnapshot.modifyScore(10);
     }
 
     /**
