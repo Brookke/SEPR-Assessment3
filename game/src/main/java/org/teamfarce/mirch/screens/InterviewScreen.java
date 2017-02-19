@@ -31,7 +31,6 @@ public class InterviewScreen extends AbstractScreen {
 
     public Stage interviewStage;
     private Skin uiSkin;
-    private StatusBar statusBar;
 
     final static float X_OFFSET = 10;
     final static float Y_OFFSET = 20;
@@ -53,8 +52,6 @@ public class InterviewScreen extends AbstractScreen {
         this.game = game;
         this.gameSnapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
-
-        statusBar = new StatusBar(game.gameSnapshot, uiSkin);
     }
 
 
@@ -293,7 +290,6 @@ public class InterviewScreen extends AbstractScreen {
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(interviewStage);
-        multiplexer.addProcessor(statusBar.stage);
         Gdx.input.setInputProcessor(multiplexer);
     }
 
@@ -301,13 +297,11 @@ public class InterviewScreen extends AbstractScreen {
     public void render(float delta) {
         interviewStage.act();
         interviewStage.draw();
-        statusBar.render();
     }
 
     @Override
     public void resize(int width, int height) {
         interviewStage.getViewport().update(width, height, false);
-        statusBar.resize(width, height);
     }
 
     @Override
@@ -322,6 +316,5 @@ public class InterviewScreen extends AbstractScreen {
     @Override
     public void dispose() {
         interviewStage.dispose();
-        statusBar.dispose();
     }
 }
