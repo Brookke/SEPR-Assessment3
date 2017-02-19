@@ -66,7 +66,7 @@ public class StatusBar
         scoreLabel = new TextButton("Score: " + gameSnapshot.getScore(), uiSkin);
         statusBar.add(scoreLabel).uniform();
 
-        TextButton mapButton = new TextButton("map", uiSkin);
+        TextButton mapButton = new TextButton("Map", uiSkin);
         statusBar.add(mapButton).uniform();
 
         TextButton journalButton = new TextButton("Journal", uiSkin);

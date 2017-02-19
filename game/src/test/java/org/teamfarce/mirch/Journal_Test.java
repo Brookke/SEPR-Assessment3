@@ -3,7 +3,6 @@
  */
 package org.teamfarce.mirch;
 
-import com.badlogic.gdx.Game;
 import org.junit.Test;
 import org.teamfarce.mirch.entities.Clue;
 
@@ -16,17 +15,15 @@ import static org.junit.Assert.assertEquals;
  *
  * @author jacobwunwin
  */
-public class Journal_Test extends GameTest
-{
+public class Journal_Test extends GameTest {
     @Test
-    public void addClue()
-    {
+    public void addClue() {
         MIRCH game = new MIRCH();
         game.gameSnapshot = new GameSnapshot(game, null, null, null, null, 0, 0);
         game.gameSnapshot.score = 0;
 
         Journal journal = new Journal(game);
-		    Clue clue = new Clue("Clue name", "Description","clueSheet.png", 0, 0, false);
+        Clue clue = new Clue("Clue name", "Description", "clueSheet.png", 0, 0, false);
         journal.addClue(clue);
 
         assertEquals(clue, journal.foundClues.get(0));
@@ -34,8 +31,7 @@ public class Journal_Test extends GameTest
     }
 
     @Test
-    public void getClues()
-    {
+    public void getClues() {
         MIRCH game = new MIRCH();
         game.gameSnapshot = new GameSnapshot(game, null, null, null, null, 0, 0);
         game.gameSnapshot.score = 0;
@@ -43,8 +39,8 @@ public class Journal_Test extends GameTest
         Journal journal = new Journal(game);
         ArrayList<Clue> cluesList = new ArrayList<>();
 
-		    Clue clue = new Clue("Clue name", "Description","clueSheet.png", 0, 0, false);
-		    Clue clue2 = new Clue("Clue name 2", "Description","clueSheet.png", 0, 0, false);
+        Clue clue = new Clue("Clue name", "Description", "clueSheet.png", 0, 0, false);
+        Clue clue2 = new Clue("Clue name 2", "Description", "clueSheet.png", 0, 0, false);
 
         journal.addClue(clue);
         journal.addClue(clue2);
@@ -56,8 +52,7 @@ public class Journal_Test extends GameTest
     }
 
     @Test
-    public void addConversation()
-    {
+    public void addConversation() {
         Journal journal = new Journal(null);
 
         String dialogue = "Convo text";
@@ -70,8 +65,7 @@ public class Journal_Test extends GameTest
     }
 
     @Test
-    public void getConversations()
-    {
+    public void getConversations() {
         Journal journal = new Journal(null);
 
         journal.addConversation("Dialogue", "Character 1");
