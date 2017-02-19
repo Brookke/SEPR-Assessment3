@@ -125,6 +125,8 @@ public class FindClueScreen extends AbstractScreen
         if (soFarAnim < ANIM_TIME * 0.5f) {
             soFarAnim += delta;
 
+            //TODO: interpolation should be done with a fixed start size rather than getting it as it changes (for the next team)
+
             float nextWidth = Interpolation.linear.apply(clueImage.getWidth(), goalSize.getX(), soFarAnim / ANIM_TIME);
             float nextHeight = Interpolation.linear.apply(clueImage.getHeight(), goalSize.getY(), soFarAnim / ANIM_TIME);
 
