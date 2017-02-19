@@ -11,8 +11,7 @@ import java.util.Random;
 /**
  * Stores information about a single suspect character.
  */
-public class Suspect extends AbstractPerson
-{
+public class Suspect extends AbstractPerson {
     public List<Clue> relatedClues;
     public boolean isMurderer;
     /**
@@ -44,8 +43,7 @@ public class Suspect extends AbstractPerson
             String filename,
             Vector2Int startingPosition,
             Dialogue dialogue
-    )
-    {
+    ) {
         super(game, name, description, filename, dialogue);
 
         this.beenAccused = false;
@@ -65,8 +63,7 @@ public class Suspect extends AbstractPerson
      * @param hasEvidence Whether the player has sufficient evidence the accuse
      * @return Whether the player has successfully accused the suspect
      */
-    public boolean accuse(boolean hasEvidence)
-    {
+    public boolean accuse(boolean hasEvidence) {
         this.beenAccused = true;
         //clear the dialogue tree here
         if (this.isMurderer == false || hasEvidence == false) {
@@ -82,14 +79,12 @@ public class Suspect extends AbstractPerson
      *
      * @return Whether the suspect has been accused.
      */
-    public boolean hasBeenAccused()
-    {
+    public boolean hasBeenAccused() {
         return beenAccused;
     }
 
     @Override
-    public void move(Direction dir)
-    {
+    public void move(Direction dir) {
         if (this.state != PersonState.STANDING) {
             return;
         }
@@ -108,8 +103,7 @@ public class Suspect extends AbstractPerson
      * This method is called once a game tick to randomise movement.
      */
     @Override
-    public void update(float delta)
-    {
+    public void update(float delta) {
         super.update(delta);
         this.randomMove();
     }
@@ -117,8 +111,7 @@ public class Suspect extends AbstractPerson
     /**
      * This method attempts to move the NPC in a random direction
      */
-    private void randomMove()
-    {
+    private void randomMove() {
         if (getState() == PersonState.WALKING) return;
 
         if (random.nextDouble() > 0.01) {
@@ -143,24 +136,20 @@ public class Suspect extends AbstractPerson
         move(dir);
     }
 
-    public boolean isKiller()
-    {
+    public boolean isKiller() {
         return killer;
     }
 
-    public void setKiller()
-    {
+    public void setKiller() {
         this.killer = true;
         this.victim = false;
     }
 
-    public boolean isVictim()
-    {
+    public boolean isVictim() {
         return victim;
     }
 
-    public void setVictim()
-    {
+    public void setVictim() {
         this.victim = true;
         this.killer = false;
     }

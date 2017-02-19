@@ -19,8 +19,7 @@ import org.teamfarce.mirch.screens.elements.StatusBar;
 /**
  * This class displays a clue with its information when it has just been found
  */
-public class FindClueScreen extends AbstractScreen
-{
+public class FindClueScreen extends AbstractScreen {
 
     private GameSnapshot snapshot;
     private Skin uiSkin;
@@ -56,8 +55,7 @@ public class FindClueScreen extends AbstractScreen
      * @param game   - Reference to the main game class
      * @param uiSkin - The skin to render objects with
      */
-    public FindClueScreen(MIRCH game, Skin uiSkin)
-    {
+    public FindClueScreen(MIRCH game, Skin uiSkin) {
         super(game);
         this.snapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
@@ -68,8 +66,7 @@ public class FindClueScreen extends AbstractScreen
     /**
      * Initialise all the components on the screen
      */
-    private void initScreen()
-    {
+    private void initScreen() {
         soFarAnim = 0f;
         ANIM_TIME = 1f;
         rotate = false;
@@ -103,8 +100,7 @@ public class FindClueScreen extends AbstractScreen
      * Show the window
      */
     @Override
-    public void show()
-    {
+    public void show() {
         MapScreen.grabScreenshot = false;
 
         initScreen();
@@ -120,8 +116,7 @@ public class FindClueScreen extends AbstractScreen
      * @param delta - Time since last frame in seconds
      */
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
         if (soFarAnim < ANIM_TIME * 0.5f) {
             soFarAnim += delta;
 
@@ -165,16 +160,13 @@ public class FindClueScreen extends AbstractScreen
     /**
      * This adds the buttons and clue descriptors to the screen. It shows them once the clue has moved to the centre of the screen
      */
-    public void addAllToStage()
-    {
+    public void addAllToStage() {
         continueButton = new TextButton("Continue", uiSkin);
         continueButton.setSize(Gdx.graphics.getWidth() / 4, 50);
         continueButton.setPosition((Gdx.graphics.getWidth() / 2) - (continueButton.getWidth() / 2), clueBox.getY() - (2 * continueButton.getHeight()));
-        continueButton.addListener(new ChangeListener()
-        {
+        continueButton.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor)
-            {
+            public void changed(ChangeEvent event, Actor actor) {
                 hideAll();
 
                 rotate = true;
@@ -242,8 +234,7 @@ public class FindClueScreen extends AbstractScreen
      * <p>
      * Used when doing the animation of the clue going into the journal
      */
-    private void hideAll()
-    {
+    private void hideAll() {
         name.setVisible(false);
         nameBackground.setVisible(false);
         continueButton.setVisible(false);
@@ -256,32 +247,27 @@ public class FindClueScreen extends AbstractScreen
     }
 
     @Override
-    public void resize(int width, int height)
-    {
+    public void resize(int width, int height) {
 
     }
 
     @Override
-    public void pause()
-    {
+    public void pause() {
 
     }
 
     @Override
-    public void resume()
-    {
+    public void resume() {
 
     }
 
     @Override
-    public void hide()
-    {
+    public void hide() {
 
     }
 
     @Override
-    public void dispose()
-    {
+    public void dispose() {
 
     }
 }

@@ -11,14 +11,12 @@ import java.util.Random;
 /**
  * Created by brookehatton on 16/02/2017.
  */
-public class Dialogue
-{
+public class Dialogue {
     private static String templatePath;
     private JsonValue jsonData;
     private boolean isForPlayer;
 
-    public Dialogue(String jsonFile, boolean player) throws InvalidDialogueException
-    {
+    public Dialogue(String jsonFile, boolean player) throws InvalidDialogueException {
         importDialogue(jsonFile);
         isForPlayer = player;
         validateJsonAgainstTemplate();
@@ -29,8 +27,7 @@ public class Dialogue
      *
      * @param fileName - The filename to read from
      */
-    private void importDialogue(String fileName)
-    {
+    private void importDialogue(String fileName) {
         jsonData = new JsonReader().parse(Gdx.files.internal("characters/" + fileName));
     }
 
@@ -40,8 +37,7 @@ public class Dialogue
      * @return Boolean true if it passes
      * @throws InvalidDialogueException if the JSON is invalid
      */
-    private boolean validateJsonAgainstTemplate() throws InvalidDialogueException
-    {
+    private boolean validateJsonAgainstTemplate() throws InvalidDialogueException {
         JsonValue jsonTemp = new JsonReader().parse(Gdx.files.internal("characters/template.JSON"));
         Iterator itr = jsonTemp.get("responses").iterator();
 
@@ -75,8 +71,7 @@ public class Dialogue
      * @param clue
      * @return
      */
-    public String get(Clue clue)
-    {
+    public String get(Clue clue) {
         return get(clue.getName());
     }
 
@@ -86,8 +81,7 @@ public class Dialogue
      * @param speechKey
      * @return
      */
-    public String get(String speechKey)
-    {
+    public String get(String speechKey) {
         if (this.jsonData.get("responses").has(speechKey)) {
             return this.jsonData.get("responses").getString(speechKey);
         } else {
@@ -104,8 +98,7 @@ public class Dialogue
      * @param personality
      * @return
      */
-    public String get(Clue clue, String personality)
-    {
+    public String get(Clue clue, String personality) {
         if (isForPlayer) {
             return this.jsonData.get("responses").get(clue.getName()).getString(personality);
         }
@@ -118,16 +111,13 @@ public class Dialogue
     }
 
 
-    public class InvalidDialogueException extends Exception
-    {
+    public class InvalidDialogueException extends Exception {
         //Parameterless Constructor
-        public InvalidDialogueException()
-        {
+        public InvalidDialogueException() {
         }
 
         //Constructor that accepts a message
-        public InvalidDialogueException(String message)
-        {
+        public InvalidDialogueException(String message) {
             super(message);
         }
     }

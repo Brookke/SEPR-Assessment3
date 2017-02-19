@@ -10,8 +10,7 @@ import org.teamfarce.mirch.screens.MapScreen;
 /**
  * Created by brookehatton on 31/01/2017.
  */
-public class Player extends AbstractPerson
-{
+public class Player extends AbstractPerson {
     /**
      * This variable is detected by the mapScreen and initialises the room change
      */
@@ -41,8 +40,7 @@ public class Player extends AbstractPerson
      * @param description     The description of the entity.
      * @param spriteSheetFile The spriteSheetFile of the image to display for the entity.
      */
-    public Player(MIRCH game, String name, String description, String spriteSheetFile, Dialogue dialogue)
-    {
+    public Player(MIRCH game, String name, String description, String spriteSheetFile, Dialogue dialogue) {
         super(game, name, description, spriteSheetFile, dialogue);
 
         this.state = PersonState.STANDING;
@@ -53,8 +51,7 @@ public class Player extends AbstractPerson
      *
      * @param dir the direction that the player should move in.
      */
-    public void move(Direction dir)
-    {
+    public void move(Direction dir) {
         if (this.state != PersonState.STANDING) {
             return;
         }
@@ -87,8 +84,7 @@ public class Player extends AbstractPerson
      *
      * @param tileLocation - The tile location they clicked at.
      */
-    public void interact(Vector2Int tileLocation)
-    {
+    public void interact(Vector2Int tileLocation) {
         if (talkToOnEnd != null) {
             talkToOnEnd.canMove = true;
         }
@@ -146,8 +142,7 @@ public class Player extends AbstractPerson
      * @param goal - The goal destination
      * @return - The best fitting tile
      */
-    public Vector2Int getClosestNeighbour(Vector2Int goal)
-    {
+    public Vector2Int getClosestNeighbour(Vector2Int goal) {
         Vector2Int result = null;
 
         Vector2Int north = new Vector2Int(goal.getX(), goal.getY() + 1);
@@ -211,8 +206,7 @@ public class Player extends AbstractPerson
      * @param second             - The second priority direction
      * @return Vector2Int the priority list back after being modified
      */
-    private Vector2Int[] lessThanPriorityDecision(int check, Vector2Int[] priority, int priorityListFirst, int priorityListSecond, Vector2Int first, Vector2Int second)
-    {
+    private Vector2Int[] lessThanPriorityDecision(int check, Vector2Int[] priority, int priorityListFirst, int priorityListSecond, Vector2Int first, Vector2Int second) {
         if (check <= 0) {
             priority[priorityListFirst] = first;
             priority[priorityListSecond] = second;
@@ -229,14 +223,12 @@ public class Player extends AbstractPerson
      *
      * @return (boolean) Whether the player is on a trigger tile or not
      */
-    public boolean isOnTriggerTile()
-    {
+    public boolean isOnTriggerTile() {
         return this.getRoom().isTriggerTile(this.tileCoordinates.x, this.tileCoordinates.y);
     }
 
     @Override
-    public void finishMove()
-    {
+    public void finishMove() {
         super.finishMove();
 
         if (toMoveTo.isEmpty() && talkToOnEnd != null) {
@@ -271,8 +263,7 @@ public class Player extends AbstractPerson
     /**
      * This takes the player at its current position, and automatically gets the transition data for the next room and applies it to the player and game
      */
-    public void moveRoom()
-    {
+    public void moveRoom() {
         if (isOnTriggerTile()) {
             Room.Transition newRoomData = this.getRoom().getTransitionData(this.getTileCoordinates().x, this.getTileCoordinates().y);
 
@@ -296,24 +287,21 @@ public class Player extends AbstractPerson
      *
      * @return Clue - The found clue
      */
-    public Clue getClueFound()
-    {
+    public Clue getClueFound() {
         return findOnEnd;
     }
 
     /**
      * This method clears the NPC that is to be spoken to when movement ends
      */
-    public void clearTalkTo()
-    {
+    public void clearTalkTo() {
         talkToOnEnd = null;
     }
 
     /**
      * This method clears the clue that has just been found
      */
-    public void clearFound()
-    {
+    public void clearFound() {
         findOnEnd = null;
     }
 }

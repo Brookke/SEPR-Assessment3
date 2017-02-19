@@ -17,8 +17,7 @@ import java.util.Random;
  *
  * @author jacobwunwin
  */
-public class MIRCH extends Game
-{
+public class MIRCH extends Game {
     public static MIRCH me;
     public GameSnapshot gameSnapshot;
     public GUIController guiController;
@@ -34,8 +33,7 @@ public class MIRCH extends Game
      * Initialises all variables in the game and sets up the game for play.
      */
     @Override
-    public void create()
-    {
+    public void create() {
 
         me = this;
         Assets.load();
@@ -97,8 +95,7 @@ public class MIRCH extends Game
      * carries out logic and pushes outputs to the screen through the GUIController
      */
     @Override
-    public void render()
-    {
+    public void render() {
         this.guiController.update();
         super.render();
 
@@ -106,8 +103,7 @@ public class MIRCH extends Game
     }
 
     @Override
-    public void dispose()
-    {
+    public void dispose() {
 
     }
 }

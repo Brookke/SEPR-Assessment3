@@ -11,8 +11,7 @@ import java.util.List;
  * This includes a list of all props discovered, and a log of all conversations.
  * </p>
  */
-public class Journal
-{
+public class Journal {
     public ArrayList<Clue> foundClues;
     /**
      * The conversation buffer.
@@ -28,8 +27,7 @@ public class Journal
     /**
      * Initialise the Journal in an empty state.
      */
-    public Journal(MIRCH game)
-    {
+    public Journal(MIRCH game) {
         this.game = game;
         this.conversations = new ArrayList<>();
         this.foundClues = new ArrayList<>();
@@ -40,8 +38,7 @@ public class Journal
      *
      * @param clue The clue to add.
      */
-    public void addClue(Clue clue)
-    {
+    public void addClue(Clue clue) {
         this.foundClues.add(clue);
 
         game.gameSnapshot.modifyScore(5);
@@ -60,16 +57,13 @@ public class Journal
     /**
      * This method displays the complete motive to the player
      */
-    private void displayMotive()
-    {
+    private void displayMotive() {
         game.guiController.narratorScreen.setSpeech("Congratulations! You have solved the killers motive! Let's take a look at those clues...\n \n"
                 + getMotive() + "\n \nI can't believe someone would kill someone for that!\n \n"
                 + "Well, you go out there and find out who committed this murder!\n \nGood Luck!")
-                .setButton("Continue Game", new Runnable()
-                {
+                .setButton("Continue Game", new Runnable() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         game.gameSnapshot.setState(GameState.map);
                     }
                 });
@@ -86,8 +80,7 @@ public class Journal
      *
      * @return String motive
      */
-    private String getMotive()
-    {
+    private String getMotive() {
         String[] motives = new String[]{"", "", ""};
 
         Clue[] remove = new Clue[3];
@@ -116,8 +109,7 @@ public class Journal
         return motives[0] + motives[1] + motives[2];
     }
 
-    public List<Clue> getClues()
-    {
+    public List<Clue> getClues() {
         return this.foundClues;
     }
 
@@ -127,8 +119,7 @@ public class Journal
      *
      * @return
      */
-    public List<Clue> getQuestionableClues()
-    {
+    public List<Clue> getQuestionableClues() {
         List<Clue> clues = new ArrayList<>();
         for (Clue c : this.foundClues) {
             if (!c.isMotiveClue() && !c.isMeansClue()) {
@@ -144,8 +135,7 @@ public class Journal
      * @param text          The text to add the journal.
      * @param characterName The character name to associate with the journal.
      */
-    public void addConversation(String text, String characterName)
-    {
+    public void addConversation(String text, String characterName) {
         String convo = String.format("%1$s: %2$s", characterName, text);
         if (!this.conversations.contains(convo)) {
             this.conversations.add(convo);
@@ -156,16 +146,14 @@ public class Journal
     /**
      * This method returns whether the murder weapon has been found or not
      */
-    public boolean hasFoundMurderWeapon()
-    {
+    public boolean hasFoundMurderWeapon() {
         return foundWeapon;
     }
 
     /**
      * This method returns whether the motive clue has been found or not
      */
-    public boolean hasFoundMotiveClue()
-    {
+    public boolean hasFoundMotiveClue() {
         return motivesFound >= 3;
     }
 
@@ -174,8 +162,7 @@ public class Journal
      *
      * @return
      */
-    public List<String> getConversations()
-    {
+    public List<String> getConversations() {
         return this.conversations;
     }
 

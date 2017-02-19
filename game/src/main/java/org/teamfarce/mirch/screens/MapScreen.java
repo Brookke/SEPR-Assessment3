@@ -28,8 +28,7 @@ import java.util.Random;
 /**
  * Created by brookehatton on 31/01/2017.
  */
-public class MapScreen extends AbstractScreen
-{
+public class MapScreen extends AbstractScreen {
 
     /**
      * This stores the most recent frame as an image
@@ -78,8 +77,7 @@ public class MapScreen extends AbstractScreen
     private boolean fadeToBlack = true;
     private StatusBar statusBar;
 
-    public MapScreen(MIRCH game, Skin uiSkin)
-    {
+    public MapScreen(MIRCH game, Skin uiSkin) {
         super(game);
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -104,8 +102,7 @@ public class MapScreen extends AbstractScreen
     }
 
     @Override
-    public void show()
-    {
+    public void show() {
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(statusBar.stage);
         multiplexer.addProcessor(playerController);
@@ -113,8 +110,7 @@ public class MapScreen extends AbstractScreen
     }
 
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
         game.gameSnapshot.updateScore(delta);
         playerController.update(delta);
         game.player.update(delta);
@@ -162,8 +158,7 @@ public class MapScreen extends AbstractScreen
     /**
      * This is called when the player decides to move to another room
      */
-    public void initialiseRoomTransition()
-    {
+    public void initialiseRoomTransition() {
         roomTransition = true;
     }
 
@@ -171,8 +166,7 @@ public class MapScreen extends AbstractScreen
      * This is called when the room transition animation has completed so the necessary variables
      * can be returned to their normal values
      */
-    public void finishRoomTransition()
-    {
+    public void finishRoomTransition() {
         animTimer = 0;
         roomTransition = false;
         fadeToBlack = true;
@@ -183,16 +177,14 @@ public class MapScreen extends AbstractScreen
     /**
      * This method returns true if the game is currently transitioning between rooms
      */
-    public boolean isTransitioning()
-    {
+    public boolean isTransitioning() {
         return roomTransition;
     }
 
     /**
      * This method is called once a render loop to update the room transition animation
      */
-    private void updateTransition(float delta)
-    {
+    private void updateTransition(float delta) {
         if (roomTransition) {
             BLACK_BACKGROUND.setAlpha(Interpolation.pow4.apply(0, 1, animTimer / ANIM_TIME));
 
@@ -226,43 +218,36 @@ public class MapScreen extends AbstractScreen
         }
     }
 
-    public List<Suspect> getNPCs()
-    {
+    public List<Suspect> getNPCs() {
         return currentNPCs;
     }
 
     @Override
-    public void resize(int width, int height)
-    {
+    public void resize(int width, int height) {
         statusBar.resize(width, height);
     }
 
     @Override
-    public void pause()
-    {
+    public void pause() {
 
     }
 
     @Override
-    public void resume()
-    {
+    public void resume() {
 
     }
 
     @Override
-    public void hide()
-    {
+    public void hide() {
 
     }
 
     @Override
-    public void dispose()
-    {
+    public void dispose() {
         statusBar.dispose();
     }
 
-    public OrthogonalTiledMapRendererWithPeople getTileRenderer()
-    {
+    public OrthogonalTiledMapRendererWithPeople getTileRenderer() {
         return tileRender;
     }
 }

@@ -11,8 +11,7 @@ import org.teamfarce.mirch.map.Room;
 
 import java.util.*;
 
-public class ScenarioBuilder
-{
+public class ScenarioBuilder {
 
     /**
      * Takes a list of data characters,
@@ -23,8 +22,7 @@ public class ScenarioBuilder
      * @param dataCharacters
      * @return
      */
-    public static CharacterData generateCharacters(MIRCH game, HashMap<Integer, DataCharacter> dataCharacters) throws ScenarioBuilderException
-    {
+    public static CharacterData generateCharacters(MIRCH game, HashMap<Integer, DataCharacter> dataCharacters) throws ScenarioBuilderException {
         CharacterData data = new CharacterData();
 
         List<Suspect> posKillers = new ArrayList<>();
@@ -74,8 +72,7 @@ public class ScenarioBuilder
      * @param dataMotive
      * @return list of the 3 clues
      */
-    public static List<Clue> generateMotive(DataMotive dataMotive)
-    {
+    public static List<Clue> generateMotive(DataMotive dataMotive) {
 
         final int third = dataMotive.description.length() / 3; //get the middle of the String
         String[] parts = {dataMotive.description.substring(0, third), dataMotive.description.substring(third, 2 * third), dataMotive.description.substring(2 * third)};
@@ -102,8 +99,7 @@ public class ScenarioBuilder
      * @param clues
      * @return
      */
-    private static List<Clue> convertClues(List<DataClue> clues)
-    {
+    private static List<Clue> convertClues(List<DataClue> clues) {
         if (clues == null) {
             return null;
         }
@@ -120,8 +116,7 @@ public class ScenarioBuilder
             MIRCH game,
             ScenarioBuilderDatabase database,
             Random random
-    ) throws ScenarioBuilderException
-    {
+    ) throws ScenarioBuilderException {
 
         List<Clue> constructedClues = new ArrayList<>();
 
@@ -171,8 +166,7 @@ public class ScenarioBuilder
      * @param clues
      * @param rooms
      */
-    public static void distributeClues(List<Clue> clues, List<Room> rooms)
-    {
+    public static void distributeClues(List<Clue> clues, List<Room> rooms) {
 
         Collections.shuffle(clues);
         int amountOfClues = clues.size();
@@ -203,17 +197,14 @@ public class ScenarioBuilder
 
     }
 
-    public static class ScenarioBuilderException extends Exception
-    {
-        public ScenarioBuilderException(String message)
-        {
+    public static class ScenarioBuilderException extends Exception {
+        public ScenarioBuilderException(String message) {
             super(message);
         }
     }
 
 
-    private static class CharacterData
-    {
+    private static class CharacterData {
         public Suspect victim = null;
         public Suspect murderer = null;
         public List<Suspect> allCharacters = new ArrayList<>();

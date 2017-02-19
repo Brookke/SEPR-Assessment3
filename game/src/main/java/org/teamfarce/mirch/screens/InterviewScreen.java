@@ -28,8 +28,7 @@ import java.util.ArrayList;
  * interviewStart, interviewQuestionStyle, interviewAccuse, interviewQuestion,
  * interviewQuestionClue
  */
-public class InterviewScreen extends AbstractScreen
-{
+public class InterviewScreen extends AbstractScreen {
 
     final static float X_OFFSET = 10;
     final static float Y_OFFSET = 20;
@@ -49,8 +48,7 @@ public class InterviewScreen extends AbstractScreen
      * @param game   Reference to current game
      * @param uiSkin Skin reference for UI controls
      */
-    public InterviewScreen(MIRCH game, Skin uiSkin)
-    {
+    public InterviewScreen(MIRCH game, Skin uiSkin) {
         super(game);
         this.game = game;
         this.gameSnapshot = game.gameSnapshot;
@@ -62,8 +60,7 @@ public class InterviewScreen extends AbstractScreen
      * Prepares the stage ready to render on screen
      * Adds GUI controls to the stage
      */
-    private void initInterviewStage()
-    {
+    private void initInterviewStage() {
         //Initialise stage used to show interview contents
         interviewStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
@@ -220,8 +217,7 @@ public class InterviewScreen extends AbstractScreen
      * @param suspect         Reference to instance of Suspect class
      * @param suspectDialogue Speech for the suspect to say
      */
-    private void initSuspectBox(Suspect suspect, String suspectDialogue)
-    {
+    private void initSuspectBox(Suspect suspect, String suspectDialogue) {
         Label suspectName = new Label(suspect.getName(), uiSkin);
         suspectName.setPosition(280, 540);
         suspectName.setFontScale(1.1f);
@@ -244,8 +240,7 @@ public class InterviewScreen extends AbstractScreen
      *
      * @param result Int associated with each state
      */
-    private void switchState(int result)
-    {
+    private void switchState(int result) {
         switch (result) {
             case 0: //Question
                 gameSnapshot.setState(GameState.interviewQuestionClue);
@@ -268,8 +263,7 @@ public class InterviewScreen extends AbstractScreen
         }
     }
 
-    private void questionClue(int result, Clue clue)
-    {
+    private void questionClue(int result, Clue clue) {
         switch (result) {
             case 0:
                 tempClue = clue;
@@ -278,8 +272,7 @@ public class InterviewScreen extends AbstractScreen
         }
     }
 
-    private void questionStyle(int result)
-    {
+    private void questionStyle(int result) {
         switch (result) {
             case 0:
                 tempStyle = "AGGRESSIVE";
@@ -307,8 +300,7 @@ public class InterviewScreen extends AbstractScreen
 
 
     @Override
-    public void show()
-    {
+    public void show() {
         initInterviewStage();
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -317,36 +309,30 @@ public class InterviewScreen extends AbstractScreen
     }
 
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
         interviewStage.act();
         interviewStage.draw();
     }
 
     @Override
-    public void resize(int width, int height)
-    {
+    public void resize(int width, int height) {
         interviewStage.getViewport().update(width, height, false);
     }
 
     @Override
-    public void pause()
-    {
+    public void pause() {
     }
 
     @Override
-    public void resume()
-    {
+    public void resume() {
     }
 
     @Override
-    public void hide()
-    {
+    public void hide() {
     }
 
     @Override
-    public void dispose()
-    {
+    public void dispose() {
         interviewStage.dispose();
     }
 }

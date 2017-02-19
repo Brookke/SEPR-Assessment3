@@ -26,8 +26,7 @@ import org.teamfarce.mirch.MIRCH;
  * The Main Menu screen draws the Main Menu GUI to the screen and handles any inputs
  * whilst the Menu is displayed.
  */
-public class MainMenuScreen extends AbstractScreen
-{
+public class MainMenuScreen extends AbstractScreen {
 
     /**
      * The width of the menu
@@ -59,8 +58,7 @@ public class MainMenuScreen extends AbstractScreen
      *
      * @param game - The game object the menu is being loaded for
      */
-    public MainMenuScreen(final MIRCH game, Skin uiSkin)
-    {
+    public MainMenuScreen(final MIRCH game, Skin uiSkin) {
 
         super(game);
         this.gameSnapshot = game.gameSnapshot;
@@ -73,8 +71,7 @@ public class MainMenuScreen extends AbstractScreen
         initMenu(game, uiSkin);
     }
 
-    private void initMenu(final MIRCH game, Skin uiSkin)
-    {
+    private void initMenu(final MIRCH game, Skin uiSkin) {
 
         //Setting the background
         Image background = new Image(new TextureRegion(Assets.loadTexture("rch3.jpg")));
@@ -110,21 +107,17 @@ public class MainMenuScreen extends AbstractScreen
 
 
         //Making the "New Game" button clickable and causing it to start the game
-        newGameButton.addListener(new ClickListener()
-        {
+        newGameButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)
-            {
+            public void clicked(InputEvent event, float x, float y) {
                 gameSnapshot.setState(GameState.narrator);
             }
         });
 
         //Making the "Quit" button clickable and causing it to close the game
-        quit.addListener(new ClickListener()
-        {
+        quit.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)
-            {
+            public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
             }
         });
@@ -135,16 +128,14 @@ public class MainMenuScreen extends AbstractScreen
      * This method is called to change the state to "menu", this sets the screen to
      * "MainMenuScreen".
      */
-    public void makeVisible()
-    {
+    public void makeVisible() {
         gameSnapshot.setState(GameState.menu);
     }
 
     /**
      * This method is called to render the main menu to the stage
      */
-    public void render(float delta)
-    {
+    public void render(float delta) {
         //Determining the background colour of the menu
         Gdx.gl.glClearColor(135, 206, 235, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -154,8 +145,7 @@ public class MainMenuScreen extends AbstractScreen
     }
 
     @Override
-    public void show()
-    {
+    public void show() {
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
     }
@@ -163,8 +153,7 @@ public class MainMenuScreen extends AbstractScreen
     /**
      * This method disposes of all elements
      */
-    public void dispose()
-    {
+    public void dispose() {
         //Called when disposing the main menu
         stage.dispose();
         batch.dispose();
@@ -176,26 +165,22 @@ public class MainMenuScreen extends AbstractScreen
      * @param width  - The new width
      * @param height - The new height
      */
-    public void resize(int width, int height)
-    {
+    public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
     @Override
-    public void hide()
-    {
+    public void hide() {
 
     }
 
     @Override
-    public void pause()
-    {
+    public void pause() {
 
     }
 
     @Override
-    public void resume()
-    {
+    public void resume() {
 
     }
 };

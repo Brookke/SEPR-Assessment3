@@ -22,8 +22,7 @@ import org.teamfarce.mirch.MIRCH;
  * <p>
  * game.guiController.narratorScreen.setSpeech("").makeVisible();
  */
-public class NarratorScreen extends AbstractScreen
-{
+public class NarratorScreen extends AbstractScreen {
 
     /**
      * This is how many render frames that have to occur before the next letter is added to the currentMessage
@@ -59,8 +58,7 @@ public class NarratorScreen extends AbstractScreen
      * @param game   - Reference to the Game instance
      * @param uiSkin - The game snapshot reference
      */
-    public NarratorScreen(MIRCH game, Skin uiSkin)
-    {
+    public NarratorScreen(MIRCH game, Skin uiSkin) {
         super(game);
         this.gameSnapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
@@ -72,11 +70,9 @@ public class NarratorScreen extends AbstractScreen
 
         //Set introduction speech
         setSpeech(introSpeech);
-        setButton("Start Game", new Runnable()
-        {
+        setButton("Start Game", new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 game.gameSnapshot.setState(GameState.map);
             }
         });
@@ -85,8 +81,7 @@ public class NarratorScreen extends AbstractScreen
     /**
      * This method initiates the objects to the stage
      */
-    private void initStage()
-    {
+    private void initStage() {
         narratorStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         Image background = new Image(new TextureRegion(Assets.loadTexture("rch.png")));
@@ -107,8 +102,7 @@ public class NarratorScreen extends AbstractScreen
      * This method is called once a render loop. It adds to the current message if it meets the necessary
      * requirements
      */
-    public void updateSpeech()
-    {
+    public void updateSpeech() {
         if (endMessage.equals(currentMessage)) {
             prompt.setVisible(true);
             return;
@@ -123,8 +117,7 @@ public class NarratorScreen extends AbstractScreen
     }
 
     @Override
-    public void show()
-    {
+    public void show() {
         initStage();
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -133,8 +126,7 @@ public class NarratorScreen extends AbstractScreen
     }
 
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
         currentFrames++;
 
         if (currentFrames >= FRAMES_PER_LETTER) {
@@ -146,8 +138,7 @@ public class NarratorScreen extends AbstractScreen
         narratorStage.draw();
     }
 
-    public String getSpeech()
-    {
+    public String getSpeech() {
         return endMessage;
     }
 
@@ -157,8 +148,7 @@ public class NarratorScreen extends AbstractScreen
      * @param speech - The message to be displayed to the screen
      * @return this
      */
-    public NarratorScreen setSpeech(String speech)
-    {
+    public NarratorScreen setSpeech(String speech) {
         endMessage = speech;
         currentMessage = "";
 
@@ -171,18 +161,15 @@ public class NarratorScreen extends AbstractScreen
      *
      * @return this
      */
-    public NarratorScreen setButton(String text, Runnable runnable)
-    {
+    public NarratorScreen setButton(String text, Runnable runnable) {
         try {
             prompt = new TextButton(text, uiSkin);
             prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
             prompt.setPosition(Gdx.graphics.getWidth() * 0.45f, Gdx.graphics.getHeight() * 0.25f);
             prompt.setVisible(false);
-            prompt.addListener(new ChangeListener()
-            {
+            prompt.addListener(new ChangeListener() {
                 @Override
-                public void changed(ChangeEvent event, Actor actor)
-                {
+                public void changed(ChangeEvent event, Actor actor) {
                     runnable.run();
                 }
             });
@@ -192,38 +179,32 @@ public class NarratorScreen extends AbstractScreen
         return this;
     }
 
-    public String getCurrentSpeech()
-    {
+    public String getCurrentSpeech() {
         return currentMessage;
     }
 
     @Override
-    public void resize(int width, int height)
-    {
+    public void resize(int width, int height) {
 
     }
 
     @Override
-    public void pause()
-    {
+    public void pause() {
 
     }
 
     @Override
-    public void resume()
-    {
+    public void resume() {
 
     }
 
     @Override
-    public void hide()
-    {
+    public void hide() {
 
     }
 
     @Override
-    public void dispose()
-    {
+    public void dispose() {
 
     }
 }

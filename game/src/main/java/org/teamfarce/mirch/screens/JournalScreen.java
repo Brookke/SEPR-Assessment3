@@ -28,8 +28,7 @@ import java.util.List;
  * The journal screen draws the Journal GUI to the screen and handles any inputs
  * whilst the journal is displayed
  */
-public class JournalScreen extends AbstractScreen
-{
+public class JournalScreen extends AbstractScreen {
     final static float JOURNAL_X_OFFSET = 10;
     final static float JOURNAL_Y_OFFSET = 20;
     final static float PAGE_X_OFFSET = 50;
@@ -61,8 +60,7 @@ public class JournalScreen extends AbstractScreen
      * @param game   Reference
      * @param uiSkin
      */
-    public JournalScreen(MIRCH game, Skin uiSkin)
-    {
+    public JournalScreen(MIRCH game, Skin uiSkin) {
         super(game);
         this.game = game;
         this.gameSnapshot = game.gameSnapshot;
@@ -78,8 +76,7 @@ public class JournalScreen extends AbstractScreen
      * Initialises the GUI controls for the JournalScreen
      * Is called within show() to ensure data is up to date
      */
-    private void initStage()
-    {
+    private void initStage() {
         //Initialise stage used to show journal contents
         journalStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
@@ -169,8 +166,7 @@ public class JournalScreen extends AbstractScreen
      *
      * @return Table containing contents of page
      */
-    private Table initJournalNavControls()
-    {
+    private Table initJournalNavControls() {
         Table table = new Table();
         table.setBounds(PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
@@ -194,8 +190,7 @@ public class JournalScreen extends AbstractScreen
      *
      * @return Table containing contents of page
      */
-    private Table initJournalCluesPage()
-    {
+    private Table initJournalCluesPage() {
         //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
@@ -214,12 +209,10 @@ public class JournalScreen extends AbstractScreen
             Label clueLabel = new Label(clues.get(i).getName(), uiSkin);
             content.add(clueLabel).width(PAGE_CONTENT_WIDTH).height(30);
 
-            clueLabel.addListener(new ClickListener()
-            {
+            clueLabel.addListener(new ClickListener() {
 
                 @Override
-                public void clicked(InputEvent event, float x, float y)
-                {
+                public void clicked(InputEvent event, float x, float y) {
 
                     for (Clue c : game.gameSnapshot.journal.getClues()) {
                         if (c.getName().equals(clueLabel.getText().toString())) {
@@ -231,14 +224,12 @@ public class JournalScreen extends AbstractScreen
                 }
 
                 @Override
-                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
-                {
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     clueLabel.setStyle(new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
                 }
 
                 @Override
-                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor)
-                {
+                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                     clueLabel.setStyle(uiSkin.get("default", Label.LabelStyle.class));
                 }
             });
@@ -278,8 +269,7 @@ public class JournalScreen extends AbstractScreen
      * This method updates the displayed clue information to the values of
      * `currentClue`
      */
-    private void updateClue()
-    {
+    private void updateClue() {
         clueName.setText(currentClue.getName());
         clueDesc.setText(currentClue.getDescription());
 
@@ -291,8 +281,7 @@ public class JournalScreen extends AbstractScreen
      *
      * @return Table containing contents of page
      */
-    private Table initJournalQuestionsPage()
-    {
+    private Table initJournalQuestionsPage() {
         //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
@@ -342,8 +331,7 @@ public class JournalScreen extends AbstractScreen
      *
      * @return Table containing contents of page
      */
-    private Table initJournalNotepadPage()
-    {
+    private Table initJournalNotepadPage() {
         //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
@@ -368,8 +356,7 @@ public class JournalScreen extends AbstractScreen
      * @param pageTitle Title of journal page
      * @return Label to add to a journal page with appropriate position and style
      */
-    private Label getJournalPageTitle(String pageTitle)
-    {
+    private Label getJournalPageTitle(String pageTitle) {
         Label title = new Label(pageTitle, uiSkin);
         title.setColor(Color.BLACK);
         title.setFontScale(1.5f);
@@ -384,8 +371,7 @@ public class JournalScreen extends AbstractScreen
      * @param lineNumber Line number for subtitle
      * @return Label to add to a journal page with appropriate position and style
      */
-    private Label getJournalPageSubtitle(String subtitle, int lineNumber)
-    {
+    private Label getJournalPageSubtitle(String subtitle, int lineNumber) {
         Label title = new Label(subtitle, uiSkin);
         title.setColor(Color.GRAY);
         title.setFontScale(1f);
@@ -402,15 +388,12 @@ public class JournalScreen extends AbstractScreen
      * @param position  Defines the position of button, use the index of button in order
      * @return TextButton with appropriate event handlers, position and style
      */
-    private TextButton getJournalNavButton(String pageTitle, GameState linkState, int position)
-    {
+    private TextButton getJournalNavButton(String pageTitle, GameState linkState, int position) {
         TextButton button = new TextButton(pageTitle, this.uiSkin);
         button.setSize(NAV_BUTTON_WIDTH, NAV_BUTTON_HEIGHT);
         button.setPosition(PAGE_WIDTH - PAGE_MARGIN - NAV_BUTTON_WIDTH, PAGE_HEIGHT - PAGE_CONTENT_SPACE - (1.5f * position * NAV_BUTTON_HEIGHT));
-        button.addListener(new ChangeListener()
-        {
-            public void changed(ChangeEvent event, Actor actor)
-            {
+        button.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
                 gameSnapshot.setState(linkState);
             }
         });
@@ -421,8 +404,7 @@ public class JournalScreen extends AbstractScreen
      * Called whenever JournalScreen is about to become visible
      */
     @Override
-    public void show()
-    {
+    public void show() {
         initStage();
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -435,8 +417,7 @@ public class JournalScreen extends AbstractScreen
      * Render function to display the JournalScreen
      */
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
         journalStage.act();
         journalStage.draw();
         statusBar.render();
@@ -449,8 +430,7 @@ public class JournalScreen extends AbstractScreen
      * @param height - updated height
      */
     @Override
-    public void resize(int width, int height)
-    {
+    public void resize(int width, int height) {
         journalStage.getViewport().update(width, height, false);
         statusBar.resize(width, height);
     }
@@ -459,32 +439,28 @@ public class JournalScreen extends AbstractScreen
      * Pause method
      */
     @Override
-    public void pause()
-    {
+    public void pause() {
     }
 
     /**
      * Resume method
      */
     @Override
-    public void resume()
-    {
+    public void resume() {
     }
 
     /**
      * Hide method
      */
     @Override
-    public void hide()
-    {
+    public void hide() {
     }
 
     /**
      * Disposes of JournalScreen resources
      */
     @Override
-    public void dispose()
-    {
+    public void dispose() {
         journalStage.dispose();
         statusBar.dispose();
     }
