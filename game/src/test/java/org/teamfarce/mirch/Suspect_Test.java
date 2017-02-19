@@ -29,11 +29,11 @@ public class Suspect_Test {
 
         MIRCH game = new MIRCH();
         game.gameSnapshot =  new GameSnapshot(game, new Map(game), new ArrayList<Room>(), new ArrayList<Suspect>(), null, 0, 0);
-        game.gameSnapshot.victim = new Suspect(game, "Test", "test", "Detective_Sprite.png", new Vector2Int(0, 0), null);
+        game.gameSnapshot.victim = new Suspect(game, "Test", "test", "Colin.png", new Vector2Int(0, 0), null);
         game.guiController = new GUIController(game);
         game.guiController.narratorScreen = new NarratorScreen(game, new Skin());
 
-        suspect = new Suspect(game, name, "Description", "Detective_sprite.png", position, null);
+        suspect = new Suspect(game, name, "Description", "Colin.png", position, null);
     }
 
 	@Test
