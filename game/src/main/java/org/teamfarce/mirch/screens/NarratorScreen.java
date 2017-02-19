@@ -27,7 +27,7 @@ public class NarratorScreen extends AbstractScreen {
     /**
      * This is how many render frames that have to occur before the next letter is added to the currentMessage
      */
-    final static int FRAMES_PER_LETTER = 2;
+    final static int FRAMES_PER_LETTER = 1;
     /**
      * These are the variables used to show and draw the scene
      */
