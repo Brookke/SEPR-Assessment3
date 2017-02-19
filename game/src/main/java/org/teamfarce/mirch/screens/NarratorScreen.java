@@ -22,8 +22,7 @@ import org.teamfarce.mirch.MIRCH;
  * <p>
  * game.guiController.narratorScreen.setSpeech("").makeVisible();
  */
-public class NarratorScreen extends AbstractScreen
-{
+public class NarratorScreen extends AbstractScreen {
 
     /**
      * This is how many render frames that have to occur before the next letter is added to the currentMessage
@@ -33,10 +32,6 @@ public class NarratorScreen extends AbstractScreen
      * These are the variables used to show and draw the scene
      */
     public Stage narratorStage;
-    /**
-     * This is the referencing to the game and the games snapshot
-     */
-    private MIRCH game;
     private GameSnapshot gameSnapshot;
     private Skin uiSkin;
     /**
@@ -63,27 +58,30 @@ public class NarratorScreen extends AbstractScreen
      * @param game   - Reference to the Game instance
      * @param uiSkin - The game snapshot reference
      */
-    public NarratorScreen(MIRCH game, Skin uiSkin)
-    {
+    public NarratorScreen(MIRCH game, Skin uiSkin) {
         super(game);
-        this.game = game;
         this.gameSnapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
 
-        String introSpeech = "You have been invited to a lock-in costume party with some of the richest people around. There has been a murder, one of the guests has killed another.\n\n" +
+        String introSpeech = "You have been invited to a lock-in costume party with some of the richest people around. There has been a murder, one of the guests has killed " + game.gameSnapshot.victim.getName() + "\n\n" +
                 "The murderer instantly regretted their decision and has tried their hardest to cover up their tracks. All the clues have been hidden around the Ron Cooke Hub by the murderer so that they can avoid being discovered.\n\n" +
                 "NOT SO FAST! You're not the only detective that got called to the scene, there will be other detectives trying to solve the case at the same time.\n\n" +
                 "You must go around each room trying to find the clues that have been hidden. You must also question the guests to see if they know anything about the murder! Try to solve the case before any other detective!";
 
         //Set introduction speech
-        setSpeech("hi");
+        setSpeech(introSpeech);
+        setButton("Start Game", new Runnable() {
+            @Override
+            public void run() {
+                game.gameSnapshot.setState(GameState.map);
+            }
+        });
     }
 
     /**
      * This method initiates the objects to the stage
      */
-    private void initStage()
-    {
+    private void initStage() {
         narratorStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         Image background = new Image(new TextureRegion(Assets.loadTexture("rch.png")));
@@ -95,19 +93,6 @@ public class NarratorScreen extends AbstractScreen
         speech.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 0.25f);
         speech.setWrap(true);
 
-        prompt = new TextButton("Start Game", uiSkin);
-        prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
-        prompt.setPosition(Gdx.graphics.getWidth() * 0.45f, Gdx.graphics.getHeight() * 0.25f);
-        prompt.setVisible(false);
-        prompt.addListener(new ChangeListener()
-        {
-            @Override
-            public void changed(ChangeEvent event, Actor actor)
-            {
-                gameSnapshot.setState(GameState.map);
-            }
-        });
-
         narratorStage.addActor(background);
         narratorStage.addActor(speech);
         narratorStage.addActor(prompt);
@@ -117,8 +102,7 @@ public class NarratorScreen extends AbstractScreen
      * This method is called once a render loop. It adds to the current message if it meets the necessary
      * requirements
      */
-    public void updateSpeech()
-    {
+    public void updateSpeech() {
         if (endMessage.equals(currentMessage)) {
             prompt.setVisible(true);
             return;
@@ -133,8 +117,7 @@ public class NarratorScreen extends AbstractScreen
     }
 
     @Override
-    public void show()
-    {
+    public void show() {
         initStage();
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -143,9 +126,7 @@ public class NarratorScreen extends AbstractScreen
     }
 
     @Override
-    public void render(float delta)
-    {
-
+    public void render(float delta) {
         currentFrames++;
 
         if (currentFrames >= FRAMES_PER_LETTER) {
@@ -157,8 +138,7 @@ public class NarratorScreen extends AbstractScreen
         narratorStage.draw();
     }
 
-    public String getSpeech()
-    {
+    public String getSpeech() {
         return endMessage;
     }
 
@@ -168,46 +148,63 @@ public class NarratorScreen extends AbstractScreen
      * @param speech - The message to be displayed to the screen
      * @return this
      */
-    public NarratorScreen setSpeech(String speech)
-    {
+    public NarratorScreen setSpeech(String speech) {
         endMessage = speech;
         currentMessage = "";
 
         return this;
     }
 
-    public String getCurrentSpeech()
-    {
+    /**
+     * This method sets the buttons text and the clickable action so that this screen
+     * can be used for more than one situation
+     *
+     * @return this
+     */
+    public NarratorScreen setButton(String text, Runnable runnable) {
+        try {
+            prompt = new TextButton(text, uiSkin);
+            prompt.setSize(Gdx.graphics.getWidth() / 3, 50);
+            prompt.setPosition(Gdx.graphics.getWidth() * 0.45f, Gdx.graphics.getHeight() * 0.25f);
+            prompt.setVisible(false);
+            prompt.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    runnable.run();
+                }
+            });
+        } catch (Exception e) {
+        }
+
+        return this;
+    }
+
+    public String getCurrentSpeech() {
         return currentMessage;
     }
 
     @Override
-    public void resize(int width, int height)
-    {
+    public void resize(int width, int height) {
 
     }
 
     @Override
-    public void pause()
-    {
+    public void pause() {
 
     }
 
     @Override
-    public void resume()
-    {
+    public void resume() {
 
     }
 
     @Override
-    public void hide()
-    {
+    public void hide() {
 
     }
 
     @Override
-    public void dispose()
-    {
+    public void dispose() {
 
     }
 }

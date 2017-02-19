@@ -2,11 +2,11 @@ package org.teamfarce.mirch;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.teamfarce.mirch.entities.Player;
 import org.teamfarce.mirch.dialogue.Dialogue;
-import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.entities.Player;
+import org.teamfarce.mirch.map.Room;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by joeshuff on 15/02/2017.
@@ -16,15 +16,13 @@ public class Player_Test extends GameTest {
     Player p;
 
     @Before
-    public void start() throws Dialogue.InvalidDialogueException
-    {
+    public void start() throws Dialogue.InvalidDialogueException {
         Dialogue dialogue = new Dialogue("template.JSON", false);
         p = new Player(null, "Name", "Desc", "Detective_sprite.png", dialogue);
     }
 
     @Test
-    public void aStar()
-    {
+    public void aStar() {
         Vector2Int start = new Vector2Int(0, 0);
 
         Vector2Int dest = new Vector2Int(4, 4);
