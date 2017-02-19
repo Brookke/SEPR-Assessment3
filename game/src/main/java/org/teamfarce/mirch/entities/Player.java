@@ -33,6 +33,11 @@ public class Player extends AbstractPerson
     private Vector2Int trackToNext = null;
 
     /**
+     * This boolean stores whether the player is to transition to the next room or not when they finish walking
+     */
+    private boolean transitionOnEnd = false;
+
+    /**
      * Initialise the entity.
      *
      * @param name        The name of the entity.
@@ -84,10 +89,21 @@ public class Player extends AbstractPerson
     {
         talkToOnEnd = null;
         findOnEnd = null;
+        transitionOnEnd = false;
 
         if (getState() == PersonState.WALKING)
         {
             trackToNext = tileLocation;
+            return;
+        }
+
+        if (getRoom().isTriggerTile(tileLocation.getX(), tileLocation.getY()))
+        {
+            transitionOnEnd = true;
+            toMoveTo = aStarPath(tileLocation);
+
+            if (toMoveTo.isEmpty()) finishMove();
+
             return;
         }
 
@@ -251,6 +267,12 @@ public class Player extends AbstractPerson
             setDirection(findOnEnd.getTileCoordinates().dirBetween(getTileCoordinates()));
             MapScreen.grabScreenshot = true;
             game.gameSnapshot.setState(GameState.findClue);
+        }
+
+        if (toMoveTo.isEmpty() && transitionOnEnd)
+        {
+            setDirection(Direction.valueOf(getRoom().getMatRotation(getTileX(), getTileY())));
+            roomChange = true;
         }
 
         if (trackToNext != null)

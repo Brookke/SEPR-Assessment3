@@ -236,6 +236,11 @@ public abstract class AbstractPerson extends MapEntity
             return emptyList;
         }
 
+        if (destination.equals(getTileCoordinates()))
+        {
+            return emptyList;
+        }
+
         List<Vector2Int> closedSet = new ArrayList<Vector2Int>();
 
         List<Vector2Int> openSet = new ArrayList<Vector2Int>();
