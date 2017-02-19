@@ -181,6 +181,8 @@ public class ScenarioBuilder
         loopRooms.addAll(rooms);
         Collections.shuffle(loopRooms);
 
+        System.out.println("There are " + amountOfClues + " clues this game");
+
         for (int i = 0; i < amountOfClues; i ++) {
             if (amountOfClues == 0) return;
 

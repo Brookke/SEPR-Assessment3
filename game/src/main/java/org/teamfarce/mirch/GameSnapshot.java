@@ -1,5 +1,6 @@
 package org.teamfarce.mirch;
 
+import com.badlogic.gdx.Gdx;
 import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.Map.Map;
@@ -119,7 +120,7 @@ public class GameSnapshot
                     .setButton("End Game", new Runnable() {
                         @Override
                         public void run() {
-                            System.exit(0);
+                            Gdx.app.exit();
                         }
                     });
 
