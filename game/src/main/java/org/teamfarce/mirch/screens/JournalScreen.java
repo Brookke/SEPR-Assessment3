@@ -210,7 +210,8 @@ public class JournalScreen extends AbstractScreen
         Table content = new Table();
         for (int i = 0; i < conversations.size(); i++) {
             Label conversationLabel = new Label(conversations.get(i), uiSkin);
-            content.add(conversationLabel).width(PAGE_CONTENT_WIDTH).height(30);
+            conversationLabel.setWrap(true);
+            content.add(conversationLabel).width(PAGE_CONTENT_WIDTH).spaceBottom(15);
             content.row();
         }
 
@@ -222,7 +223,7 @@ public class JournalScreen extends AbstractScreen
         contentScroll.setForceScroll(false, true);
 
         //Calculate content position
-        float CONTENT_HEIGHT = 30 * conversations.size();
+        float CONTENT_HEIGHT = 45 * conversations.size();
         if (CONTENT_HEIGHT > (PAGE_HEIGHT - PAGE_CONTENT_SPACE)) {
             CONTENT_HEIGHT = PAGE_HEIGHT - PAGE_CONTENT_SPACE;
         }
@@ -230,7 +231,7 @@ public class JournalScreen extends AbstractScreen
         //Add conversation content to container, then to page
         Table contentContainer = new Table();
         contentContainer.setSize(PAGE_CONTENT_WIDTH, CONTENT_HEIGHT);
-        contentContainer.setPosition(PAGE_MARGIN, PAGE_HEIGHT - 100 - CONTENT_HEIGHT);
+        contentContainer.setPosition(PAGE_MARGIN, PAGE_HEIGHT - 120 - CONTENT_HEIGHT);
         contentContainer.add(contentScroll).width(PAGE_CONTENT_WIDTH).height(CONTENT_HEIGHT);
         page.addActor(contentContainer);
 
