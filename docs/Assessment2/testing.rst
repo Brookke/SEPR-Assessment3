@@ -185,8 +185,8 @@ Additional testing material can be found on the website
 This comprises of:
 
 -  **Executable test plan**:
-   
-   - Plan: http://docs.lihq.me/en/2.0.0/Assessment2/executableTestPlan
+
+   - Plan: http://docs.lihq.me/en/2.0.0/Assessment2/executableTestPlan.html
 -  *Evidence of testing*:
     -  Code: https://github.com/Brookke/Lorem-Ipsum/tree/master/game/tests/src
     -  Continuous integration test script: https://github.com/Brookke/Lorem-Ipsum/blob/master/circle.yml

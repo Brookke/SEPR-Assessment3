@@ -31,8 +31,7 @@ specification has been reworked and looked at.
    categorisation
 -  We continued to ensure the requirements referenced appropriate risks
 
-Link to updated version: http://docs.lihq.me/en/2.0.0/Assessment2/
-requirements.html
+Link to updated version: http://docs.lihq.me/en/2.0.0/Assessment2/requirements.html
 
 Link to version control diff:
 https://github.com/Brookke/Lorem-Ipsum/pull/116/files#diff-28d223c584badedf323df6c577820471
@@ -86,8 +85,7 @@ Why has it changed?
    to do in our meetings and sprints. This should help the document
    better fit the brief.
 
-Link to updated version: http://docs.lihq.me/en/2.0.0/Assessment2/
-methods.html
+Link to updated version: http://docs.lihq.me/en/2.0.0/Assessment2/methods.html
 
 Link to version control diff:
 https://github.com/Brookke/Lorem-Ipsum/pull/116/files#diff-e0ebb380121eb0162b6d02872c6705b9
@@ -125,7 +123,7 @@ it, for example if there were conflicts in Git we would know who knows
 how to deal with them to resolve the issue quickly and efficiently.
 
 Link to updated version:
-http://docs.lihq.me/en/2.0.0/Assessment2/riskAssessmentandMitigation.html
+http://docs.lihq.me/en/2.0.0/Assessment2/riskAssessmentAndMitigation.html
 
 
 Link to version control diff:

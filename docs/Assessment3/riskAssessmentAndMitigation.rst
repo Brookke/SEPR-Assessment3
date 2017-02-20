@@ -1,12 +1,6 @@
 Risk Assessment and Mitigation
 ==================================
 
-**Highlighted changes:**
-
-- Each risk now has a responsible risk owner
-- Improved description as to how we came up with the risks and improved formatting
-- More details are in the updates report
-
 Introduction
 -------------
 Risk management is an important part of any project, we must prepare for
@@ -152,11 +146,11 @@ Software risks
 |            |            |            |            |            | tools.     |            |
 +------------+------------+------------+------------+------------+------------+------------+
 | 5          | Our own    | High       | Will need  | Low        | This is a  | Coding     |
-|            | software   |            | to bug     |            | normal     | Team/Desig |
-|            | doesn’t    |            | fix. Loss  |            | part of    | n          |
-|            | work as    |            | of time    |            | software   | Team/Proje |
-|            | intended.  |            | and        |            | developmen | ct         |
-|            |            |            | potentiall |            | t.         | Manager    |
+|            | software   |            | to bug     |            | normal     | Team/Design|
+|            | doesn’t    |            | fix. Loss  |            | part of    | Team/Projec|
+|            | work as    |            | of time    |            | software   | t          |
+|            | intended.  |            | and        |            | developmen | Manager    |
+|            |            |            | potentiall |            | t.         |            |
 |            |            |            | y          |            | We all     |            |
 |            |            |            | productivi |            | make       |            |
 |            |            |            | ty         |            | mistakes.  |            |
@@ -199,7 +193,7 @@ Hardware risks
 |            | long term  |            | to work.   |            | online to  |            |
 |            | or is      |            |            |            | google     |            |
 |            | lost.      |            |            |            | drive      |            |
-|            |            |            |            |            |  cloud     |            |
+|            |            |            |            |            | cloud      |            |
 |            |            |            |            |            | service    |            |
 |            |            |            |            |            | and that   |            |
 |            |            |            |            |            | code is    |            |
@@ -521,6 +515,54 @@ Estimation risks
 |            |            |            |            |            | feel       |            |
 |            |            |            |            |            | over/under |            |
 |            |            |            |            |            | worked.    |            |
++------------+------------+------------+------------+------------+------------+------------+
+
+
+Database risks
+
++------------+------------+------------+------------+------------+------------+------------+
+| 25         | Database   | Medium     | The wrong  | High       | Thoroughly | Coding     |
+|            | has        |            | number of  |            | test the   | team       |
+|            | glitches   |            | NPCs could |            | database   |            |
+|            | in it or   |            | be         |            | and        |            |
+|            | text from  |            | generated  |            | immediatel |            |
+|            | it is      |            | or the     |            | y          |            |
+|            | assigned   |            | questionin |            | fix any    |            |
+|            | to the     |            | g          |            | bugs we    |            |
+|            | wrong      |            | system may |            | find.      |            |
+|            | character. |            | not work   |            |            |            |
+|            |            |            | causing us |            | The        |            |
+|            |            |            | to not     |            | database   |            |
+|            |            |            | meet the   |            | could be   |            |
+|            |            |            | requiremen |            | removed    |            |
+|            |            |            | ts         |            | entirely   |            |
+|            |            |            | for the    |            | and        |            |
+|            |            |            | assessment |            | replaced   |            |
+|            |            |            | .          |            | with a     |            |
+|            |            |            |            |            | simpler    |            |
+|            |            |            |            |            | system     |            |
+|            |            |            |            |            | with a     |            |
+|            |            |            |            |            | lower      |            |
+|            |            |            |            |            | chance of  |            |
+|            |            |            |            |            | failure    |            |
+|            |            |            |            |            | however    |            |
+|            |            |            |            |            | this would |            |
+|            |            |            |            |            | not be     |            |
+|            |            |            |            |            | possible   |            |
+|            |            |            |            |            | in the     |            |
+|            |            |            |            |            | time       |            |
+|            |            |            |            |            | given.     |            |
++------------+------------+------------+------------+------------+------------+------------+
+| 26         | Game fails | Medium     | The game   | High       | Test to    | Coding     |
+|            | to load in |            | will have  |            | ensure     | team       |
+|            | data from  |            | issues     |            | data is    |            |
+|            | the        |            | with       |            | being      |            |
+|            | database.  |            | dialogue,c |            | loaded in  |            |
+|            |            |            | lues       |            | correctly. |            |
+|            |            |            | etc and    |            |            |            |
+|            |            |            | may well   |            |            |            |
+|            |            |            | not run at |            |            |            |
+|            |            |            | all.       |            |            |            |
 +------------+------------+------------+------------+------------+------------+------------+
 
 Bibliography

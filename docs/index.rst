@@ -33,11 +33,10 @@ Contents
    Assessment3/requirements
    Assessment3/riskAssessmentAndMitigation
    Assessment3/methods
-   Assessment3/architecture
    Assessment3/implementation
+   Assessment3/changeReport
    Assessment3/gui
    Assessment3/testing
-   Assessment3/updates
    Assessment3/executableTestPlan
    Assessment3/appendixA
    Assessment3/appendixB

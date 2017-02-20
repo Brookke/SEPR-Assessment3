@@ -1,6 +1,38 @@
 GUI Report
 =====================
 
+Design processes
+----------------
+
+Our design process for the game was based on some simple principles, we
+wanted to make sure that all GUI elements in the game were clear,
+intuitive and easy to use. As a team we were clear that we wanted the
+GUI design to be centered around the user and making sure that a user
+would find it enjoyable to use, this in turn would hopefully lead to an
+enjoyable experience playing the game which is another high priority for
+us as a team. This is a game so it should be fun. We also aimed to have
+a game that has a high level of usability. One example would be the
+click to move option which uses an A\* search algorithm and makes
+movement very usable.
+
+Player interactions
+-------------------
+
+We designed the user interaction in the game using the principles
+designed above. We were focused on usability, so we took the decision to
+use mouse control for all user interactions. This was because we felt
+the mouse is the most common and familiar method of interaction with a
+computer and will be obvious to the user. It also removes the need for a
+mental transition between keyboard control and mouse control, as jumping
+between the two can be jarring, as we found in the last assessment.
+
+At first we thought it was best to interact with clues and NPC’s by
+walking up and pressing the Enter key, however we realised that this was
+not intuitive, not to mention walking across rooms was boring and also
+could have an unfair effect on the player's score. For this reason we
+switched to just clicking on the clue or suspect instead, as this option
+addresses these issues.
+
 Main menu
 ----------
 
@@ -8,8 +40,7 @@ The main menu will be the first screen that a player will see upon
 loading up the game. It will provide the user with the following
 options:
 
--  **New game button** - this starts the game
--  **Settings button** - See/change settings.
+-  **New game button** - this starts the game
 -  **Exit button** - this closes the game
 
 The buttons are all designed in the same way throughout the game. They
@@ -17,68 +48,78 @@ are designed to be easy to distinguish from the background and for all
 text displayed on them to be easy to read.
 
 **Related requirements**: 1.1.1
-
-**Realisation**:  Appendix F:1
-
-In this assessment the main menu has these three buttons, however
-settings are not yet implemented.
-
-Settings
----------
-
-The settings menu gives the player access to settings to modify the game
-experience. In our current version of the game the settings are not
-available, however they will eventually include: Music On/Off,
-Colour-Blind Mode On/Off and Fullscreen/Windowed
-
-**Realisation**: N/A
-
-**Related requirements**: 1.3.2, 1.3.3, 1.3.5
-
-Pause menu
-------------
-
-The pause menu will allow the player to access the settings menu, and
-also links back to the main menu.
-
-The buttons in the pause menu are the same as the main menu.
-
-**Related requirements**: 1.2.1
-
-**Realisation**:  Appendix F:2
-
-In this assessment the pause menu contains buttons to resume the game,
-access settings and quit.
+**Realisation**:  Appendix F:1
 
 Main navigation screen
-------------------------
+----------------------
+The main navigation screen contains two elements - a map and a status
+bar.
 
-The main navigation screen contains two elements. While the player is
-playing the game they will be able to see their character on the map and
-move around from room to room. The character is displayed in the middle
-of the map for good playability. This screen also has an overlay at the
-bottom including a meter which displays the player's current
-temperament. A dialogue box appears upon interacting with an NPC,
-showing dialogue, or items.The in game overlay also contains links to
-the pause menu and the player’s inventory as simple buttons similar to
-the main menu.
+While the player is playing the game they will be able to see their
+character on the map and move around from room to room. The character is
+displayed in the middle of the map for good playability. This screen
+also has a status bar overlay at the top which allows the player to
+switch between the map and journal screen, and also shows the player's
+current score and personality.
 
-**Related requirements**: All map sections,2.1.4,2.2.1,all NPC sections.
+When you click on a clue, the clue is shown and described. When you
+click on a detective the screen changes to the dialogue screen.
 
-**Realisation**:  Appendix F:3
+**Related requirements**: 2.1.4,2.2.1,3,4(Map,clues and BPC sections)
+**Realisation**:  Appendix F:2
 
-In this assessment we have a large explorable map of the RCH, the
-overlay includes buttons for inventory, pause menu and placeholders for
-score and the personality meter.There is also basic NPC interaction.
+Dialogue screen
+---------------
+The dialogue screen allows communication with suspects/NPCs. The GUI
+contains an image of the suspect and contains the interview flow. This
+involves the player first selecting whether to question, accuse or
+ignore the suspect, followed buttons to select a clue to question the
+suspect about, and dialogue style choices.
 
-Inventory
------------
+**Related requirements**: See dialogue sections of requirements.
+**Realisation**: Appendix F:3
 
-Although the inventory is not currently implemented, the inventory
-includes the list of clues that the player has already found as well as
-a list of the characters encountered so far. Here the player can cross
-off people they are convinced are innocent.
+Journal
+-------
+The Journal is a collection of information that the player has obtained
+so far in the game. It is layed out like a notebook and contains buttons
+that allow the player to view clues, see the interview log of
+conversations and write in a notepad. It contains the following
+sections:
 
-It will also allow access to the map.
+-  Clues list - shows the player the clues that they have collected so
+   far
+-  Conversation history - provides a list of the interview dialogue that
+   have occurred with suspects so far in the game
+-  Notepad - allows the player to enter any notes they feel appropriate
 
-**Related Requirements**:4.1.2, 5.2.1, 5.2.2
+**Related Requirements**:5.2.1, 5.2.2
+**Realisation**: Appendix F:4
+
+Find Clue Screen
+----------------
+When the player clicks on a clue within the map, the find clue screen is
+shown. It has a large graphic of the clue that has been found, and on
+the right hand side is a text box describing the clue. The name of the
+clue is at the top and there is a button at the bottom to continue and
+go back to the map, the map can be seen in the background.
+
+This screen is used to inform the player about the clue they have found
+and ensures they are aware of the implications of it. We use an
+animation to “fly out” the clue to the journal, this is intended to
+increase user awareness of the journal so that they can use it to guide
+their thought processes when deducting the killer in the game.
+
+**Related requirements**:5.1.2
+**Realisation**: Appendix F:5
+
+Narrator Screen
+---------------
+The narrator screen has a narrator character, Sir Heslington (the duck),
+with a speech box containing the text which he is saying. This screen is
+used when you first load up the game, and the speech box text is used to
+explain the premise. It is also used when you have found all 3 parts of
+the motive clue. Finally it is used for when the player wins or loses.
+
+**Related requirements**:7.1.7,8.1.1,8.1.2
+**Realisation**: Appendix F:6
