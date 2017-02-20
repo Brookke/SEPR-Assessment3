@@ -32,7 +32,7 @@ public class NarratorScreen extends AbstractScreen {
      * These are the variables used to show and draw the scene
      */
     public Stage narratorStage;
-    private GameSnapshot gameSnapshot;
+
     private Skin uiSkin;
     /**
      * This is the current string that is being displayed on the screen.

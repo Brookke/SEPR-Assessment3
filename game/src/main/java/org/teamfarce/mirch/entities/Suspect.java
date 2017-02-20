@@ -1,6 +1,5 @@
 package org.teamfarce.mirch.entities;
 
-import com.badlogic.gdx.math.Vector2;
 import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.dialogue.Dialogue;
@@ -14,10 +13,6 @@ import java.util.Random;
 public class Suspect extends AbstractPerson {
     public List<Clue> relatedClues;
 
-    /**
-     * The size of this suspect's step.
-     */
-    public Vector2 moveStep;
     /**
      * The position of the suspect on the map.
      */
@@ -38,19 +33,11 @@ public class Suspect extends AbstractPerson {
      * @param startingPosition The position to start at.
      * @param dialogue         The json file containing the suspects dialogue.
      */
-    public Suspect(
-            MIRCH game,
-            String name,
-            String description,
-            String filename,
-            Vector2Int startingPosition,
-            Dialogue dialogue
-    ) {
+    public Suspect(MIRCH game, String name, String description, String filename, Vector2Int startingPosition, Dialogue dialogue) {
         super(game, name, description, filename, dialogue);
 
         this.beenAccused = false;
         this.setTileCoordinates(startingPosition.x, startingPosition.y);
-        this.moveStep = new Vector2(0, 0);
     }
 
 

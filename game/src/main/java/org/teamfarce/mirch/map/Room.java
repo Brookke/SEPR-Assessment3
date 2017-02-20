@@ -166,29 +166,6 @@ public class Room {
     }
 
     /**
-     * This method takes a location parameter and checks it for a clue, if a clue is found it is removed from the map and return
-     *
-     * @param x - The x coordinate the player is at
-     * @param y - The y coordinate the player is at
-     * @return (Clue) returns null if there is no clue at coordinate x,y and returns the clue itself otherwise
-     */
-    public Clue getClue(int x, int y) {
-        //Apply direction change
-        Clue out = null;
-        //Check for a clue at that coordinate
-        for (Clue c : cluesInRoom) {
-            if (c.getTileX() == x && c.getTileY() == y) {
-                out = c;
-            }
-        }
-        if (out != null) {
-            this.cluesInRoom.remove(out);
-        }
-
-        return out;
-    }
-
-    /**
      * This method removes a clue from the room
      *
      * @param c - The clue to remove
@@ -210,18 +187,6 @@ public class Room {
             TextureRegion currentFrame = (TextureRegion) Assets.CLUE_GLINT.getKeyFrame(animationStateTime, true);
             batch.draw(currentFrame, c.getTileX() * Settings.TILE_SIZE, c.getTileY() * Settings.TILE_SIZE);
         }
-    }
-
-    /**
-     * This method checks whether the tile at x, y is a tile you can hide a clue
-     * in
-     *
-     * @param x - The x coordinate to check
-     * @param y - The y coordinate to check
-     * @return (boolean) whether the tile is a hideable tile.
-     */
-    public boolean isHidingPlace(int x, int y) {
-        return hidingSpots.contains(new Vector2Int(x, y));
     }
 
     /**

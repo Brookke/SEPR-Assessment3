@@ -28,10 +28,7 @@ public class GameSnapshot {
     MIRCH game;
     List<Clue> clues;
     List<Room> rooms;
-    int meansProven;
-    int motiveProven;
-    int sumProvesMotive;
-    int sumProvesMean;
+
     int score = 0;
     int time;
     int currentPersonality;

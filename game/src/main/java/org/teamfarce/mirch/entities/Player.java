@@ -143,7 +143,6 @@ public class Player extends AbstractPerson {
      * @return - The best fitting tile
      */
     public Vector2Int getClosestNeighbour(Vector2Int goal) {
-        Vector2Int result = null;
 
         Vector2Int north = new Vector2Int(goal.getX(), goal.getY() + 1);
         Vector2Int east = new Vector2Int(goal.getX() + 1, goal.getY());

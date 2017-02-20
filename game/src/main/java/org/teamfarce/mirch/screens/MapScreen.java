@@ -41,7 +41,7 @@ public class MapScreen extends AbstractScreen {
     private OrthogonalTiledMapRendererWithPeople tileRender;
     private OrthographicCamera camera;
     private PlayerController playerController;
-    private int moveStep = 50;
+
     /**
      * This stores the room arrow that is drawn when the player stands on a room changing mat
      */
@@ -58,10 +58,7 @@ public class MapScreen extends AbstractScreen {
      * The amount of ticks it takes for the black to fade in and out
      */
     private float ANIM_TIME = 0.7f;
-    /**
-     * The current room ID. This is used to catch when a player has moved rooms.
-     */
-    private int currentRoomID = 0;
+
     /**
      * The black sprite that is used to fade in/out
      */
