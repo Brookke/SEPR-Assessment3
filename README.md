@@ -74,8 +74,6 @@ If the tests have failed and no test summary is provided, this normally means th
 
 ## Code layout and seperation of concerns
 
-EDIT THIS
-
 The program architecture is separated into two distinct areas - the representational front end module and logical back end module. The representational module controls drawing graphics to the game window and receiving/validating user inputs. Data is passed to the logical module for processing, and renderable objects are returned. The logical module is responsible the game generation and data storage. This seperation of concerns allows for a simplified more Agile development process and also eases the greater extensability and scalability of the game.
 
 An extensive Object Orientated approach has been utilised throughout all modules to ensure the maintainability of structure and data integrity.
