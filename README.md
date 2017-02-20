@@ -50,17 +50,13 @@ You can run by first building as described below and then simply clicking run.
 To build the game use the built in run configuration *Desktop* in the same way that you run tests.
 
 ## Testing
-This project is tested using JUnit. Tests are located within the `/game/tests` directory. For test documentation, please see https://github.com/junit-team/junit4/wiki
+This project is tested using JUnit. Tests are located within the `/game/src/tests` directory. For test documentation, please see https://github.com/junit-team/junit4/wiki
 
 ### Running Tests
 For every commit CircleCI runs all the included tests, however we recomend that you run test locally too before committing.
 
-####Running tests locally
-We have included a handy test configuration that can be ran from intellij.
-![Running tests locally in intellij](https://thumbs.gfycat.com/SentimentalGargantuanAmericanshorthair-size_restricted.gif)
-
 ### Adding Tests
-- Create new class for tests under `/game/tests/src` When naming the class end the name with `UnitTests` for consistency e.g. `PlayerUnitTests`
+- Create new class for tests under `/game/tests/src` When naming the class end the name with `_Test` for consistency e.g. `Player_Test`
 - This class should extend `GameTester` this initialises the backend of the game so that test run correctly. 
 - Import `org.junit.Test`
 - Write a test function using assertions, and use `@Test` decorator above it
