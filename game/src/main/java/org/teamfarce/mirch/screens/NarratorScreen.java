@@ -20,7 +20,7 @@ import org.teamfarce.mirch.MIRCH;
  * <p>
  * Have access to the game object (MIRCH). then do
  * <p>
- * game.guiController.narratorScreen.setSpeech("").makeVisible();
+ * game.guiController.narratorScreen.setSpeech("");
  */
 public class NarratorScreen extends AbstractScreen {
 
@@ -138,6 +138,10 @@ public class NarratorScreen extends AbstractScreen {
         narratorStage.draw();
     }
 
+    /**
+     * This method returns the who speech that is to be shown on the narrator screen
+     * @return String - `endMessage`
+     */
     public String getSpeech() {
         return endMessage;
     }
@@ -179,6 +183,11 @@ public class NarratorScreen extends AbstractScreen {
         return this;
     }
 
+    /**
+     * This method returns the String that is currently being shown on the Narrator screen
+     *
+     * @return String - `currentMessage`
+     */
     public String getCurrentSpeech() {
         return currentMessage;
     }
