@@ -178,7 +178,7 @@ public class InterviewScreen extends AbstractScreen {
                     suspectDialogue = suspect.dialogue.get("none");
                     game.gameSnapshot.modifyScore(-2);
                 } else {
-                    gameSnapshot.journal.addConversation(suspectDialogue, suspect.getName());
+                    gameSnapshot.journal.addConversation(String.format("%s?: %s ", tempClue.getName(), suspectDialogue), suspect.getName());
                 }
 
                 //Ask player how to respond
