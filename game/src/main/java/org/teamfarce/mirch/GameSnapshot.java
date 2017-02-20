@@ -22,16 +22,13 @@ public class GameSnapshot {
      */
     public Journal journal;
     public Map map;
-    public boolean hasFoundMurderRoom = false;
     public Suspect victim;
     public Suspect murderer;
+    public Clue meansClue;
     MIRCH game;
     List<Clue> clues;
     List<Room> rooms;
-    int meansProven;
-    int motiveProven;
-    int sumProvesMotive;
-    int sumProvesMean;
+
     int score = 0;
     int time;
     int currentPersonality;
@@ -43,29 +40,17 @@ public class GameSnapshot {
     /**
      * Initialises function.
      */
-    GameSnapshot(
-            MIRCH game,
-            Map map,
-            List<Room> rooms,
-            List<Suspect> suspects,
-            List<Clue> clues,
-            int sumProvesMotive,
-            int sumProvesMeans
-    ) {
+    GameSnapshot(MIRCH game, Map map, List<Room> rooms, List<Suspect> suspects, List<Clue> clues) {
         this.game = game;
         this.suspects = suspects;
         this.state = GameState.menu;
         this.clues = clues;
         this.map = map;
         this.rooms = rooms;
-        this.meansProven = 0;
-        this.motiveProven = 0;
         this.journal = new Journal(game);
         this.time = 0;
         this.gameWon = false;
-        this.sumProvesMean = sumProvesMeans;
-        this.sumProvesMotive = sumProvesMotive;
-        this.score = 250;
+        this.score = 150;
         this.currentPersonality = 0;
     }
 
@@ -90,18 +75,12 @@ public class GameSnapshot {
         String murdererName = murderer.getName();
         String victimName = victim.getName();
         String room = "";
-        String weapon = "";
+        String weapon = meansClue.getName();
 
         //Get the murder room name and the murder weapon
         for (Room r : game.gameSnapshot.map.getRooms()) {
             if (r.isMurderRoom()) {
                 room = r.getName();
-            }
-
-            for (Clue c : r.getClues()) {
-                if (c.isMeansClue()) {
-                    weapon = c.getName();
-                }
             }
         }
 
@@ -109,7 +88,7 @@ public class GameSnapshot {
         String[] detectives = new String[]{"Richie Paper", "Princess Fiona", "Lilly Blort", "Michael Dodders"};
 
         //Send the speech to the narrrator screen and display it
-        game.guiController.narratorScreen.setSpeech("Oh No!\n \nDetective " + detectives[new Random().nextInt(detectives.length)] + " has solved the crime before you! They discovered that all along it was " + murderer + " who killed " + victim + " in the " + room + " with " + weapon + "\n \n" +
+        game.guiController.narratorScreen.setSpeech("Oh No!\n \nDetective " + detectives[new Random().nextInt(detectives.length)] + " has solved the crime before you! They discovered that all along it was " + murdererName + " who killed " + victimName + " in the " + room + " with " + weapon + "\n \n" +
                 "It's a real shame, I really thought you'd have gotten there first!\n \nOh well! Better luck next time!")
                 .setButton("End Game", new Runnable() {
                     @Override
@@ -167,40 +146,6 @@ public class GameSnapshot {
         return this.clues;
     }
 
-    // The following two functions should be merged at some point.
-
- /*   *//**
-     * Increment the "means proof" value by the given value in the clues.
-     * <p>
-     * This effectively indicates that the means of the murder was proven by the given arbitrary
-     * value in the clues.
-     * </p>
-     *
-     * @param clues The clues which provide the means proven value.
-     *//*
-    void proveMeans(Collection<Clue> clues)
-    {
-        for (Clue clue : clues) {
-            this.meansProven += clue.provesMean;
-        }
-    }
-
-    *//**
-     * Increment the "motive proof" value by the given value.
-     * <p>
-     * This effectively indicates that the motive of the murder was proven by the given arbitrary
-     * value in the clues.
-     * </p>
-     *
-     * @param clues The clues which provide the motive proven value.
-     *//*
-    void proveMotive(Collection<Clue> clues)
-    {
-        for (Clue clue : clues) {
-            this.motiveProven += clue.provesMotive;
-        }
-    }*/
-
     /**
      * Returns true if the means of the murder has been proven.
      *
@@ -217,15 +162,6 @@ public class GameSnapshot {
      */
     public boolean isMotiveProven() {
         return journal.hasFoundMotiveClue();
-    }
-
-    /**
-     * Returns true if they have discovered the murder room or not
-     *
-     * @return Whether the murder room has been discovered or not
-     */
-    public boolean hasFoundMurderRoom() {
-        return hasFoundMurderRoom;
     }
 
     /**
@@ -265,7 +201,7 @@ public class GameSnapshot {
 
     /**
      * Adds the prop to the journal.
-     * <p>
+     *
      * This tells the journal to keep a log of this prop.
      * </p>
      *
@@ -295,6 +231,15 @@ public class GameSnapshot {
     public void modifyPersonality(int amount) {
         if (this.currentPersonality > -10 && this.currentPersonality < 10) {
             this.currentPersonality += amount;
+        }
+    }
+
+    /**
+     * This method unlocks all the Suspects and allows them all to be spoken to.
+     */
+    public void setAllUnlocked() {
+        for (Suspect s : getSuspects()) {
+            s.setLocked(false);
         }
     }
 }

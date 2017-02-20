@@ -386,7 +386,7 @@ public abstract class AbstractPerson extends MapEntity {
 
     /**
      * This class is to sort a list of AbstractPerson in highest Y coordinate to lowest Y coordinate
-     * <p>
+     *
      * It is used to render NPCs and the Player in the correct order to avoid it appearing as though someone
      * is standing on top of someone else
      */

@@ -25,7 +25,7 @@ public class Suspect_Test {
         Vector2Int position = new Vector2Int(0, 1);
 
         MIRCH game = new MIRCH();
-        game.gameSnapshot = new GameSnapshot(game, new Map(game), new ArrayList<Room>(), new ArrayList<Suspect>(), null, 0, 0);
+        game.gameSnapshot = new GameSnapshot(game, new Map(game), new ArrayList<Room>(), new ArrayList<Suspect>(), null);
         game.gameSnapshot.victim = new Suspect(game, "Test", "test", "Colin.png", new Vector2Int(0, 0), null);
         game.guiController = new GUIController(game);
         game.guiController.narratorScreen = new NarratorScreen(game, new Skin());
@@ -45,7 +45,7 @@ public class Suspect_Test {
 
     @Test
     public void hasBeenAccused() {
-        suspect.isMurderer = false;
+        suspect.setKiller();
         assertFalse(suspect.accuse(false));
 
         assertTrue(suspect.hasBeenAccused());

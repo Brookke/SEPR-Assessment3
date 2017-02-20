@@ -120,7 +120,7 @@ public class FindClueScreen extends AbstractScreen {
         if (soFarAnim < ANIM_TIME * 0.5f) {
             soFarAnim += delta;
 
-            //TODO: interpolation should be done with a fixed start size rather than getting it as it changes (for the next team)
+            //This interpolation is linear but using it exponentially creates a really nice fading effect.
 
             float nextWidth = Interpolation.linear.apply(clueImage.getWidth(), goalSize.getX(), soFarAnim / ANIM_TIME);
             float nextHeight = Interpolation.linear.apply(clueImage.getHeight(), goalSize.getY(), soFarAnim / ANIM_TIME);
@@ -231,7 +231,7 @@ public class FindClueScreen extends AbstractScreen {
 
     /**
      * This method hides the UI elements of this screen.
-     * <p>
+     *
      * Used when doing the animation of the clue going into the journal
      */
     private void hideAll() {

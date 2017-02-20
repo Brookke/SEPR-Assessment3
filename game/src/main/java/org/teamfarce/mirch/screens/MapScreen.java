@@ -22,7 +22,6 @@ import org.teamfarce.mirch.screens.elements.StatusBar;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 /**
@@ -42,7 +41,7 @@ public class MapScreen extends AbstractScreen {
     private OrthogonalTiledMapRendererWithPeople tileRender;
     private OrthographicCamera camera;
     private PlayerController playerController;
-    private int moveStep = 50;
+
     /**
      * This stores the room arrow that is drawn when the player stands on a room changing mat
      */
@@ -59,10 +58,7 @@ public class MapScreen extends AbstractScreen {
      * The amount of ticks it takes for the black to fade in and out
      */
     private float ANIM_TIME = 0.7f;
-    /**
-     * The current room ID. This is used to catch when a player has moved rooms.
-     */
-    private int currentRoomID = 0;
+
     /**
      * The black sprite that is used to fade in/out
      */
@@ -144,8 +140,6 @@ public class MapScreen extends AbstractScreen {
 
         spriteBatch.end();
 
-        Random random = new Random();
-
         if (!grabScreenshot) {
             statusBar.render();
         }
@@ -159,6 +153,7 @@ public class MapScreen extends AbstractScreen {
      * This is called when the player decides to move to another room
      */
     public void initialiseRoomTransition() {
+        game.gameSnapshot.setAllUnlocked();
         roomTransition = true;
     }
 
@@ -170,8 +165,6 @@ public class MapScreen extends AbstractScreen {
         animTimer = 0;
         roomTransition = false;
         fadeToBlack = true;
-        //pause = false;
-        //roomTag = new RoomTag(game.player.getRoom().getName());
     }
 
     /**
@@ -218,6 +211,11 @@ public class MapScreen extends AbstractScreen {
         }
     }
 
+    /**
+     * This method returns the NPCs on the current map
+     *
+     * @return List<Suspect> - The Suspects on the current map
+     */
     public List<Suspect> getNPCs() {
         return currentNPCs;
     }

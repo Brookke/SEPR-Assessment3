@@ -9,10 +9,10 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * Created by brookehatton on 16/02/2017.
+ * This file controls the connections to the JSON files that store dialog responses
  */
 public class Dialogue {
-    private static String templatePath;
+
     private JsonValue jsonData;
     private boolean isForPlayer;
 
@@ -114,6 +114,7 @@ public class Dialogue {
     public class InvalidDialogueException extends Exception {
         //Parameterless Constructor
         public InvalidDialogueException() {
+            this("Unknown InvalidDialogException");
         }
 
         //Constructor that accepts a message

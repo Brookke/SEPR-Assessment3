@@ -17,6 +17,7 @@ import org.teamfarce.mirch.MIRCH;
 import org.teamfarce.mirch.entities.AbstractPerson;
 import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.entities.Suspect;
+import org.teamfarce.mirch.map.Room;
 import org.teamfarce.mirch.screens.elements.InterviewResponseBox;
 import org.teamfarce.mirch.screens.elements.InterviewResponseButton;
 
@@ -41,6 +42,8 @@ public class InterviewScreen extends AbstractScreen {
     private Suspect suspect = null;
     private Clue tempClue;
     private String tempStyle;
+
+    private Label scoreLabel = null;
 
     /**
      * Constructor for Interview screen
@@ -79,14 +82,25 @@ public class InterviewScreen extends AbstractScreen {
             throw new NullPointerException("No Suspect Defined for Interview Screen");
         }
 
+        //Check if the suspect is locked from talking to or not
+        if (suspect.speechLocked()) {
+            gameSnapshot.setState(GameState.interviewLock);
+        } else {
+            gameSnapshot.setAllUnlocked();
+        }
+
         //Setup vars needed to render dialogue & responses
         String responseBoxInstructions = "";
         String suspectDialogue = "";
         boolean useMultiRowResponseBox = false;
         ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
         InterviewResponseButton.EventHandler switchStateHandler = (result, clue) -> switchState(result);
-        InterviewResponseButton.EventHandler clueHandler = (result, clue) -> questionClue(result, clue);
-        InterviewResponseButton.EventHandler styleHandler = (result, clue) -> questionStyle(result);
+        InterviewResponseButton.EventHandler clueHandler = (result, clue) -> questionClueHandler(result, clue);
+        InterviewResponseButton.EventHandler styleHandler = (result, clue) -> questionStyleHandler(result);
+
+        scoreLabel = new Label("Score: " + gameSnapshot.getScore(), uiSkin, "white");
+        scoreLabel.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth() / 8, Gdx.graphics.getHeight() / 2);
+        scoreLabel.setFontScale(2);
 
         //Check current GameState, and render appropriate GUI
         GameState currentState = gameSnapshot.getState();
@@ -100,8 +114,12 @@ public class InterviewScreen extends AbstractScreen {
 
                 //Setup buttons to Question, Accuse and Ignore
                 buttonList.add(new InterviewResponseButton("Question the suspect", 0, null, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Leave the interview", 2, null, switchStateHandler));
+
+                if (game.gameSnapshot.isMeansProven() && game.gameSnapshot.isMotiveProven()) {
+                    buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
+                }
+
+                buttonList.add(new InterviewResponseButton("Ignore the suspect", 2, null, switchStateHandler));
 
                 break;
 
@@ -121,7 +139,7 @@ public class InterviewScreen extends AbstractScreen {
                     }
                 } else {
                     responseBoxInstructions = "You haven't found any clues yet to ask about";
-                    buttonList.add(new InterviewResponseButton("Leave the interview", 2, null, switchStateHandler));
+                    buttonList.add(new InterviewResponseButton("Leave the interview", 4, null, switchStateHandler));
                 }
 
                 break;
@@ -158,6 +176,7 @@ public class InterviewScreen extends AbstractScreen {
                 //Checks to see if a valid response has been provided
                 if (suspectDialogue.length() == 0) {
                     suspectDialogue = suspect.dialogue.get("none");
+                    game.gameSnapshot.modifyScore(-2);
                 } else {
                     gameSnapshot.journal.addConversation(suspectDialogue, suspect.getName());
                 }
@@ -165,13 +184,17 @@ public class InterviewScreen extends AbstractScreen {
                 //Ask player how to respond
                 responseBoxInstructions = "How would you like to respond?";
                 buttonList.add(new InterviewResponseButton("Question the suspect again", 0, null, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Leave the interview", 2, null, switchStateHandler));
+
+                if (game.gameSnapshot.isMeansProven() && game.gameSnapshot.isMotiveProven()) {
+                    buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
+                }
+
+                buttonList.add(new InterviewResponseButton("Ignore the suspect", 2, null, switchStateHandler));
                 break;
 
             case interviewAccuse:
                 //Check whether accusation is correct
-                boolean hasEvidence = gameSnapshot.isMeansProven() && gameSnapshot.isMotiveProven() && gameSnapshot.hasFoundMurderRoom();
+                boolean hasEvidence = gameSnapshot.isMeansProven() && gameSnapshot.isMotiveProven();
                 if (suspect.accuse(hasEvidence)) {
                     //Setup suspect's dialogue
                     suspectDialogue = "Oh dear, you've caught me red handed. I confess to killing them.";
@@ -179,7 +202,6 @@ public class InterviewScreen extends AbstractScreen {
                     //Inform user of result
                     responseBoxInstructions = "How would you like to respond?";
                     buttonList.add(new InterviewResponseButton("Arrest " + suspect.getName(), 3, null, switchStateHandler));
-
                 } else {
                     //Setup suspect's dialogue
                     suspectDialogue = "Ha! You don't have the evidence to accuse me!";
@@ -188,6 +210,12 @@ public class InterviewScreen extends AbstractScreen {
                     responseBoxInstructions = "How would you like to respond?";
                     buttonList.add(new InterviewResponseButton("Apologise & leave the interview", 2, null, switchStateHandler));
                 }
+                break;
+
+            case interviewLock:
+                suspectDialogue = "If you don't want to talk to me. I don't want to talk to you.";
+                responseBoxInstructions = "Maybe if I explore some more they will talk";
+                buttonList.add(new InterviewResponseButton("Exit Interview", 4, null, switchStateHandler));
                 break;
         }
 
@@ -208,8 +236,35 @@ public class InterviewScreen extends AbstractScreen {
 
         //Add response box to screen
         interviewStage.addActor(responseBoxTable);
+        interviewStage.addActor(scoreLabel);
     }
 
+    /**
+     * This method is called when the player has won the game
+     */
+    private void winGame() {
+        game.guiController.narratorScreen.setButton("Return to Office", new Runnable() {
+            @Override
+            public void run() {
+                Gdx.app.exit();
+            }
+        });
+
+        String room = "";
+
+        //Get the murder room name
+        for (Room r : gameSnapshot.map.getRooms()) {
+            if (r.isMurderRoom()) {
+                room = r.getName();
+            }
+        }
+
+        game.guiController.narratorScreen.setSpeech("Congratulations! You solved it!\n\n" +
+                "All along it was " + game.gameSnapshot.murderer.getName() + " who killed " + gameSnapshot.victim.getName() + " with " + gameSnapshot.meansClue.getName() + " in the " + room + "\n\nI would never have been able to work that out!\n\nYou completed the game with a score of " + gameSnapshot.getScore() + ", that's very impressive!");
+
+        gameSnapshot.gameWon = true;
+        gameSnapshot.setState(GameState.gameWon);
+    }
 
     /**
      * Initialises GUI controls for Suspect's dialogue
@@ -252,18 +307,31 @@ public class InterviewScreen extends AbstractScreen {
             case 2: //Ignore or return to map
                 gameSnapshot.setState(GameState.map);
                 suspect.canMove = true;
+                suspect.setLocked(true);
                 suspect = null;
                 gameSnapshot.setSuspectForInterview(null);
                 game.player.clearTalkTo();
                 break;
             case 3: //Game has been won
-                gameSnapshot.gameWon = true;
-                gameSnapshot.setState(GameState.gameWon);
+                winGame();
+                break;
+            case 4:
+                gameSnapshot.setState(GameState.map);
+                suspect.canMove = true;
+                suspect = null;
+                gameSnapshot.setSuspectForInterview(null);
+                game.player.clearTalkTo();
                 break;
         }
     }
 
-    private void questionClue(int result, Clue clue) {
+    /**
+     * Handles result of player selecting clue to question suspect about
+     *
+     * @param clue The clue the player has selected
+     * @param result Not used
+     */
+    private void questionClueHandler(int result, Clue clue) {
         switch (result) {
             case 0:
                 tempClue = clue;
@@ -272,7 +340,14 @@ public class InterviewScreen extends AbstractScreen {
         }
     }
 
-    private void questionStyle(int result) {
+    /**
+     * Handles result of player selecting question style to use when questioning suspect
+     * Also updates personality meter based on result
+     *
+     * @param result Returns integer corresponding to question style type
+     *               0 = Aggressive, 1 = Conversational, 2 = Polite
+     */
+    private void questionStyleHandler(int result) {
         switch (result) {
             case 0:
                 tempStyle = "AGGRESSIVE";
@@ -298,7 +373,6 @@ public class InterviewScreen extends AbstractScreen {
         gameSnapshot.setState(GameState.interviewQuestion);
     }
 
-
     @Override
     public void show() {
         initInterviewStage();
@@ -310,6 +384,7 @@ public class InterviewScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        scoreLabel.setText("Score: " + gameSnapshot.getScore());
         interviewStage.act();
         interviewStage.draw();
     }

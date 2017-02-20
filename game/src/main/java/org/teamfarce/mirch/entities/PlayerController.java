@@ -126,6 +126,13 @@ public class PlayerController extends InputAdapter {
         return true;
     }
 
+    /**
+     * This method converts an x and y coordinate on the screen to a tile location on the map
+     *
+     * @param screenX The screen x coordinate
+     * @param screenY The screen y coordinate
+     * @return - Vector2Int the tilePosition that was clicked on
+     */
     private Vector2Int screenPosToTile(int screenX, int screenY) {
         Vector3 screenPosition = new Vector3(0, 0, 0);
         camera.unproject(screenPosition.set(screenX, screenY, 0));

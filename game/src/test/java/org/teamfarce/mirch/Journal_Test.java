@@ -5,6 +5,7 @@ package org.teamfarce.mirch;
 
 import org.junit.Test;
 import org.teamfarce.mirch.entities.Clue;
+import org.teamfarce.mirch.entities.Suspect;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class Journal_Test extends GameTest {
     @Test
     public void addClue() {
         MIRCH game = new MIRCH();
-        game.gameSnapshot = new GameSnapshot(game, null, null, null, null, 0, 0);
+        game.gameSnapshot = new GameSnapshot(game, null, null, new ArrayList<Suspect>(), null);
         game.gameSnapshot.score = 0;
 
         Journal journal = new Journal(game);
@@ -33,7 +34,7 @@ public class Journal_Test extends GameTest {
     @Test
     public void getClues() {
         MIRCH game = new MIRCH();
-        game.gameSnapshot = new GameSnapshot(game, null, null, null, null, 0, 0);
+        game.gameSnapshot = new GameSnapshot(game, null, null, new ArrayList<Suspect>(), null);
         game.gameSnapshot.score = 0;
 
         Journal journal = new Journal(game);

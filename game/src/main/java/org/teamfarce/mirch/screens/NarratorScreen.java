@@ -9,30 +9,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.Assets;
-import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 
 /**
  * This is the screen which displays the narrator and a defined speech
- * <p>
+ *
  * To show the screen with the defined speech you do the following
- * <p>
+ *
  * Have access to the game object (MIRCH). then do
- * <p>
- * game.guiController.narratorScreen.setSpeech("").makeVisible();
+ *
+ * game.guiController.narratorScreen.setSpeech("");
  */
 public class NarratorScreen extends AbstractScreen {
 
     /**
      * This is how many render frames that have to occur before the next letter is added to the currentMessage
      */
-    final static int FRAMES_PER_LETTER = 2;
+    final static int FRAMES_PER_LETTER = 1;
     /**
      * These are the variables used to show and draw the scene
      */
     public Stage narratorStage;
-    private GameSnapshot gameSnapshot;
+
     private Skin uiSkin;
     /**
      * This is the current string that is being displayed on the screen.
@@ -60,7 +59,7 @@ public class NarratorScreen extends AbstractScreen {
      */
     public NarratorScreen(MIRCH game, Skin uiSkin) {
         super(game);
-        this.gameSnapshot = game.gameSnapshot;
+
         this.uiSkin = uiSkin;
 
         String introSpeech = "You have been invited to a lock-in costume party with some of the richest people around. There has been a murder, one of the guests has killed " + game.gameSnapshot.victim.getName() + "\n\n" +
@@ -84,7 +83,7 @@ public class NarratorScreen extends AbstractScreen {
     private void initStage() {
         narratorStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-        Image background = new Image(new TextureRegion(Assets.loadTexture("rch.png")));
+        Image background = new Image(new TextureRegion(Assets.loadTexture("narratorBackground.png")));
         background.setHeight(Gdx.graphics.getHeight());
         background.setWidth(Gdx.graphics.getWidth());
 
@@ -138,6 +137,11 @@ public class NarratorScreen extends AbstractScreen {
         narratorStage.draw();
     }
 
+    /**
+     * This method returns the who speech that is to be shown on the narrator screen
+     *
+     * @return String - `endMessage`
+     */
     public String getSpeech() {
         return endMessage;
     }
@@ -179,6 +183,11 @@ public class NarratorScreen extends AbstractScreen {
         return this;
     }
 
+    /**
+     * This method returns the String that is currently being shown on the Narrator screen
+     *
+     * @return String - `currentMessage`
+     */
     public String getCurrentSpeech() {
         return currentMessage;
     }

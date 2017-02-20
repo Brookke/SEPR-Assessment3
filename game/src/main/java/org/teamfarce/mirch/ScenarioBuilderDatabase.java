@@ -25,6 +25,12 @@ public class ScenarioBuilderDatabase {
         characters = new HashMap<>();
     }
 
+    /**
+     * This method directly accesses the database and gets all important information into classes
+     *
+     * @param databaseName - The name of the database to retrieve info from
+     * @throws SQLException
+     */
     public ScenarioBuilderDatabase(String databaseName) throws SQLException {
         this();
 
