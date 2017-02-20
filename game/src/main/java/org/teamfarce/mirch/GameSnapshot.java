@@ -90,25 +90,12 @@ public class GameSnapshot {
         String murdererName = murderer.getName();
         String victimName = victim.getName();
         String room = "";
-        String weapon = "";
+        String weapon = meansClue.getName();
 
         //Get the murder room name and the murder weapon
         for (Room r : game.gameSnapshot.map.getRooms()) {
             if (r.isMurderRoom()) {
                 room = r.getName();
-            }
-
-            for (Clue c : r.getClues()) {
-                if (c.isMeansClue()) {
-                    weapon = c.getName();
-                }
-            }
-
-            for (Clue c : journal.getClues())
-            {
-                if (c.isMeansClue()) {
-                    weapon = c.getName();
-                }
             }
         }
 
