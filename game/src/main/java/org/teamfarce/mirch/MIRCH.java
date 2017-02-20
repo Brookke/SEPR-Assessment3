@@ -15,6 +15,8 @@ import java.util.Random;
  * MIRCH is used to generate all graphics in the program. It initialises the scenario generator and game state
  * and provides all interactions with the back end of the program.
  *
+ * Lorem Ipsum executable file: http://lihq.me/Downloads/Assessment3/Game.zip
+ *
  * @author jacobwunwin
  */
 public class MIRCH extends Game {
