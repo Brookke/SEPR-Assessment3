@@ -252,20 +252,16 @@ public class InterviewScreen extends AbstractScreen {
         });
 
         String room = "";
-        String weapon = "";
 
-
-        //Get the murder room name and the murder weapon
+        //Get the murder room name
         for (Room r : gameSnapshot.map.getRooms()) {
             if (r.isMurderRoom()) {
                 room = r.getName();
             }
         }
 
-       weapon = gameSnapshot.meansClue.getName();
-
         game.guiController.narratorScreen.setSpeech("Congratulations! You solved it!\n\n" +
-                "All along it was " + game.gameSnapshot.murderer.getName() + " who killed " + gameSnapshot.victim.getName() + " with " + weapon + " in the " + room + "\n\nI would never have been able to work that out!\n\nYou completed the game with a score of " + gameSnapshot.getScore() + ", that's very impressive!");
+                "All along it was " + game.gameSnapshot.murderer.getName() + " who killed " + gameSnapshot.victim.getName() + " with " + gameSnapshot.meansClue.getName() + " in the " + room + "\n\nI would never have been able to work that out!\n\nYou completed the game with a score of " + gameSnapshot.getScore() + ", that's very impressive!");
 
         gameSnapshot.gameWon = true;
         gameSnapshot.setState(GameState.gameWon);
