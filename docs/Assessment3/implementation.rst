@@ -324,4 +324,4 @@ http://lihq.me/Downloads/Assessment3/OriginalUML.png 
 
 [3] Link to updated Requirements document [Online] Available:
 
-http://lihq.me/Downloads/Assessment3/req3.pdf
+http://lihq.me/Downloads/Assessment3/Req3.pdf
