@@ -56,7 +56,7 @@ This project is tested using JUnit. Tests are located within the `/game/src/test
 For every commit CircleCI runs all the included tests, however we recomend that you run test locally too before committing.
 
 ### Adding Tests
-- Create new class for tests under `/game/tests/src` When naming the class end the name with `_Test` for consistency e.g. `Player_Test`
+- Create new class for tests under `/game/src/tests` When naming the class end the name with `_Test` for consistency e.g. `Player_Test`
 - This class should extend `GameTester` this initialises the backend of the game so that test run correctly. 
 - Import `org.junit.Test`
 - Write a test function using assertions, and use `@Test` decorator above it
