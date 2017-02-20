@@ -188,7 +188,12 @@ public class InterviewScreen extends AbstractScreen {
                 //Ask player how to respond
                 responseBoxInstructions = "How would you like to respond?";
                 buttonList.add(new InterviewResponseButton("Question the suspect again", 0, null, switchStateHandler));
-                buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
+
+                if (game.gameSnapshot.isMeansProven() && game.gameSnapshot.isMotiveProven())
+                {
+                    buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
+                }
+
                 buttonList.add(new InterviewResponseButton("Ignore the suspect", 2, null, switchStateHandler));
                 break;
 
