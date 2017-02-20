@@ -146,11 +146,11 @@ Software risks
 |            |            |            |            |            | tools.     |            |
 +------------+------------+------------+------------+------------+------------+------------+
 | 5          | Our own    | High       | Will need  | Low        | This is a  | Coding     |
-|            | software   |            | to bug     |            | normal     | Team/Desig |
-|            | doesn’t    |            | fix. Loss  |            | part of    | n          |
-|            | work as    |            | of time    |            | software   | Team/Proje |
-|            | intended.  |            | and        |            | developmen | ct         |
-|            |            |            | potentiall |            | t.         | Manager    |
+|            | software   |            | to bug     |            | normal     | Team/Design|
+|            | doesn’t    |            | fix. Loss  |            | part of    | Team/Projec|
+|            | work as    |            | of time    |            | software   | t          |
+|            | intended.  |            | and        |            | developmen | Manager    |
+|            |            |            | potentiall |            | t.         |            |
 |            |            |            | y          |            | We all     |            |
 |            |            |            | productivi |            | make       |            |
 |            |            |            | ty         |            | mistakes.  |            |
@@ -193,7 +193,7 @@ Hardware risks
 |            | long term  |            | to work.   |            | online to  |            |
 |            | or is      |            |            |            | google     |            |
 |            | lost.      |            |            |            | drive      |            |
-|            |            |            |            |            |  cloud     |            |
+|            |            |            |            |            | cloud      |            |
 |            |            |            |            |            | service    |            |
 |            |            |            |            |            | and that   |            |
 |            |            |            |            |            | code is    |            |
