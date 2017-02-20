@@ -34,6 +34,7 @@ Contents
    Assessment3/riskAssessmentAndMitigation
    Assessment3/methods
    Assessment3/implementation
+   Assessment3/changeReport
    Assessment3/gui
    Assessment3/testing
    Assessment3/executableTestPlan
