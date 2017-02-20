@@ -93,6 +93,11 @@ public class StatusBar {
         stage.addActor(statusBar);
     }
 
+    /**
+     * This method returns the String that is to represent the players current personality
+     *
+     * @return String - Representing their personality
+     */
     private String getPersonalityMeterValue() {
         int personalityScore = gameSnapshot.getPersonality();
         String result = "";
