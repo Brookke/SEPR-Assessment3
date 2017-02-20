@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
- * Created by brookehatton on 01/02/2017.
+ * This class manages all the assets.
  */
 public class Assets {
     /**
