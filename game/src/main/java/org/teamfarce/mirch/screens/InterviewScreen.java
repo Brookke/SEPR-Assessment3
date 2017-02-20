@@ -43,6 +43,8 @@ public class InterviewScreen extends AbstractScreen {
     private Clue tempClue;
     private String tempStyle;
 
+    private Label scoreLabel = null;
+
     /**
      * Constructor for Interview screen
      *
@@ -98,6 +100,10 @@ public class InterviewScreen extends AbstractScreen {
         InterviewResponseButton.EventHandler switchStateHandler = (result, clue) -> switchState(result);
         InterviewResponseButton.EventHandler clueHandler = (result, clue) -> questionClue(result, clue);
         InterviewResponseButton.EventHandler styleHandler = (result, clue) -> questionStyle(result);
+
+        scoreLabel = new Label("Score: " + gameSnapshot.getScore(), uiSkin, "white");
+        scoreLabel.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth() / 8, Gdx.graphics.getHeight() / 2);
+        scoreLabel.setFontScale(2);
 
         //Check current GameState, and render appropriate GUI
         GameState currentState = gameSnapshot.getState();
@@ -230,6 +236,7 @@ public class InterviewScreen extends AbstractScreen {
 
         //Add response box to screen
         interviewStage.addActor(responseBoxTable);
+        interviewStage.addActor(scoreLabel);
     }
 
     /**
