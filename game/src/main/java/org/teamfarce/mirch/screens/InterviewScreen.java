@@ -387,6 +387,7 @@ public class InterviewScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        scoreLabel.setText("Score: " + gameSnapshot.getScore());
         interviewStage.act();
         interviewStage.draw();
     }
