@@ -44,15 +44,6 @@ public class MainMenuScreen extends AbstractScreen {
      * This is the referencing to the game snapshot
      */
     private GameSnapshot gameSnapshot;
-    /**
-     * This is the camera for the menu
-     */
-    private OrthographicCamera camera;
-
-    /**
-     * This is the sprite batch of the menu that elements are rendered on.
-     */
-    private SpriteBatch batch;
 
     /**
      * Constructor for the menu
@@ -69,10 +60,10 @@ public class MainMenuScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(stage);
 
         //Loading the menu
-        initMenu(game, uiSkin);
+        initMenu(uiSkin);
     }
 
-    private void initMenu(final MIRCH game, Skin uiSkin) {
+    private void initMenu(Skin uiSkin) {
 
         //Setting the background
         Image background = new Image(new TextureRegion(Assets.loadTexture("menuBackground.jpg")));
@@ -123,14 +114,6 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     /**
-     * This method is called to change the state to "menu", this sets the screen to
-     * "MainMenuScreen".
-     */
-    public void makeVisible() {
-        gameSnapshot.setState(GameState.menu);
-    }
-
-    /**
      * This method is called to render the main menu to the stage
      */
     public void render(float delta) {
@@ -154,7 +137,6 @@ public class MainMenuScreen extends AbstractScreen {
     public void dispose() {
         //Called when disposing the main menu
         stage.dispose();
-        batch.dispose();
     }
 
     /**
