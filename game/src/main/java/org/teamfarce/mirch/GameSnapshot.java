@@ -40,20 +40,16 @@ public class GameSnapshot {
     /**
      * Initialises function.
      */
-    GameSnapshot(MIRCH game, Map map, List<Room> rooms, List<Suspect> suspects, List<Clue> clues, int sumProvesMotive, int sumProvesMeans) {
+    GameSnapshot(MIRCH game, Map map, List<Room> rooms, List<Suspect> suspects, List<Clue> clues) {
         this.game = game;
         this.suspects = suspects;
         this.state = GameState.menu;
         this.clues = clues;
         this.map = map;
         this.rooms = rooms;
-        this.meansProven = 0;
-        this.motiveProven = 0;
         this.journal = new Journal(game);
         this.time = 0;
         this.gameWon = false;
-        this.sumProvesMean = sumProvesMeans;
-        this.sumProvesMotive = sumProvesMotive;
         this.score = 150;
         this.currentPersonality = 0;
     }

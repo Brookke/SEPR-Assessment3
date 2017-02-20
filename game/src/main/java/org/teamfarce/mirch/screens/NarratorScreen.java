@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.Assets;
-import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
 
@@ -60,7 +59,7 @@ public class NarratorScreen extends AbstractScreen {
      */
     public NarratorScreen(MIRCH game, Skin uiSkin) {
         super(game);
-        this.gameSnapshot = game.gameSnapshot;
+
         this.uiSkin = uiSkin;
 
         String introSpeech = "You have been invited to a lock-in costume party with some of the richest people around. There has been a murder, one of the guests has killed " + game.gameSnapshot.victim.getName() + "\n\n" +

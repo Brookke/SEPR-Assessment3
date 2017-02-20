@@ -153,7 +153,7 @@ public class ScenarioBuilder {
         constructedClues.add(meansClue);
 
         distributeClues(constructedClues, rooms);
-        GameSnapshot snapshot = new GameSnapshot(game, map, rooms, aliveSuspects, constructedClues, 0, 0);
+        GameSnapshot snapshot = new GameSnapshot(game, map, rooms, aliveSuspects, constructedClues);
         snapshot.victim = victim;
         snapshot.murderer = murderer;
         snapshot.meansClue = meansClue;
