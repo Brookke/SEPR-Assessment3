@@ -22,7 +22,6 @@ import org.teamfarce.mirch.screens.elements.StatusBar;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 /**
