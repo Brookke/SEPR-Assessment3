@@ -95,8 +95,8 @@ public class InterviewScreen extends AbstractScreen {
         boolean useMultiRowResponseBox = false;
         ArrayList<InterviewResponseButton> buttonList = new ArrayList<>();
         InterviewResponseButton.EventHandler switchStateHandler = (result, clue) -> switchState(result);
-        InterviewResponseButton.EventHandler clueHandler = (result, clue) -> questionClue(result, clue);
-        InterviewResponseButton.EventHandler styleHandler = (result, clue) -> questionStyle(result);
+        InterviewResponseButton.EventHandler clueHandler = (result, clue) -> questionClueHandler(result, clue);
+        InterviewResponseButton.EventHandler styleHandler = (result, clue) -> questionStyleHandler(result);
 
         scoreLabel = new Label("Score: " + gameSnapshot.getScore(), uiSkin, "white");
         scoreLabel.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth() / 8, Gdx.graphics.getHeight() / 2);
@@ -326,12 +326,12 @@ public class InterviewScreen extends AbstractScreen {
     }
 
     /**
-     * Im not sure what this does, someone please add comment
+     * Handles result of player selecting clue to question suspect about
      *
-     * @param result
-     * @param clue
+     * @param clue The clue the player has selected
+     * @param result Not used
      */
-    private void questionClue(int result, Clue clue) {
+    private void questionClueHandler(int result, Clue clue) {
         switch (result) {
             case 0:
                 tempClue = clue;
@@ -341,11 +341,13 @@ public class InterviewScreen extends AbstractScreen {
     }
 
     /**
-     * Im not sure what this does, someone please add comment
+     * Handles result of player selecting question style to use when questioning suspect
+     * Also updates personality meter based on result
      *
-     * @param result
+     * @param result Returns integer corresponding to question style type
+     *               0 = Aggressive, 1 = Conversational, 2 = Polite
      */
-    private void questionStyle(int result) {
+    private void questionStyleHandler(int result) {
         switch (result) {
             case 0:
                 tempStyle = "AGGRESSIVE";
