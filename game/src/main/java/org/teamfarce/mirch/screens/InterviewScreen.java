@@ -331,6 +331,12 @@ public class InterviewScreen extends AbstractScreen {
         }
     }
 
+    /**
+     * Im not sure what this does, someone please add comment
+     *
+     * @param result
+     * @param clue
+     */
     private void questionClue(int result, Clue clue) {
         switch (result) {
             case 0:
@@ -340,6 +346,10 @@ public class InterviewScreen extends AbstractScreen {
         }
     }
 
+    /**
+     * Im not sure what this does, someone please add comment
+     * @param result
+     */
     private void questionStyle(int result) {
         switch (result) {
             case 0:
