@@ -144,8 +144,6 @@ public class MapScreen extends AbstractScreen {
 
         spriteBatch.end();
 
-        Random random = new Random();
-
         if (!grabScreenshot) {
             statusBar.render();
         }
@@ -171,8 +169,6 @@ public class MapScreen extends AbstractScreen {
         animTimer = 0;
         roomTransition = false;
         fadeToBlack = true;
-        //pause = false;
-        //roomTag = new RoomTag(game.player.getRoom().getName());
     }
 
     /**
@@ -219,6 +215,10 @@ public class MapScreen extends AbstractScreen {
         }
     }
 
+    /**
+     * This method returns the NPCs on the current map
+     * @return List<Suspect> - The Suspects on the current map
+     */
     public List<Suspect> getNPCs() {
         return currentNPCs;
     }
