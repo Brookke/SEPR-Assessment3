@@ -111,12 +111,16 @@ public class ScenarioBuilder {
         return output;
     }
 
-
-    public static GameSnapshot generateGame(
-            MIRCH game,
-            ScenarioBuilderDatabase database,
-            Random random
-    ) throws ScenarioBuilderException {
+    /**
+     * This method takes the database and build a GameSnapshot from the database
+     *
+     * @param game     MIRCH - Reference to main game class
+     * @param database - The database of which to get info from
+     * @param random   - Random, used to generate a random means clue, and a random motive
+     * @return GameSnapshot - The generate gamesnapshot
+     * @throws ScenarioBuilderException
+     */
+    public static GameSnapshot generateGame(MIRCH game, ScenarioBuilderDatabase database, Random random) throws ScenarioBuilderException {
 
         List<Clue> constructedClues = new ArrayList<>();
 
@@ -131,19 +135,13 @@ public class ScenarioBuilder {
         CharacterData characterData;
         characterData = generateCharacters(game, database.characters);
 
-        Suspect victim = null;
-        Suspect murderer = null;
+        Suspect victim = characterData.victim;
+        Suspect murderer = characterData.murderer;
 
         List<Suspect> aliveSuspects = new ArrayList<Suspect>();
         for (Suspect suspect : characterData.allCharacters) {
-            if (suspect.isVictim()) {
-                victim = suspect;
-            } else {
+            if (!suspect.isVictim()) {
                 aliveSuspects.add(suspect);
-            }
-
-            if (suspect.isKiller()) {
-                murderer = suspect;
             }
         }
 
@@ -151,12 +149,14 @@ public class ScenarioBuilder {
 
         Object[] means = database.means.values().toArray();
         DataClue randomMean = (DataClue) means[random.nextInt(means.length)];
-        constructedClues.add(new Clue(randomMean.name, randomMean.description, randomMean.sprite, randomMean.assetX, randomMean.assetY, randomMean.isMeans));
+        Clue meansClue = new Clue(randomMean.name, randomMean.description, randomMean.sprite, randomMean.assetX, randomMean.assetY, randomMean.isMeans);
+        constructedClues.add(meansClue);
 
         distributeClues(constructedClues, rooms);
-        GameSnapshot snapshot = new GameSnapshot(game, map, rooms, characterData.allCharacters, constructedClues, 0, 0);
+        GameSnapshot snapshot = new GameSnapshot(game, map, rooms, aliveSuspects, constructedClues);
         snapshot.victim = victim;
         snapshot.murderer = murderer;
+        snapshot.meansClue = meansClue;
         return snapshot;
     }
 

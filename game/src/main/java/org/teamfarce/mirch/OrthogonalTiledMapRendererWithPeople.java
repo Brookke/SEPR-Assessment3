@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * OrthogonalTiledMapRendererWithPeople
- * <p>
+ *
  * This class is an extension of the OrthogonalTiledMapRenderer that deals with
  * rendering sprites aswell. The last layer of the map is designed to be drawn OVER
  * the player sprite and NPCs. So this controls that by drawing each layer until it comes to the last
@@ -63,7 +63,7 @@ public class OrthogonalTiledMapRendererWithPeople extends OrthogonalTiledMapRend
 
     /**
      * This overrides the render method in the super class.
-     * <p>
+     *
      * It draws all the map layers until the final one. Then it draws all the sprites in the
      * sprite list, then it draws the final layer.
      */

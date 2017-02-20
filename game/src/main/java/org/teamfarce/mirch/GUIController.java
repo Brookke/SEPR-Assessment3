@@ -106,6 +106,9 @@ public class GUIController {
                 case narrator:
                     this.game.setScreen(narratorScreen);
                     break;
+                case gameWon:
+                    this.game.setScreen(narratorScreen);
+                    break;
                 case journalClues:
                     this.game.setScreen(journalScreen);
                     break;

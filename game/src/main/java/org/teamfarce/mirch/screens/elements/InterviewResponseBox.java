@@ -50,6 +50,11 @@ public class InterviewResponseBox {
         this.isMultiRow = isMultiRow;
     }
 
+    /**
+     * This method returns a content table for the Interview screen. It does so based on what needs to be showed on it
+     *
+     * @return the constructed content table
+     */
     public Table getContent() {
         Table table = new Table();
         table.setSize(TABLE_WIDTH, TABLE_HEIGHT);

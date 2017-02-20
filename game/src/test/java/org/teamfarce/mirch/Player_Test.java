@@ -13,12 +13,17 @@ import static org.junit.Assert.assertEquals;
  */
 public class Player_Test extends GameTest {
 
-    Player p;
+    Player p = null;
 
     @Before
     public void start() throws Dialogue.InvalidDialogueException {
         Dialogue dialogue = new Dialogue("template.JSON", false);
-        p = new Player(null, "Name", "Desc", "Detective_sprite.png", dialogue);
+        p = new Player(null, "Test Name", "Desc", "Detective_sprite.png", dialogue);
+    }
+
+    @Test
+    public void getPlayername() {
+        assertEquals("Fail - Not returning correct playername", p.getName(), "Test Name");
     }
 
     @Test

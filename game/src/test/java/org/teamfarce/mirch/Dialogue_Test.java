@@ -1,8 +1,8 @@
-package org.teamfarce.mirch.dialogue;
+package org.teamfarce.mirch;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.teamfarce.mirch.GameTest;
+import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.entities.Clue;
 
 import static org.junit.Assert.assertEquals;

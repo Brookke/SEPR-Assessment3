@@ -79,7 +79,7 @@ public class Player extends AbstractPerson {
 
     /**
      * This method is called when the player clicks on the screen.
-     * <p>
+     *
      * This is handled in the PlayerController and passed to here
      *
      * @param tileLocation - The tile location they clicked at.
@@ -136,14 +136,13 @@ public class Player extends AbstractPerson {
 
     /**
      * This method checks what the best fit neighbour tile is for a goal.
-     * <p>
+     *
      * It bases its decision on the players location and what tiles are not locked
      *
      * @param goal - The goal destination
      * @return - The best fitting tile
      */
     public Vector2Int getClosestNeighbour(Vector2Int goal) {
-        Vector2Int result = null;
 
         Vector2Int north = new Vector2Int(goal.getX(), goal.getY() + 1);
         Vector2Int east = new Vector2Int(goal.getX() + 1, goal.getY());
@@ -268,10 +267,6 @@ public class Player extends AbstractPerson {
             Room.Transition newRoomData = this.getRoom().getTransitionData(this.getTileCoordinates().x, this.getTileCoordinates().y);
 
             this.setRoom(newRoomData.getNewRoom());
-
-            if (newRoomData.getNewRoom().isMurderRoom()) {
-                game.gameSnapshot.hasFoundMurderRoom = true;
-            }
 
             if (newRoomData.newDirection != null) {
                 direction = newRoomData.newDirection;
