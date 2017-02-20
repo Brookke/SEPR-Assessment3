@@ -30,505 +30,948 @@ Test Listing
 +----------------+----------------+----------------+----------------+----------------+
 | ID             | Test Steps     | Req ID         | Criticality    | Result         |
 +----------------+----------------+----------------+----------------+----------------+
-| 2.01           | Run game       | 1.1.1          | Low            | Passed         |
-|                | executable.    |                |                |                |
-|                | Main menu is   |                |                |                |
-|                | shown.         |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.02           | Run game       | 1.1.2          | High           | Passed         |
-|                | executable     |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu Player    |                |                |                |
-|                | can move       |                |                |                |
-|                | around using   |                |                |                |
-|                | arrow keys and |                |                |                |
-|                | “WASD” keys    |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.03           | Run game       | 1.1.3          | Medium         | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Play     |                |                |                |
-|                | game to        |                |                |                |
-|                | completion.    |                |                |                |
-|                | Repeat at      |                |                |                |
-|                | least 3 times. |                |                |                |
-|                | Ensure the     |                |                |                |
-|                | combination of |                |                |                |
-|                | selected       |                |                |                |
-|                | killer,        |                |                |                |
-|                | victim, murder |                |                |                |
-|                | location and   |                |                |                |
-|                | murder weapon  |                |                |                |
-|                | differ each    |                |                |                |
-|                | time.          |                |                |                |
-|                | Note: This     |                |                |                |
-|                | failed as      |                |                |                |
-|                | murder weapon  |                |                |                |
-|                | clue is not    |                |                |                |
-|                | implemented    |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.04           | Run game       | 1.2.1          | Low            | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Click    |                |                |                |
-|                | the ‘pause’    |                |                |                |
-|                | button Pause   |                |                |                |
-|                | menu is shown  |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.05           | Run game       | 1.3.1          | Low            | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Player   |                |                |                |
-|                | should move    |                |                |                |
-|                | around using   |                |                |                |
-|                | the gamepad    |                |                |                |
-|                | Player can     |                |                |                |
-|                | interact with  |                |                |                |
-|                | Items and NPCs |                |                |                |
-|                | using the      |                |                |                |
-|                | gamepad        |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.06           | Run game       | 1.3.2          | Low            | Failed         |
-|                | executable.    |                |                |                |
-|                | Ensuring       |                |                |                |
-|                | speakers are   |                |                |                |
-|                | turned on, the |                |                |                |
-|                | game plays     |                |                |                |
-|                | music.         |                |                |                |
-|                | Note: the      |                |                |                |
-|                | music is not   |                |                |                |
-|                | currently      |                |                |                |
-|                | implemented    |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.07           | Run game       | 1.3.3          | Low            | Failed         |
-|                | executable.    |                |                |                |
-|                | Click on       |                |                |                |
-|                | ‘options’      |                |                |                |
-|                | button.        |                |                |                |
-|                | Uncheck the    |                |                |                |
-|                | ‘music’        |                |                |                |
-|                | checkbox.      |                |                |                |
-|                | Music stops    |                |                |                |
-|                | playing.       |                |                |                |
-|                | Note: the      |                |                |                |
-|                | music is not   |                |                |                |
-|                | currently      |                |                |                |
-|                | implemented    |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.08           | Run game       | 2.1.2          | Medium         | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Interact |                |                |                |
-|                | with an NPC.   |                |                |                |
-|                | The ‘accuse’   |                |                |                |
-|                | button is not  |                |                |                |
-|                | visible.       |                |                |                |
-|                | Collect 4      |                |                |                |
-|                | clues.         |                |                |                |
-|                | Interact with  |                |                |                |
-|                | an NPC. The    |                |                |                |
-|                | ‘accuse’       |                |                |                |
-|                | button is now  |                |                |                |
-|                | visible.       |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.09           | Run game       | 2.1.3          | Low            | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Player   |                |                |                |
-|                | starts in a    |                |                |                |
-|                | location.      |                |                |                |
-|                | Close game.    |                |                |                |
-|                | Run game       |                |                |                |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Player   |                |                |                |
-|                | starts in same |                |                |                |
-|                | location       |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.10           | Run game       | 2.1.4          | High           | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Navigate |                |                |                |
-|                | the player to  |                |                |                |
-|                | a doorway      |                |                |                |
-|                | (marked by a   |                |                |                |
-|                | carpet). Move  |                |                |                |
-|                | through the    |                |                |                |
-|                | doorway.       |                |                |                |
-|                | Player is be   |                |                |                |
-|                | in a different |                |                |                |
-|                | room.          |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.11           | Run game       | 2.2.1          | Medium         | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu.          |                |                |                |
-|                | Personality    |                |                |                |
-|                | meter displays |                |                |                |
-|                | the current    |                |                |                |
-|                | personality    |                |                |                |
-|                | level.         |                |                |                |
-|                | Note: the      |                |                |                |
-|                | personality    |                |                |                |
-|                | meter is not   |                |                |                |
-|                | currently      |                |                |                |
-|                | implemented    |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.12           | Run game       | 3.1.2          | High           | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Navigate |                |                |                |
-|                | through all    |                |                |                |
-|                | rooms of the   |                |                |                |
-|                | map. There     |                |                |                |
-|                | are 10 NPCs    |                |                |                |
-|                | around the     |                |                |                |
-|                | map.           |                |                |                |
-|                | Note: this     |                |                |                |
-|                | failed as for  |                |                |                |
-|                | Assessment 2   |                |                |                |
-|                | only 6 NPCs    |                |                |                |
-|                | have been      |                |                |                |
-|                | implemented    |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.13           | Run game       | 4.1.1          | High           | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Navigate |                |                |                |
-|                | through all    |                |                |                |
-|                | rooms of the   |                |                |                |
-|                | map. There are |                |                |                |
-|                | 10 distinct    |                |                |                |
-|                | rooms that the |                |                |                |
-|                | player has     |                |                |                |
-|                | traveled       |                |                |                |
-|                | through.       |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.14           | Run game       | 5.1.1          | High           | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Navigate |                |                |                |
-|                | through all    |                |                |                |
-|                | rooms of the   |                |                |                |
-|                | map. The       |                |                |                |
-|                | player can     |                |                |                |
-|                | find at least  |                |                |                |
-|                | one clue in    |                |                |                |
-|                | each room.     |                |                |                |
-|                | Note: this     |                |                |                |
-|                | failed as for  |                |                |                |
-|                | Assessment 2   |                |                |                |
-|                | at most one    |                |                |                |
-|                | clue is in     |                |                |                |
-|                | each room      |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.15           | Run game       | 5.1.2          | High           | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Find a   |                |                |                |
-|                | clue. The      |                |                |                |
-|                | player can     |                |                |                |
-|                | interact with  |                |                |                |
-|                | the clue.      |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.16           | Run game       | 5.2.1          | Medium         | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Click    |                |                |                |
-|                | the            |                |                |                |
-|                | ‘inventory’    |                |                |                |
-|                | button.        |                |                |                |
-|                | Inventory      |                |                |                |
-|                | screen is      |                |                |                |
-|                | shown.         |                |                |                |
-|                | Note: the      |                |                |                |
-|                | inventory is   |                |                |                |
-|                | not currently  |                |                |                |
-|                | implemented    |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.17           | Run game       | 6.1.1          | Low            | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Score is |                |                |                |
-|                | displayed in   |                |                |                |
-|                | the status     |                |                |                |
-|                | bar.           |                |                |                |
-|                | Note: the      |                |                |                |
-|                | score is not   |                |                |                |
-|                | currently      |                |                |                |
-|                | implemented    |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.18           | Run game       | 7.1.1          | High           | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Navigate |                |                |                |
-|                | the player to  |                |                |                |
-|                | an NPC. The    |                |                |                |
-|                | player should  |                |                |                |
-|                | be able to     |                |                |                |
-|                | talk to the    |                |                |                |
-|                | NPC.           |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.19           | Run game       | 7.1.2          | High           | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Interact |                |                |                |
-|                | with an NPC.   |                |                |                |
-|                | Select         |                |                |                |
-|                | ‘Question’     |                |                |                |
-|                | button. The    |                |                |                |
-|                | player can     |                |                |                |
-|                | question the   |                |                |                |
-|                | NPC.           |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.20           | Run game       | 7.1.3          | Medium         | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Interact |                |                |                |
-|                | with an NPC.   |                |                |                |
-|                | Select         |                |                |                |
-|                | ‘Ignore’       |                |                |                |
-|                | button. The    |                |                |                |
-|                | player can     |                |                |                |
-|                | ignore the     |                |                |                |
-|                | NPC.           |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.21           | Run game       | 7.1.4          | High           | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Pick up  |                |                |                |
-|                | at least 4     |                |                |                |
-|                | clues Interact |                |                |                |
-|                | with an NPC.   |                |                |                |
-|                | Select         |                |                |                |
-|                | ‘Accuse’       |                |                |                |
-|                | button. The    |                |                |                |
-|                | player can     |                |                |                |
-|                | accuse the     |                |                |                |
-|                | NPC.           |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.22           | Run game       | 7.1.5          | High           | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Find a   |                |                |                |
-|                | clue Interact  |                |                |                |
-|                | with an NPC.   |                |                |                |
-|                | Select         |                |                |                |
-|                | ‘Question’     |                |                |                |
-|                | button. The    |                |                |                |
-|                | player should  |                |                |                |
-|                | be able to ask |                |                |                |
-|                | the NPC        |                |                |                |
-|                | various        |                |                |                |
-|                | questions.     |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-
-+----------------+----------------+----------------+----------------+----------------+
-| 2.23           | Run game       | 1.1.4          | Medium         | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Game     |                |                |                |
-|                | runs at over   |                |                |                |
-|                | 30 frames per  |                |                |                |
-|                | second.        |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.24           | In Windows 10  | 1.1.5          | High           | Passed         |
-|                | Game           |                |                |                |
-|                | executable run |                |                |                |
-|                | s.             |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.25           | In macOS Game  | 1.2.2          | High           | Passed         |
-|                | executable     |                |                |                |
-|                | runs.          |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.26           | In Mobile Game | 1.3.4          | Low            | Failed         |
-|                | executable     |                |                |                |
-|                | runs.          |                |                |                |
-|                | Note: a mobile |                |                |                |
-|                | version is not |                |                |                |
-|                | currently      |                |                |                |
-|                | implemented    |                |                |                |
-+----------------+----------------+----------------+----------------+----------------+
-| 2.27           | Run game       | 3.1.5          | Low            | Passed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Interact |                |                |                |
-|                | with an NPC    |                |                |                |
-|                | Ask the NPC a  |                |                |                |
-|                | nice question  |                |                |                |
-|                | Ask the NPC an |                |                |                |
-|                | aggressive     |                |                |                |
-|                | question       |                |                |                |
-|                | Ensure that    |                |                |                |
-|                | the two        |                |                |                |
-|                | responses from |                |                |                |
-|                | the NPC        |                |                |                |
-|                | include one    |                |                |                |
-|                | helpful        |                |                |                |
-|                | response, and  |                |                |                |
-|                | one unhelpful  |                |                |                |
-|                | response       |                |                |                |
+| 2.01           | To test the    | 1.1.1          | Low            | Passed         |
+|                | Main Menu:     |                |                |                |
 |                |                |                |                |                |
-
+|                | -  Run game    |                |                |                |
+|                |    executable. |                |                |                |
+|                | -  Check that  |                |                |                |
+|                |    the Main    |                |                |                |
+|                |    menu is     |                |                |                |
+|                |    shown.      |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    the New     |                |                |                |
+|                |    Game        |                |                |                |
+|                |    button.     |                |                |                |
+|                | -  Ensure the  |                |                |                |
+|                |    screen      |                |                |                |
+|                |    changes to  |                |                |                |
+|                |    the         |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen.     |                |                |                |
+|                | -  Restart the |                |                |                |
+|                |    game and    |                |                |                |
+|                |    click on    |                |                |                |
+|                |    the Quit    |                |                |                |
+|                |    button      |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    the game    |                |                |                |
+|                |    closes.     |                |                |                |
 +----------------+----------------+----------------+----------------+----------------+
-| 2.28           | Run game       | 5.1.3          | Medium         | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Interact |                |                |                |
-|                | with an NPC.   |                |                |                |
-|                | ‘Accuse’       |                |                |                |
-|                | button is not  |                |                |                |
-|                | visible. Find  |                |                |                |
-|                | and interact   |                |                |                |
-|                | with the       |                |                |                |
-|                | murder weapon. |                |                |                |
-|                | Interact with  |                |                |                |
-|                | an NPC.        |                |                |                |
-|                | ‘Accuse’       |                |                |                |
-|                | button is now  |                |                |                |
-|                | visible.       |                |                |                |
-|                | Note: the      |                |                |                |
-|                | murder weapon  |                |                |                |
-|                | clue is not    |                |                |                |
-|                | currently      |                |                |                |
-|                | implemented    |                |                |                |
+| 2.02           | To test the    | 1.1.2          | High           | Passed         |
+|                | player         |                |                |                |
+|                | movement using |                |                |                |
+|                | key presses:   |                |                |                |
+|                |                |                |                |                |
+|                | -  Run game    |                |                |                |
+|                |    executable  |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Once the    |                |                |                |
+|                |    game has    |                |                |                |
+|                |    loaded,     |                |                |                |
+|                |    press “W”   |                |                |                |
+|                |    on the      |                |                |                |
+|                |    keyboard.   |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    the player  |                |                |                |
+|                |    has moved   |                |                |                |
+|                |    upwards.    |                |                |                |
+|                | -  Press “S”   |                |                |                |
+|                |    on the      |                |                |                |
+|                |    keyboards   |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    the player  |                |                |                |
+|                |    has moved   |                |                |                |
+|                |    downwards.  |                |                |                |
+|                | -  Press “A”   |                |                |                |
+|                |    on the      |                |                |                |
+|                |    keyboard.   |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    the player  |                |                |                |
+|                |    has moved   |                |                |                |
+|                |    to the      |                |                |                |
+|                |    left.       |                |                |                |
+|                | -  Press “D”   |                |                |                |
+|                |    on the      |                |                |                |
+|                |    keyboard.   |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    the player  |                |                |                |
+|                |    has moved   |                |                |                |
+|                |    to the      |                |                |                |
+|                |    right.      |                |                |                |
+|                |                |                |                |                |
+|                | If any of      |                |                |                |
+|                | these          |                |                |                |
+|                | movements do   |                |                |                |
+|                | not occur as   |                |                |                |
+|                | they should or |                |                |                |
+|                | the player     |                |                |                |
+|                | remains        |                |                |                |
+|                | stationary at  |                |                |                |
+|                | any point      |                |                |                |
+|                | despite the    |                |                |                |
+|                | pressing of    |                |                |                |
+|                | the WASD       |                |                |                |
+|                | buttons or the |                |                |                |
+|                | player moving  |                |                |                |
+|                | despite the    |                |                |                |
+|                | buttons not    |                |                |                |
+|                | being pressed, |                |                |                |
+|                | then the test  |                |                |                |
+|                | has failed.    |                |                |                |
 +----------------+----------------+----------------+----------------+----------------+
-| 2.29           | Run game       | 5.2.2          | High           | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Find a   |                |                |                |
-|                | clue. Interact |                |                |                |
-|                | with clue.     |                |                |                |
-|                | Click          |                |                |                |
-|                | ‘Inventory’.   |                |                |                |
-|                | The clue       |                |                |                |
-|                | appears in the |                |                |                |
-|                | Inventory.     |                |                |                |
-|                | Note: the      |                |                |                |
-|                | inventory is   |                |                |                |
-|                | not currently  |                |                |                |
-|                | implemented    |                |                |                |
+| 2.03           | -  Run game    | 1.1.3          | Medium         | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Play game   |                |                |                |
+|                |    to          |                |                |                |
+|                |    completion. |                |                |                |
+|                | -  Keep a note |                |                |                |
+|                |    of the      |                |                |                |
+|                |    selected    |                |                |                |
+|                |    killer,     |                |                |                |
+|                |    victim,     |                |                |                |
+|                |    murder      |                |                |                |
+|                |    location    |                |                |                |
+|                |    and murder  |                |                |                |
+|                |    weapon.     |                |                |                |
+|                | -  Repeat at   |                |                |                |
+|                |    least 3     |                |                |                |
+|                |    times.      |                |                |                |
+|                | -  Ensure the  |                |                |                |
+|                |    combination |                |                |                |
+|                |    of selected |                |                |                |
+|                |    killer,     |                |                |                |
+|                |    victim,     |                |                |                |
+|                |    murder      |                |                |                |
+|                |    location    |                |                |                |
+|                |    and murder  |                |                |                |
+|                |    weapon      |                |                |                |
+|                |    differ each |                |                |                |
+|                |    time.       |                |                |                |
 +----------------+----------------+----------------+----------------+----------------+
-| 2.30           | Run game       | 6.1.2          | Medium         | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Confirm  |                |                |                |
-|                | the score      |                |                |                |
-|                | decreases as   |                |                |                |
-|                | time passes.   |                |                |                |
-|                | Note: the      |                |                |                |
-|                | score is not   |                |                |                |
-|                | currently      |                |                |                |
-|                | implemented    |                |                |                |
+| 2.04           | -  Run game    | 2.1.3          | Low            | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Take note   |                |                |                |
+|                |    of the      |                |                |                |
+|                |    location    |                |                |                |
+|                |    the Player  |                |                |                |
+|                |    starts in.  |                |                |                |
+|                | -  Close the   |                |                |                |
+|                |    game.       |                |                |                |
+|                | -  Run game    |                |                |                |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    the Player  |                |                |                |
+|                |    starts in   |                |                |                |
+|                |    the same    |                |                |                |
+|                |    location    |                |                |                |
 +----------------+----------------+----------------+----------------+----------------+
-| 2.31           | Run game       | 6.1.3          | Medium         | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Make     |                |                |                |
-|                | note of        |                |                |                |
-|                | current score. |                |                |                |
-|                | Interact with  |                |                |                |
-|                | an NPC. Accuse |                |                |                |
-|                | the NPC.       |                |                |                |
-|                | Confirm the    |                |                |                |
-|                | score has      |                |                |                |
-|                | reduced.       |                |                |                |
-|                | Note: the      |                |                |                |
-|                | score is not   |                |                |                |
-|                | currently      |                |                |                |
-|                | implemented    |                |                |                |
+| 2.05           | -  Run game    | 2.1.4          | High           | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    the player  |                |                |                |
+|                |    to a        |                |                |                |
+|                |    doorway     |                |                |                |
+|                |    (marked by  |                |                |                |
+|                |    a carpet).  |                |                |                |
+|                | -  Move        |                |                |                |
+|                |    through the |                |                |                |
+|                |    doorway.    |                |                |                |
+|                | -  Check that  |                |                |                |
+|                |    the Player  |                |                |                |
+|                |    is now in a |                |                |                |
+|                |    different   |                |                |                |
+|                |    room.       |                |                |                |
 +----------------+----------------+----------------+----------------+----------------+
-| 2.32           | Run game       | 6.1.4          | Medium         | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Make     |                |                |                |
-|                | note of        |                |                |                |
-|                | current score. |                |                |                |
-|                | Interact with  |                |                |                |
-|                | an NPC.        |                |                |                |
-|                | Question the   |                |                |                |
-|                | NPC. Confirm   |                |                |                |
-|                | the score has  |                |                |                |
-|                | reduced.       |                |                |                |
-|                | Note: the      |                |                |                |
-|                | score is not   |                |                |                |
-|                | currently      |                |                |                |
-|                | implemented    |                |                |                |
+| 2.06           | -  Run game    | 2.2.1          | Low            | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Personality |                |                |                |
+|                |    meter       |                |                |                |
+|                |    displays    |                |                |                |
+|                |    the current |                |                |                |
+|                |    personality |                |                |                |
+|                |    level.      |                |                |                |
 +----------------+----------------+----------------+----------------+----------------+
-| 2.33           | Run game       | 7.1.7          | Medium         | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Ensuring |                |                |                |
-|                | personality    |                |                |                |
-|                | score is not   |                |                |                |
-|                | an extreme     |                |                |                |
-|                | value, note    |                |                |                |
-|                | down           |                |                |                |
-|                | personality    |                |                |                |
-|                | meter reading. |                |                |                |
-|                | Interact with  |                |                |                |
-|                | an NPC.        |                |                |                |
-|                | Question the   |                |                |                |
-|                | NPC in a       |                |                |                |
-|                | non-neutral    |                |                |                |
-|                | way. If the    |                |                |                |
-|                | question was   |                |                |                |
-|                | positive, the  |                |                |                |
-|                | personality    |                |                |                |
-|                | meter is now   |                |                |                |
-|                | higher. If the |                |                |                |
-|                | question was   |                |                |                |
-|                | negative, the  |                |                |                |
-|                | personality    |                |                |                |
-|                | meter is now   |                |                |                |
-|                | lower.         |                |                |                |
-|                | Note: the      |                |                |                |
-|                | personality    |                |                |                |
-|                | meter is not   |                |                |                |
-|                | currently      |                |                |                |
-|                | implemented    |                |                |                |
+| 2.07           | -  Run game    | 3.1.2          | High           | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    initial     |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Note if an  |                |                |                |
+|                |    NPC is      |                |                |                |
+|                |    found.      |                |                |                |
+|                | -  Navigate    |                |                |                |
+|                |    through a   |                |                |                |
+|                |    doorway     |                |                |                |
+|                |    (marked by  |                |                |                |
+|                |    a carpet)   |                |                |                |
+|                |    to a        |                |                |                |
+|                |    different   |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Note if an  |                |                |                |
+|                |    NPC is      |                |                |                |
+|                |    found.      |                |                |                |
+|                | -  Continue    |                |                |                |
+|                |    this until  |                |                |                |
+|                |    you have    |                |                |                |
+|                |    navigated   |                |                |                |
+|                |    through all |                |                |                |
+|                |    10          |                |                |                |
+|                |    different   |                |                |                |
+|                |    rooms       |                |                |                |
+|                | -  Count the   |                |                |                |
+|                |    number of   |                |                |                |
+|                |    NPCs found  |                |                |                |
+|                |    and ensure  |                |                |                |
+|                |    that there  |                |                |                |
+|                |    are exactly |                |                |                |
+|                |    9 NPCs      |                |                |                |
+|                |    around the  |                |                |                |
+|                |    map.        |                |                |                |
 +----------------+----------------+----------------+----------------+----------------+
-| 2.34           | Run game       | 7.1.8          | Low            | Failed         |
-|                | executable.    |                |                |                |
-|                | Start game     |                |                |                |
-|                | using main     |                |                |                |
-|                | menu. Interact |                |                |                |
-|                | with an NPC.   |                |                |                |
-|                | Accuse the     |                |                |                |
-|                | NPC. Interact  |                |                |                |
-|                | with the NPC   |                |                |                |
-|                | again. The NPC |                |                |                |
-|                | ‘refuses’ to   |                |                |                |
-|                | interact.      |                |                |                |
-|                | Note: this is  |                |                |                |
-|                | not currently  |                |                |                |
-|                | implemented    |                |                |                |
+| 2.08           | -  Run game    | 4.1.1          | High           | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    map.        |                |                |                |
+|                | -  Navigate    |                |                |                |
+|                |    through a   |                |                |                |
+|                |    doorway     |                |                |                |
+|                |    (marked by  |                |                |                |
+|                |    a carpet)   |                |                |                |
+|                |    to a        |                |                |                |
+|                |    different   |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Note when   |                |                |                |
+|                |    you’ve      |                |                |                |
+|                |    entered a   |                |                |                |
+|                |    new room    |                |                |                |
+|                |    (one that   |                |                |                |
+|                |    hasn’t been |                |                |                |
+|                |    entered     |                |                |                |
+|                |    before      |                |                |                |
+|                |    during this |                |                |                |
+|                |    test).      |                |                |                |
+|                | -  Repeat this |                |                |                |
+|                |    until you   |                |                |                |
+|                |    have        |                |                |                |
+|                |    navigated   |                |                |                |
+|                |    through all |                |                |                |
+|                |    rooms of    |                |                |                |
+|                |    the map.    |                |                |                |
+|                | -  Check that  |                |                |                |
+|                |    there are   |                |                |                |
+|                |    10 distinct |                |                |                |
+|                |    rooms that  |                |                |                |
+|                |    the player  |                |                |                |
+|                |    has         |                |                |                |
+|                |    traveled    |                |                |                |
+|                |    through.    |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.09           | -  Run game    | 5.1.1          | High           | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    map.        |                |                |                |
+|                | -  Navigate    |                |                |                |
+|                |    through a   |                |                |                |
+|                |    doorway     |                |                |                |
+|                |    (marked by  |                |                |                |
+|                |    a carpet)   |                |                |                |
+|                |    to a        |                |                |                |
+|                |    different   |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Check that  |                |                |                |
+|                |    the room    |                |                |                |
+|                |    has a clue. |                |                |                |
+|                | -  In this     |                |                |                |
+|                |    manner,     |                |                |                |
+|                |    navigate    |                |                |                |
+|                |    through all |                |                |                |
+|                |    10 rooms in |                |                |                |
+|                |    the map.    |                |                |                |
+|                | -  Check that  |                |                |                |
+|                |    the Player  |                |                |                |
+|                |    can find at |                |                |                |
+|                |    least one   |                |                |                |
+|                |    clue in     |                |                |                |
+|                |    each room.  |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.10           | -  Run game    | 5.1.2          | High           | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    initial     |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Find a clue |                |                |                |
+|                |    (can be     |                |                |                |
+|                |    recognised  |                |                |                |
+|                |    as an       |                |                |                |
+|                |    obvious     |                |                |                |
+|                |    glowing     |                |                |                |
+|                |    glint at    |                |                |                |
+|                |    some        |                |                |                |
+|                |    location in |                |                |                |
+|                |    the room)   |                |                |                |
+|                | -  Check that  |                |                |                |
+|                |    the player  |                |                |                |
+|                |    can         |                |                |                |
+|                |    interact    |                |                |                |
+|                |    with the    |                |                |                |
+|                |    clue by     |                |                |                |
+|                |    clicking on |                |                |                |
+|                |    it.         |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.11           | -  Run game    | 5.1.3          |                | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    map.        |                |                |                |
+|                | -  Collect     |                |                |                |
+|                |    clues until |                |                |                |
+|                |    a motive    |                |                |                |
+|                |    clue part   |                |                |                |
+|                |    is found.   |                |                |                |
+|                | -  Continue    |                |                |                |
+|                |    finding     |                |                |                |
+|                |    clues until |                |                |                |
+|                |    all 3       |                |                |                |
+|                |    motive clue |                |                |                |
+|                |    parts are   |                |                |                |
+|                |    found       |                |                |                |
+|                |    (these      |                |                |                |
+|                |    appear as a |                |                |                |
+|                |    glint in a  |                |                |                |
+|                |    room, just  |                |                |                |
+|                |    like with a |                |                |                |
+|                |    normal      |                |                |                |
+|                |    clue).      |                |                |                |
+|                | -  Check that  |                |                |                |
+|                |    the whole   |                |                |                |
+|                |    motive clue |                |                |                |
+|                |    is provided |                |                |                |
+|                |    once all 3  |                |                |                |
+|                |    are found.  |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.12           | -  Run game    | 5.1.3          |                | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    map.        |                |                |                |
+|                | -  Find all    |                |                |                |
+|                |    the clues   |                |                |                |
+|                | -  Question    |                |                |                |
+|                |    characters  |                |                |                |
+|                |    until the   |                |                |                |
+|                |    murder can  |                |                |                |
+|                |    be deduced. |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    only one    |                |                |                |
+|                |    whole       |                |                |                |
+|                |    motive clue |                |                |                |
+|                |    and 3       |                |                |                |
+|                |    motive clue |                |                |                |
+|                |    parts are   |                |                |                |
+|                |    obtained    |                |                |                |
+|                |    throughout  |                |                |                |
+|                |    the entire  |                |                |                |
+|                |    game, check |                |                |                |
+|                |    using the   |                |                |                |
+|                |    Journal     |                |                |                |
+|                | -  Accuse the  |                |                |                |
+|                |    murderer    |                |                |                |
+|                |    and         |                |                |                |
+|                |    complete    |                |                |                |
+|                |    the game    |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.13           | -  Run game    | 7.1.1          | High           | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”       |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    initial     |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Find the    |                |                |                |
+|                |    NPC         |                |                |                |
+|                |    assigned to |                |                |                |
+|                |    that room.  |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    the NPC.    |                |                |                |
+|                | -  The screen  |                |                |                |
+|                |    should      |                |                |                |
+|                |    change and  |                |                |                |
+|                |    the         |                |                |                |
+|                |    “Question”  |                |                |                |
+|                |    and         |                |                |                |
+|                |    “Ignore”    |                |                |                |
+|                |    buttons     |                |                |                |
+|                |    should      |                |                |                |
+|                |    appear      |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.14           | -  Run game    | 7.1.2          | High           | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”       |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    initial     |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Find the    |                |                |                |
+|                |    NPC         |                |                |                |
+|                |    assigned to |                |                |                |
+|                |    that room.  |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    that NPC.   |                |                |                |
+|                | -  Select      |                |                |                |
+|                |    ‘Question’  |                |                |                |
+|                |    button.     |                |                |                |
+|                | -  The player  |                |                |                |
+|                |    can         |                |                |                |
+|                |    question    |                |                |                |
+|                |    the NPC.    |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.15           | -  Run game    | 7.1.3          | Medium         | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”       |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    initial     |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Find the    |                |                |                |
+|                |    NPC         |                |                |                |
+|                |    assigned to |                |                |                |
+|                |    that room.  |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    that NPC.   |                |                |                |
+|                | -  Select the  |                |                |                |
+|                |    ‘Ignore’    |                |                |                |
+|                |    button.     |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    the player  |                |                |                |
+|                |    can ignore  |                |                |                |
+|                |    the NPC     |                |                |                |
+|                |    (cannot     |                |                |                |
+|                |    question,   |                |                |                |
+|                |    accuse or   |                |                |                |
+|                |    ignore the  |                |                |                |
+|                |    NPC again   |                |                |                |
+|                |    until       |                |                |                |
+|                |    another     |                |                |                |
+|                |    clue is     |                |                |                |
+|                |    found, the  |                |                |                |
+|                |    Player      |                |                |                |
+|                |    moves to a  |                |                |                |
+|                |    different   |                |                |                |
+|                |    room or the |                |                |                |
+|                |    Player      |                |                |                |
+|                |    talks with  |                |                |                |
+|                |    a different |                |                |                |
+|                |    character). |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.16           | -  Run game    | 2.1.2          | Medium         | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main | 7.1.4          |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  Use the     |                |                |                |
+|                |    “WASD” keys |                |                |                |
+|                |    to move the |                |                |                |
+|                |    player      |                |                |                |
+|                |    until an    |                |                |                |
+|                |    NPC is      |                |                |                |
+|                |    found       |                |                |                |
+|                |    (appears on |                |                |                |
+|                |    the         |                |                |                |
+|                |    screen).    |                |                |                |
+|                | -  Use the     |                |                |                |
+|                |    mouse to    |                |                |                |
+|                |    click on    |                |                |                |
+|                |    the NPC.    |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    the         |                |                |                |
+|                |    “accuse”    |                |                |                |
+|                |    button is   |                |                |                |
+|                |    not         |                |                |                |
+|                |    visible.    |                |                |                |
+|                | -  Move the    |                |                |                |
+|                |    player      |                |                |                |
+|                |    until a     |                |                |                |
+|                |    clue is     |                |                |                |
+|                |    found.      |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    the clue to |                |                |                |
+|                |    collect the |                |                |                |
+|                |    clue.       |                |                |                |
+|                | -  Repeat      |                |                |                |
+|                |    until the   |                |                |                |
+|                |    motive and  |                |                |                |
+|                |    means clues |                |                |                |
+|                |    are         |                |                |                |
+|                |    collected.  |                |                |                |
+|                | -  Find an NPC |                |                |                |
+|                |    and click   |                |                |                |
+|                |    on it.      |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    the         |                |                |                |
+|                |    ‘“accuse”   |                |                |                |
+|                |    button is   |                |                |                |
+|                |    now         |                |                |                |
+|                |    visible.    |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.17           | -  Run game    | 7.1.5          | High           | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”       |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    initial     |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Find the    |                |                |                |
+|                |    clue        |                |                |                |
+|                |    assigned to |                |                |                |
+|                |    that room.  |                |                |                |
+|                | -  Find the    |                |                |                |
+|                |    NPC         |                |                |                |
+|                |    assigned to |                |                |                |
+|                |    that room.  |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    that NPC.   |                |                |                |
+|                | -  Select      |                |                |                |
+|                |    the ‘Questi |                |                |                |
+|                | on’            |                |                |                |
+|                |    button.     |                |                |                |
+|                | -  The player  |                |                |                |
+|                |    should be   |                |                |                |
+|                |    able to     |                |                |                |
+|                |    select a    |                |                |                |
+|                |    clue to     |                |                |                |
+|                |    question    |                |                |                |
+|                |    the NPC     |                |                |                |
+|                |    about       |                |                |                |
+|                | -  The player  |                |                |                |
+|                |    should be   |                |                |                |
+|                |    able to     |                |                |                |
+|                |    select a    |                |                |                |
+|                |    style of    |                |                |                |
+|                |    question to |                |                |                |
+|                |    ask the NPC |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.18           | -  Start a     | 1.1.5          | High           | Passed         |
+|                |    computer In |                |                |                |
+|                |    Windows 10  |                |                |                |
+|                | -  Ensure the  |                |                |                |
+|                |    game        |                |                |                |
+|                |    executable  |                |                |                |
+|                | runs.          |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.19           | -  In macOS    | 1.2.2          | High           | Passed         |
+|                | -  Game        |                |                |                |
+|                |    executable  |                |                |                |
+|                |    runs.       |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.20           | -  Run game    | 3.1.4          | Low            | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”       |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    initial     |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Find and    |                |                |                |
+|                |    interact    |                |                |                |
+|                |    with the    |                |                |                |
+|                |    clue.       |                |                |                |
+|                | -  Pick up the |                |                |                |
+|                |    clue.       |                |                |                |
+|                | -  Find the    |                |                |                |
+|                |    NPC         |                |                |                |
+|                |    assigned to |                |                |                |
+|                |    that room.  |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    that NPC.   |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    the         |                |                |                |
+|                |    “Question”  |                |                |                |
+|                |    button.     |                |                |                |
+|                | -  Ask the NPC |                |                |                |
+|                |    a polite    |                |                |                |
+|                |    question    |                |                |                |
+|                | -  Ask the NPC |                |                |                |
+|                |    an          |                |                |                |
+|                |    aggressive  |                |                |                |
+|                |    question    |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    the two     |                |                |                |
+|                |    responses   |                |                |                |
+|                |    from the    |                |                |                |
+|                |    NPC include |                |                |                |
+|                |    one helpful |                |                |                |
+|                |    response,   |                |                |                |
+|                |    and one     |                |                |                |
+|                |    unhelpful   |                |                |                |
+|                |    response    |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.21           | -  Run game    | 5.2.2          | High           | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”       |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    initial     |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Find the    |                |                |                |
+|                |    clue        |                |                |                |
+|                |    assigned to |                |                |                |
+|                |    that room.  |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    the clue.   |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    the         |                |                |                |
+|                |    ‘Journal’   |                |                |                |
+|                |    button on   |                |                |                |
+|                |    the status  |                |                |                |
+|                |    bar at the  |                |                |                |
+|                |    top of the  |                |                |                |
+|                |    screen.     |                |                |                |
+|                | -  Ensure that |                |                |                |
+|                |    the clue    |                |                |                |
+|                |    appears in  |                |                |                |
+|                |    the         |                |                |                |
+|                |    Journal.    |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.22           | -  Run game    | 5.2.2          | Medium         | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”       |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    initial     |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Find the    |                |                |                |
+|                |    NPC         |                |                |                |
+|                |    assigned to |                |                |                |
+|                |    that room.  |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    the NPC.    |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    the         |                |                |                |
+|                |    “Question”  |                |                |                |
+|                |    button and  |                |                |                |
+|                |    pick a      |                |                |                |
+|                |    questioning |                |                |                |
+|                |    style.      |                |                |                |
+|                | -  Return to   |                |                |                |
+|                |    Map         |                |                |                |
+|                | -  Click the   |                |                |                |
+|                |    ‘Journal’   |                |                |                |
+|                |    button.     |                |                |                |
+|                | -  The journal |                |                |                |
+|                |    displays    |                |                |                |
+|                |    the         |                |                |                |
+|                |    dialogue.   |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.23           | -  Run game    | 6.1.2          | Low            | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”       |                |                |                |
+|                | -  Make note   |                |                |                |
+|                |    of current  |                |                |                |
+|                |    score.      |                |                |                |
+|                | -  Wait 5      |                |                |                |
+|                |    seconds.    |                |                |                |
+|                | -  Confirm the |                |                |                |
+|                |    score has   |                |                |                |
+|                |    reduced by  |                |                |                |
+|                |    1 due to    |                |                |                |
+|                |    the passage |                |                |                |
+|                |    of time.    |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.24           | -  Run game    | 6.1.3          | Medium         | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”       |                |                |                |
+|                | -  Make note   |                |                |                |
+|                |    of current  |                |                |                |
+|                |    score.      |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    initial     |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Find the    |                |                |                |
+|                |    NPC         |                |                |                |
+|                |    assigned to |                |                |                |
+|                |    that room.  |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    the NPC.    |                |                |                |
+|                | -  Accuse the  |                |                |                |
+|                |    NPC         |                |                |                |
+|                |    wrongly.    |                |                |                |
+|                | -  Confirm the |                |                |                |
+|                |    score has   |                |                |                |
+|                |    decreased.  |                |                |                |
++----------------+----------------+----------------+----------------+----------------+
+| 2.25           | -  Run game    | 6.1.4          | Medium         | Passed         |
+|                |    executable. |                |                |                |
+|                | -  On the Main |                |                |                |
+|                |    Menu click  |                |                |                |
+|                |    on “New     |                |                |                |
+|                |    Game”.      |                |                |                |
+|                | -  On the      |                |                |                |
+|                |    Narrator    |                |                |                |
+|                |    Screen      |                |                |                |
+|                |    click on    |                |                |                |
+|                |    “Start      |                |                |                |
+|                |    Game”       |                |                |                |
+|                | -  Make note   |                |                |                |
+|                |    of current  |                |                |                |
+|                |    score.      |                |                |                |
+|                | -  Use “WASD”  |                |                |                |
+|                |    keys to     |                |                |                |
+|                |    Navigate    |                |                |                |
+|                |    through the |                |                |                |
+|                |    initial     |                |                |                |
+|                |    room.       |                |                |                |
+|                | -  Find the    |                |                |                |
+|                |    NPC         |                |                |                |
+|                |    assigned to |                |                |                |
+|                |    that room.  |                |                |                |
+|                | -  Click on    |                |                |                |
+|                |    the NPC.    |                |                |                |
+|                | -  Question    |                |                |                |
+|                |    the NPC.    |                |                |                |
+|                | -  Confirm the |                |                |                |
+|                |    score       |                |                |                |
+|                |    has decreas |                |                |                |
+|                | ed.            |                |                |                |
 +----------------+----------------+----------------+----------------+----------------+
