@@ -43,7 +43,7 @@ public class Suspect extends AbstractPerson {
 
     /**
      * Accuse the suspect.
-     * <p>
+     *
      * This should take into account whether the player has sufficient evidence and whether the
      * suspect is actually the murderer.
      * </p>
@@ -126,6 +126,7 @@ public class Suspect extends AbstractPerson {
 
     /**
      * This method returns whether the suspect is the killer or not
+     *
      * @return Boolean - `killer`
      */
     public boolean isKiller() {
@@ -166,17 +167,16 @@ public class Suspect extends AbstractPerson {
      *
      * @return `isLocked`
      */
-    public boolean speechLocked()
-    {
+    public boolean speechLocked() {
         return isLocked;
     }
 
     /**
      * This method sets the players speech lock to the parameter value
+     *
      * @param locked - The value to set `isLocked` to
      */
-    public void setLocked(boolean locked)
-    {
+    public void setLocked(boolean locked) {
         isLocked = locked;
     }
 }

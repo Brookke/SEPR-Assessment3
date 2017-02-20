@@ -231,7 +231,7 @@ public class FindClueScreen extends AbstractScreen {
 
     /**
      * This method hides the UI elements of this screen.
-     * <p>
+     *
      * Used when doing the animation of the clue going into the journal
      */
     private void hideAll() {

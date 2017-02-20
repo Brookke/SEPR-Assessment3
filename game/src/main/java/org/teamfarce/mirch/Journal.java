@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * The Journal stores relevant information to the players progress through the game.
- * <p>
+ *
  * This includes a list of all props discovered, and a log of all conversations.
  * </p>
  */
@@ -75,7 +75,7 @@ public class Journal {
 
     /**
      * This method returns the full motive from the 3 seperated clues.
-     * <p>
+     *
      * It also adds a full motive to the journal clues and removes the seperate parts
      *
      * @return String motive

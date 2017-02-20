@@ -83,12 +83,9 @@ public class InterviewScreen extends AbstractScreen {
         }
 
         //Check if the suspect is locked from talking to or not
-        if (suspect.speechLocked())
-        {
+        if (suspect.speechLocked()) {
             gameSnapshot.setState(GameState.interviewLock);
-        }
-        else
-        {
+        } else {
             gameSnapshot.setAllUnlocked();
         }
 
@@ -118,8 +115,7 @@ public class InterviewScreen extends AbstractScreen {
                 //Setup buttons to Question, Accuse and Ignore
                 buttonList.add(new InterviewResponseButton("Question the suspect", 0, null, switchStateHandler));
 
-                if (game.gameSnapshot.isMeansProven() && game.gameSnapshot.isMotiveProven())
-                {
+                if (game.gameSnapshot.isMeansProven() && game.gameSnapshot.isMotiveProven()) {
                     buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
                 }
 
@@ -189,8 +185,7 @@ public class InterviewScreen extends AbstractScreen {
                 responseBoxInstructions = "How would you like to respond?";
                 buttonList.add(new InterviewResponseButton("Question the suspect again", 0, null, switchStateHandler));
 
-                if (game.gameSnapshot.isMeansProven() && game.gameSnapshot.isMotiveProven())
-                {
+                if (game.gameSnapshot.isMeansProven() && game.gameSnapshot.isMotiveProven()) {
                     buttonList.add(new InterviewResponseButton("Accuse the suspect", 1, null, switchStateHandler));
                 }
 
@@ -247,8 +242,7 @@ public class InterviewScreen extends AbstractScreen {
     /**
      * This method is called when the player has won the game
      */
-    private void winGame()
-    {
+    private void winGame() {
         game.guiController.narratorScreen.setButton("Return to Office", new Runnable() {
             @Override
             public void run() {
@@ -348,6 +342,7 @@ public class InterviewScreen extends AbstractScreen {
 
     /**
      * Im not sure what this does, someone please add comment
+     *
      * @param result
      */
     private void questionStyle(int result) {

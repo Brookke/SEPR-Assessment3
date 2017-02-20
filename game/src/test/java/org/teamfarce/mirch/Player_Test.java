@@ -22,8 +22,7 @@ public class Player_Test extends GameTest {
     }
 
     @Test
-    public void getPlayername()
-    {
+    public void getPlayername() {
         assertEquals("Fail - Not returning correct playername", p.getName(), "Test Name");
     }
 

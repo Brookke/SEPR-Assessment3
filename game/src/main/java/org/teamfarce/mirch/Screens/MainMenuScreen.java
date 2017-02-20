@@ -79,7 +79,7 @@ public class MainMenuScreen extends AbstractScreen {
         TextButton newGameButton = new TextButton("New Game", uiSkin);
 
         //Creating the buttons and setting their positions
-        newGameButton.setPosition((Gdx.graphics.getWidth() / 2) - (BUTTON_WIDTH / 2),(Gdx.graphics.getHeight() / 2) + CENTER_MARGIN);
+        newGameButton.setPosition((Gdx.graphics.getWidth() / 2) - (BUTTON_WIDTH / 2), (Gdx.graphics.getHeight() / 2) + CENTER_MARGIN);
         newGameButton.getLabel().setFontScale(3 / 2, 3 / 2);
         newGameButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 

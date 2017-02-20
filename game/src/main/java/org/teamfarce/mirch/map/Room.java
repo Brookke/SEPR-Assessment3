@@ -24,7 +24,7 @@ import java.util.List;
 public class Room {
     /**
      * This list stores the coordinates of all hideable slots in this room
-     * <p>
+     *
      * Hideable slots are tiles that the clues can be hidden in
      */
     public List<Vector2Int> hidingSpots = null;

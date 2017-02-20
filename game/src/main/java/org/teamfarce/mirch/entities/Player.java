@@ -79,7 +79,7 @@ public class Player extends AbstractPerson {
 
     /**
      * This method is called when the player clicks on the screen.
-     * <p>
+     *
      * This is handled in the PlayerController and passed to here
      *
      * @param tileLocation - The tile location they clicked at.
@@ -136,7 +136,7 @@ public class Player extends AbstractPerson {
 
     /**
      * This method checks what the best fit neighbour tile is for a goal.
-     * <p>
+     *
      * It bases its decision on the players location and what tiles are not locked
      *
      * @param goal - The goal destination

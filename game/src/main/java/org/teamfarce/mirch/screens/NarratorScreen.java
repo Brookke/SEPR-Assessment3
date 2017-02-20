@@ -14,11 +14,11 @@ import org.teamfarce.mirch.MIRCH;
 
 /**
  * This is the screen which displays the narrator and a defined speech
- * <p>
+ *
  * To show the screen with the defined speech you do the following
- * <p>
+ *
  * Have access to the game object (MIRCH). then do
- * <p>
+ *
  * game.guiController.narratorScreen.setSpeech("");
  */
 public class NarratorScreen extends AbstractScreen {
@@ -139,6 +139,7 @@ public class NarratorScreen extends AbstractScreen {
 
     /**
      * This method returns the who speech that is to be shown on the narrator screen
+     *
      * @return String - `endMessage`
      */
     public String getSpeech() {

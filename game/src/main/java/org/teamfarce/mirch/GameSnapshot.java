@@ -201,7 +201,7 @@ public class GameSnapshot {
 
     /**
      * Adds the prop to the journal.
-     * <p>
+     *
      * This tells the journal to keep a log of this prop.
      * </p>
      *
@@ -237,10 +237,8 @@ public class GameSnapshot {
     /**
      * This method unlocks all the Suspects and allows them all to be spoken to.
      */
-    public void setAllUnlocked()
-    {
-        for (Suspect s : getSuspects())
-        {
+    public void setAllUnlocked() {
+        for (Suspect s : getSuspects()) {
             s.setLocked(false);
         }
     }

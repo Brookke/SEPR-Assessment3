@@ -213,6 +213,7 @@ public class MapScreen extends AbstractScreen {
 
     /**
      * This method returns the NPCs on the current map
+     *
      * @return List<Suspect> - The Suspects on the current map
      */
     public List<Suspect> getNPCs() {

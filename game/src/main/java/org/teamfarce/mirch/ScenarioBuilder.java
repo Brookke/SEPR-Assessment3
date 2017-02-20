@@ -114,9 +114,9 @@ public class ScenarioBuilder {
     /**
      * This method takes the database and build a GameSnapshot from the database
      *
-     * @param game MIRCH - Reference to main game class
+     * @param game     MIRCH - Reference to main game class
      * @param database - The database of which to get info from
-     * @param random - Random, used to generate a random means clue, and a random motive
+     * @param random   - Random, used to generate a random means clue, and a random motive
      * @return GameSnapshot - The generate gamesnapshot
      * @throws ScenarioBuilderException
      */
