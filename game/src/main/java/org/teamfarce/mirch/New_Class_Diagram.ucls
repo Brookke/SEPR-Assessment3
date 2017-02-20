@@ -10,7 +10,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="org.teamfarce.mirch.Suspect" project="game" 
+  <class id="2" language="java" name="org.teamfarce.mirch.entities.Suspect" project="game"
     file="/game/src/main/java/org/teamfarce/mirch/Suspect.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="225" width="362" x="1185" y="2808"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -118,7 +118,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="org.teamfarce.mirch.Prop" project="game" 
+  <class id="14" language="java" name="org.teamfarce.mirch.entities.Prop" project="game"
     file="/game/src/main/java/org/teamfarce/mirch/Prop.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="171" width="326" x="1306" y="2597"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -226,7 +226,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="26" language="java" name="org.teamfarce.mirch.MapEntity" project="game" 
+  <class id="26" language="java" name="org.teamfarce.mirch.entities.MapEntity" project="game"
     file="/game/src/main/java/org/teamfarce/mirch/MapEntity.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="333" width="198" x="1771" y="2224"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

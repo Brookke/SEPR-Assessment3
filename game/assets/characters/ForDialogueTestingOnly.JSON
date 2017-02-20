@@ -1,0 +1,16 @@
+{
+  "name": "name",
+  "personality": "NICE",
+  "responses": {
+    "introduction": "test 1",
+    "Big Footprint": "test 2",
+    "Small Footprint": "test 3",
+    "Glasses": "test 4",
+    "Bag": "",
+    "Lipstick": "test 6",
+    "Right Handed": "test 7"
+  },
+  "noneResponses": [
+    "This is a test none response"
+  ]
+}
