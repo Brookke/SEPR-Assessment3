@@ -24,6 +24,7 @@ public class GameSnapshot {
     public Map map;
     public Suspect victim;
     public Suspect murderer;
+    public Clue meansClue;
     MIRCH game;
     List<Clue> clues;
     List<Room> rooms;

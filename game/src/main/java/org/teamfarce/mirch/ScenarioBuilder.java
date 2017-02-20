@@ -145,12 +145,14 @@ public class ScenarioBuilder {
 
         Object[] means = database.means.values().toArray();
         DataClue randomMean = (DataClue) means[random.nextInt(means.length)];
-        constructedClues.add(new Clue(randomMean.name, randomMean.description, randomMean.sprite, randomMean.assetX, randomMean.assetY, randomMean.isMeans));
+        Clue meansClue = new Clue(randomMean.name, randomMean.description, randomMean.sprite, randomMean.assetX, randomMean.assetY, randomMean.isMeans);
+        constructedClues.add(meansClue);
 
         distributeClues(constructedClues, rooms);
         GameSnapshot snapshot = new GameSnapshot(game, map, rooms, aliveSuspects, constructedClues, 0, 0);
         snapshot.victim = victim;
         snapshot.murderer = murderer;
+        snapshot.meansClue = meansClue;
         return snapshot;
     }
 
