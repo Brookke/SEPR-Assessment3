@@ -5,6 +5,7 @@ package org.teamfarce.mirch;
 
 import org.junit.Test;
 import org.teamfarce.mirch.entities.Clue;
+import org.teamfarce.mirch.entities.Suspect;
 
 import java.util.ArrayList;
 
@@ -15,13 +16,15 @@ import static org.junit.Assert.assertEquals;
  *
  * @author jacobwunwin
  */
-public class Journal_Test extends GameTest
-{
+public class Journal_Test extends GameTest {
     @Test
-    public void addClue()
-    {
-        Journal journal = new Journal();
-		    Clue clue = new Clue("Clue name", "Description","Axe.png");
+    public void addClue() {
+        MIRCH game = new MIRCH();
+        game.gameSnapshot = new GameSnapshot(game, null, null, new ArrayList<Suspect>(), null);
+        game.gameSnapshot.score = 0;
+
+        Journal journal = new Journal(game);
+        Clue clue = new Clue("Clue name", "Description", "clueSheet.png", 0, 0, false);
         journal.addClue(clue);
 
         assertEquals(clue, journal.foundClues.get(0));
@@ -29,13 +32,16 @@ public class Journal_Test extends GameTest
     }
 
     @Test
-    public void getClues()
-    {
-        Journal journal = new Journal();
+    public void getClues() {
+        MIRCH game = new MIRCH();
+        game.gameSnapshot = new GameSnapshot(game, null, null, new ArrayList<Suspect>(), null);
+        game.gameSnapshot.score = 0;
+
+        Journal journal = new Journal(game);
         ArrayList<Clue> cluesList = new ArrayList<>();
 
-		    Clue clue = new Clue("Clue name", "Description","Axe.png");
-		    Clue clue2 = new Clue("Clue name 2", "Description","Axe.png");
+        Clue clue = new Clue("Clue name", "Description", "clueSheet.png", 0, 0, false);
+        Clue clue2 = new Clue("Clue name 2", "Description", "clueSheet.png", 0, 0, false);
 
         journal.addClue(clue);
         journal.addClue(clue2);
@@ -47,9 +53,8 @@ public class Journal_Test extends GameTest
     }
 
     @Test
-    public void addConversation()
-    {
-        Journal journal = new Journal();
+    public void addConversation() {
+        Journal journal = new Journal(null);
 
         String dialogue = "Convo text";
         String character = "Character name";
@@ -61,9 +66,8 @@ public class Journal_Test extends GameTest
     }
 
     @Test
-    public void getConversations()
-    {
-        Journal journal = new Journal();
+    public void getConversations() {
+        Journal journal = new Journal(null);
 
         journal.addConversation("Dialogue", "Character 1");
         journal.addConversation("Dialogue", "Character 2");

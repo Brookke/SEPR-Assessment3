@@ -3,18 +3,23 @@ package org.teamfarce.mirch.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
+import org.teamfarce.mirch.entities.Clue;
 import org.teamfarce.mirch.screens.elements.StatusBar;
 
 import java.util.List;
@@ -23,8 +28,7 @@ import java.util.List;
  * The journal screen draws the Journal GUI to the screen and handles any inputs
  * whilst the journal is displayed
  */
-public class JournalScreen extends AbstractScreen
-{
+public class JournalScreen extends AbstractScreen {
     final static float JOURNAL_X_OFFSET = 10;
     final static float JOURNAL_Y_OFFSET = 20;
     final static float PAGE_X_OFFSET = 50;
@@ -45,13 +49,18 @@ public class JournalScreen extends AbstractScreen
     private StatusBar statusBar;
     private Table notepadPage;
 
+    private Clue currentClue = new Clue("Go and find some clues!", "The information about clues that you find will be shown here!", "clueSheet.png", 4, 4, false);
+    private Table clueContainer;
+    private Label clueName;
+    private Label clueDesc;
+    private Image clueImage;
+
 
     /**
      * @param game   Reference
      * @param uiSkin
      */
-    public JournalScreen(MIRCH game, Skin uiSkin)
-    {
+    public JournalScreen(MIRCH game, Skin uiSkin) {
         super(game);
         this.game = game;
         this.gameSnapshot = game.gameSnapshot;
@@ -67,8 +76,7 @@ public class JournalScreen extends AbstractScreen
      * Initialises the GUI controls for the JournalScreen
      * Is called within show() to ensure data is up to date
      */
-    private void initStage()
-    {
+    private void initStage() {
         //Initialise stage used to show journal contents
         journalStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
@@ -82,6 +90,40 @@ public class JournalScreen extends AbstractScreen
         TextureRegionDrawable trd = new TextureRegionDrawable(tr);
         journalContainer.setBackground(trd);
 
+        Pixmap pixMap = new Pixmap((int) (PAGE_CONTENT_WIDTH), (int) (PAGE_HEIGHT / 3), Pixmap.Format.RGBA8888);
+        pixMap.setColor(Color.GRAY);
+        pixMap.fill();
+
+        clueContainer = new Table();
+        clueContainer.setPosition(PAGE_WIDTH + PAGE_X_OFFSET + PAGE_MARGIN, PAGE_Y_OFFSET);
+        clueContainer.setSize(PAGE_CONTENT_WIDTH, PAGE_HEIGHT / 3);
+
+        Image clueBackground = new Image(new Texture(pixMap));
+        clueBackground.setPosition(0, 20);
+
+        clueName = new Label(currentClue.getName(), uiSkin);
+        clueName.setFontScale(1.2f);
+        clueName.setPosition(10, clueBackground.getY() + clueBackground.getHeight() - 30);
+
+        clueDesc = new Label(currentClue.getDescription(), uiSkin);
+        clueDesc.setPosition(10, clueBackground.getY());
+        clueDesc.setWidth(PAGE_CONTENT_WIDTH / 2);
+        clueDesc.setHeight(clueBackground.getHeight() - 40);
+        clueDesc.setAlignment(Align.topLeft);
+        clueDesc.setWrap(true);
+
+        clueImage = new Image(new TextureRegion(currentClue.getTexture(), currentClue.getResourceX() * 128, currentClue.getResourceY() * 128, 128, 128));
+        clueImage.setSize(PAGE_CONTENT_WIDTH / 3, PAGE_CONTENT_WIDTH / 3);
+        clueImage.setPosition((2 * PAGE_CONTENT_WIDTH / 3) - 20, clueBackground.getY() + clueBackground.getHeight() - clueImage.getHeight() - 20);
+
+        clueContainer.addActor(clueBackground);
+        clueContainer.addActor(clueName);
+        clueContainer.addActor(clueDesc);
+        clueContainer.addActor(clueImage);
+
+        if (game.gameSnapshot.journal.getClues().size() == 0) {
+            clueContainer.setVisible(false);
+        }
 
         //Load journal navigation controls to journal
         journalContainer.addActor(initJournalNavControls());
@@ -93,13 +135,20 @@ public class JournalScreen extends AbstractScreen
         switch (currentState) {
             case journalClues:
                 detailsPage = initJournalCluesPage();
+
+                if (game.gameSnapshot.journal.getClues().size() != 0) {
+                    clueContainer.setVisible(true);
+                }
+
                 break;
             case journalQuestions:
                 detailsPage = initJournalQuestionsPage();
+                clueContainer.setVisible(false);
                 break;
             case journalNotepad:
                 //Initialised in constructor to preserve page contents
                 detailsPage = notepadPage;
+                clueContainer.setVisible(false);
                 break;
             default:
                 detailsPage = new Table();
@@ -109,6 +158,7 @@ public class JournalScreen extends AbstractScreen
 
 
         journalStage.addActor(journalContainer);
+        journalStage.addActor(clueContainer);
     }
 
     /**
@@ -116,8 +166,7 @@ public class JournalScreen extends AbstractScreen
      *
      * @return Table containing contents of page
      */
-    private Table initJournalNavControls()
-    {
+    private Table initJournalNavControls() {
         Table table = new Table();
         table.setBounds(PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
 
@@ -125,7 +174,6 @@ public class JournalScreen extends AbstractScreen
         table.addActor(getJournalNavButton("Clues", GameState.journalClues, 0));
         table.addActor(getJournalNavButton("Interview Log", GameState.journalQuestions, 1));
         table.addActor(getJournalNavButton("Notepad", GameState.journalNotepad, 2));
-
 
         //Initiate journal title label
         Label journalLabel = getJournalPageTitle("Journal");
@@ -142,8 +190,7 @@ public class JournalScreen extends AbstractScreen
      *
      * @return Table containing contents of page
      */
-    private Table initJournalCluesPage()
-    {
+    private Table initJournalCluesPage() {
         //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
@@ -161,7 +208,38 @@ public class JournalScreen extends AbstractScreen
         for (int i = 0; i < clues.size(); i++) {
             Label clueLabel = new Label(clues.get(i).getName(), uiSkin);
             content.add(clueLabel).width(PAGE_CONTENT_WIDTH).height(30);
+
+            clueLabel.addListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+
+                    for (Clue c : game.gameSnapshot.journal.getClues()) {
+                        if (c.getName().equals(clueLabel.getText().toString())) {
+                            currentClue = c;
+                            updateClue();
+                            return;
+                        }
+                    }
+                }
+
+                @Override
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    clueLabel.setStyle(new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
+                }
+
+                @Override
+                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                    clueLabel.setStyle(uiSkin.get("default", Label.LabelStyle.class));
+                }
+            });
+
             content.row();
+        }
+
+        if (!game.gameSnapshot.journal.getClues().isEmpty()) {
+            currentClue = game.gameSnapshot.journal.getClues().get(game.gameSnapshot.journal.getClues().size() - 1);
+            updateClue();
         }
 
         //Put clue content table into a scroll pane
@@ -188,12 +266,22 @@ public class JournalScreen extends AbstractScreen
     }
 
     /**
+     * This method updates the displayed clue information to the values of
+     * `currentClue`
+     */
+    private void updateClue() {
+        clueName.setText(currentClue.getName());
+        clueDesc.setText(currentClue.getDescription());
+
+        clueImage.setDrawable(new TextureRegionDrawable(new TextureRegion(currentClue.getTexture(), currentClue.getResourceX() * 128, currentClue.getResourceY() * 128, 128, 128)));
+    }
+
+    /**
      * Creates a Table containing journal questions page content
      *
      * @return Table containing contents of page
      */
-    private Table initJournalQuestionsPage()
-    {
+    private Table initJournalQuestionsPage() {
         //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
@@ -210,7 +298,8 @@ public class JournalScreen extends AbstractScreen
         Table content = new Table();
         for (int i = 0; i < conversations.size(); i++) {
             Label conversationLabel = new Label(conversations.get(i), uiSkin);
-            content.add(conversationLabel).width(PAGE_CONTENT_WIDTH).height(30);
+            conversationLabel.setWrap(true);
+            content.add(conversationLabel).width(PAGE_CONTENT_WIDTH).spaceBottom(15);
             content.row();
         }
 
@@ -222,7 +311,7 @@ public class JournalScreen extends AbstractScreen
         contentScroll.setForceScroll(false, true);
 
         //Calculate content position
-        float CONTENT_HEIGHT = 30 * conversations.size();
+        float CONTENT_HEIGHT = 45 * conversations.size();
         if (CONTENT_HEIGHT > (PAGE_HEIGHT - PAGE_CONTENT_SPACE)) {
             CONTENT_HEIGHT = PAGE_HEIGHT - PAGE_CONTENT_SPACE;
         }
@@ -230,7 +319,7 @@ public class JournalScreen extends AbstractScreen
         //Add conversation content to container, then to page
         Table contentContainer = new Table();
         contentContainer.setSize(PAGE_CONTENT_WIDTH, CONTENT_HEIGHT);
-        contentContainer.setPosition(PAGE_MARGIN, PAGE_HEIGHT - 100 - CONTENT_HEIGHT);
+        contentContainer.setPosition(PAGE_MARGIN, PAGE_HEIGHT - 120 - CONTENT_HEIGHT);
         contentContainer.add(contentScroll).width(PAGE_CONTENT_WIDTH).height(CONTENT_HEIGHT);
         page.addActor(contentContainer);
 
@@ -242,8 +331,7 @@ public class JournalScreen extends AbstractScreen
      *
      * @return Table containing contents of page
      */
-    private Table initJournalNotepadPage()
-    {
+    private Table initJournalNotepadPage() {
         //Initiate page container to add UI controls to
         Table page = new Table();
         page.setBounds(PAGE_WIDTH + PAGE_X_OFFSET, PAGE_Y_OFFSET, PAGE_WIDTH, PAGE_HEIGHT);
@@ -268,8 +356,7 @@ public class JournalScreen extends AbstractScreen
      * @param pageTitle Title of journal page
      * @return Label to add to a journal page with appropriate position and style
      */
-    private Label getJournalPageTitle(String pageTitle)
-    {
+    private Label getJournalPageTitle(String pageTitle) {
         Label title = new Label(pageTitle, uiSkin);
         title.setColor(Color.BLACK);
         title.setFontScale(1.5f);
@@ -284,8 +371,7 @@ public class JournalScreen extends AbstractScreen
      * @param lineNumber Line number for subtitle
      * @return Label to add to a journal page with appropriate position and style
      */
-    private Label getJournalPageSubtitle(String subtitle, int lineNumber)
-    {
+    private Label getJournalPageSubtitle(String subtitle, int lineNumber) {
         Label title = new Label(subtitle, uiSkin);
         title.setColor(Color.GRAY);
         title.setFontScale(1f);
@@ -302,15 +388,12 @@ public class JournalScreen extends AbstractScreen
      * @param position  Defines the position of button, use the index of button in order
      * @return TextButton with appropriate event handlers, position and style
      */
-    private TextButton getJournalNavButton(String pageTitle, GameState linkState, int position)
-    {
+    private TextButton getJournalNavButton(String pageTitle, GameState linkState, int position) {
         TextButton button = new TextButton(pageTitle, this.uiSkin);
         button.setSize(NAV_BUTTON_WIDTH, NAV_BUTTON_HEIGHT);
         button.setPosition(PAGE_WIDTH - PAGE_MARGIN - NAV_BUTTON_WIDTH, PAGE_HEIGHT - PAGE_CONTENT_SPACE - (1.5f * position * NAV_BUTTON_HEIGHT));
-        button.addListener(new ChangeListener()
-        {
-            public void changed(ChangeEvent event, Actor actor)
-            {
+        button.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
                 gameSnapshot.setState(linkState);
             }
         });
@@ -321,8 +404,7 @@ public class JournalScreen extends AbstractScreen
      * Called whenever JournalScreen is about to become visible
      */
     @Override
-    public void show()
-    {
+    public void show() {
         initStage();
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -335,8 +417,7 @@ public class JournalScreen extends AbstractScreen
      * Render function to display the JournalScreen
      */
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
         journalStage.act();
         journalStage.draw();
         statusBar.render();
@@ -349,8 +430,7 @@ public class JournalScreen extends AbstractScreen
      * @param height - updated height
      */
     @Override
-    public void resize(int width, int height)
-    {
+    public void resize(int width, int height) {
         journalStage.getViewport().update(width, height, false);
         statusBar.resize(width, height);
     }
@@ -359,32 +439,28 @@ public class JournalScreen extends AbstractScreen
      * Pause method
      */
     @Override
-    public void pause()
-    {
+    public void pause() {
     }
 
     /**
      * Resume method
      */
     @Override
-    public void resume()
-    {
+    public void resume() {
     }
 
     /**
      * Hide method
      */
     @Override
-    public void hide()
-    {
+    public void hide() {
     }
 
     /**
      * Disposes of JournalScreen resources
      */
     @Override
-    public void dispose()
-    {
+    public void dispose() {
         journalStage.dispose();
         statusBar.dispose();
     }

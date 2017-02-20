@@ -2,29 +2,32 @@ package org.teamfarce.mirch;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.teamfarce.mirch.entities.Player;
 import org.teamfarce.mirch.dialogue.Dialogue;
-import org.teamfarce.mirch.Map.Room;
+import org.teamfarce.mirch.entities.Player;
+import org.teamfarce.mirch.map.Room;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by joeshuff on 15/02/2017.
  */
 public class Player_Test extends GameTest {
 
-    Player p;
+    Player p = null;
 
     @Before
-    public void start() throws Dialogue.InvalidDialogueException
-    {
+    public void start() throws Dialogue.InvalidDialogueException {
         Dialogue dialogue = new Dialogue("template.JSON", false);
-        p = new Player(null, "Name", "Desc", "Detective_sprite.png", dialogue);
+        p = new Player(null, "Test Name", "Desc", "Detective_sprite.png", dialogue);
     }
 
     @Test
-    public void aStar()
-    {
+    public void getPlayername() {
+        assertEquals("Fail - Not returning correct playername", p.getName(), "Test Name");
+    }
+
+    @Test
+    public void aStar() {
         Vector2Int start = new Vector2Int(0, 0);
 
         Vector2Int dest = new Vector2Int(4, 4);

@@ -8,23 +8,20 @@ import static org.junit.Assert.assertEquals;
 /**
  * Tests for scoring
  */
-public class Scoring_Test extends GameTest
-{
+public class Scoring_Test extends GameTest {
 
     GameSnapshot gameSnapshot;
 
     @Before
-    public void init_tests()
-    {
+    public void init_tests() {
 
-        gameSnapshot = new GameSnapshot(null, null, null, null, null, 100, 100);
+        gameSnapshot = new GameSnapshot(null, null, null, null, null);
 
     }
 
 
     @Test
-    public void modifyScoreAddition()
-    {
+    public void modifyScoreAddition() {
         int currentScore;
         int inc = 20;
         int newScore;
@@ -35,8 +32,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void modifyScoreSubtraction()
-    {
+    public void modifyScoreSubtraction() {
         int currentScore;
         int inc = -20;
         int newScore;
@@ -47,8 +43,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void updateScoreNoDecrease()
-    {
+    public void updateScoreNoDecrease() {
         int currentScore;
         float delta = 0.25f;
         int newScore;
@@ -59,8 +54,7 @@ public class Scoring_Test extends GameTest
     }
 
     @Test
-    public void updateScoreHasDecrease()
-    {
+    public void updateScoreHasDecrease() {
         int currentScore;
         float delta = 5.00f;
         int newScore;

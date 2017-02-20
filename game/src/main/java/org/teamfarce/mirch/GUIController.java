@@ -3,11 +3,7 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import org.teamfarce.mirch.screens.AbstractScreen;
-import org.teamfarce.mirch.screens.InterviewScreen;
-import org.teamfarce.mirch.screens.JournalScreen;
-import org.teamfarce.mirch.screens.MapScreen;
-import org.teamfarce.mirch.screens.NarratorScreen;
+import org.teamfarce.mirch.screens.*;
 
 /**
  * Generates and controls all GUI screens
@@ -15,8 +11,7 @@ import org.teamfarce.mirch.screens.NarratorScreen;
  *
  * @author jasonmash
  */
-public class GUIController
-{
+public class GUIController {
     /**
      * Reference to main game, used to set current screen and access GameState
      */
@@ -31,7 +26,6 @@ public class GUIController
      * State of the game last time update() was called
      */
     public GameState currentState;
-
 
     /**
      * Used to present the map screen when game state changes
@@ -53,13 +47,19 @@ public class GUIController
      */
     public NarratorScreen narratorScreen;
 
+    public MainMenuScreen menuScreen;
+
+    /**
+     * Used to draw the screen for finding a clue
+     */
+    public FindClueScreen findClueScreen;
+
     /**
      * Constructor for GUIController, initialises required variables
      *
      * @param game Used to set current screen, and access GameState
      */
-    GUIController(MIRCH game)
-    {
+    GUIController(MIRCH game) {
         this.game = game;
 
         uiSkin = new Skin(Gdx.files.internal("skins/skin_pretty/skin.json")); //load ui skin from assets
@@ -69,12 +69,13 @@ public class GUIController
     /**
      * Initialises AbstractScreens ready to display later
      */
-    public void initScreens()
-    {
+    public void initScreens() {
         mapScreen = new MapScreen(game, uiSkin);
         journalScreen = new JournalScreen(game, uiSkin);
         interviewScreen = new InterviewScreen(game, uiSkin);
         narratorScreen = new NarratorScreen(game, uiSkin);
+        findClueScreen = new FindClueScreen(game, uiSkin);
+        menuScreen = new MainMenuScreen(game, uiSkin);
     }
 
 
@@ -82,8 +83,7 @@ public class GUIController
      * Updates current GUI screen
      * Usage: use within render() methods
      */
-    public void update()
-    {
+    public void update() {
 
         //Clear background
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
@@ -100,7 +100,13 @@ public class GUIController
                 case map:
                     this.game.setScreen(mapScreen);
                     break;
+                case menu:
+                    this.game.setScreen(menuScreen);
+                    break;
                 case narrator:
+                    this.game.setScreen(narratorScreen);
+                    break;
+                case gameWon:
                     this.game.setScreen(narratorScreen);
                     break;
                 case journalClues:
@@ -126,6 +132,9 @@ public class GUIController
                     break;
                 case interviewAccuse:
                     this.game.setScreen(interviewScreen);
+                    break;
+                case findClue:
+                    this.game.setScreen(findClueScreen);
                     break;
                 default:
                     break;

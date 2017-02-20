@@ -5,8 +5,7 @@ import org.teamfarce.mirch.entities.Clue;
 /**
  * Button to use with the interview response box
  */
-public class InterviewResponseButton
-{
+public class InterviewResponseButton {
 
     /**
      * The text to display on the button
@@ -34,8 +33,7 @@ public class InterviewResponseButton
      * @param buttonText      String to display on button
      * @param eventHandlerVal On click event handler - use a Lambda function (Java8 only)
      */
-    public InterviewResponseButton(String buttonText, int buttonResult, Clue clue, EventHandler eventHandlerVal)
-    {
+    public InterviewResponseButton(String buttonText, int buttonResult, Clue clue, EventHandler eventHandlerVal) {
         this.text = buttonText;
         this.result = buttonResult;
         this.eventHandler = eventHandlerVal;
@@ -45,18 +43,17 @@ public class InterviewResponseButton
     /**
      * Event handler interface
      * Used for defining the click event handler on a InterviewResponseButton
-     * <p>
+     *
      * Initialising an event handler:
      * InterviewResponseButton.EventHandler eventHandler = (String name) -> {
      * System.out.println(name + " was pressed");
      * };
-     * <p>
+     *
      * Usage:
      * Used in InterviewResponseBox class on button click
      * InterviewResponseButton.eventHandler.trigger();
      */
-    public interface EventHandler
-    {
+    public interface EventHandler {
         void trigger(int result, Clue clue);
 
     }

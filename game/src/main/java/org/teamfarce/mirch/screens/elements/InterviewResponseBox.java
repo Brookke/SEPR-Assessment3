@@ -1,8 +1,10 @@
 package org.teamfarce.mirch.screens.elements;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class InterviewResponseBox {
     private static final int TABLE_HEIGHT = 250;
     private static final int TEXT_ROW_HEIGHT = 30;
     private static final int BUTTON_ROW_HEIGHT = 40;
+    private boolean isMultiRow = false;
 
     private Skin uiSkin;
 
@@ -35,16 +38,23 @@ public class InterviewResponseBox {
 
     /**
      * The constructor for the InterviewResponseBox
-     * @param content Text to display above buttons
+     *
+     * @param content    Text to display above buttons
      * @param buttonList List of InterviewResponseButtons for presenting the player with options
-     * @param uiSkin Skin used to style UI
+     * @param uiSkin     Skin used to style UI
      */
-    public InterviewResponseBox(String content, ArrayList<InterviewResponseButton> buttonList, Skin uiSkin) {
+    public InterviewResponseBox(String content, ArrayList<InterviewResponseButton> buttonList, Skin uiSkin, boolean isMultiRow) {
         textContent = content;
         buttons = buttonList;
         this.uiSkin = uiSkin;
+        this.isMultiRow = isMultiRow;
     }
 
+    /**
+     * This method returns a content table for the Interview screen. It does so based on what needs to be showed on it
+     *
+     * @return the constructed content table
+     */
     public Table getContent() {
         Table table = new Table();
         table.setSize(TABLE_WIDTH, TABLE_HEIGHT);
@@ -60,7 +70,7 @@ public class InterviewResponseBox {
 
         //Calculate number of columns for label row to span
         int labelColSpan = buttonCount;
-        if (buttonCount == 0) labelColSpan = 1;
+        if (buttonCount == 0 || isMultiRow) labelColSpan = 1;
 
 
         //Initialize text row
@@ -89,7 +99,12 @@ public class InterviewResponseBox {
                 });
 
                 //Add button to table, with appropriate spacing
-                table.add(buttonElement).width(buttonWidth).pad(PADDING, PADDING / 2, 0, PADDING / 2);
+                if (isMultiRow) {
+                    table.add(buttonElement).width((TABLE_WIDTH - (2 * PADDING)) - (PADDING)).pad(PADDING, PADDING / 2, 0, PADDING / 2);
+                    table.row().height(BUTTON_ROW_HEIGHT);
+                } else {
+                    table.add(buttonElement).width(buttonWidth).pad(PADDING, PADDING / 2, 0, PADDING / 2);
+                }
 
             }
         }

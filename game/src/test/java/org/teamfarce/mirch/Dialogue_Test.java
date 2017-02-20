@@ -1,23 +1,23 @@
-package org.teamfarce.mirch.dialogue;
+package org.teamfarce.mirch;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.entities.Clue;
-import org.teamfarce.mirch.GameTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Created by brookehatton on 16/02/2017.
  */
-public class Dialogue_Test extends GameTest
-{
+public class Dialogue_Test extends GameTest {
     private Dialogue testDialogue;
     private Clue testClue;
 
     @Before
     public void setup() {
-        testClue = new Clue("Big Footprint", "1", "Axe.png");
+        testClue = new Clue("Big Footprint", "1", "clueBox.png", 1, 2, false);
         try {
             testDialogue = new Dialogue("template.JSON", false);
         } catch (Dialogue.InvalidDialogueException e) {
@@ -27,8 +27,7 @@ public class Dialogue_Test extends GameTest
     }
 
     @Test
-    public void constructorValidationFail() throws Exception
-    {
+    public void constructorValidationFail() throws Exception {
         Dialogue testConstructor;
 
         try {
@@ -50,15 +49,13 @@ public class Dialogue_Test extends GameTest
     }
 
     @Test
-    public void getUsingClue() throws Exception
-    {
+    public void getUsingClue() throws Exception {
 
         assertEquals("test 2", testDialogue.get(testClue));
     }
 
     @Test
-    public void getUsingString() throws Exception
-    {
+    public void getUsingString() throws Exception {
         assertEquals("test 2", testDialogue.get(testClue.getName()));
     }
 
