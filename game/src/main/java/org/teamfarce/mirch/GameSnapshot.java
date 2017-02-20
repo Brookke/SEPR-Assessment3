@@ -43,15 +43,7 @@ public class GameSnapshot {
     /**
      * Initialises function.
      */
-    GameSnapshot(
-            MIRCH game,
-            Map map,
-            List<Room> rooms,
-            List<Suspect> suspects,
-            List<Clue> clues,
-            int sumProvesMotive,
-            int sumProvesMeans
-    ) {
+    GameSnapshot(MIRCH game, Map map, List<Room> rooms, List<Suspect> suspects, List<Clue> clues, int sumProvesMotive, int sumProvesMeans) {
         this.game = game;
         this.suspects = suspects;
         this.state = GameState.menu;
@@ -160,40 +152,6 @@ public class GameSnapshot {
     public List<Clue> getClues() {
         return this.clues;
     }
-
-    // The following two functions should be merged at some point.
-
- /*   *//**
-     * Increment the "means proof" value by the given value in the clues.
-     * <p>
-     * This effectively indicates that the means of the murder was proven by the given arbitrary
-     * value in the clues.
-     * </p>
-     *
-     * @param clues The clues which provide the means proven value.
-     *//*
-    void proveMeans(Collection<Clue> clues)
-    {
-        for (Clue clue : clues) {
-            this.meansProven += clue.provesMean;
-        }
-    }
-
-    *//**
-     * Increment the "motive proof" value by the given value.
-     * <p>
-     * This effectively indicates that the motive of the murder was proven by the given arbitrary
-     * value in the clues.
-     * </p>
-     *
-     * @param clues The clues which provide the motive proven value.
-     *//*
-    void proveMotive(Collection<Clue> clues)
-    {
-        for (Clue clue : clues) {
-            this.motiveProven += clue.provesMotive;
-        }
-    }*/
 
     /**
      * Returns true if the means of the murder has been proven.
