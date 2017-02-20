@@ -6,6 +6,7 @@ MIRCH - Murder In Ron Cooke is a top down 2D dynamically generated point and cli
 ## How to Play The Game
 
 To play the game, download the executable .jar file from the assessment 3 part of the webpage - http://www.lihq.me .
+Remember that the .jar file AND the database db.db file need to be in the same directory.
 
 ## Editing the game
 
