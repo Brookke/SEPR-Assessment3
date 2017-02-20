@@ -137,19 +137,38 @@ public class Suspect extends AbstractPerson {
         move(dir);
     }
 
+    /**
+     * This method returns whether the suspect is the killer or not
+     * @return Boolean - `killer`
+     */
     public boolean isKiller() {
         return killer;
     }
 
+    /**
+     * This method sets the Suspect to be the killer.
+     *
+     * It also says they aren't the victim, can't be both the killer and the victim
+     */
     public void setKiller() {
         this.killer = true;
         this.victim = false;
     }
 
+    /**
+     * This method returns whether the suspect is the vitim or not
+     *
+     * @return Boolean - `victim`
+     */
     public boolean isVictim() {
         return victim;
     }
 
+    /**
+     * This method sets the suspect to be the victim.
+     *
+     * It also makes them not the killer, can't be both the killer and the victim
+     */
     public void setVictim() {
         this.victim = true;
         this.killer = false;
