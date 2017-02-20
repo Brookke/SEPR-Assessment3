@@ -28,7 +28,7 @@ easier to test against when it came to implementing the game.
 
 When designing the requirements, we took these points into account:
 
--  The requirements should be categorised as:
+The requirements should be categorised as:
 
 -  Functional requirements - these define what the system should do
 -  Nonfunctional requirements - these define the behaviour of the system
