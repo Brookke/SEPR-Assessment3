@@ -1,5 +1,5 @@
 # Lorem Ipsum [![CircleCI](https://circleci.com/gh/Brookke/Lorem-Ipsum.svg?style=svg&circle-token=88a08119c648799c8c1241249131701e1298e614)](https://circleci.com/gh/Brookke/Lorem-Ipsum)
-Visit out website at http://www.lihq.me, or read the documentation at http://docs.lihq.me
+Visit out website at http://www.lihq.me, or read the documentation at http://docs3.lihq.me
 
 MIRCH - Murder In Ron Cooke is a top down 2D dynamically generated point and click RPG murder mystery game. An evening swarve has been taking place at the Ron Cooke Hub, and a guest is dead. You have been brought in to determine exactly what has occurred.
 
@@ -30,10 +30,10 @@ The game has been written in Java using the libGdx 1.9.6 library for graphics dr
 
 ### Import the project
 To import the project:
-1. Clone the GitHub repository on to your local documents. 
+1. Clone the GitHub repository on to your local documents.
 2. Open up IntelliJ and select import project, then find where you cloned the project to and select the build.gradle file in the game folder. Click ok.
 3. Next uncheck 'Create separate module per source set', click ok again.
-4. IntelliJ may ask you to set up the JDK, if it does this simply navigate to where the JDK is on your computer. 
+4. IntelliJ may ask you to set up the JDK, if it does this simply navigate to where the JDK is on your computer.
 
 It will then import the game, this may take some time.
 
@@ -57,7 +57,7 @@ For every commit CircleCI runs all the included tests, however we recomend that 
 
 ### Adding Tests
 - Create new class for tests under `/game/src/tests` When naming the class end the name with `_Test` for consistency e.g. `Player_Test`
-- This class should extend `GameTester` this initialises the backend of the game so that test run correctly. 
+- This class should extend `GameTester` this initialises the backend of the game so that test run correctly.
 - Import `org.junit.Test`
 - Write a test function using assertions, and use `@Test` decorator above it
 - See this page for examples of assertions: https://github.com/junit-team/junit4/wiki/assertions

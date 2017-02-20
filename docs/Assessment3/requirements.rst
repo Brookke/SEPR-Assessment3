@@ -587,9 +587,9 @@ Dialogue
 Bibliography
 --------------
 
-[1] Appendix A [online] http://docs.lihq.me/en/latest/Assessment3/appendixA.html [Created 21/11/16]
+[1] Appendix A [online] http://docs3.lihq.me/en/latest/Assessment3/appendixA.html [Created 21/11/16]
 
-[2] Appendix C [online] http://docs.lihq.me/en/latest/Assessment3/appendixA.html [Created 21/11/16]
+[2] Appendix C [online] http://docs3.lihq.me/en/latest/Assessment3/appendixA.html [Created 21/11/16]
 
 [3] Colour Blind awareness [online]
 http://www.colourblindawareness.org/colour-blindness/, [Accessed
