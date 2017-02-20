@@ -68,3 +68,47 @@ For every commit CircleCI runs all the included tests, however we recomend that 
 After tests have run the results are displayed in the "Test Summary" tab on CircleCI.
 
 If the tests have failed and no test summary is provided, this normally means that the code doesn't compile, or there is a problem with the test code. To gather more information, scroll down to read the console output from when the tests were run.
+
+
+# Database
+The game is mostly constructed from a database (SQLite). To open and edit the database, simply download a SQLite db editor such as [DB Browser for SQLite](http://sqlitebrowser.org)
+
+## Tables
+### Character_clues
+This table is used to link each character to a set of clues.
+- - - -
+### Characters
+This contains the basis of all of the characters.
+#### Columns
+* Name
+* Description
+* resource_spritesheet
+	* This contains the id of the related resource.
+* 	posKiller
+	* 0 = not a possible killer
+	* 1 = a possible killer
+* resource_dialogue
+	* The resource id of the related JSON file
+	
+ A killer and victim is randomly selected upon the generation of the game.
+- - - -
+### Clues
+#### Columns
+* Description
+* Name
+* is_means
+	* 0 = not a means clue
+	* 1 = a means clue
+	
+A means clue is randomly selected upon the generation of the game.
+- - - -
+### Motives
+A motive randomly selected and is broken up by the game and used to generate 3 motive clues.
+#### Columns
+* Description
+This is the complete motive clue
+- - - -
+### Resources 
+* filename
+	* This is just the filename of the file you want access to elsewhere.
+
