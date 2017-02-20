@@ -385,16 +385,16 @@ documents when we found something that needed to be changed. The list
 below was created using the issues we had completed and assigned to
 ourselves on GitHub.
 
--  Benjamin Grahamslaw
+**Benjamin Grahamslaw**
 
 -  Updated user manual
 -  Updated GUI report
--  Wrote introduction to change report
+-  Wrote introduction and some sections of change report
 -  Implemented scoring with Ben J
 -  Created character dialogue with Ben J
 -  Contributed towards implementation report
 
--  Ben Jarvis
+**Ben Jarvis**
 
 -  Reviewed and updated risks
 -  Reviewed and updated requirements
@@ -402,7 +402,7 @@ ourselves on GitHub.
 -  Implemented scoring with Ben G
 -  Created character dialogue with Ben G
 
--  Brooke Hatton
+**Brooke Hatton**
 
 -  Performed an extensive review of the architecture and planned
    refactoring
@@ -412,7 +412,7 @@ ourselves on GitHub.
 -  Added test coverage
 -  Contributed towards implementation report
 
--  Jason Mashinchi
+**Jason Mashinchi**
 
 -  Updated testing report
 -  Added StatusBar
@@ -423,7 +423,7 @@ ourselves on GitHub.
 -  Contributed towards implementation report
 -  Updated website and Read the docs
 
--  Joe Shufflebotham
+**Joe Shufflebotham**
 
 -  Implemented player movement in game
 -  Added NarratorScreen
@@ -431,7 +431,7 @@ ourselves on GitHub.
 -  Added Suspects to the map
 -  Contributed towards implementation report
 
--  Vishal Soomaney
+**Vishal Soomaney**
 
 -  Implemented MainMenuScreen
 -  Updated acceptance tests
