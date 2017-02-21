@@ -74,9 +74,11 @@ If the tests have failed and no test summary is provided, this normally means th
 The game is mostly constructed from a database (SQLite). To open and edit the database, simply download a SQLite db editor such as [DB Browser for SQLite](http://sqlitebrowser.org)
 
 ## Tables
+
 ### Character_clues
 This table is used to link each character to a set of clues.
 - - - -
+
 ### Characters
 This contains the basis of all of the characters.
 #### Columns
@@ -92,8 +94,10 @@ This contains the basis of all of the characters.
 	
  A killer and victim is randomly selected upon the generation of the game.
 - - - -
+
 ### Clues
 #### Columns
+
 * Description
 * Name
 * is_means
@@ -101,13 +105,16 @@ This contains the basis of all of the characters.
 	* 1 = a means clue
 	
 A means clue is randomly selected upon the generation of the game.
+
 - - - -
 ### Motives
 A motive randomly selected and is broken up by the game and used to generate 3 motive clues.
 #### Columns
 * Description
 This is the complete motive clue
+
 - - - -
+
 ### Resources 
 * filename
 	* This is just the filename of the file you want access to elsewhere.
