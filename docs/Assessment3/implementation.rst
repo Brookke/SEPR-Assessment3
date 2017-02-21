@@ -314,11 +314,11 @@ Bibliography
 [1] Our code repository [Online] Available:
 https://github.com/Brookke/li-mirch [Accessed: 20/02/17]
 
-[12] Current team Lorem Ipsum UML class diagram [Online] Available:
+[2] Current team Lorem Ipsum UML class diagram [Online] Available:
 http://lihq.me/Downloads/Assessment3/CurrentUML.png [Accessed: 20/02/17]
 
-[23] Original team Farce UML class diagram [Online] Available:
+[3] Original team Farce UML class diagram [Online] Available:
 http://lihq.me/Downloads/Assessment3/OriginalUML.png  [Accessed: 20/02/17]
 
-[34] Link to updated Requirements document [Online] Available:
+[4] Link to updated Requirements document [Online] Available:
 http://lihq.me/Downloads/Assessment3/Req3.pdf    [Accessed: 20/02/17]
