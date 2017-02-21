@@ -15,12 +15,12 @@ game logic, as well as extending the game to meet the requirements. This
 document contains a detailed list and justification of the major changes
 below. Some changes were made to the project that aren’t listed - these
 include improved commenting and minor additions or changes with minimal
-impact, these can be viewed by visiting our repository. The refactoring
+impact, these can be viewed by visiting our repository [1]. The refactoring
 work is most evident by comparing the UML diagrams before and after the
 work completed on this assessment. To see the architecture changes
 described below in terms of a UML class diagram, please refer to our
-current UML diagram [1] and the original diagram that we inherited in
-this assessment [2]. We once again used IntelliJ to produce the UML
+current UML diagram [2] and the original diagram that we inherited in
+this assessment [3]. We once again used IntelliJ to produce the UML
 class diagram, this allowed for the diagram to be completely accurate
 since there was no room for external software or manual errors. This
 means that there was no chance of having any traceability issues and
@@ -33,12 +33,12 @@ been fully implemented.
 New features & changes to previous software
 --------------------------------------------
 
-Throughout our documents we reference to the requirements[3] using
+Throughout our documents we reference to the requirements[4] using
 [x.x.x] with ‘x.x.x’ matching a requirement in the requirements table.
 We have outlined significant changes in bold, and added more details
 underneath.
 
-Throughout this document we refer to NPC’s (non-playable characters) and
+In this document we refer to non-playable characters as NPC’s and
 Suspects using these terms  interchangeably.
 
 Change list & justification
@@ -303,10 +303,7 @@ Room\_types
 
 **Main Menu [1.1.1]**
 
--  Added MainMenuScreen class extending from the AbstractScreen.
--  It contains a “New Game” button which causes the NarratorScreen to
-   become visible.
--  Also contains a “Quit” button which exits the game.
+-  The MainMenuScreen has been added, it allows the user to start the game as well as quit the game.
 -  Aside from the addition of the MainMenuScreen class, no other
    architecture change was necessary for the implementation of the main
    menu.
@@ -314,14 +311,14 @@ Room\_types
 Bibliography
 --------------
 
-[1] Current team Lorem Ipsum UML class diagram [Online] Available:
+[1] Our code repository [Online] Available:
+https://github.com/Brookke/li-mirch [Accessed: 20/02/17]
 
-http://lihq.me/Downloads/Assessment3/CurrentUML.png 
+[12] Current team Lorem Ipsum UML class diagram [Online] Available:
+http://lihq.me/Downloads/Assessment3/CurrentUML.png [Accessed: 20/02/17]
 
-[2] Original team Farce UML class diagram [Online] Available:
+[23] Original team Farce UML class diagram [Online] Available:
+http://lihq.me/Downloads/Assessment3/OriginalUML.png  [Accessed: 20/02/17]
 
-http://lihq.me/Downloads/Assessment3/OriginalUML.png 
-
-[3] Link to updated Requirements document [Online] Available:
-
-http://lihq.me/Downloads/Assessment3/Req3.pdf
+[34] Link to updated Requirements document [Online] Available:
+http://lihq.me/Downloads/Assessment3/Req3.pdf    [Accessed: 20/02/17]
