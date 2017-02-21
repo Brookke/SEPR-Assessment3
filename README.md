@@ -78,7 +78,6 @@ The game is mostly constructed from a database (SQLite). To open and edit the da
 ### Character_clues
 This table is used to link each character to a set of clues.
 - - - -
-
 ### Characters
 This contains the basis of all of the characters.
 #### Columns
@@ -92,9 +91,9 @@ This contains the basis of all of the characters.
 * resource_dialogue
 	* The resource id of the related JSON file
 	
- A killer and victim is randomly selected upon the generation of the game.
-- - - -
+A killer and victim is randomly selected upon the generation of the game.
 
+- - - -
 ### Clues
 #### Columns
 
@@ -114,7 +113,6 @@ A motive randomly selected and is broken up by the game and used to generate 3 m
 This is the complete motive clue
 
 - - - -
-
 ### Resources 
 * filename
 	* This is just the filename of the file you want access to elsewhere.
