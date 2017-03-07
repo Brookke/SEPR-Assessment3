@@ -48,8 +48,6 @@ public class Map {
 
         Room pod = new Room(9, "pod.tmx", "Pod");
 
-        Room secretLab = new Room (10, "secretLab.tmx", "Secret Lab");
-
 
         mainRoom.addTransition(new Room.Transition().setFrom(17, 17).setTo(portersOffice, 1, 5, Direction.EAST))    //To Porters Office
 
@@ -65,11 +63,7 @@ public class Map {
                 .addTransition(new Room.Transition().setFrom(4, 5).setTo(outside, 20, 4, Direction.SOUTH)) //To Outside
 
                 .addTransition(new Room.Transition().setFrom(11, 1).setTo(rch037, 2, 5, Direction.SOUTH))  //To RCH/037
-                .addTransition(new Room.Transition().setFrom(12, 1).setTo(rch037, 3, 5, Direction.SOUTH))  //To RCH/037
-
-                .addTransition(new Room.Transition().setFrom(8, 28).setTo(secretLab, 9, 5, Direction.NORTH)) //TO Secret Lab
-                .addTransition(new Room.Transition().setFrom(9, 28).setTo(secretLab, 10, 5, Direction.NORTH)); //TO Secret Lab
-
+                .addTransition(new Room.Transition().setFrom(12, 1).setTo(rch037, 3, 5, Direction.SOUTH));  //To RCH/037
 
         rch037.addTransition(new Room.Transition().setFrom(2, 5).setTo(mainRoom, 11, 1, Direction.NORTH))  //To Main Room
                 .addTransition(new Room.Transition().setFrom(3, 5).setTo(mainRoom, 12, 1, Direction.NORTH))  //To Main Room
@@ -103,10 +97,7 @@ public class Map {
         pod.addTransition(new Room.Transition().setFrom(18, 9).setTo(outside, 9, 11, Direction.EAST))    //To Outside
                 .addTransition(new Room.Transition().setFrom(18, 10).setTo(outside, 9, 12, Direction.EAST));  //To Outside
 
-        secretLab.addTransition(new Room.Transition().setFrom(9, 5).setTo(mainRoom, 8, 28, Direction.SOUTH))    //To Main Room
-                .addTransition(new Room.Transition().setFrom(10, 5).setTo(mainRoom, 9, 28, Direction.SOUTH));  //To Main Room
-
-        List<Room> rooms = Arrays.asList(mainRoom, rch037, portersOffice, kitchen, islandOfInteraction, toilet, computerRoom, lakeHouse, outside, pod, secretLab);
+        List<Room> rooms = Arrays.asList(mainRoom, rch037, portersOffice, kitchen, islandOfInteraction, toilet, computerRoom, lakeHouse, outside, pod);
 
         /**
          * Assign the murder room
