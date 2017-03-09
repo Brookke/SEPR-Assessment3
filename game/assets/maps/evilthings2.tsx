@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset name="evilthings2" tilewidth="32" tileheight="32" tilecount="48" columns="6">
- <image source="Z:/w2k/__Year 2/SEPR/BlackMagic02.png" width="192" height="256"/>
+ <image source="/BlackMagic02.png" width="192" height="256"/>
  <tile id="0">
   <properties>
    <property name="walkable" type="bool" value="false"/>

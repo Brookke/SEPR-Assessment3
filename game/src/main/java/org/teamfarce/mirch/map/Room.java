@@ -308,13 +308,17 @@ public class Room {
      * @return - (boolean) whether or not the tile is a trigger tile.
      */
     public boolean isTriggerTile(int x, int y) {
-        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(0);
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("Doors");
 
-        if (layer.getCell(x, y) == null) return false;
+        if (layer.getCell(x, y) == null){
+            return false;
+        }else{
+            return true;
+        }
 
-        int amountOfLayers = map.getLayers().getCount();
+        //int amountOfLayers = map.getLayers().getCount();
 
-        for (int currentLayer = 0; currentLayer < amountOfLayers; currentLayer++) {
+        /*for (int currentLayer = 0; currentLayer < amountOfLayers; currentLayer++) {
             TiledMapTileLayer tl = (TiledMapTileLayer) map.getLayers().get(currentLayer);
 
             if (tl.getCell(x, y) == null) {
@@ -328,9 +332,11 @@ public class Room {
             if (tl.getCell(x, y).getTile().getProperties().get("trigger").toString().equals("true")) {
                 return true;
             }
-        }
+        }*/
 
-        return false;
+
+
+        //return false;
     }
 
     /**

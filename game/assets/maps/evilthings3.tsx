@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset name="evilthings3" tilewidth="32" tileheight="32" tilecount="12" columns="3">
- <image source="Z:/w2k/__Year 2/SEPR/Halloween.png" width="96" height="128"/>
+ <image source="/Halloween.png" width="96" height="128"/>
  <tile id="0">
   <properties>
    <property name="walkable" type="bool" value="false"/>
