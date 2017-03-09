@@ -1,3 +1,4 @@
+/*
 package org.teamfarce.mirch.map;
 
 
@@ -11,9 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+*/
 /**
  * The map is a collection of Rooms , it links them all together.
- */
+ *//*
+
 public class Map {
     MIRCH game;
 
@@ -23,9 +26,11 @@ public class Map {
         this.game = game;
     }
 
-    /**
+    */
+/**
      * This function initialises all the rooms of the Ron Cooke Hub and their transitions
-     */
+     *//*
+
     public List<Room> initialiseRooms() {
 
         Room mainRoom = new Room(0, "mainroom.tmx", "Main Foyer");
@@ -99,9 +104,11 @@ public class Map {
 
         List<Room> rooms = Arrays.asList(mainRoom, rch037, portersOffice, kitchen, islandOfInteraction, toilet, computerRoom, lakeHouse, outside, pod);
 
-        /**
+        */
+/**
          * Assign the murder room
-         */
+         *//*
+
         rooms.get(new Random().nextInt(rooms.size())).setMurderRoom();
 
         this.rooms = rooms;
@@ -109,12 +116,14 @@ public class Map {
         return rooms;
     }
 
-    /**
+    */
+/**
      * This method returns a list of NPCs that are in the defined Room parameter
      *
      * @param room - The room to check
      * @return List<Suspect> The suspects that are in the room
-     */
+     *//*
+
     public List<Suspect> getNPCs(Room room) {
         List<Suspect> npcsInRoom = new ArrayList<Suspect>();
 
@@ -127,11 +136,13 @@ public class Map {
         return npcsInRoom;
     }
 
-    /**
+    */
+/**
      * This method takes a list of NPCs and then randomly distibutes them around the rooms of the map
      *
      * @param NPCs - The NPCs to distribute
-     */
+     *//*
+
     public void placeNPCsInRooms(List<Suspect> NPCs) {
         int amountOfRooms = rooms.size();
 
@@ -142,18 +153,22 @@ public class Map {
         }
 
         for (Suspect loopNpc : NPCs) {
-            /*
+            */
+/*
             Refill the rooms left list if there are more NPCs than Rooms. This will put AT LEAST one NPC per room if so.
-             */
+             *//*
+
             if (roomsLeft.isEmpty()) {
                 for (int i = 0; i < amountOfRooms; i++) {
                     roomsLeft.add(i);
                 }
             }
 
-            /*
+            */
+/*
             Pick a random room and put that NPC in it
-             */
+             *//*
+
             int toTake = new Random().nextInt(roomsLeft.size());
             int selectedRoom = roomsLeft.get(toTake);
             roomsLeft.remove(toTake);
@@ -166,12 +181,15 @@ public class Map {
         }
     }
 
-    /**
+    */
+/**
      * This method returns all the rooms in the map
      *
      * @return the rooms
-     */
+     *//*
+
     public List<Room> getRooms() {
         return rooms;
     }
 }
+*/

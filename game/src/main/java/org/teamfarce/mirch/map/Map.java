@@ -111,7 +111,7 @@ public class Map {
         /**
          * Assign the murder room
          */
-        rooms.get(new Random().nextInt(rooms.size())).setMurderRoom();
+        rooms.get(new Random().nextInt(rooms.size()-1)).setMurderRoom();
 
         this.rooms = rooms;
 
@@ -129,7 +129,9 @@ public class Map {
 
         for (Suspect s : game.gameSnapshot.getSuspects()) {
             if (s.getRoom().getID() == room.getID()) {
-                npcsInRoom.add(s);
+                if(room.getID() != 10) {
+                    npcsInRoom.add(s);
+                }
             }
         }
 
