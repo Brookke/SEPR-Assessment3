@@ -19,5 +19,6 @@ public enum GameState {
     narrator,
     findClue,
     menu,
-    interviewLock
+    interviewLock,
+    puzzleStart
 }

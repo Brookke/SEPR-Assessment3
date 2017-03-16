@@ -274,6 +274,9 @@ public class Player extends AbstractPerson {
             }
 
             this.setTileCoordinates(newRoomData.newTileCoordinates.x, newRoomData.newTileCoordinates.y);
+            if(newRoomData.getNewRoom().getName().equals("Secret Lab")){
+                game.gameSnapshot.setState(GameState.puzzleStart);
+            }
         }
     }
 

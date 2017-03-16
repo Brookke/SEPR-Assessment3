@@ -3,6 +3,7 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import org.teamfarce.mirch.Screens.PuzzleScreen;
 import org.teamfarce.mirch.screens.*;
 
 /**
@@ -54,6 +55,8 @@ public class GUIController {
      */
     public FindClueScreen findClueScreen;
 
+    public PuzzleScreen puzzleScreen;
+
     /**
      * Constructor for GUIController, initialises required variables
      *
@@ -76,6 +79,7 @@ public class GUIController {
         narratorScreen = new NarratorScreen(game, uiSkin);
         findClueScreen = new FindClueScreen(game, uiSkin);
         menuScreen = new MainMenuScreen(game, uiSkin);
+        puzzleScreen = new PuzzleScreen(game, uiSkin);
     }
 
 
@@ -136,6 +140,8 @@ public class GUIController {
                 case findClue:
                     this.game.setScreen(findClueScreen);
                     break;
+                case puzzleStart:
+                    this.game.setScreen(puzzleScreen);
                 default:
                     break;
             }
