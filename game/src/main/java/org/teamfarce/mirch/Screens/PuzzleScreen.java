@@ -5,8 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.GameSnapshot;
@@ -44,8 +43,17 @@ public class PuzzleScreen extends org.teamfarce.mirch.screens.AbstractScreen {
         //Initialise stage used to show journal contents
         puzzleStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-        //Create table to represent journal "book"
+        //Create table for the whole game
+        TextButton nameLabel = new TextButton("Name", uiSkin);
+        TextField nameText = new TextField("", uiSkin);
+        Label addressLabel = new Label("Address:", uiSkin);
+        TextField addressText = new TextField("", uiSkin);
         Table puzzleContainer = new Table();
+        puzzleContainer.add(nameLabel);
+        puzzleContainer.add(nameText).width(100);
+        puzzleContainer.row();
+        puzzleContainer.add(addressLabel);
+        puzzleContainer.add(addressText).width(100);
 
         puzzleContainer.setBounds(10, 20, Gdx.graphics.getWidth() - (20), Gdx.graphics.getHeight() - 20);
         //Set background image for journal
