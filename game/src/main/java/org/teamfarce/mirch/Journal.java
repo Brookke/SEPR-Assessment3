@@ -41,9 +41,9 @@ public class Journal {
     public void addClue(Clue clue) {
         this.foundClues.add(clue);
 
-        game.gameSnapshot.setAllUnlocked();
+        game.gameSnapshotPlayer1.setAllUnlocked();
 
-        game.gameSnapshot.modifyScore(5);
+        game.gameSnapshotPlayer1.modifyScore(5);
 
         if (clue.isMotiveClue()) motivesFound++;
 
@@ -57,7 +57,7 @@ public class Journal {
     }
 
     /**
-     * This method displays the complete motive to the player
+     * This method displays the complete motive to the currentPlayer
      */
     private void displayMotive() {
         game.guiController.narratorScreen.setSpeech("Congratulations! You have solved the killers motive! Let's take a look at those clues...\n \n"
@@ -66,11 +66,11 @@ public class Journal {
                 .setButton("Continue Game", new Runnable() {
                     @Override
                     public void run() {
-                        game.gameSnapshot.setState(GameState.map);
+                        game.gameSnapshotPlayer1.setState(GameState.map);
                     }
                 });
 
-        game.gameSnapshot.setState(GameState.narrator);
+        game.gameSnapshotPlayer1.setState(GameState.narrator);
     }
 
     /**

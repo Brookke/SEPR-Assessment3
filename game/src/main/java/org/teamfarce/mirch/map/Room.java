@@ -54,7 +54,7 @@ public class Room {
      */
     private TiledMap map;
     /**
-     * This stores the coordinates of the map in a 2x2 array. If a player/NPC attempts to move to a location, it locks
+     * This stores the coordinates of the map in a 2x2 array. If a currentPlayer/NPC attempts to move to a location, it locks
      * the location before it moves, to avoid anything else moving to it.
      */
     private boolean[][] lockedTiles = null;
@@ -228,7 +228,7 @@ public class Room {
      * @return - (boolean) whether or not that tile can be walked on.
      */
     public boolean isWalkableTile(int x, int y) {
-        //reduced by one because the last layer is to be displayed over the top of the player and therefore is ignored.
+        //reduced by one because the last layer is to be displayed over the top of the currentPlayer and therefore is ignored.
         int amountOfLayers = map.getLayers().getCount() - 1;
         int emptyCellCount = 0; //The amount of empty cells on the map in the location x and y.
 
@@ -267,9 +267,9 @@ public class Room {
 
         try {
              /*
-            Check to see if the player is standing in the target destination
+            Check to see if the currentPlayer is standing in the target destination
             */
-            if (MIRCH.me.player.getTileCoordinates().x == x && MIRCH.me.player.getTileCoordinates().y == y) {
+            if (MIRCH.me.currentPlayer.getTileCoordinates().x == x && MIRCH.me.currentPlayer.getTileCoordinates().y == y) {
                 return false;
             }
 
@@ -496,7 +496,7 @@ public class Room {
         public Vector2Int from = new Vector2Int(0, 0);
 
         /**
-         * The direction the player should face when they enter the room
+         * The direction the currentPlayer should face when they enter the room
          */
         public Direction newDirection = null;
 

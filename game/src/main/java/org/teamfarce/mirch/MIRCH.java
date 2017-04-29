@@ -21,7 +21,8 @@ import java.util.Random;
  */
 public class MIRCH extends Game {
     public static MIRCH me;
-    public GameSnapshot gameSnapshot;
+    public GameSnapshot gameSnapshotPlayer1;
+    public GameSnapshot gameSnapshotPlayer2;
     public GUIController guiController;
 
     public ArrayList<Room> rooms;
@@ -29,7 +30,10 @@ public class MIRCH extends Game {
 
     public int step; //stores the current loop number
 
-    public Player player;
+    public Player currentPlayer;
+
+    private Player player1;
+    private Player player2;
 
     /**
      * Initialises all variables in the game and sets up the game for play.
@@ -47,7 +51,8 @@ public class MIRCH extends Game {
             database = new ScenarioBuilderDatabase("db.db");
 
             try {
-                gameSnapshot = ScenarioBuilder.generateGame(this, database, new Random());
+                gameSnapshotPlayer1 = ScenarioBuilder.generateGame(this, database, new Random());
+                gameSnapshotPlayer2 = gameSnapshotPlayer1.makeCopy();
             } catch (ScenarioBuilderException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -60,7 +65,7 @@ public class MIRCH extends Game {
 
         //generate RenderItems from each room
         rooms = new ArrayList<>();
-        for (Room room : gameSnapshot.getRooms()) {
+        for (Room room : gameSnapshotPlayer1.getRooms()) {
             rooms.add(room); //create a new renderItem for the room
         }
 
@@ -69,13 +74,13 @@ public class MIRCH extends Game {
 
         //generate RenderItems for each suspect
         characters = new ArrayList<>();
-        for (Suspect suspect : gameSnapshot.getSuspects()) {
+        for (Suspect suspect : gameSnapshotPlayer1.getSuspects()) {
             characters.add(suspect);
         }
 
-        gameSnapshot.map.placeNPCsInRooms(characters);
+        gameSnapshotPlayer1.map.placeNPCsInRooms(characters);
 
-        //initialise the player sprite
+        //initialise the currentPlayer sprite
         Dialogue playerDialogue = null;
         try {
             playerDialogue = new Dialogue("Player.JSON", true);
@@ -83,9 +88,9 @@ public class MIRCH extends Game {
             System.out.print(e.getMessage());
             System.exit(0);
         }
-        player = new Player(this, "Bob", "The player to beat all players", "Detective_sprite.png", playerDialogue);
-        player.setTileCoordinates(7, 10);
-        this.player.setRoom(rooms.get(0));
+        currentPlayer = new Player(this, "Bob", "The currentPlayer to beat all players", "Detective_sprite.png", playerDialogue);
+        currentPlayer.setTileCoordinates(7, 10);
+        this.currentPlayer.setRoom(rooms.get(0));
 
         //Setup screens
         this.guiController = new GUIController(this);

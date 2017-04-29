@@ -20,16 +20,16 @@ public class Player extends AbstractPerson {
      */
     Suspect talkToOnEnd = null;
     /**
-     * This variable stores a clue that has been clicked on. It is to be collected when the player arrives at the clue
+     * This variable stores a clue that has been clicked on. It is to be collected when the currentPlayer arrives at the clue
      */
     Clue findOnEnd = null;
     /**
-     * This variable stores a goal location to be tracked to the next time the player completes a move
+     * This variable stores a goal location to be tracked to the next time the currentPlayer completes a move
      */
     private Vector2Int trackToNext = null;
 
     /**
-     * This boolean stores whether the player is to transition to the next room or not when they finish walking
+     * This boolean stores whether the currentPlayer is to transition to the next room or not when they finish walking
      */
     private boolean transitionOnEnd = false;
 
@@ -47,9 +47,9 @@ public class Player extends AbstractPerson {
     }
 
     /**
-     * This Moves the player to a new tile.
+     * This Moves the currentPlayer to a new tile.
      *
-     * @param dir the direction that the player should move in.
+     * @param dir the direction that the currentPlayer should move in.
      */
     public void move(Direction dir) {
         if (this.state != PersonState.STANDING) {
@@ -78,7 +78,7 @@ public class Player extends AbstractPerson {
     }
 
     /**
-     * This method is called when the player clicks on the screen.
+     * This method is called when the currentPlayer clicks on the screen.
      *
      * This is handled in the PlayerController and passed to here
      *
@@ -165,7 +165,7 @@ public class Player extends AbstractPerson {
             west = null;
         }
 
-        //Work out whether the player is further, east, north, south or west of the goal
+        //Work out whether the currentPlayer is further, east, north, south or west of the goal
         int xDist = getTileX() - goal.getX();
         //- means west of goal
 
@@ -218,9 +218,9 @@ public class Player extends AbstractPerson {
     }
 
     /**
-     * This method returns whether or not the player is standing on a tile that initiates a Transition to another room
+     * This method returns whether or not the currentPlayer is standing on a tile that initiates a Transition to another room
      *
-     * @return (boolean) Whether the player is on a trigger tile or not
+     * @return (boolean) Whether the currentPlayer is on a trigger tile or not
      */
     public boolean isOnTriggerTile() {
         return this.getRoom().isTriggerTile(this.tileCoordinates.x, this.tileCoordinates.y);
@@ -234,14 +234,14 @@ public class Player extends AbstractPerson {
             talkToOnEnd.setDirection(getTileCoordinates().dirBetween(talkToOnEnd.getTileCoordinates()));
             setDirection(talkToOnEnd.direction.getOpposite());
 
-            game.gameSnapshot.setState(GameState.interviewStart);
-            game.gameSnapshot.setSuspectForInterview(talkToOnEnd);
+            game.gameSnapshotPlayer1.setState(GameState.interviewStart);
+            game.gameSnapshotPlayer1.setSuspectForInterview(talkToOnEnd);
         }
 
         if (toMoveTo.isEmpty() && findOnEnd != null) {
             setDirection(findOnEnd.getTileCoordinates().dirBetween(getTileCoordinates()));
             MapScreen.grabScreenshot = true;
-            game.gameSnapshot.setState(GameState.findClue);
+            game.gameSnapshotPlayer1.setState(GameState.findClue);
         }
 
         if (toMoveTo.isEmpty() && transitionOnEnd) {
@@ -260,7 +260,7 @@ public class Player extends AbstractPerson {
     }
 
     /**
-     * This takes the player at its current position, and automatically gets the transition data for the next room and applies it to the player and game
+     * This takes the currentPlayer at its current position, and automatically gets the transition data for the next room and applies it to the currentPlayer and game
      */
     public void moveRoom() {
         if (isOnTriggerTile()) {
@@ -281,7 +281,7 @@ public class Player extends AbstractPerson {
     }
 
     /**
-     * This method gets the clue that has just been found by the player
+     * This method gets the clue that has just been found by the currentPlayer
      *
      * @return Clue - The found clue
      */

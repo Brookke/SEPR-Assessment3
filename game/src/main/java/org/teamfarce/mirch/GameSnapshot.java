@@ -6,6 +6,7 @@ import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.map.Map;
 import org.teamfarce.mirch.map.Room;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -69,7 +70,7 @@ public class GameSnapshot {
     }
 
     /**
-     * This method shows the narrator screen with the necessary dialog for the player losing the game.
+     * This method shows the narrator screen with the necessary dialog for the currentPlayer losing the game.
      */
     public void showLoseScreen() {
         String murdererName = murderer.getName();
@@ -78,7 +79,7 @@ public class GameSnapshot {
         String weapon = meansClue.getName();
 
         //Get the murder room name and the murder weapon
-        for (Room r : game.gameSnapshot.map.getRooms()) {
+        for (Room r : game.gameSnapshotPlayer1.map.getRooms()) {
             if (r.isMurderRoom()) {
                 room = r.getName();
             }
@@ -97,7 +98,7 @@ public class GameSnapshot {
                     }
                 });
 
-        game.gameSnapshot.setState(GameState.narrator);
+        game.gameSnapshotPlayer1.setState(GameState.narrator);
     }
 
     /**
@@ -224,7 +225,7 @@ public class GameSnapshot {
     }
 
     /**
-     * Updates current personality of player in game
+     * Updates current personality of currentPlayer in game
      *
      * @param amount Amount to modify personality score by
      */
@@ -241,5 +242,27 @@ public class GameSnapshot {
         for (Suspect s : getSuspects()) {
             s.setLocked(false);
         }
+    }
+
+    public GameSnapshot makeCopy() {
+        //Map           newMap      = new Map(game);
+        List<Room>    newRooms    = new ArrayList<>();
+        List<Suspect> newSuspects = new ArrayList<>();
+        List<Clue>    newClues    = new ArrayList<>();
+
+        for (Room room : rooms) {
+            newRooms.add(room);
+        }
+
+        for (Suspect sus : suspects) {
+            newSuspects.add(sus);
+        }
+
+        for (Clue clue : clues) {
+            newClues.add(clue);
+        }
+
+        GameSnapshot copy = new GameSnapshot(game, map, newRooms, newSuspects, newClues);
+        return copy;
     }
 }

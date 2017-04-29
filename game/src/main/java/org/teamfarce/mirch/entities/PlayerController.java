@@ -10,7 +10,7 @@ import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.screens.MapScreen;
 
 /**
- * This class allows the player to be moved and controlled.
+ * This class allows the currentPlayer to be moved and controlled.
  */
 public class PlayerController extends InputAdapter {
     private final OrthographicCamera camera;
@@ -29,7 +29,7 @@ public class PlayerController extends InputAdapter {
     private boolean north, south, west, east;
 
     /**
-     * This stores the player that the controller controls
+     * This stores the currentPlayer that the controller controls
      */
     private Player player;
 
@@ -41,7 +41,7 @@ public class PlayerController extends InputAdapter {
     /**
      * Constructor to create the PlayerController to control the provided Player
      *
-     * @param player - The player that we want this controller to control
+     * @param player - The currentPlayer that we want this controller to control
      */
     public PlayerController(Player player, MIRCH game, OrthographicCamera camera) {
         this.player = player;
@@ -58,7 +58,7 @@ public class PlayerController extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.ENTER || keycode == Input.Keys.SPACE) {
-            //player.interact();
+            //currentPlayer.interact();
             return true;
         }
 

@@ -94,7 +94,7 @@ public class GUIController {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Get latest game state
-        GameState newState = game.gameSnapshot.getState();
+        GameState newState = game.gameSnapshotPlayer1.getState();
 
         //Check if screen needs changing
         if (currentState != newState) {

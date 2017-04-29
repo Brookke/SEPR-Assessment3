@@ -51,7 +51,7 @@ public class MainMenuScreen extends AbstractScreen {
     public MainMenuScreen(final MIRCH game, Skin uiSkin) {
 
         super(game);
-        this.gameSnapshot = game.gameSnapshot;
+        this.gameSnapshot = game.gameSnapshotPlayer1;
 
         //Initialising new stage
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
