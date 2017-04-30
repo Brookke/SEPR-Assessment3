@@ -50,7 +50,6 @@ public class Map {
 
         Room secretLab = new Room (10, "secretLab.tmx", "Secret Lab");
 
-
         mainRoom.addTransition(new Room.Transition().setFrom(17, 17).setTo(portersOffice, 1, 5, Direction.EAST))    //To Porters Office
 
                 .addTransition(new Room.Transition().setFrom(27, 13).setTo(kitchen, 1, 3, Direction.EAST))    //To Kitchen
@@ -67,7 +66,6 @@ public class Map {
                 .addTransition(new Room.Transition().setFrom(11, 1).setTo(rch037, 2, 5, Direction.SOUTH))  //To RCH/037
                 .addTransition(new Room.Transition().setFrom(12, 1).setTo(rch037, 3, 5, Direction.SOUTH))  //To RCH/037
 
-                .addTransition(new Room.Transition().setFrom(8, 28).setTo(secretLab, 9, 5, Direction.NORTH)) //TO Secret Lab
                 .addTransition(new Room.Transition().setFrom(9, 28).setTo(secretLab, 10, 5, Direction.NORTH)); //TO Secret Lab
 
 
@@ -127,7 +125,7 @@ public class Map {
     public List<Suspect> getNPCs(Room room) {
         List<Suspect> npcsInRoom = new ArrayList<Suspect>();
 
-        for (Suspect s : game.gameSnapshot.getSuspects()) {
+        for (Suspect s : game.getGameSnapshot().getSuspects()) {
             if (s.getRoom().getID() == room.getID()) {
                 if(room.getID() != 10) {
                     npcsInRoom.add(s);
