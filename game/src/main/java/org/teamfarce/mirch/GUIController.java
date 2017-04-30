@@ -175,5 +175,6 @@ public class GUIController {
             state = GameState.menu;
         }
         return state;
+        //return GameState.puzzleStart;
     }
 }

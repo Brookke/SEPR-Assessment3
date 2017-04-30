@@ -1,6 +1,6 @@
 package org.teamfarce.mirch;
 
-import org.teamfarce.mirch.Screens.PuzzleScreen;
+import org.teamfarce.mirch.screens.PuzzleScreen;
 
 /**
  * Created by jacks on 17/03/2017.

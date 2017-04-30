@@ -48,7 +48,7 @@ public class Map {
 
         Room pod = new Room(9, "pod.tmx", "Pod");
 
-        Room secretLab = new Room (10, "secretLab.tmx", "Secret Lab");
+        Room secretLab = new Room (10, "secretlab.tmx", "Secret Lab");
 
         mainRoom.addTransition(new Room.Transition().setFrom(17, 17).setTo(portersOffice, 1, 5, Direction.EAST))    //To Porters Office
 

@@ -2,7 +2,7 @@ package org.teamfarce.mirch.entities;
 
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
-import org.teamfarce.mirch.Screens.PuzzleScreen;
+import org.teamfarce.mirch.screens.PuzzleScreen;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.map.Room;
@@ -304,8 +304,8 @@ public class Player extends AbstractPerson {
             this.setTileCoordinates(newRoomData.newTileCoordinates.x, newRoomData.newTileCoordinates.y);
             if(newRoomData.getNewRoom().getName().equals("Secret Lab")){
                 // ^need added expression for puzzle being completed, global or getter
-                if (game.gameSnapshot.puzzleGame.getPuzzleWon() == false) {
-                    game.gameSnapshot.setState(GameState.puzzleStart);
+                if (game.getGameSnapshot().puzzleGame.getPuzzleWon() == false) {
+                    game.getGameSnapshot().setState(GameState.puzzleStart);
                 }
             }
         }
