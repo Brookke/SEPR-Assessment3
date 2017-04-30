@@ -21,6 +21,7 @@ public class GameSnapshot {
     /**
      * Holds the journal associated with this state.
      */
+    public PuzzleGame puzzleGame;
     public Journal journal;
     public Map map;
     public Suspect victim;
@@ -53,6 +54,7 @@ public class GameSnapshot {
         this.gameWon = false;
         this.score = 150;
         this.currentPersonality = 0;
+        this.puzzleGame = new PuzzleGame();
     }
 
 
