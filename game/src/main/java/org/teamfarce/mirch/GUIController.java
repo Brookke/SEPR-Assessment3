@@ -3,7 +3,7 @@ package org.teamfarce.mirch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import org.teamfarce.mirch.Screens.PuzzleScreen;
+import org.teamfarce.mirch.screens.PuzzleScreen;
 import org.teamfarce.mirch.screens.*;
 
 /**
@@ -57,6 +57,8 @@ public class GUIController {
 
     public PuzzleScreen puzzleScreen;
 
+    private boolean justSwitchedPlayer = false;
+
     /**
      * Constructor for GUIController, initialises required variables
      *
@@ -93,11 +95,12 @@ public class GUIController {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //Get latest game state
-        GameState newState = game.gameSnapshotPlayer1.getState();
+        GameState newState = getGameState();
+        //System.out.println("currentState: " + currentState + ", newState: " + newState);
 
         //Check if screen needs changing
-        if (currentState != newState) {
+        // If we just switched player then always refresh the screen
+        if (currentState != newState || justSwitchedPlayer) {
 
             //Set new screen depending on current game state
             switch (newState) {
@@ -150,5 +153,27 @@ public class GUIController {
             currentState = newState;
         }
 
+        justSwitchedPlayer = false;
+    }
+
+    /*
+    Called from MIRCH to alert the GUIController that a player switch has happened
+    If a switch happens then the screen must be reloaded
+     */
+    public void onPlayerSwitch() {
+        System.out.println("GUIController#onPlayerSwitch");
+        justSwitchedPlayer = true;
+    }
+
+    private GameState getGameState() {
+        //Get latest game state, or if the game hasn't started then assume main menu
+        GameState state;
+        if (game.hasNewGameStarted) {
+            state = game.getGameSnapshot().getState();
+        }
+        else {
+            state = GameState.menu;
+        }
+        return state;
     }
 }

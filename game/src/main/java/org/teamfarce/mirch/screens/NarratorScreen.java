@@ -1,6 +1,7 @@
 package org.teamfarce.mirch.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -34,9 +35,9 @@ public class NarratorScreen extends AbstractScreen {
 
     private Skin uiSkin;
     /**
-     * This is the current string that is being displayed on the screen.
+     * The number of characters in the whole message to display (the effect is a scrolling text thing).
      */
-    private String currentMessage = "";
+    private int currentMessageLength = 0;
     /**
      * This is the full message that is to be displayed. Will gradually be added to the above variable
      */
@@ -62,7 +63,7 @@ public class NarratorScreen extends AbstractScreen {
 
         this.uiSkin = uiSkin;
 
-        String introSpeech = "You have been invited to a lock-in costume party with some of the richest people around. There has been a murder, one of the guests has killed " + game.gameSnapshotPlayer1.victim.getName() + "\n\n" +
+        String introSpeech = "You have been invited to a lock-in costume party with some of the richest people around. There has been a murder, one of the guests has killed " + game.getGameSnapshot().victim.getName() + "\n\n" +
                 "The murderer instantly regretted their decision and has tried their hardest to cover up their tracks. All the clues have been hidden around the Ron Cooke Hub by the murderer so that they can avoid being discovered.\n\n" +
                 "NOT SO FAST! You're not the only detective that got called to the scene, there will be other detectives trying to solve the case at the same time.\n\n" +
                 "You must go around each room trying to find the clues that have been hidden. You must also question the guests to see if they know anything about the murder! Try to solve the case before any other detective!";
@@ -72,7 +73,7 @@ public class NarratorScreen extends AbstractScreen {
         setButton("Start Game", new Runnable() {
             @Override
             public void run() {
-                game.gameSnapshotPlayer1.setState(GameState.map);
+                game.getGameSnapshot().setState(GameState.map);
             }
         });
     }
@@ -87,7 +88,7 @@ public class NarratorScreen extends AbstractScreen {
         background.setHeight(Gdx.graphics.getHeight());
         background.setWidth(Gdx.graphics.getWidth());
 
-        speech = new Label(currentMessage, uiSkin, "white");
+        speech = new Label("", uiSkin, "white");
         speech.setSize(Gdx.graphics.getWidth() * 0.6f, Gdx.graphics.getHeight() * 0.6f);
         speech.setPosition(Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() * 0.25f);
         speech.setWrap(true);
@@ -102,16 +103,17 @@ public class NarratorScreen extends AbstractScreen {
      * requirements
      */
     public void updateSpeech() {
-        if (endMessage.equals(currentMessage)) {
+        if (endMessage.length() == currentMessageLength) {
             prompt.setVisible(true);
             return;
         }
+        else {
+            currentMessageLength += 1;
 
-        currentMessage = currentMessage + endMessage.charAt(currentMessage.length());
-
-        try {
-            speech.setText(currentMessage);
-        } catch (Exception e) {
+            try {
+                speech.setText(getCurrentSpeech());
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -131,6 +133,13 @@ public class NarratorScreen extends AbstractScreen {
         if (currentFrames >= FRAMES_PER_LETTER) {
             currentFrames = 0;
             updateSpeech();
+        }
+
+        // Allow the intro text to be skipped by pressing enter
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            currentMessageLength = endMessage.length();
+            updateSpeech();
+            speech.setText(endMessage);
         }
 
         narratorStage.act();
@@ -154,7 +163,7 @@ public class NarratorScreen extends AbstractScreen {
      */
     public NarratorScreen setSpeech(String speech) {
         endMessage = speech;
-        currentMessage = "";
+        currentMessageLength = 0;
 
         return this;
     }
@@ -189,7 +198,7 @@ public class NarratorScreen extends AbstractScreen {
      * @return String - `currentMessage`
      */
     public String getCurrentSpeech() {
-        return currentMessage;
+        return endMessage.substring(0, currentMessageLength);
     }
 
     @Override

@@ -21,7 +21,6 @@ import org.teamfarce.mirch.screens.elements.StatusBar;
  */
 public class FindClueScreen extends AbstractScreen {
 
-    private GameSnapshot snapshot;
     private Skin uiSkin;
 
     private Stage clueStage;
@@ -57,10 +56,9 @@ public class FindClueScreen extends AbstractScreen {
      */
     public FindClueScreen(MIRCH game, Skin uiSkin) {
         super(game);
-        this.snapshot = game.gameSnapshotPlayer1;
         this.uiSkin = uiSkin;
 
-        statusBar = new StatusBar(game.gameSnapshotPlayer1, uiSkin);
+        statusBar = new StatusBar(game.getGameSnapshot(), uiSkin);
     }
 
     /**
@@ -140,9 +138,9 @@ public class FindClueScreen extends AbstractScreen {
 
             if (soFarAnim >= ANIM_TIME * 0.5f) {
                 if (continueButton != null) {
-                    game.gameSnapshotPlayer1.setState(GameState.map);
+                    game.getGameSnapshot().setState(GameState.map);
 
-                    game.gameSnapshotPlayer1.journal.addClue(displayingClue);
+                    game.getGameSnapshot().journal.addClue(displayingClue);
                 } else {
                     addAllToStage();
                 }

@@ -55,9 +55,9 @@ public class Suspect extends AbstractPerson {
         this.beenAccused = true;
         //clear the dialogue tree here
         if (this.killer == false || hasEvidence == false) {
-            game.gameSnapshotPlayer1.modifyScore(-50);
+            game.getGameSnapshot().modifyScore(-50);
         } else {
-            game.gameSnapshotPlayer1.modifyScore(100);
+            game.getGameSnapshot().modifyScore(100);
         }
         return (this.killer) && (hasEvidence);
     }

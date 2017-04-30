@@ -83,9 +83,9 @@ public class MapScreen extends AbstractScreen {
         this.camera.update();
         this.tileRender = new OrthogonalTiledMapRendererWithPeople(game.currentPlayer.getRoom().getTiledMap());
         this.tileRender.addPerson(game.currentPlayer);
-        currentNPCs = game.gameSnapshotPlayer1.map.getNPCs(game.currentPlayer.getRoom());
+        currentNPCs = game.getGameSnapshot().map.getNPCs(game.currentPlayer.getRoom());
         tileRender.addPerson((List<AbstractPerson>) ((List<? extends AbstractPerson>) currentNPCs));
-        this.playerController = new PlayerController(game.currentPlayer, game, camera);
+        this.playerController = new PlayerController(game, camera);
         this.spriteBatch = new SpriteBatch();
 
         Pixmap pixMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Pixmap.Format.RGBA8888);
@@ -95,7 +95,7 @@ public class MapScreen extends AbstractScreen {
 
         BLACK_BACKGROUND = new Sprite(new Texture(pixMap));
 
-        this.statusBar = new StatusBar(game.gameSnapshotPlayer1, uiSkin);
+        this.statusBar = new StatusBar(game.getGameSnapshot(), uiSkin);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class MapScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        game.gameSnapshotPlayer1.updateScore(delta);
+        game.getGameSnapshot().updateScore(delta);
         playerController.update(delta);
         game.currentPlayer.update(delta);
 
@@ -117,8 +117,8 @@ public class MapScreen extends AbstractScreen {
             character.update(delta);
         }
 
-        camera.position.x = game.currentPlayer.getX();
-        camera.position.y = game.currentPlayer.getY();
+        camera.position.x = Math.round(game.currentPlayer.getX());
+        camera.position.y = Math.round(game.currentPlayer.getY());
         camera.update();
         tileRender.setView(camera);
 
@@ -154,7 +154,7 @@ public class MapScreen extends AbstractScreen {
      * This is called when the currentPlayer decides to move to another room
      */
     public void initialiseRoomTransition() {
-        game.gameSnapshotPlayer1.setAllUnlocked();
+        game.getGameSnapshot().setAllUnlocked();
         roomTransition = true;
     }
 
@@ -187,7 +187,7 @@ public class MapScreen extends AbstractScreen {
 
                 if (animTimer >= ANIM_TIME) {
                     game.currentPlayer.moveRoom();
-                    currentNPCs = game.gameSnapshotPlayer1.map.getNPCs(game.currentPlayer.getRoom());
+                    currentNPCs = game.getGameSnapshot().map.getNPCs(game.currentPlayer.getRoom());
                     getTileRenderer().setMap(game.currentPlayer.getRoom().getTiledMap());
                     getTileRenderer().clearPeople();
                     getTileRenderer().addPerson((List<AbstractPerson>) ((List<? extends AbstractPerson>) currentNPCs));

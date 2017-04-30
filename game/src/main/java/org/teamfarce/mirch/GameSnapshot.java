@@ -44,7 +44,7 @@ public class GameSnapshot {
     GameSnapshot(MIRCH game, Map map, List<Room> rooms, List<Suspect> suspects, List<Clue> clues) {
         this.game = game;
         this.suspects = suspects;
-        this.state = GameState.menu;
+        this.state = GameState.narrator;
         this.clues = clues;
         this.map = map;
         this.rooms = rooms;
@@ -79,7 +79,7 @@ public class GameSnapshot {
         String weapon = meansClue.getName();
 
         //Get the murder room name and the murder weapon
-        for (Room r : game.gameSnapshotPlayer1.map.getRooms()) {
+        for (Room r : game.getGameSnapshot().map.getRooms()) {
             if (r.isMurderRoom()) {
                 room = r.getName();
             }
@@ -89,7 +89,7 @@ public class GameSnapshot {
         String[] detectives = new String[]{"Richie Paper", "Princess Fiona", "Lilly Blort", "Michael Dodders"};
 
         //Send the speech to the narrrator screen and display it
-        game.guiController.narratorScreen.setSpeech("Oh No!\n \nDetective " + detectives[new Random().nextInt(detectives.length)] + " has solved the crime before you! They discovered that all along it was " + murdererName + " who killed " + victimName + " in the " + room + " with " + weapon + "\n \n" +
+        game.getGUIController().narratorScreen.setSpeech("Oh No!\n \nDetective " + detectives[new Random().nextInt(detectives.length)] + " has solved the crime before you! They discovered that all along it was " + murdererName + " who killed " + victimName + " in the " + room + " with " + weapon + "\n \n" +
                 "It's a real shame, I really thought you'd have gotten there first!\n \nOh well! Better luck next time!")
                 .setButton("End Game", new Runnable() {
                     @Override
@@ -98,7 +98,7 @@ public class GameSnapshot {
                     }
                 });
 
-        game.gameSnapshotPlayer1.setState(GameState.narrator);
+        game.getGameSnapshot().setState(GameState.narrator);
     }
 
     /**
@@ -245,7 +245,7 @@ public class GameSnapshot {
     }
 
     public GameSnapshot makeCopy() {
-        //Map           newMap      = new Map(game);
+        Map           newMap      = new Map(game);
         List<Room>    newRooms    = new ArrayList<>();
         List<Suspect> newSuspects = new ArrayList<>();
         List<Clue>    newClues    = new ArrayList<>();
@@ -263,6 +263,9 @@ public class GameSnapshot {
         }
 
         GameSnapshot copy = new GameSnapshot(game, map, newRooms, newSuspects, newClues);
+        copy.victim = victim;
+        copy.murderer = murderer;
+        copy.meansClue = meansClue;
         return copy;
     }
 }

@@ -85,6 +85,21 @@ public class Player extends AbstractPerson {
      * @param tileLocation - The tile location they clicked at.
      */
     public void interact(Vector2Int tileLocation) {
+        safeInteract(tileLocation, 0);
+    }
+
+    /**
+     * This loopCounter is here because sometimes the interact and finishMove methods become stuck in an infinite loop with each other.
+     * @param tileLocation
+     * @param loopCounter
+     */
+    private void safeInteract(Vector2Int tileLocation, int loopCounter) {
+        loopCounter++;
+        if (loopCounter > 5) {
+            System.out.println("WARN: Terminating safeInteract because loop counter exceeded maximum");
+            return;
+        }
+
         if (talkToOnEnd != null) {
             talkToOnEnd.canMove = true;
         }
@@ -102,12 +117,12 @@ public class Player extends AbstractPerson {
             transitionOnEnd = true;
             toMoveTo = aStarPath(tileLocation);
 
-            if (toMoveTo.isEmpty()) finishMove();
+            if (toMoveTo.isEmpty()) safeFinishMove(loopCounter);
 
             return;
         }
 
-        for (Suspect s : ((MapScreen) game.guiController.mapScreen).getNPCs()) {
+        for (Suspect s : ((MapScreen) game.getGUIController().mapScreen).getNPCs()) {
             if (s.getTileCoordinates().equals(tileLocation) && s.getState() != PersonState.WALKING) {
                 toMoveTo = aStarPath(getClosestNeighbour(s.getTileCoordinates()));
 
@@ -229,32 +244,44 @@ public class Player extends AbstractPerson {
     @Override
     public void finishMove() {
         super.finishMove();
+        safeFinishMove(0);
+    }
+
+    private void safeFinishMove(int loopCounter) {
+        loopCounter++;
 
         if (toMoveTo.isEmpty() && talkToOnEnd != null) {
+            System.out.println("talkToOnEnd != null");
             talkToOnEnd.setDirection(getTileCoordinates().dirBetween(talkToOnEnd.getTileCoordinates()));
             setDirection(talkToOnEnd.direction.getOpposite());
 
-            game.gameSnapshotPlayer1.setState(GameState.interviewStart);
-            game.gameSnapshotPlayer1.setSuspectForInterview(talkToOnEnd);
+            game.getGameSnapshot().setState(GameState.interviewStart);
+            game.getGameSnapshot().setSuspectForInterview(talkToOnEnd);
         }
 
         if (toMoveTo.isEmpty() && findOnEnd != null) {
+            System.out.println("findOnEnd != null");
             setDirection(findOnEnd.getTileCoordinates().dirBetween(getTileCoordinates()));
             MapScreen.grabScreenshot = true;
-            game.gameSnapshotPlayer1.setState(GameState.findClue);
+            game.getGameSnapshot().setState(GameState.findClue);
         }
 
         if (toMoveTo.isEmpty() && transitionOnEnd) {
+            System.out.println("transitionOnEnd");
             if (getRoom().isTriggerTile(getTileX(), getTileY())) {
-                setDirection(Direction.valueOf(getRoom().getMatRotation(getTileX(), getTileY())));
-                roomChange = true;
+                System.out.println("trigger tile");
+                // Protect against bug where mat directions are sometimes not found
+                Direction matDirection = Direction.valueOf(getRoom().getMatRotation(getTileX(), getTileY()));
+                if (matDirection != null) {
+                    setDirection(matDirection);
+                    roomChange = true;
+                }
             }
-
-
         }
 
         if (trackToNext != null) {
-            interact(trackToNext);
+            System.out.println("trackToNext != null");
+            safeInteract(trackToNext, loopCounter);
             trackToNext = null;
         }
     }
@@ -275,7 +302,7 @@ public class Player extends AbstractPerson {
 
             this.setTileCoordinates(newRoomData.newTileCoordinates.x, newRoomData.newTileCoordinates.y);
             if(newRoomData.getNewRoom().getName().equals("Secret Lab")){
-                game.gameSnapshot.setState(GameState.puzzleStart);
+                game.getGameSnapshot().setState(GameState.puzzleStart);
             }
         }
     }

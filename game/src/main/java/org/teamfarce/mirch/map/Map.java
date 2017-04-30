@@ -125,7 +125,7 @@ public class Map {
     public List<Suspect> getNPCs(Room room) {
         List<Suspect> npcsInRoom = new ArrayList<Suspect>();
 
-        for (Suspect s : game.gameSnapshotPlayer1.getSuspects()) {
+        for (Suspect s : game.getGameSnapshot().getSuspects()) {
             if (s.getRoom().getID() == room.getID()) {
                 if(room.getID() != 10) {
                     npcsInRoom.add(s);

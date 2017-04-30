@@ -1,6 +1,7 @@
 package org.teamfarce.mirch;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.utils.Array;
 import org.teamfarce.mirch.ScenarioBuilder.ScenarioBuilderException;
 import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.entities.Player;
@@ -20,20 +21,24 @@ import java.util.Random;
  * @author jacobwunwin
  */
 public class MIRCH extends Game {
-    public static MIRCH me;
-    public GameSnapshot gameSnapshotPlayer1;
-    public GameSnapshot gameSnapshotPlayer2;
-    public GUIController guiController;
+    final int playerTurnTimeInFrames = 300; // in frames
 
-    public ArrayList<Room> rooms;
-    public ArrayList<Suspect> characters;
+    public static MIRCH me;
 
     public int step; //stores the current loop number
 
+    public boolean hasNewGameStarted = false; // initially in main menu - see GUIController
     public Player currentPlayer;
+    private int numberOfPlayers; // either 1 or 2
+    private int currentPlayerNumber; // either 1 or 2 to represent which player is playing
 
     private Player player1;
     private Player player2;
+
+    private GameSnapshot gameSnapshotPlayer1;
+    private GameSnapshot gameSnapshotPlayer2;
+    private GUIController guiControllerPlayer1;
+    private GUIController guiControllerPlayer2;
 
     /**
      * Initialises all variables in the game and sets up the game for play.
@@ -51,8 +56,8 @@ public class MIRCH extends Game {
             database = new ScenarioBuilderDatabase("db.db");
 
             try {
-                gameSnapshotPlayer1 = ScenarioBuilder.generateGame(this, database, new Random());
-                gameSnapshotPlayer2 = gameSnapshotPlayer1.makeCopy();
+                gameSnapshotPlayer1 = ScenarioBuilder.generateGame(this, database, new Random(42));
+                gameSnapshotPlayer2 = ScenarioBuilder.generateGame(this, database, new Random(43));
             } catch (ScenarioBuilderException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -63,24 +68,10 @@ public class MIRCH extends Game {
             e1.printStackTrace();
         }
 
-        //generate RenderItems from each room
-        rooms = new ArrayList<>();
-        for (Room room : gameSnapshotPlayer1.getRooms()) {
-            rooms.add(room); //create a new renderItem for the room
-        }
+        gameSnapshotPlayer1.map.placeNPCsInRooms(gameSnapshotPlayer1.getSuspects());
+        gameSnapshotPlayer2.map.placeNPCsInRooms(gameSnapshotPlayer2.getSuspects());
 
-        //generate RenderItems for each prop
-
-
-        //generate RenderItems for each suspect
-        characters = new ArrayList<>();
-        for (Suspect suspect : gameSnapshotPlayer1.getSuspects()) {
-            characters.add(suspect);
-        }
-
-        gameSnapshotPlayer1.map.placeNPCsInRooms(characters);
-
-        //initialise the currentPlayer sprite
+        //initialise the sprites for each player
         Dialogue playerDialogue = null;
         try {
             playerDialogue = new Dialogue("Player.JSON", true);
@@ -88,13 +79,25 @@ public class MIRCH extends Game {
             System.out.print(e.getMessage());
             System.exit(0);
         }
-        currentPlayer = new Player(this, "Bob", "The currentPlayer to beat all players", "Detective_sprite.png", playerDialogue);
-        currentPlayer.setTileCoordinates(7, 10);
-        this.currentPlayer.setRoom(rooms.get(0));
+
+        player1 = new Player(this, "Bob", "Bob the pro detective.", "Detective_sprite.png", playerDialogue);
+        player2 = new Player(this, "Dave", "Dave the super cool detective.", "Detective_sprite.png", playerDialogue);
+        player1.setTileCoordinates(7, 10);
+        player2.setTileCoordinates(7, 10);
+        player1.setRoom(gameSnapshotPlayer1.getRooms().get(0));
+        player2.setRoom(gameSnapshotPlayer2.getRooms().get(0));
+
+        currentPlayer = player1;
+        currentPlayerNumber = 1;
 
         //Setup screens
-        this.guiController = new GUIController(this);
-        this.guiController.initScreens();
+        guiControllerPlayer1 = new GUIController(this);
+        guiControllerPlayer1.initScreens();
+        // Small hack: before creating GUIController 2 set currentPlayer to 2, since MapScreen and perhaps other things reference currentPlayer
+        currentPlayer = player2;
+        guiControllerPlayer2 = new GUIController(this);
+        guiControllerPlayer2.initScreens();
+        currentPlayer = player1;
     }
 
     /**
@@ -103,14 +106,77 @@ public class MIRCH extends Game {
      */
     @Override
     public void render() {
-        this.guiController.update();
-        super.render();
+        getGUIController().update();
+        step++;
 
-        step++; //increment the step counter
+        if (step % 10 == 0)
+            System.out.println("step: " + step);
+
+        if (numberOfPlayers > 1 && step % playerTurnTimeInFrames == 0) {
+            // Swap the current player
+            if (currentPlayerNumber == 1) {
+                System.out.println("Swapping current player from 1 to 2.");
+                currentPlayer = player2;
+                currentPlayerNumber = 2;
+            }
+            else if (currentPlayerNumber == 2) {
+                System.out.println("Swapping current player from 2 to 1.");
+                currentPlayer = player1;
+                currentPlayerNumber = 1;
+            }
+            else {
+                System.out.println("Invalid currentPlayer!");
+            }
+
+            getGUIController().onPlayerSwitch();
+        }
+
+        super.render();
     }
 
     @Override
     public void dispose() {
 
+    }
+
+    public void startNewGame(int numberOfPlayers) {
+        assert(numberOfPlayers == 1 || numberOfPlayers == 2);
+        System.out.println("Starting a new game with " + numberOfPlayers + " players.");
+        this.numberOfPlayers = numberOfPlayers;
+        hasNewGameStarted = true;
+    }
+
+    public GameSnapshot getGameSnapshot() {
+        if (currentPlayer == player1) {
+            return gameSnapshotPlayer1;
+        }
+        else if (currentPlayer == player2) {
+            return gameSnapshotPlayer2;
+        }
+        else {
+            System.out.println("Invalid currentPlayer! Oh dear!");
+            return null;
+        }
+    }
+
+    public GUIController getGUIController() {
+        if (currentPlayer == player1) {
+            return guiControllerPlayer1;
+        }
+        else if (currentPlayer == player2) {
+            return guiControllerPlayer2;
+        }
+        else {
+            System.out.println("Invalid currentPlayer! Oh dear!");
+            return null;
+        }
+    }
+
+    public void setGameSnapshotForTestingPurposes(GameSnapshot snapshot) {
+        gameSnapshotPlayer1 = snapshot;
+    }
+
+    public void setGUIControllerForTestingPurposes(GUIController controller) {
+        guiControllerPlayer1 = controller;
     }
 }

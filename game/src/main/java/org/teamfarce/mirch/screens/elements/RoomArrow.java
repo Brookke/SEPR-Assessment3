@@ -54,6 +54,9 @@ public class RoomArrow extends Sprite {
 
             //this is the rotation of the mat (ie the way the arrow should face)
             String rotation = player.getRoom().getMatRotation(player.getTileX(), player.getTileY());
+            System.out.println("Mat rotation is: " + rotation);
+            if (rotation == null)
+                return;
 
             int x = ((int) player.getX()) + (Direction.valueOf(rotation).getDx() * 32);
             int y = ((int) player.getY()) + (Direction.valueOf(rotation).getDy() * 32);

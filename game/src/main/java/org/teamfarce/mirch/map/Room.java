@@ -276,7 +276,7 @@ public class Room {
              /*
              Check to see if any NPCs are standing in the target destination
              */
-            for (Suspect suspect : MIRCH.me.characters) {
+            for (Suspect suspect : MIRCH.me.getGameSnapshot().getSuspects()) {
 
                 if (suspect.getRoom() == this && suspect.getTileCoordinates().x == x && suspect.getTileCoordinates().y == y) {
                     return false;
