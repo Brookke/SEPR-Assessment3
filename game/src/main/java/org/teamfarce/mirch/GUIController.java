@@ -101,6 +101,7 @@ public class GUIController {
         //Check if screen needs changing
         // If we just switched player then always refresh the screen
         if (currentState != newState || justSwitchedPlayer) {
+            System.out.println("Detected change in game state or player switch so changing screen.");
 
             //Set new screen depending on current game state
             switch (newState) {

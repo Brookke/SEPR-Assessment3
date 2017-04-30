@@ -2,7 +2,6 @@ package org.teamfarce.mirch.entities;
 
 import org.teamfarce.mirch.GameState;
 import org.teamfarce.mirch.MIRCH;
-import org.teamfarce.mirch.screens.PuzzleScreen;
 import org.teamfarce.mirch.Vector2Int;
 import org.teamfarce.mirch.dialogue.Dialogue;
 import org.teamfarce.mirch.map.Room;
@@ -33,6 +32,12 @@ public class Player extends AbstractPerson {
      * This boolean stores whether the currentPlayer is to transition to the next room or not when they finish walking
      */
     private boolean transitionOnEnd = false;
+
+    /**
+     * This boolean stores whether the puzzle game has been completed or not
+     */
+    public boolean isPuzzleComplete = false;
+
 
     /**
      * Initialise the entity.
@@ -292,21 +297,23 @@ public class Player extends AbstractPerson {
      */
     public void moveRoom() {
         if (isOnTriggerTile()) {
+
             Room.Transition newRoomData = this.getRoom().getTransitionData(this.getTileCoordinates().x, this.getTileCoordinates().y);
 
-            this.setRoom(newRoomData.getNewRoom());
-
-            if (newRoomData.newDirection != null) {
-                direction = newRoomData.newDirection;
-                this.updateTextureRegion();
-            }
-
-            this.setTileCoordinates(newRoomData.newTileCoordinates.x, newRoomData.newTileCoordinates.y);
             if(newRoomData.getNewRoom().getName().equals("Secret Lab")){
                 // ^need added expression for puzzle being completed, global or getter
-                if (game.getGameSnapshot().puzzleGame.getPuzzleWon() == false) {
+                if (game.getGameSnapshot().puzzleGame.getPuzzleWonState() == false) {
                     game.getGameSnapshot().setState(GameState.puzzleStart);
                 }
+            }
+            else{
+                this.setRoom(newRoomData.getNewRoom());
+                if (newRoomData.newDirection != null) {
+                    direction = newRoomData.newDirection;
+                    this.updateTextureRegion();
+                }
+
+                this.setTileCoordinates(newRoomData.newTileCoordinates.x, newRoomData.newTileCoordinates.y);
             }
         }
     }

@@ -82,7 +82,7 @@ public class MIRCH extends Game {
 
         player1 = new Player(this, "Bob", "Bob the pro detective.", "Detective_sprite.png", playerDialogue);
         player2 = new Player(this, "Dave", "Dave the super cool detective.", "Detective_sprite.png", playerDialogue);
-        player1.setTileCoordinates(7, 10);
+        player1.setTileCoordinates(8, 26);
         player2.setTileCoordinates(7, 10);
         player1.setRoom(gameSnapshotPlayer1.getRooms().get(0));
         player2.setRoom(gameSnapshotPlayer2.getRooms().get(0));
@@ -109,8 +109,10 @@ public class MIRCH extends Game {
         getGUIController().update();
         step++;
 
+        /*
         if (step % 10 == 0)
             System.out.println("step: " + step);
+        */
 
         if (numberOfPlayers > 1 && step % playerTurnTimeInFrames == 0) {
             // Swap the current player

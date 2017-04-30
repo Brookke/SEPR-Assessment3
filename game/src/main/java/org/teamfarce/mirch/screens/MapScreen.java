@@ -38,7 +38,7 @@ public class MapScreen extends AbstractScreen {
     /**
      * This is the list of NPCs who are in the current room
      */
-    List<Suspect> currentNPCs = new ArrayList<Suspect>();
+    public List<Suspect> currentNPCs = new ArrayList<Suspect>();
     private OrthogonalTiledMapRendererWithPeople tileRender;
     private OrthographicCamera camera;
     private PlayerController playerController;
@@ -104,10 +104,14 @@ public class MapScreen extends AbstractScreen {
         multiplexer.addProcessor(statusBar.stage);
         multiplexer.addProcessor(playerController);
         Gdx.input.setInputProcessor(multiplexer);
+
     }
 
     @Override
     public void render(float delta) {
+        //if (game.currentPlayer.getRoom().getName() == "Hidden Puzzle Room")
+        //    game.setScreen(game.getGUIController().puzzleScreen);
+
         game.getGameSnapshot().updateScore(delta);
         playerController.update(delta);
         game.currentPlayer.update(delta);
@@ -188,6 +192,7 @@ public class MapScreen extends AbstractScreen {
                 if (animTimer >= ANIM_TIME) {
                     game.currentPlayer.moveRoom();
                     currentNPCs = game.getGameSnapshot().map.getNPCs(game.currentPlayer.getRoom());
+                    System.out.println("Update transition log " + game.currentPlayer.getRoom().getName());
                     getTileRenderer().setMap(game.currentPlayer.getRoom().getTiledMap());
                     getTileRenderer().clearPeople();
                     getTileRenderer().addPerson((List<AbstractPerson>) ((List<? extends AbstractPerson>) currentNPCs));

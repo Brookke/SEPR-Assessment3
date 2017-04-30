@@ -51,6 +51,7 @@ public class PuzzleScreen extends org.teamfarce.mirch.screens.AbstractScreen {
 
         public BookActor(String ImagePath, String bookNumber, float xPos, float yPos){
             setTouchable(Touchable.enabled);
+            System.out.println(Gdx.files.internal(ImagePath).toString());
             texture = new Texture(Gdx.files.internal(ImagePath));
             codeDigit = bookNumber;
             actorX = xPos;
@@ -141,6 +142,7 @@ public class PuzzleScreen extends org.teamfarce.mirch.screens.AbstractScreen {
         multiplexer.addProcessor(puzzleStage);
         multiplexer.addProcessor(statusBar.stage);
         Gdx.input.setInputProcessor(multiplexer);
+        game.getGameSnapshot().puzzleGame.codeEntered = "CODE";
     }
 
     /**

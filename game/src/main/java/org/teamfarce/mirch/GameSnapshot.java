@@ -54,7 +54,7 @@ public class GameSnapshot {
         this.gameWon = false;
         this.score = 150;
         this.currentPersonality = 0;
-        this.puzzleGame = new PuzzleGame();
+        this.puzzleGame = new PuzzleGame(game);
     }
 
 
@@ -182,6 +182,7 @@ public class GameSnapshot {
      * @param state The state to set.
      */
     public void setState(GameState state) {
+        System.out.println("GameSnapshot#setState " + state);
         this.state = state;
     }
 
