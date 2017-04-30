@@ -14,7 +14,7 @@ import java.util.List;
  *
  * This class is an extension of the OrthogonalTiledMapRenderer that deals with
  * rendering sprites aswell. The last layer of the map is designed to be drawn OVER
- * the player sprite and NPCs. So this controls that by drawing each layer until it comes to the last
+ * the currentPlayer sprite and NPCs. So this controls that by drawing each layer until it comes to the last
  * one, then it draws the sprites, then the final layer.
  */
 public class OrthogonalTiledMapRendererWithPeople extends OrthogonalTiledMapRenderer {
@@ -78,7 +78,7 @@ public class OrthogonalTiledMapRendererWithPeople extends OrthogonalTiledMapRend
         for (int currentLayer = 0; currentLayer < amountOfLayers; currentLayer++) {
             MapLayer layer = map.getLayers().get(currentLayer);
 
-            if (layer.getName().equals("Blood") && !MIRCH.me.player.getRoom().isMurderRoom()) {
+            if (layer.getName().equals("Blood") && !MIRCH.me.currentPlayer.getRoom().isMurderRoom()) {
                 //Don't draw the layer as its not the murder room
             } else {
                 renderTileLayer((TiledMapTileLayer) layer);
@@ -93,7 +93,7 @@ public class OrthogonalTiledMapRendererWithPeople extends OrthogonalTiledMapRend
         }
 
         /*if (Settings.DEBUG) {
-            DebugOverlay.renderDebugTiles(GameMain.me.player.getRoom(), this.getBatch());
+            DebugOverlay.renderDebugTiles(GameMain.me.currentPlayer.getRoom(), this.getBatch());
         }*/
 
         endRender();

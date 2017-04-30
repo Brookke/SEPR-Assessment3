@@ -21,8 +21,8 @@ public class NarratorScreen_Test extends GameTest {
     public void init_tests() {
         Skin skin = new Skin();
         game = new MIRCH();
-        game.gameSnapshot = new GameSnapshot(null, null, null, null, null);
-        game.gameSnapshot.victim = new Suspect(game, "Test", "test", "Colin.png", new Vector2Int(0, 0), null);
+        game.setGameSnapshotForTestingPurposes(new GameSnapshot(null, null, null, null, null));
+        game.getGameSnapshot().victim = new Suspect(game, "Test", "test", "Colin.png", new Vector2Int(0, 0), null);
         screen = new NarratorScreen(game, skin);
     }
 

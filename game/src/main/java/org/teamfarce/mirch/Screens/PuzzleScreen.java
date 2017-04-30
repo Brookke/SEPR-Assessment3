@@ -1,4 +1,4 @@
-package org.teamfarce.mirch.Screens;
+package org.teamfarce.mirch.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -38,10 +38,10 @@ public class PuzzleScreen extends org.teamfarce.mirch.screens.AbstractScreen {
     public PuzzleScreen(MIRCH game, Skin uiSkin) {
         super(game);
         this.game = game;
-        this.gameSnapshot = game.gameSnapshot;
+        this.gameSnapshot = game.getGameSnapshot();
         this.uiSkin = uiSkin;
 
-        statusBar = new org.teamfarce.mirch.screens.elements.StatusBar(game.gameSnapshot, uiSkin);
+        statusBar = new org.teamfarce.mirch.screens.elements.StatusBar(game.getGameSnapshot(), uiSkin);
     }
 
     public class BookActor extends Actor{

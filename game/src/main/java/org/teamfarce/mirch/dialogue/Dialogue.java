@@ -47,7 +47,7 @@ public class Dialogue {
                 String key = itr.next().toString().split(":")[0];
                 if (this.isForPlayer && this.jsonData.get("responses").get(key).size != 3) {
                     if (!key.equals("introduction")) {
-                        throw new InvalidDialogueException("No question values for the key: " + key + ", in the player json");
+                        throw new InvalidDialogueException("No question values for the key: " + key + ", in the currentPlayer json");
                     }
                 }
             }

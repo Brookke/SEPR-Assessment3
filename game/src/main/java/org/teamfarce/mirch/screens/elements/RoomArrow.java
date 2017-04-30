@@ -8,11 +8,11 @@ import org.teamfarce.mirch.entities.Direction;
 import org.teamfarce.mirch.entities.Player;
 
 /**
- * This is the arrow the indicates the movement to a new room when the player is on a floor mat.
+ * This is the arrow the indicates the movement to a new room when the currentPlayer is on a floor mat.
  */
 public class RoomArrow extends Sprite {
     /**
-     * The player that the arrow is associated with
+     * The currentPlayer that the arrow is associated with
      */
     private Player player;
 
@@ -24,7 +24,7 @@ public class RoomArrow extends Sprite {
     /**
      * This constructs the RoomArrow, calling the super() method the the sprite class it extends
      *
-     * @param player the player that the arrow is to be associated with
+     * @param player the currentPlayer that the arrow is to be associated with
      */
     public RoomArrow(Player player) {
         super(Assets.getArrowDirection("NORTH"));
@@ -46,7 +46,7 @@ public class RoomArrow extends Sprite {
 
     /**
      * This is called every tick, all the game logic related to the RoomArrow is contained here,
-     * it checks to see if the player is on a trigger tile (a floor mat for example) and if so displays an arrow
+     * it checks to see if the currentPlayer is on a trigger tile (a floor mat for example) and if so displays an arrow
      * otherwise it is hidden
      */
     public void update() {
@@ -54,6 +54,9 @@ public class RoomArrow extends Sprite {
 
             //this is the rotation of the mat (ie the way the arrow should face)
             String rotation = player.getRoom().getMatRotation(player.getTileX(), player.getTileY());
+            System.out.println("Mat rotation is: " + rotation);
+            if (rotation == null)
+                return;
 
             int x = ((int) player.getX()) + (Direction.valueOf(rotation).getDx() * 32);
             int y = ((int) player.getY()) + (Direction.valueOf(rotation).getDy() * 32);
