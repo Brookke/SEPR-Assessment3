@@ -300,11 +300,9 @@ public class Player extends AbstractPerson {
 
             Room.Transition newRoomData = this.getRoom().getTransitionData(this.getTileCoordinates().x, this.getTileCoordinates().y);
 
-            if(newRoomData.getNewRoom().getName().equals("Secret Lab")){
-                // ^need added expression for puzzle being completed, global or getter
-                if (game.getGameSnapshot().puzzleGame.getPuzzleWonState() == false) {
-                    game.getGameSnapshot().setState(GameState.puzzleStart);
-                }
+            if(newRoomData.getNewRoom().getName().equals("Secret Lab") && game.getGameSnapshot().puzzleGame.getPuzzleWonState() == false){
+                game.getGameSnapshot().puzzleGame.codeEntered = "CODE";
+                game.getGameSnapshot().setState(GameState.puzzleStart);
             }
             else{
                 this.setRoom(newRoomData.getNewRoom());

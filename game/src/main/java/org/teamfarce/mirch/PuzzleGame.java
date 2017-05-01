@@ -63,6 +63,7 @@ public class PuzzleGame {
         game.getGameSnapshot().setState(GameState.map);
         game.currentPlayer.setTileCoordinates(9, 5);
         System.out.println("PUZZLE COMPLETE so changing to map state");
+        this.puzzleWon = true;
     }
 
     public void addToCode(String digit){

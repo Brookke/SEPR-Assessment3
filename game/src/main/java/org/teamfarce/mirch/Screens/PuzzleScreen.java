@@ -117,6 +117,20 @@ public class PuzzleScreen extends org.teamfarce.mirch.screens.AbstractScreen {
         BookActor book9 = new BookActor("puzzlePieces/book9.png", "9", col3, row3);
         BookActor bookClear = new BookActor("puzzlePieces/bookClear.png", "Clear", col1, (height/2)-((height/16)*5));
 
+        TextButton exitButton = new TextButton("Exit", uiSkin);
+        exitButton.setPosition(3*width/4, height/16);
+        exitButton.setWidth(width/16);
+        exitButton.setHeight(height/16);
+                /* Event handlers */
+        //add a listener for the show interview log button
+        exitButton.addListener(new ChangeListener() {
+
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("exit button was pressed");
+                gameSnapshot.setState(GameState.map);
+            }
+        });
+
         puzzleStage.addActor(backgroundImage);
         puzzleStage.addActor(book1);
         puzzleStage.addActor(book2);
@@ -128,7 +142,7 @@ public class PuzzleScreen extends org.teamfarce.mirch.screens.AbstractScreen {
         puzzleStage.addActor(book8);
         puzzleStage.addActor(book9);
         puzzleStage.addActor(bookClear);
-
+        puzzleStage.addActor(exitButton);
     }
 
     /**
