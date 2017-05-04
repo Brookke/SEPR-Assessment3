@@ -44,20 +44,20 @@ public class Suspect extends AbstractPerson {
     /**
      * Accuse the suspect.
      *
-     * This should take into account whether the player has sufficient evidence and whether the
+     * This should take into account whether the currentPlayer has sufficient evidence and whether the
      * suspect is actually the murderer.
      * </p>
      *
-     * @param hasEvidence Whether the player has sufficient evidence the accuse
-     * @return Whether the player has successfully accused the suspect
+     * @param hasEvidence Whether the currentPlayer has sufficient evidence the accuse
+     * @return Whether the currentPlayer has successfully accused the suspect
      */
     public boolean accuse(boolean hasEvidence) {
         this.beenAccused = true;
         //clear the dialogue tree here
         if (this.killer == false || hasEvidence == false) {
-            game.gameSnapshot.modifyScore(-50);
+            game.getGameSnapshot().modifyScore(-50);
         } else {
-            game.gameSnapshot.modifyScore(100);
+            game.getGameSnapshot().modifyScore(100);
         }
         return (this.killer) && (hasEvidence);
     }

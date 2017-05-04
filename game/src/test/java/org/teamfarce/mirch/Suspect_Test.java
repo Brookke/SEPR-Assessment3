@@ -25,10 +25,10 @@ public class Suspect_Test {
         Vector2Int position = new Vector2Int(0, 1);
 
         MIRCH game = new MIRCH();
-        game.gameSnapshot = new GameSnapshot(game, new Map(game), new ArrayList<Room>(), new ArrayList<Suspect>(), null);
-        game.gameSnapshot.victim = new Suspect(game, "Test", "test", "Colin.png", new Vector2Int(0, 0), null);
-        game.guiController = new GUIController(game);
-        game.guiController.narratorScreen = new NarratorScreen(game, new Skin());
+        game.setGameSnapshotForTestingPurposes(new GameSnapshot(game, new Map(game), new ArrayList<Room>(), new ArrayList<Suspect>(), null));
+        game.getGameSnapshot().victim = new Suspect(game, "Test", "test", "Colin.png", new Vector2Int(0, 0), null);
+        game.setGUIControllerForTestingPurposes(new GUIController(game));
+        game.getGUIController().narratorScreen = new NarratorScreen(game, new Skin());
 
         suspect = new Suspect(game, name, "Description", "Colin.png", position, null);
     }

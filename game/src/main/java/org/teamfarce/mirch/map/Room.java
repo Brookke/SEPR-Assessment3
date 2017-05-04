@@ -54,7 +54,7 @@ public class Room {
      */
     private TiledMap map;
     /**
-     * This stores the coordinates of the map in a 2x2 array. If a player/NPC attempts to move to a location, it locks
+     * This stores the coordinates of the map in a 2x2 array. If a currentPlayer/NPC attempts to move to a location, it locks
      * the location before it moves, to avoid anything else moving to it.
      */
     private boolean[][] lockedTiles = null;
@@ -228,7 +228,7 @@ public class Room {
      * @return - (boolean) whether or not that tile can be walked on.
      */
     public boolean isWalkableTile(int x, int y) {
-        //reduced by one because the last layer is to be displayed over the top of the player and therefore is ignored.
+        //reduced by one because the last layer is to be displayed over the top of the currentPlayer and therefore is ignored.
         int amountOfLayers = map.getLayers().getCount() - 1;
         int emptyCellCount = 0; //The amount of empty cells on the map in the location x and y.
 
@@ -267,16 +267,16 @@ public class Room {
 
         try {
              /*
-            Check to see if the player is standing in the target destination
+            Check to see if the currentPlayer is standing in the target destination
             */
-            if (MIRCH.me.player.getTileCoordinates().x == x && MIRCH.me.player.getTileCoordinates().y == y) {
+            if (MIRCH.me.currentPlayer.getTileCoordinates().x == x && MIRCH.me.currentPlayer.getTileCoordinates().y == y) {
                 return false;
             }
 
              /*
              Check to see if any NPCs are standing in the target destination
              */
-            for (Suspect suspect : MIRCH.me.characters) {
+            for (Suspect suspect : MIRCH.me.getGameSnapshot().getSuspects()) {
 
                 if (suspect.getRoom() == this && suspect.getTileCoordinates().x == x && suspect.getTileCoordinates().y == y) {
                     return false;
@@ -308,13 +308,17 @@ public class Room {
      * @return - (boolean) whether or not the tile is a trigger tile.
      */
     public boolean isTriggerTile(int x, int y) {
-        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(0);
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("Doors");
 
-        if (layer.getCell(x, y) == null) return false;
+        if (layer.getCell(x, y) == null){
+            return false;
+        }else{
+            return true;
+        }
 
-        int amountOfLayers = map.getLayers().getCount();
+        //int amountOfLayers = map.getLayers().getCount();
 
-        for (int currentLayer = 0; currentLayer < amountOfLayers; currentLayer++) {
+        /*for (int currentLayer = 0; currentLayer < amountOfLayers; currentLayer++) {
             TiledMapTileLayer tl = (TiledMapTileLayer) map.getLayers().get(currentLayer);
 
             if (tl.getCell(x, y) == null) {
@@ -328,9 +332,11 @@ public class Room {
             if (tl.getCell(x, y).getTile().getProperties().get("trigger").toString().equals("true")) {
                 return true;
             }
-        }
+        }*/
 
-        return false;
+
+
+        //return false;
     }
 
     /**
@@ -490,7 +496,7 @@ public class Room {
         public Vector2Int from = new Vector2Int(0, 0);
 
         /**
-         * The direction the player should face when they enter the room
+         * The direction the currentPlayer should face when they enter the room
          */
         public Direction newDirection = null;
 

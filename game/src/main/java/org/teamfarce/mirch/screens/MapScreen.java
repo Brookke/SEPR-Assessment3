@@ -19,6 +19,7 @@ import org.teamfarce.mirch.entities.PlayerController;
 import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.screens.elements.RoomArrow;
 import org.teamfarce.mirch.screens.elements.StatusBar;
+import org.teamfarce.mirch.screens.AbstractScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +38,15 @@ public class MapScreen extends AbstractScreen {
     /**
      * This is the list of NPCs who are in the current room
      */
-    List<Suspect> currentNPCs = new ArrayList<Suspect>();
+    public List<Suspect> currentNPCs = new ArrayList<Suspect>();
     private OrthogonalTiledMapRendererWithPeople tileRender;
     private OrthographicCamera camera;
     private PlayerController playerController;
 
     /**
-     * This stores the room arrow that is drawn when the player stands on a room changing mat
+     * This stores the room arrow that is drawn when the currentPlayer stands on a room changing mat
      */
-    private RoomArrow arrow = new RoomArrow(game.player);
+    private RoomArrow arrow = new RoomArrow(game.currentPlayer);
     /**
      * This is the sprite batch that is relative to the screens origin
      */
@@ -80,11 +81,11 @@ public class MapScreen extends AbstractScreen {
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(false, w, h);
         this.camera.update();
-        this.tileRender = new OrthogonalTiledMapRendererWithPeople(game.player.getRoom().getTiledMap());
-        this.tileRender.addPerson(game.player);
-        currentNPCs = game.gameSnapshot.map.getNPCs(game.player.getRoom());
+        this.tileRender = new OrthogonalTiledMapRendererWithPeople(game.currentPlayer.getRoom().getTiledMap());
+        this.tileRender.addPerson(game.currentPlayer);
+        currentNPCs = game.getGameSnapshot().map.getNPCs(game.currentPlayer.getRoom());
         tileRender.addPerson((List<AbstractPerson>) ((List<? extends AbstractPerson>) currentNPCs));
-        this.playerController = new PlayerController(game.player, game, camera);
+        this.playerController = new PlayerController(game, camera);
         this.spriteBatch = new SpriteBatch();
 
         Pixmap pixMap = new Pixmap(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Pixmap.Format.RGBA8888);
@@ -94,7 +95,7 @@ public class MapScreen extends AbstractScreen {
 
         BLACK_BACKGROUND = new Sprite(new Texture(pixMap));
 
-        this.statusBar = new StatusBar(game.gameSnapshot, uiSkin);
+        this.statusBar = new StatusBar(game.getGameSnapshot(), uiSkin);
     }
 
     @Override
@@ -103,21 +104,25 @@ public class MapScreen extends AbstractScreen {
         multiplexer.addProcessor(statusBar.stage);
         multiplexer.addProcessor(playerController);
         Gdx.input.setInputProcessor(multiplexer);
+
     }
 
     @Override
     public void render(float delta) {
-        game.gameSnapshot.updateScore(delta);
+        //if (game.currentPlayer.getRoom().getName() == "Hidden Puzzle Room")
+        //    game.setScreen(game.getGUIController().puzzleScreen);
+
+        game.getGameSnapshot().updateScore(delta);
         playerController.update(delta);
-        game.player.update(delta);
+        game.currentPlayer.update(delta);
 
         //loop through each suspect character, moving them randomly
         for (Suspect character : currentNPCs) {
             character.update(delta);
         }
 
-        camera.position.x = game.player.getX();
-        camera.position.y = game.player.getY();
+        camera.position.x = Math.round(game.currentPlayer.getX());
+        camera.position.y = Math.round(game.currentPlayer.getY());
         camera.update();
         tileRender.setView(camera);
 
@@ -125,7 +130,7 @@ public class MapScreen extends AbstractScreen {
         tileRender.getBatch().begin();
         arrow.update();
         arrow.draw(tileRender.getBatch());
-        game.player.getRoom().drawClues(delta, getTileRenderer().getBatch());
+        game.currentPlayer.getRoom().drawClues(delta, getTileRenderer().getBatch());
 
         tileRender.getBatch().end();
 
@@ -150,10 +155,10 @@ public class MapScreen extends AbstractScreen {
     }
 
     /**
-     * This is called when the player decides to move to another room
+     * This is called when the currentPlayer decides to move to another room
      */
     public void initialiseRoomTransition() {
-        game.gameSnapshot.setAllUnlocked();
+        game.getGameSnapshot().setAllUnlocked();
         roomTransition = true;
     }
 
@@ -185,12 +190,13 @@ public class MapScreen extends AbstractScreen {
                 animTimer += delta;
 
                 if (animTimer >= ANIM_TIME) {
-                    game.player.moveRoom();
-                    currentNPCs = game.gameSnapshot.map.getNPCs(game.player.getRoom());
-                    getTileRenderer().setMap(game.player.getRoom().getTiledMap());
+                    game.currentPlayer.moveRoom();
+                    currentNPCs = game.getGameSnapshot().map.getNPCs(game.currentPlayer.getRoom());
+                    System.out.println("Update transition log " + game.currentPlayer.getRoom().getName());
+                    getTileRenderer().setMap(game.currentPlayer.getRoom().getTiledMap());
                     getTileRenderer().clearPeople();
                     getTileRenderer().addPerson((List<AbstractPerson>) ((List<? extends AbstractPerson>) currentNPCs));
-                    getTileRenderer().addPerson(game.player);
+                    getTileRenderer().addPerson(game.currentPlayer);
                 }
 
                 if (animTimer > ANIM_TIME) {
@@ -205,9 +211,9 @@ public class MapScreen extends AbstractScreen {
             }
         }
 
-        if (game.player.roomChange) {
+        if (game.currentPlayer.roomChange) {
             initialiseRoomTransition();
-            game.player.roomChange = false;
+            game.currentPlayer.roomChange = false;
         }
     }
 

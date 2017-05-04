@@ -4,13 +4,16 @@ package org.teamfarce.mirch.screens.elements;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.teamfarce.mirch.GameSnapshot;
 import org.teamfarce.mirch.GameState;
+import org.teamfarce.mirch.MIRCH;
 
 
 /**
@@ -43,6 +46,7 @@ public class StatusBar {
     /**
      * Game snapshot instance
      */
+    private MIRCH game;
     private GameSnapshot gameSnapshot;
 
     /**
@@ -50,6 +54,7 @@ public class StatusBar {
      * Sets up UI controls and adds them to the stage ready for rendering
      */
     public StatusBar(GameSnapshot snapshot, Skin uiSkin) {
+        this.game = MIRCH.me;
         gameSnapshot = snapshot;
 
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -72,6 +77,11 @@ public class StatusBar {
 
         personalityMeter = new TextButton(getPersonalityMeterValue(), uiSkin);
         statusBar.add(personalityMeter).uniform();
+
+        //Add palyer change text
+        TextButton playerChangeText = new TextButton("Playing:" + game.currentPlayer.getName(), uiSkin);
+        statusBar.add(playerChangeText).uniform();
+
 
         /* Event handlers */
         //add a listener for the show interview log button

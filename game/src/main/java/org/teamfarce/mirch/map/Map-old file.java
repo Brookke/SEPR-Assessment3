@@ -1,3 +1,4 @@
+/*
 package org.teamfarce.mirch.map;
 
 
@@ -11,21 +12,25 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+*/
 /**
  * The map is a collection of Rooms , it links them all together.
- */
+ *//*
+
 public class Map {
     MIRCH game;
 
-    public List<Room> rooms = new ArrayList<Room>();
+    List<Room> rooms = new ArrayList<Room>();
 
     public Map(MIRCH game) {
         this.game = game;
     }
 
-    /**
+    */
+/**
      * This function initialises all the rooms of the Ron Cooke Hub and their transitions
-     */
+     *//*
+
     public List<Room> initialiseRooms() {
 
         Room mainRoom = new Room(0, "mainroom.tmx", "Main Foyer");
@@ -48,9 +53,6 @@ public class Map {
 
         Room pod = new Room(9, "pod.tmx", "Pod");
 
-        Room secretLab = new Room (10, "secretlab.tmx", "Secret Lab");
-
-        //Room hiddenPuzzleRoom = new Room(11, "toilet.tmx", "Hidden Puzzle Room");
 
         mainRoom.addTransition(new Room.Transition().setFrom(17, 17).setTo(portersOffice, 1, 5, Direction.EAST))    //To Porters Office
 
@@ -66,11 +68,7 @@ public class Map {
                 .addTransition(new Room.Transition().setFrom(4, 5).setTo(outside, 20, 4, Direction.SOUTH)) //To Outside
 
                 .addTransition(new Room.Transition().setFrom(11, 1).setTo(rch037, 2, 5, Direction.SOUTH))  //To RCH/037
-                .addTransition(new Room.Transition().setFrom(12, 1).setTo(rch037, 3, 5, Direction.SOUTH))  //To RCH/037
-
-                .addTransition(new Room.Transition().setFrom(9, 28).setTo(secretLab, 9, 5, Direction.NORTH)) //TO Secret Lab
-                .addTransition(new Room.Transition().setFrom(8, 28).setTo(secretLab, 10, 5, Direction.NORTH)); //TO Secret Lab
-
+                .addTransition(new Room.Transition().setFrom(12, 1).setTo(rch037, 3, 5, Direction.SOUTH));  //To RCH/037
 
         rch037.addTransition(new Room.Transition().setFrom(2, 5).setTo(mainRoom, 11, 1, Direction.NORTH))  //To Main Room
                 .addTransition(new Room.Transition().setFrom(3, 5).setTo(mainRoom, 12, 1, Direction.NORTH))  //To Main Room
@@ -104,46 +102,47 @@ public class Map {
         pod.addTransition(new Room.Transition().setFrom(18, 9).setTo(outside, 9, 11, Direction.EAST))    //To Outside
                 .addTransition(new Room.Transition().setFrom(18, 10).setTo(outside, 9, 12, Direction.EAST));  //To Outside
 
-        secretLab.addTransition(new Room.Transition().setFrom(9, 5).setTo(mainRoom, 8, 28, Direction.SOUTH))    //To Main Room
-                .addTransition(new Room.Transition().setFrom(10, 5).setTo(mainRoom, 9, 28, Direction.SOUTH));  //To Main Room
+        List<Room> rooms = Arrays.asList(mainRoom, rch037, portersOffice, kitchen, islandOfInteraction, toilet, computerRoom, lakeHouse, outside, pod);
 
-        List<Room> rooms = Arrays.asList(mainRoom, rch037, portersOffice, kitchen, islandOfInteraction, toilet, computerRoom, lakeHouse, outside, pod, secretLab);
-
-        /**
+        */
+/**
          * Assign the murder room
-         */
-        rooms.get(new Random().nextInt(rooms.size()-1)).setMurderRoom();
+         *//*
+
+        rooms.get(new Random().nextInt(rooms.size())).setMurderRoom();
 
         this.rooms = rooms;
 
         return rooms;
     }
 
-    /**
+    */
+/**
      * This method returns a list of NPCs that are in the defined Room parameter
      *
      * @param room - The room to check
      * @return List<Suspect> The suspects that are in the room
-     */
+     *//*
+
     public List<Suspect> getNPCs(Room room) {
         List<Suspect> npcsInRoom = new ArrayList<Suspect>();
 
-        for (Suspect s : game.getGameSnapshot().getSuspects()) {
+        for (Suspect s : game.gameSnapshot.getSuspects()) {
             if (s.getRoom().getID() == room.getID()) {
-                if(room.getID() != 10) {
-                    npcsInRoom.add(s);
-                }
+                npcsInRoom.add(s);
             }
         }
 
         return npcsInRoom;
     }
 
-    /**
+    */
+/**
      * This method takes a list of NPCs and then randomly distibutes them around the rooms of the map
      *
      * @param NPCs - The NPCs to distribute
-     */
+     *//*
+
     public void placeNPCsInRooms(List<Suspect> NPCs) {
         int amountOfRooms = rooms.size();
 
@@ -154,18 +153,22 @@ public class Map {
         }
 
         for (Suspect loopNpc : NPCs) {
-            /*
+            */
+/*
             Refill the rooms left list if there are more NPCs than Rooms. This will put AT LEAST one NPC per room if so.
-             */
+             *//*
+
             if (roomsLeft.isEmpty()) {
                 for (int i = 0; i < amountOfRooms; i++) {
                     roomsLeft.add(i);
                 }
             }
 
-            /*
+            */
+/*
             Pick a random room and put that NPC in it
-             */
+             *//*
+
             int toTake = new Random().nextInt(roomsLeft.size());
             int selectedRoom = roomsLeft.get(toTake);
             roomsLeft.remove(toTake);
@@ -178,12 +181,15 @@ public class Map {
         }
     }
 
-    /**
+    */
+/**
      * This method returns all the rooms in the map
      *
      * @return the rooms
-     */
+     *//*
+
     public List<Room> getRooms() {
         return rooms;
     }
 }
+*/

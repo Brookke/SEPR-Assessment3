@@ -21,7 +21,6 @@ import org.teamfarce.mirch.screens.elements.StatusBar;
  */
 public class FindClueScreen extends AbstractScreen {
 
-    private GameSnapshot snapshot;
     private Skin uiSkin;
 
     private Stage clueStage;
@@ -57,10 +56,9 @@ public class FindClueScreen extends AbstractScreen {
      */
     public FindClueScreen(MIRCH game, Skin uiSkin) {
         super(game);
-        this.snapshot = game.gameSnapshot;
         this.uiSkin = uiSkin;
 
-        statusBar = new StatusBar(game.gameSnapshot, uiSkin);
+        statusBar = new StatusBar(game.getGameSnapshot(), uiSkin);
     }
 
     /**
@@ -83,7 +81,7 @@ public class FindClueScreen extends AbstractScreen {
         clueBox = new Image(Assets.loadTexture("clues/clueBox.png"));
         clueBox.setSize(Settings.TILE_SIZE * 1.1f, Settings.TILE_SIZE * 1.1f);
 
-        displayingClue = game.player.getClueFound();
+        displayingClue = game.currentPlayer.getClueFound();
         clueImage = new Image(new TextureRegion(displayingClue.getTexture(), displayingClue.getResourceX() * 128, displayingClue.getResourceY() * 128, 128, 128));
 
         clueImage.setSize(Settings.TILE_SIZE, Settings.TILE_SIZE);
@@ -140,9 +138,9 @@ public class FindClueScreen extends AbstractScreen {
 
             if (soFarAnim >= ANIM_TIME * 0.5f) {
                 if (continueButton != null) {
-                    game.gameSnapshot.setState(GameState.map);
+                    game.getGameSnapshot().setState(GameState.map);
 
-                    game.gameSnapshot.journal.addClue(displayingClue);
+                    game.getGameSnapshot().journal.addClue(displayingClue);
                 } else {
                     addAllToStage();
                 }
@@ -177,8 +175,8 @@ public class FindClueScreen extends AbstractScreen {
                 soFarAnim = 0f;
                 ANIM_TIME = 2f;
 
-                game.player.getRoom().removeClue(displayingClue);
-                game.player.clearFound();
+                game.currentPlayer.getRoom().removeClue(displayingClue);
+                game.currentPlayer.clearFound();
             }
         });
 

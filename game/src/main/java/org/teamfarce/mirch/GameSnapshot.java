@@ -6,6 +6,7 @@ import org.teamfarce.mirch.entities.Suspect;
 import org.teamfarce.mirch.map.Map;
 import org.teamfarce.mirch.map.Room;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -20,6 +21,7 @@ public class GameSnapshot {
     /**
      * Holds the journal associated with this state.
      */
+    public PuzzleGame puzzleGame;
     public Journal journal;
     public Map map;
     public Suspect victim;
@@ -43,7 +45,7 @@ public class GameSnapshot {
     GameSnapshot(MIRCH game, Map map, List<Room> rooms, List<Suspect> suspects, List<Clue> clues) {
         this.game = game;
         this.suspects = suspects;
-        this.state = GameState.menu;
+        this.state = GameState.narrator;
         this.clues = clues;
         this.map = map;
         this.rooms = rooms;
@@ -52,6 +54,7 @@ public class GameSnapshot {
         this.gameWon = false;
         this.score = 150;
         this.currentPersonality = 0;
+        this.puzzleGame = new PuzzleGame(game);
     }
 
 
@@ -69,7 +72,7 @@ public class GameSnapshot {
     }
 
     /**
-     * This method shows the narrator screen with the necessary dialog for the player losing the game.
+     * This method shows the narrator screen with the necessary dialog for the currentPlayer losing the game.
      */
     public void showLoseScreen() {
         String murdererName = murderer.getName();
@@ -78,7 +81,7 @@ public class GameSnapshot {
         String weapon = meansClue.getName();
 
         //Get the murder room name and the murder weapon
-        for (Room r : game.gameSnapshot.map.getRooms()) {
+        for (Room r : game.getGameSnapshot().map.getRooms()) {
             if (r.isMurderRoom()) {
                 room = r.getName();
             }
@@ -88,7 +91,7 @@ public class GameSnapshot {
         String[] detectives = new String[]{"Richie Paper", "Princess Fiona", "Lilly Blort", "Michael Dodders"};
 
         //Send the speech to the narrrator screen and display it
-        game.guiController.narratorScreen.setSpeech("Oh No!\n \nDetective " + detectives[new Random().nextInt(detectives.length)] + " has solved the crime before you! They discovered that all along it was " + murdererName + " who killed " + victimName + " in the " + room + " with " + weapon + "\n \n" +
+        game.getGUIController().narratorScreen.setSpeech("Oh No!\n \nDetective " + detectives[new Random().nextInt(detectives.length)] + " has solved the crime before you! They discovered that all along it was " + murdererName + " who killed " + victimName + " in the " + room + " with " + weapon + "\n \n" +
                 "It's a real shame, I really thought you'd have gotten there first!\n \nOh well! Better luck next time!")
                 .setButton("End Game", new Runnable() {
                     @Override
@@ -97,7 +100,7 @@ public class GameSnapshot {
                     }
                 });
 
-        game.gameSnapshot.setState(GameState.narrator);
+        game.getGameSnapshot().setState(GameState.narrator);
     }
 
     /**
@@ -179,6 +182,7 @@ public class GameSnapshot {
      * @param state The state to set.
      */
     public void setState(GameState state) {
+        System.out.println("GameSnapshot#setState " + state);
         this.state = state;
     }
 
@@ -224,7 +228,7 @@ public class GameSnapshot {
     }
 
     /**
-     * Updates current personality of player in game
+     * Updates current personality of currentPlayer in game
      *
      * @param amount Amount to modify personality score by
      */
@@ -241,5 +245,30 @@ public class GameSnapshot {
         for (Suspect s : getSuspects()) {
             s.setLocked(false);
         }
+    }
+
+    public GameSnapshot makeCopy() {
+        Map           newMap      = new Map(game);
+        List<Room>    newRooms    = new ArrayList<>();
+        List<Suspect> newSuspects = new ArrayList<>();
+        List<Clue>    newClues    = new ArrayList<>();
+
+        for (Room room : rooms) {
+            newRooms.add(room);
+        }
+
+        for (Suspect sus : suspects) {
+            newSuspects.add(sus);
+        }
+
+        for (Clue clue : clues) {
+            newClues.add(clue);
+        }
+
+        GameSnapshot copy = new GameSnapshot(game, map, newRooms, newSuspects, newClues);
+        copy.victim = victim;
+        copy.murderer = murderer;
+        copy.meansClue = meansClue;
+        return copy;
     }
 }
